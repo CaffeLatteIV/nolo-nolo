@@ -37,20 +37,57 @@
         } 
 
         .carousel-caption h5, .carousel-caption p {
+            text-decoration: wavy;            
             color: white;
-            text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+            font-weight: bold;
+            text-shadow: -1px  1px 0 #000,
+                          1px  1px 0 #000,
+                          1px -1px 0 #000,
+                         -1px -1px 0 #000;
+        }
+        .carousel {
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
 
+        #back-to-top{
+            position: fixed;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #343a40;
+            color: white;
+            border-radius: 50%;
+            bottom: 0.5em;
+            right: 0.5em;
+            display: none; /* Hidden by default */
         }
     </style>
 
     <script type="text/javascript">
+        //Boostrap carousel call to make sliding possible
         var myCarousel = document.querySelector('#myCarousel')
         var carousel = new bootstrap.Carousel(myCarousel)
+
+        //Backtotop
+        mybutton = document.getElementById("myBtn");
+        window.onscroll = function() {scrollFunction()};
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
     </script>
 
     <body>
         <!--Main navbar-->
-        <nav class="navbar navbar-expand navbar-dark bg-dark ">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
             <div class="container-fluid">
                 <!--Logo-->
                 <a class="navbar-brand"  href="#">
@@ -125,59 +162,165 @@
             </div>
         </nav>
 
-        <!--Carousel-->
-        <div id="carouselDark" class="carousel carousel-dark slide p-1" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active" data-bs-interval="4000">
-                <img src="../images/img2.jpg" class="d-block w-100" alt="First Item">
-                <div class="carousel-caption">
-                    <h5>Cuffie</h5>
-                    <p><b>Price: </b>$90/month</p>
+        <div class="container p-2">
+            <!--Carousel-->
+            <div id="carouselDark" class="carousel carousel-dark slide p-0 mb-0" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
-              </div>
-              <div class="carousel-item" data-bs-interval="3000">
-                <img src="../images/img3.jpg" class="d-block w-100" alt="Second Item">
-                <div class="carousel-caption">
-                    <h5>Caricatore</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                </div>
-              </div>
-              <div class="carousel-item" data-bs-interval="3000">
-                <img src="../images/img4.jpg" class="d-block w-100" alt="Third Item">
-                <div class="carousel-caption">
-                    <h5>Cassa</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                </div>
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDark" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselDark" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-        
-
-
-        <!-- BOOTSTRAP CARD (POSSIBLE BUT DOESN'T SEEM BEST OPTION)
-        <div class="container-fluid bg-secondary">
-            <div class="card w-100">
-                <img class="card-img-top" src="../images/img1.jpg" alt="card image cap">
-                <div class="card-body">
-                    <div class="card-text">
-                        <h5 ></h5>
+                <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="4000">
+                    <img src="../images/img2.jpg" class="d-block w-100" alt="First Item">
+                    <div class="carousel-caption">
+                        <h5>Cuffie</h5>
+                        <p>Price: $90/month</p>
                     </div>
                 </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="../images/img3.jpg" class="d-block w-100" alt="Second Item">
+                    <div class="carousel-caption">
+                        <h5>Caricatore</h5>
+                        <p>Carica 15W/h 25$/anno</p>
+                                        
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="3000">
+                    <img src="../images/img4.jpg" class="d-block w-100" alt="Third Item">
+                    <div class="carousel-caption">
+                        <h5>Cassa</h5>
+                        <p>Price: $90/month</p>
+                    </div>
+                </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDark" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselDark" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+
+            <!--Cards-->
+            <div class="container-fluid row row-cols-2 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 p-0 g-2 m-0 mx-0" id="card-container">
+                <div class="col">
+                    <div class="card p-0 m-0">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-0 ">
+                        <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                        <div class="card-body">
+                            <h5 class="card-title">Cuffie</h5>
+                            <p class="card-text">Price: $90/month</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
         </div>
-    -->
+        
+        <button onclick="topFunction()" id="myBtn" title="Go to top">
+            <span class="material-icons" id="back-to-top">arrow_upward</span>
+        </button>
+        
+        <footer>
+
+        </footer>
     </body>
 </html> 
