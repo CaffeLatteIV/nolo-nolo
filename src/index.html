@@ -50,17 +50,28 @@
             overflow: hidden;
         }
 
-        #back-to-top{
-            position: fixed;
-            z-index: 99;
-            border: none;
-            outline: none;
-            background-color: #343a40;
-            color: white;
-            border-radius: 50%;
+        
+        #myBtn{
+            display: none;
+            position: fixed; 
+            height: 2.5em;
+            width: 2.5em;
             bottom: 0.5em;
             right: 0.5em;
-            display: none; /* Hidden by default */
+            z-index: 99;
+            border: none; 
+            outline: none;
+            background-color: #121212;
+            color: white;
+            cursor: pointer;
+            border-radius: 50%;
+            padding: 0;
+        }
+        #myBtn span{
+            margin: auto;
+            display: inline-flex;
+            vertical-align: bottom;
+            align-items: center;
         }
     </style>
 
@@ -69,20 +80,7 @@
         var myCarousel = document.querySelector('#myCarousel')
         var carousel = new bootstrap.Carousel(myCarousel)
 
-        //Backtotop
-        mybutton = document.getElementById("myBtn");
-        window.onscroll = function() {scrollFunction()};
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-        function topFunction() {
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-        }
+        
     </script>
 
     <body>
@@ -316,11 +314,30 @@
         </div>
         
         <button onclick="topFunction()" id="myBtn" title="Go to top">
-            <span class="material-icons" id="back-to-top">arrow_upward</span>
+            <span class="material-icons">arrow_upward</span>
         </button>
         
         <footer>
-
+            <div class="container-fluid bg-dark">
+                <div></div>
+            </div>
         </footer>
+
+        <script>
+            //Backtotop
+        mybutton = document.getElementById("myBtn");
+        window.onscroll = function() {scrollFunction()};
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+        </script>
     </body>
 </html> 
