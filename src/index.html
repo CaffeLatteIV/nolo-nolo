@@ -68,7 +68,6 @@
             padding: 0;
             display: block;
 
-
             /*Keeps button in bottom right corner*/
             position: fixed; 
             bottom: 0.7em;
@@ -82,8 +81,7 @@
 
             /*Hides button out of screen to show animation*/
             transform: translateY(4em);
-            transition: all 0.4s ease;
-            
+            transition: all 0.4s ease; 
         }
         .showBackToTopBtn{
             transform: translateY(0);
@@ -99,40 +97,11 @@
 
     <body>
         <div id="app" v-cloak>
-            <!--Main navbar-->
-            <nav class="navbar navbar-expand navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <!--Logo-->
-                    <a class="navbar-brand"  href="#">
-                        NOLONOLO
-                    </a>
-                    <button class="navbar-toggler"type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarText">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span class="material-icons" style="color: white;">person_outline</span>
-                                </a>
-                            </li>                             
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span class="material-icons" style="color: white;">shopping_cart</span>
-                                </a>  
-                            </li>
-                        </ul>
-                    </div>
-                </div>  
-            </nav>
+            <!--Custom Component Navbar-->
+            <navbar></navbar>
 
-            <!--Searchbar-->
-            <div class="container-fluid w-100 bg-dark">
-                <form class="d-flex ">
-                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
+            <!--Custom Component Searchbar-->
+            <searchbar></searchbar>
 
             <!--Category navbar-->
             <nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -185,28 +154,28 @@
                     <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     </div>
                     <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="4000">
-                        <img src="../images/img2.jpg" class="d-block w-100" alt="First Item">
-                        <div class="carousel-caption">
-                            <h5>Cuffie</h5>
-                            <p>Price: $90/month</p>
+                        <div class="carousel-item active" data-bs-interval="4000">
+                            <img src="../images/img2.jpg" class="d-block w-100" alt="First Item">
+                            <div class="carousel-caption">
+                                <h5>Cuffie</h5>
+                                <p>Price: $90/month</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="carousel-item" data-bs-interval="3000">
-                        <img src="../images/img3.jpg" class="d-block w-100" alt="Second Item">
-                        <div class="carousel-caption">
-                            <h5>Caricatore</h5>
-                            <p>Carica 15W/h 25$/anno</p>
-                                            
+                        <div class="carousel-item" data-bs-interval="3000">
+                            <img src="../images/img3.jpg" class="d-block w-100" alt="Second Item">
+                            <div class="carousel-caption">
+                                <h5>Caricatore</h5>
+                                <p>Carica 15W/h 25$/anno</p>
+                                                
+                            </div>
                         </div>
-                    </div>
-                    <div class="carousel-item" data-bs-interval="3000">
-                        <img src="../images/img4.jpg" class="d-block w-100" alt="Third Item">
-                        <div class="carousel-caption">
-                            <h5>Cassa</h5>
-                            <p>Price: $90/month</p>
+                        <div class="carousel-item" data-bs-interval="3000">
+                            <img src="../images/img4.jpg" class="d-block w-100" alt="Third Item">
+                            <div class="carousel-caption">
+                                <h5>Cassa</h5>
+                                <p>Price: $90/month</p>
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselDark" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -221,103 +190,37 @@
                 <!--Cards-->
                 <div class="container-fluid row row-cols-2 row-cols-xs-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 p-0 g-2 m-0 mx-0" id="card-container">
                     <div class="col">
-                        <div class="card p-0 m-0">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
                     <div class="col">
-                        <div class="card p-0 ">
-                            <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
-                            <div class="card-body">
-                                <h5 class="card-title">Cuffie</h5>
-                                <p class="card-text">Price: $90/month</p>
-                            </div>
-                        </div>
+                        <product-card></product-card>
                     </div>
 
 
@@ -330,9 +233,7 @@
             </div>
         
             <!--Back to top button-->
-            <button @click="backToTop()" class="backToTopBtn" title="Go to top">
-                <span class="material-icons">arrow_upward</span>
-            </button>
+            <back-to-top-button></back-to-top-button>
             
             <footer>
                 <div class="container-fluid bg-dark">
@@ -354,16 +255,104 @@
                     }
                 },
                 methods: {
+                    
+                }
+            })
+
+            //Main Navbar
+            app.component('navbar', {
+                data: function() {
+                    return {
+                        
+                    }
+                },
+                template: ` <!--Main navbar-->
+                            <nav class="navbar navbar-expand navbar-dark bg-dark">
+                                <div class="container-fluid">
+                                    <!--Logo-->
+                                    <a class="navbar-brand"  href="#">
+                                        NOLONOLO
+                                    </a>
+                                    <button class="navbar-toggler"type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarText">
+                                        <ul class="navbar-nav ms-auto">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons" style="color: white;">person_outline</span>
+                                                </a>
+                                            </li>                             
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons" style="color: white;">shopping_cart</span>
+                                                </a>  
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>  
+                            </nav>
+                `
+            })
+
+            //Searchbar
+            app.component('searchbar', {
+                data: function() {
+                    return {
+
+                    }
+                }, 
+                template: ` <div class="container-fluid w-100 bg-dark">
+                                <form class="d-flex ">
+                                    <input class="form-control me-1" type="search" placeholder="Search.." aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+                            </div>
+                `
+            })
+
+            //Back to top button
+            app.component('back-to-top-button',{
+                data: function(){
+                    return{
+
+                    }
+                },
+                template: ` <button @click="backToTop()" class="backToTopBtn" title="Go to top">
+                                <span class="material-icons">arrow_upward</span>
+                            </button>
+                `,
+                methods: {
                     backToTop() {
                         document.body.scrollTop = 0; // For Safari
                         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
                     }
                 }
             })
+            //Card that shows the product image, name and monthly price
+            app.component('product-card', {
+                data: function() {
+                    return {
+                        name: 'Cuffie',
+                        price: 90
+                    }
+                },
+                template: ` <div class="card p-0 border-0">
+                                <img src="../images/img2.jpg" class="card-img-top" alt="First Item card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ name }}</h5>
+                                    <p class="card-text">Price: \${{ price }}/month</p>
+                                </div>
+                            </div>
+                `
+            })
+
+            
             app.mount("#app")
 
             
-            //Backtotop functionality. Displays button if you scroll down from the top and take back to the top if it is pressed.
+            
+            //Backtotop functionality. Displays button if you scroll down from the top.
             mybutton = document.querySelector(".backToTopBtn");
             window.onscroll = function() {scrollFunction()};
             function scrollFunction() {
@@ -376,9 +365,6 @@
                 }
             }
             
-
-
-
             //Boostrap carousel call to make sliding possible
             var myCarousel = document.querySelector('#myCarousel')
             var carousel = new bootstrap.Carousel(myCarousel)
