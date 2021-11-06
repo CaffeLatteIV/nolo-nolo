@@ -157,23 +157,23 @@
                         <div class="carousel-item active" data-bs-interval="4000">
                             <img src="../images/img2.jpg" class="d-block w-100" alt="First Item">
                             <div class="carousel-caption">
-                                <h5>Cuffie</h5>
-                                <p>Price: $90/month</p>
+                                <h5>{{ carouselItems[0].title }}</h5>
+                                <p>Price: ${{ carouselItems[0].price }}/month</p>
                             </div>
                         </div>
                         <div class="carousel-item" data-bs-interval="3000">
                             <img src="../images/img3.jpg" class="d-block w-100" alt="Second Item">
                             <div class="carousel-caption">
-                                <h5>Caricatore</h5>
-                                <p>Carica 15W/h 25$/anno</p>
+                                <h5>{{ carouselItems[1].title }}</h5>
+                                <p>Price: ${{ carouselItems[1].price }}/month</p>
                                                 
                             </div>
                         </div>
                         <div class="carousel-item" data-bs-interval="3000">
                             <img src="../images/img4.jpg" class="d-block w-100" alt="Third Item">
                             <div class="carousel-caption">
-                                <h5>Cassa</h5>
-                                <p>Price: $90/month</p>
+                                <h5>{{ carouselItems[2].title }}</h5>
+                                <p>Price: ${{ carouselItems[2].price }}/month</p>
                             </div>
                         </div>
                     </div>
@@ -251,7 +251,24 @@
             let app = Vue.createApp({
                 data: function(){
                     return {
-                        
+                        //Info about the items displayed in carousel
+                        carouselItems: [
+                            {
+                                id: 1, 
+                                title: "Cuffie", 
+                                price: 90 
+                            }, 
+                            {
+                                id: 2, 
+                                title: "Caricatore", 
+                                price: 25
+                            }, 
+                            {
+                                id: 3, 
+                                title: "Cassa", 
+                                price: 70
+                            } 
+                        ]
                     }
                 },
                 methods: {
@@ -329,6 +346,7 @@
                     }
                 }
             })
+            
             //Card that shows the product image, name and monthly price
             app.component('product-card', {
                 data: function() {
