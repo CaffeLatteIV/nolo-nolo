@@ -1,3 +1,24 @@
-article.panel{
+.panel{
 background-color: white;
+}
+.positiveUpdate{
+    color: green;
+}
+.negativeUpdate{
+    color: red;
+}
+.negativeUpdate, .positiveUpdate{
+    font-weight: bold;
+}
+.upArrow{
+    transform: rotate(-90deg);
+}
+.downArrow{
+    transform: rotate(90deg);
+}
+.upArrow, .downArrow{
+    align-self: baseline;
+}
+h2.price{
+    color: var(--main-text-color);
 }
