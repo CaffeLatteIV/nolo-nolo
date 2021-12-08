@@ -49,5 +49,19 @@ class Database {
       description,
     }).save()
   }
+
+  async findClient(username, id = undefined) {
+    if (id) return this.Clients.findById(id)
+    return this.Clients.findOne({ username }).exec()
+  }
+
+  async findInventory(title, id = undefined) {
+    if (id) return this.Inventory.findById(id)
+    return this.Inventory.findOne({ title, available: true }).exec()
+  }
+
+  async findRentals(userID) {
+    return this.Clients.find({ clientCode: userID }).exec()
+  }
 }
 export default Database
