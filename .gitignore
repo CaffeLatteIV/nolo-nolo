@@ -25,3 +25,6 @@ yarn-error.log*
 #images
 .jpg
 .vscode/settings.json
+
+package-lock.json
+package.json
