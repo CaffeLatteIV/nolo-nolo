@@ -13,8 +13,8 @@ class Database {
     this.Clients = mongoose.model('clients', clientSchema)
   }
 
-  addClients({ username, password, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
-    new this.Clients({
+  async addClients({ username, password, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
+    await new this.Clients({
       username,
       password,
       preferredCategories,
@@ -26,10 +26,8 @@ class Database {
     }).save()
   }
 
-  addRentals({ start, end, productCode, userCode, price, fidelityPoints }) {
-    const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    new this.Rentals({
+  async addRentals({ start, end, productCode, userCode, price, fidelityPoints }) {
+    await new this.Rentals({
       start,
       end,
       productCode,
@@ -39,8 +37,8 @@ class Database {
     }).save()
   }
 
-  addInventory({ available, price, condition, category, title, description }) {
-    new this.Inventory({
+  async addInventory({ available, price, condition, category, title, description }) {
+    await new this.Inventory({
       available,
       price,
       condition,
@@ -50,13 +48,12 @@ class Database {
     }).save()
   }
 
-  async findClient(username, id = undefined) {
-    if (id) return this.Clients.findById(id)
-    return this.Clients.findOne({ username }).exec()
+  async findClient(username, password) {
+    return this.Clients.findOne({ username, password }).exec()
   }
 
   async findInventory(title, id = undefined) {
-    if (id) return this.Inventory.findById(id)
+    if (id) return this.Inventory.findById(id).exec()
     return this.Inventory.findOne({ title, available: true }).exec()
   }
 
