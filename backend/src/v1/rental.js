@@ -1,4 +1,5 @@
 import Express from 'express'
+import bcrypt from 'bcrypt'
 import Database from '../database/database.js'
 import loggerWrapper from '../logger.js'
 
@@ -29,4 +30,11 @@ app.get('/rental', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
+async function generateHash(message) {
+  // create hash algorithm
+  const salt = await bcrypt.genSalt(10)
+  const hashHex = await bcrypt.hash(message, salt)
+
+  return hashHex
+}
 export default app
