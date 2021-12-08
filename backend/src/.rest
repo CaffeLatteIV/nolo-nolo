@@ -17,7 +17,7 @@ GET http://localhost:5001/api/v1/client HTTP/1.1
 content-type: application/json
 
 {
-  "client":{
+  "item":{
     "username":"gino",
     "password":"bob"
 

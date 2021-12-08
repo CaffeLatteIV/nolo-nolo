@@ -1,6 +1,8 @@
 import Express from 'express'
 import loggerWrapper from './logger.js'
-import api from './v1/api.js'
+import rental from './v1/rental.js'
+import inventory from './v1/inventory.js'
+import client from './v1/client.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -13,6 +15,21 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
-app.use('/api/v1', api)
+// error handling
+app.use((req, res, next) => {
+  if (req.body === undefined) {
+    logger.error('Request body undefined')
+    return res.status(404).send({ code: 404, msg: 'request is undefined' })
+  }
+  if (req.body.item === undefined) {
+    logger.error('Request item undefined')
+    return res.status(404).send({ code: 404, msg: 'item is undefined' })
+  }
+  return next()
+})
+
+app.use('/api/v1', rental)
+app.use('/api/v1', inventory)
+app.use('/api/v1', client)
 
 app.listen(PORT, () => logger.info(`Listening on port ${PORT}`))
