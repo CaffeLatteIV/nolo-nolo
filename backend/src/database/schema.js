@@ -3,33 +3,95 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const inventorySchema = new Schema({
-  available: Boolean,
-  price: Number,
-  condition: String,
-  category: String,
-  title: String,
-  description: String,
+  available: {
+    type: Boolean,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  condition: {
+    type: String,
+    enum: ['ottima', 'buona', 'parzialmente danneggiato'],
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
 })
 const rentSchema = new Schema({
-  start: Number,
-  end: Number,
-  productCode: Schema.Types.ObjectId,
-  clientCode: Schema.Types.ObjectId,
-  price: Number,
-  fidelityPoints: Number,
+  start: {
+    type: Number,
+    required: true,
+  },
+  end: {
+    type: Number,
+    required: true,
+  },
+  productCode: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  clientCode: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  fidelityPoints: {
+    type: Number,
+    required: true,
+  },
 })
 const clientSchema = new Schema({
-  username: String,
-  password: String,
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   preferredCategories: [String],
   payment: String,
-  fidelityPoints: Number,
+  fidelityPoints: {
+    type: Number,
+    default: 0,
+  },
   favourites: [Schema.Types.ObjectId],
   notifications: [Schema.Types.ObjectId],
+})
+const employeeSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ['funzionario', 'manager'],
+    required: true,
+  },
 })
 
 export {
   inventorySchema,
   rentSchema,
   clientSchema,
+  employeeSchema,
 }
