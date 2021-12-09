@@ -1,6 +1,6 @@
 import Express from 'express'
-import Database from '../database/rental'
-import loggerWrapper from '../logger'
+import Database from '../database/rental.js'
+import loggerWrapper from '../logger.js'
 
 const logger = loggerWrapper('Rental API')
 const db = new Database()

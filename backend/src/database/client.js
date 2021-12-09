@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { clientSchema } from './schema'
+import { clientSchema } from './schema.js'
 
 class Client {
   constructor() {

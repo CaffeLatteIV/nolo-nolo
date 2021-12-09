@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { rentSchema } from './schema'
+import { rentSchema } from './schema.js'
 
 class Employee {
   constructor() {

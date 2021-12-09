@@ -1,6 +1,6 @@
 import Express from 'express'
-import Database from '../database/inventory'
-import loggerWrapper from '../logger'
+import Database from '../database/inventory.js'
+import loggerWrapper from '../logger.js'
 
 const db = new Database()
 const logger = loggerWrapper('Inventory API')

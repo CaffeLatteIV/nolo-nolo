@@ -1,7 +1,7 @@
 import Express from 'express'
 // import bcrypt from 'bcrypt'
-import Client from '../database/client'
-import loggerWrapper from '../logger'
+import Client from '../database/client.js'
+import loggerWrapper from '../logger.js'
 
 const db = new Client()
 const logger = loggerWrapper('Client API')

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { inventorySchema } from './schema'
+import { inventorySchema } from './schema.js'
 
 class Inventory {
   constructor() {

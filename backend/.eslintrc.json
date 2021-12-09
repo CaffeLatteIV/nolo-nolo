@@ -36,7 +36,7 @@
         ],
         "import/extensions": [
             "error",
-            { "js": "never", "json": "never" }
+            { "js": "always", "json": "always" }
         ],
         "linebreak-style": 0
     }

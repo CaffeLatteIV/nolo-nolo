@@ -1,7 +1,7 @@
 import Express from 'express'
 // import bcrypt from 'bcrypt'
-import Employee from '../database/employee'
-import loggerWrapper from '../logger'
+import Employee from '../database/employee.js'
+import loggerWrapper from '../logger.js'
 
 const db = new Employee()
 const logger = loggerWrapper('Employee API')
