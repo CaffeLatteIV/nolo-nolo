@@ -35,9 +35,15 @@ class Rental {
     return this.Rentals.find({ productCode, clientCode }).exec()
   }
 
-  async findRecentEndings(date) {
+  async findEndings(date) {
     const rentals = this.Rentals.find({ end: { $lte: date } })
-    if (Array.isArray(rentals)) return rentals.sort(((a, b) => b - a))
+    if (Array.isArray(rentals)) return rentals.sort(((a, b) => b - a)) // dsc
+    return rentals
+  }
+
+  async findStarts(date) {
+    const rentals = this.Rentals.find({ start: { $gte: date } })
+    if (Array.isArray(rentals)) return rentals.sort(((a, b) => a - b)) // asc
     return rentals
   }
 }

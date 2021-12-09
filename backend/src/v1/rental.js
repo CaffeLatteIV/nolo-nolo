@@ -36,7 +36,7 @@ app.get('/find/product', async (req, res) => {
     const { item } = req.body
     const rent = await db.findProductRentals(item.productCode)
     // TODO: verificare che restituisca null e non [null]
-    if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
+    if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     // TODO: verificare che restituisca un oggetto json e non un array e basta
     return res.status(200).send(rent)
   } catch (err) {
@@ -46,14 +46,26 @@ app.get('/find/product', async (req, res) => {
   }
 })
 
-app.get('/find/date', async (req, res) => {
+app.get('/find/date/end', async (req, res) => {
   try {
     const { item } = req.body
-    const rent = await db.findRecentEndings(item.date)
+    const rent = await db.findEndings(item.date)
     // TODO: verificare che restituisca null e non [null]
-    if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
+    if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     // TODO: verificare che restituisca un oggetto json e non un array e basta
-    return res.status(200).send(rent)
+    return res.status(200).send({ rent })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
+})
+app.get('/find/date/start', async (req, res) => {
+  try {
+    const { item } = req.body
+    const rent = await db.findStarts(item.date)
+    if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
+    return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)
@@ -64,10 +76,8 @@ app.get('/find', async (req, res) => {
   try {
     const { item } = req.body
     const rent = await db.find(item.productCode, item.clientCode)
-    // TODO: verificare che restituisca null e non [null]
-    if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
-    // TODO: verificare che restituisca un oggetto json e non un array e basta
-    return res.status(200).send(rent)
+    if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' })// può essere cambiato e restituire solo l'array vuoto
+    return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)

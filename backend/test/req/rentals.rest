@@ -44,7 +44,16 @@ content-type: application/json
   }
 }
 ###
-GET http://localhost:5001/api/v1/rentals/find/date HTTP/1.1
+GET http://localhost:5001/api/v1/rentals/find/date/end HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "date":998590625678
+  }
+}
+###
+GET http://localhost:5001/api/v1/rentals/find/date/start HTTP/1.1
 content-type: application/json
 
 {
