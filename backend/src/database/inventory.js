@@ -3,8 +3,8 @@ import { inventorySchema } from './schema.js'
 
 class Inventory {
   constructor() {
+    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
     this.connect()
-    this.URL = (process.env.URL || 'mongodb://localhost:27017/nolo-nolo')
   }
 
   async connect() {
@@ -25,13 +25,18 @@ class Inventory {
 
   async findOneAvailable(title, category = undefined, id = undefined) {
     if (id) return this.Inventory.findById(id).exec()
-    if (category) return this.Inventory.findOne({ title, category, available: true }).exec()
+    if (category) return this.Inventory.findOne({ category, available: true }).exec()
     return this.Inventory.findOne({ title, available: true }).exec()
   }
 
-  async findAll(category, available = undefined) {
+  async findAllCategory(category, available = undefined) {
     if (available !== undefined) return this.Inventory.find({ category, available }).exec()
     return this.Inventory.find({ category }).exec()
+  }
+
+  async findAllTitle(title, available = undefined) {
+    if (available !== undefined) return this.Inventory.find({ title, available }).exec()
+    return this.Inventory.find({ title }).exec()
   }
 }
 export default Inventory

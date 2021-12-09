@@ -1,14 +1,15 @@
 import mongoose from 'mongoose'
-import { rentSchema } from './schema.js'
+import { employeeSchema } from './schema.js'
 
 class Employee {
   constructor() {
-    this.URL = (process.env.URL || 'mongodb://localhost:27017/nolo-nolo')
+    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
+    this.connect()
   }
 
   async connect() {
     this.mongoose = await mongoose.connect(this.URL)
-    this.Employee = mongoose.model('rentals', rentSchema)
+    this.Employee = mongoose.model('employees', employeeSchema)
   }
 
   async addEmployee({ username, password, role }) {
@@ -22,11 +23,11 @@ class Employee {
   }
 
   async findEmployee(username, password) {
-    return this.Rentals.findOne({ username, password }).exec()
+    return this.Employee.findOne({ username, password }).exec()
   }
 
   async lookupEmployee(username) {
-    return this.Rentals.findOne({ username }).exec()
+    return this.Employee.findOne({ username }).exec()
   }
 }
 export default Employee

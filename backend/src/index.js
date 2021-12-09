@@ -1,9 +1,9 @@
 import Express from 'express'
-import loggerWrapper from './logger'
-import rental from './v1/rental'
-import inventory from './v1/inventory'
-import client from './v1/client'
-import employee from './v1/employee'
+import loggerWrapper from './logger.js'
+import rental from './v1/rental.js'
+import inventory from './v1/inventory.js'
+import client from './v1/client.js'
+import employee from './v1/employee.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -32,6 +32,6 @@ app.use((req, res, next) => {
 app.use('/api/v1/rentals', rental)
 app.use('/api/v1/inventories', inventory)
 app.use('/api/v1/clients', client)
-app.use('/api/v1/clients', employee)
+app.use('/api/v1/employee', employee)
 
 app.listen(PORT, () => logger.info(`Listening on port ${PORT}`))

@@ -24,18 +24,18 @@ app.get('/login', async (req, res) => {
   const { item } = req.body
   logger.info(`Finding user ${item.username}`)
   await db.connect()
-  const user = await db.findEmployee(item.username, item.password)
-  if (user === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
-  return res.status(200).send(user)
+  const employee = await db.findEmployee(item.username, item.password)
+  if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
+  return res.status(200).send({ employee })
 })
 app.get('/lookup', async (req, res) => {
   // TODO: alti privilegi
   const { item } = req.body
   logger.info(`Finding user ${item.username}`)
   await db.connect()
-  const user = await db.lookupEmployee(item.username)
-  if (user === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
-  return res.status(200).send(user)
+  const employee = await db.lookupEmployee(item.username)
+  if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
+  return res.status(200).send({ employee })
 })
 // async function generateHash(message) {
 //   // create hash algorithm

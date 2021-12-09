@@ -1,0 +1,40 @@
+###
+
+POST http://localhost:5001/api/v1/clients/register HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "username":"mario",
+    "password":"gino",
+    "preferredCategories":["Bici"],
+    "payment":"PayPal",
+    "fidelityPoints":32,
+    "favourites":["61b1bfed920b3b3b7167f9ab"],
+    "notifications":["61b1bfed920b3b3b7167f9ab"]
+  }
+}
+
+###
+
+GET http://localhost:5001/api/v1/clients/login HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "username":"mario",
+    "password":"gino"
+
+  }
+}
+###
+
+GET http://localhost:5001/api/v1/clients/lookup HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "username":"mario"
+
+  }
+}

@@ -3,8 +3,8 @@ import { clientSchema } from './schema.js'
 
 class Client {
   constructor() {
+    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
     this.connect()
-    this.URL = (process.env.URL || 'mongodb://localhost:27017/nolo-nolo')
   }
 
   async connect() {
@@ -14,8 +14,8 @@ class Client {
 
   async addClients({ username, password, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
     const client = await this.findClient(username, password)
-    if (client) throw new Error('Client already registered')
-    await new this.Clients({
+    if (client) return undefined
+    return new this.Clients({
       username,
       password,
       preferredCategories,

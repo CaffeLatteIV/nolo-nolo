@@ -3,7 +3,8 @@ import { rentSchema } from './schema.js'
 
 class Rental {
   constructor() {
-    this.URL = (process.env.URL || 'mongodb://localhost:27017/nolo-nolo')
+    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
+    this.connect()
   }
 
   async connect() {
@@ -11,12 +12,12 @@ class Rental {
     this.Rentals = mongoose.model('rentals', rentSchema)
   }
 
-  async addRentals({ start, end, productCode, userCode, price, fidelityPoints }) {
+  async addRentals({ start, end, productCode, clientCode, price, fidelityPoints }) {
     await new this.Rentals({
       start,
       end,
+      clientCode,
       productCode,
-      userCode,
       price,
       fidelityPoints,
     }).save()

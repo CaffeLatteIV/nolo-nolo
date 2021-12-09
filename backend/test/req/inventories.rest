@@ -1,0 +1,63 @@
+POST http://localhost:5001/api/v1/inventories/product HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "available":true,
+    "price":50,
+    "condition":"Buona",
+    "category":"Bici",
+    "title":"Mountain bike",
+    "description":"Bellissima bici"
+  }
+}
+
+###
+GET http://localhost:5001/api/v1/inventories/findOne HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "title":"Mountain bike"
+  }
+}
+
+###
+GET http://localhost:5001/api/v1/inventories/findOne HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "category":"Bici"
+  }
+}
+###
+GET http://localhost:5001/api/v1/inventories/product HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "title":"Mountain bike",
+    "available":false
+  }
+}
+
+###
+GET http://localhost:5001/api/v1/inventories/category HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "category":"Bici"
+  }
+}
+
+###
+GET http://localhost:5001/api/v1/inventories/product HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "title":"Mountain bike"
+  }
+}

@@ -1,15 +1,16 @@
 import Express from 'express'
-import Database from '../database/rental.js'
+import Rental from '../database/rental.js'
 import loggerWrapper from '../logger.js'
 
 const logger = loggerWrapper('Rental API')
-const db = new Database()
+const db = new Rental()
 const app = Express.Router()
 
 app.post('/add', async (req, res) => {
   try {
     const { item } = req.body
     await db.addRentals(item)
+
     return res.status(200).send({ code: 200, msg: 'Rental added' })
   } catch (err) {
     logger.error(err.message)
@@ -17,7 +18,7 @@ app.post('/add', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while uploading data, try again' })
   }
 })
-app.get('/find/user', async (req, res) => {
+app.get('/find/client', async (req, res) => {
   try {
     const { item } = req.body
     const rent = await db.findUserRentals(item.clientCode)

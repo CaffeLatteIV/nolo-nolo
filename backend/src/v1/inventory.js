@@ -9,24 +9,30 @@ const app = Express.Router()
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
   logger.info(`Finding item ${item.title}`)
-  const prod = await db.findOneAvailable(item.title, item.category, item.id)
-  if (prod === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
-  return res.status(200).send(prod)
+  const products = await db.findOneAvailable(item.title, item.category, item.id)
+  if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
+  return res.status(200).send({ products })
 })
 app.get('/category', async (req, res) => {
   const { item } = req.body
   logger.info(`Finding items of ${item.category} category`)
-  const prod = await db.findAll(item.category, item.available)
-  if (prod === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
-  return res.status(200).send(prod)
+  const products = await db.findAllCategory(item.category, item.available)
+  if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
+  return res.status(200).send({ products })
+})
+app.get('/products', async (req, res) => {
+  const { item } = req.body
+  logger.info(`Finding ${item.title}`)
+  const products = await db.findAllTitle(item.title, item.available)
+  if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
+  return res.status(200).send({ products })
 })
 app.post('/product', async (req, res) => {
   try {
     const { item } = req.body
     logger.info(`Adding: ${item.title}`)
-    await db.connect()
     db.addInventory(item)
-    return res.status(200).send({ code: 200, msg: 'ok' })
+    return res.status(200).send({ code: 200, msg: 'Added' })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)
