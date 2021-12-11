@@ -5,7 +5,7 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "standard"
+        "airbnb"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,5 +18,53 @@
         "react"
     ],
     "rules": {
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "func-names": 0,
+        "func-style": [
+            "error",
+            "declaration",
+            {
+                "allowArrowFunctions": true
+            }
+        ],
+        "object-curly-newline": [
+            "error",
+            {
+                "multiline": true
+            }
+        ],
+        "import/extensions": 0,
+        "max-len": [
+            "error",
+            180,
+            2,
+            {
+                "code": 180,
+                "ignoreTrailingComments": true,
+                "ignoreComments": true,
+                "ignoreStrings": true,
+                "ignoreUrls": true
+            }
+        ],
+        "react/jsx-one-expression-per-line": 0,
+        "linebreak-style": 0,
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": "function-declaration"
+            }
+        ]
     }
 }
