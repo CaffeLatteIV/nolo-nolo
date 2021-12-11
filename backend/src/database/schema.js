@@ -8,8 +8,19 @@ const inventorySchema = new Schema({
     required: true,
   },
   price: {
-    type: Number,
-    required: true,
+    weekend: {
+      type: Number,
+      required: true,
+    },
+    weekday: {
+      type: Number,
+      required: true,
+    },
+    points: {
+      type: Number,
+      required: true,
+    },
+
   },
   condition: {
     type: String,
