@@ -14,7 +14,7 @@ function Dashboard() {
     <div className="container-fluid mb-5 mt-2">
       <div className="row  mx-2">
         <div className="col-4 p-1">
-          <section className="row">
+          <section className="row g-2">
             <SummaryPanel title="Fatturato" price={342156} change={4.5} />
             <SummaryPanel title="Fatturato" price={342156} change={-4.5} />
             <SummaryPanel title="Fatturato" price={342156} change={4.5} />

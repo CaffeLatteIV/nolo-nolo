@@ -4,24 +4,30 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "start": "nodemon src/index.js",
-    "test": "nodemon src/database/mongoose.js"
+  "directories": {
+    "test": "test"
   },
-  "keywords": [],
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaffeLatteIV/nolo-nolo.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CaffeLatteIV/nolo-nolo/issues"
+  },
+  "homepage": "https://github.com/CaffeLatteIV/nolo-nolo#readme",
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
-    "mongoose": "^6.1.0",
+    "mongoose": "^6.1.2",
     "winston": "^3.3.3"
-  },
-  "devDependencies": {
-    "dotenv": "^10.0.0",
-    "eslint": "^8.4.1",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.3",
-    "nodemon": "^2.0.15"
   }
 }
