@@ -13,9 +13,10 @@ class Employee {
   }
 
   async addEmployee({ username, password, role }) {
-    const employee = await this.findEmployee(username, password)
-    if (employee) throw new Error('Employee already registered')
-    await new this.Employee({
+    const employee = await this.lookupEmployee(username)
+    console.log(employee)
+    if (employee) return undefined
+    return new this.Employee({
       username,
       password,
       role,
@@ -23,11 +24,11 @@ class Employee {
   }
 
   async findEmployee(username, password) {
-    return this.Employee.findOne({ username, password }).exec()
+    return this.Employee.findOne({ username, password }, 'username role').exec()
   }
 
   async lookupEmployee(username) {
-    return this.Employee.findOne({ username }).exec()
+    return this.Employee.findOne({ username }, 'username role').exec()
   }
 }
 export default Employee

@@ -29,9 +29,9 @@ app.use((req, res, next) => {
   return next()
 })
 
-app.use('/api/v1/rentals', rental)
-app.use('/api/v1/inventories', inventory)
-app.use('/api/v1/clients', client)
-app.use('/api/v1/employee', employee)
+app.use('/v1/rentals', rental)
+app.use('/v1/inventories', inventory)
+app.use('/v1/clients', client)
+app.use('/v1/employee', employee)
 
 app.listen(PORT, () => logger.info(`Listening on port ${PORT}`))

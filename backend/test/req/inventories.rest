@@ -1,10 +1,15 @@
-POST http://localhost:5001/api/v1/inventories/product HTTP/1.1
+POST http://localhost:5001/v1/inventories/product HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTYzOTY1MzAxMn0.YwqS7LOOnbsOTqhXMn_526-n0N5HgSIzwBxFsoxzcMA
 content-type: application/json
 
 {
   "item":{
     "available":true,
-    "price":50,
+    "price":{
+      "weekend":25,
+      "weekday":50,
+      "points":200
+    },
     "condition":"Buona",
     "category":"Bici",
     "title":"Mountain bike",
@@ -13,7 +18,8 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:5001/api/v1/inventories/findOne HTTP/1.1
+GET http://localhost:5001/v1/inventories/findOne HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTYzOTY1MzAxMn0.YwqS7LOOnbsOTqhXMn_526-n0N5HgSIzwBxFsoxzcMA
 content-type: application/json
 
 {
@@ -23,7 +29,8 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:5001/api/v1/inventories/findOne HTTP/1.1
+GET http://localhost:5001/v1/inventories/findOne HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTYzOTY1MzAxMn0.YwqS7LOOnbsOTqhXMn_526-n0N5HgSIzwBxFsoxzcMA
 content-type: application/json
 
 {
@@ -32,7 +39,8 @@ content-type: application/json
   }
 }
 ###
-GET http://localhost:5001/api/v1/inventories/product HTTP/1.1
+GET http://localhost:5001/v1/inventories/product HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTYzOTY1MzAxMn0.YwqS7LOOnbsOTqhXMn_526-n0N5HgSIzwBxFsoxzcMA
 content-type: application/json
 
 {
@@ -43,7 +51,7 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:5001/api/v1/inventories/category HTTP/1.1
+GET http://localhost:5001/v1/inventories/category HTTP/1.1
 content-type: application/json
 
 {
@@ -53,7 +61,7 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:5001/api/v1/inventories/product HTTP/1.1
+GET http://localhost:5001/v1/inventories/product HTTP/1.1
 content-type: application/json
 
 {

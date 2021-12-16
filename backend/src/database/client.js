@@ -12,19 +12,17 @@ class Client {
     this.Clients = mongoose.model('clients', clientSchema)
   }
 
-  async addClients({ username, password, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
-    const client = await this.findClient(username, password)
+  async addClients({ username, password }) {
+    const client = await this.Clients.findOne({ username })
     if (client) return undefined
     return new this.Clients({
       username,
       password,
-      preferredCategories,
-      payment,
-      fidelityPoints,
-      description,
-      favourites,
-      notifications,
     }).save()
+  }
+
+  async updateClient({ username, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
+    return this.Clients.findOneAndUpdate({ username }, { preferredCategories, payment, fidelityPoints, description, favourites, notifications })
   }
 
   async findClient(username, password) {

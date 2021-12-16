@@ -75,14 +75,23 @@ const clientSchema = new Schema({
     type: String,
     required: true,
   },
-  preferredCategories: [String],
+  preferredCategories: {
+    type: [String],
+    default: [],
+  },
   payment: String,
   fidelityPoints: {
     type: Number,
     default: 0,
   },
-  favourites: [Schema.Types.ObjectId],
-  notifications: [Schema.Types.ObjectId],
+  favourites: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+  },
+  notifications: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+  },
 })
 const employeeSchema = new Schema({
   username: {
