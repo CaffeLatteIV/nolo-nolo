@@ -1,12 +1,12 @@
 import Express from 'express'
 import Rental from '../database/rental.js'
 import loggerWrapper from '../logger.js'
-import { authenticateToken } from './authenticate.js'
+import { authenticateAccessToken } from './authenticate.js'
 
 const logger = loggerWrapper('Rental API')
 const db = new Rental()
 const app = Express.Router()
-app.use(authenticateToken)
+app.use(authenticateAccessToken)
 app.post('/add', async (req, res) => {
   try {
     const { item } = req.body

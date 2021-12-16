@@ -1,0 +1,8 @@
+POST http://localhost:5001/v1/token
+Content-Type: application/json
+
+{
+  "item":{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlvIiwiaWF0IjoxNjM5NjYxMjExfQ.J2IWfioWNYwv_MtMj4_Lo3STS4bRYs7xBnelnAXv2qw"
+  }
+}

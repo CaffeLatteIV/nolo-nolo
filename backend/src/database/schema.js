@@ -108,10 +108,16 @@ const employeeSchema = new Schema({
     required: true,
   },
 })
-
+const refreshTokenSchema = new Schema({
+  token: {
+    type: String,
+    required: true,
+  },
+})
 export {
   inventorySchema,
   rentSchema,
   clientSchema,
   employeeSchema,
+  refreshTokenSchema,
 }

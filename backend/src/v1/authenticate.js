@@ -1,7 +1,14 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 
-function authenticateToken(req, res, next) {
+
+function generateAccessToken(username, role) {
+  return jwt.sign({ username, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+}
+function generateRefreshToken(username, role) {
+  return jwt.sign({ username, role }, process.env.REFRESH_TOKEN_SECRET)
+}
+function authenticateAccessToken(req, res, next) {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
   if (token === undefined) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
@@ -23,4 +30,4 @@ function authenticateManager(req, res, next) {
 async function generateHash(message) {
   return crypto.createHash('sha256').update(message).digest('hex')
 }
-export { authenticateToken, authenticateUserRole, authenticateManager, generateHash }
+export { authenticateAccessToken, generateAccessToken, generateRefreshToken, authenticateUserRole, authenticateManager, generateHash }

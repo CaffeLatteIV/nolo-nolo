@@ -1,43 +1,66 @@
 import Express from 'express'
-import jwt from 'jsonwebtoken'
 import Employee from '../database/employee.js'
+import RefreshToken from '../database/refreshToken.js'
 import loggerWrapper from '../logger.js'
-import { authenticateToken, authenticateUserRole, authenticateManager, generateHash } from './authenticate.js'
+import { authenticateAccessToken, generateAccessToken, authenticateUserRole, authenticateManager, generateHash, generateRefreshToken } from './authenticate.js'
 
 const db = new Employee()
+const tokenDB = new RefreshToken()
 const logger = loggerWrapper('Employee API')
 const app = Express.Router()
-// TODO: accesso riservato solo a amministratori
-app.post('/register', authenticateToken, authenticateUserRole, authenticateManager, async (req, res) => {
+
+app.post('/login', async (req, res) => {
+  const { item } = req.body
+
+  logger.info(`Finding employee ${item.username}`)
+  item.password = await generateHash(item.password) // encrypt password
+  const employee = await db.findEmployee(item.username, item.password)
+  if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
+  logger.info('Found')
+  const accessToken = generateAccessToken(item.username, employee.role)
+  const refreshToken = generateRefreshToken(item.username, employee.role)
+  await tokenDB.addRefreshToken(refreshToken)
+  return res.status(200).send({ accessToken, refreshToken, employee })
+})
+app.delete('/logout', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { item } = req.body
+  logger.info('Logging out user')
+  if (item.refreshToken === undefined) {
+    logger.warn('Mssing refresh token to destroy')
+    return res.status(400).send({ code: 400, msg: 'Mssing refresh token' })
+  }
+  const tokenDeleted = await tokenDB.deleteToken(item.refreshToken)
+  console.log(tokenDeleted)
+  if (tokenDeleted === undefined) {
+    logger.warn('Invalid refresh token')
+    return res.status(400).send({ code: 400, msg: 'Invalid refresh token' })
+  }
+  logger.info('logged out')
+  return res.status(204).send({ code: 204, msg: 'Logged out' })
+})
+app.post('/register', authenticateAccessToken, authenticateManager, async (req, res) => {
   try {
     const { item } = req.body
-    logger.info(`Adding: ${item.username}`)
-    item.password = await generateHash(item.password)
+    logger.info(`Adding: {${item.username}}, role: {${item.role}}`)
+    item.password = await generateHash(item.password) // encrypt password
     const employee = await db.addEmployee(item)
     if (employee === undefined) {
       logger.warn('Employee already registered')
       return res.status(400).send({ code: 400, msg: 'Username already registered' })
     }
+    logger.info('Employee registered')
     // token per autenticazione
-    const token = jwt.sign({ username: item.username, role: item.role }, process.env.ACCESS_TOKEN_SECRET)
-    return res.status(200).send({ token })
+    const accessToken = generateAccessToken(item.username, item.role)
+    const refreshToken = generateRefreshToken(item.username, item.role)
+    await tokenDB.addRefreshToken(refreshToken)
+    return res.status(200).send({ accessToken, refreshToken })
   } catch (err) {
     logger.error(err.message)
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
 })
 
-app.post('/login', async (req, res) => {
-  const { item } = req.body
-
-  logger.info(`Finding user ${item.username}`)
-  item.password = await generateHash(item.password)
-  const employee = await db.findEmployee(item.username, item.password)
-  if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
-  const token = jwt.sign({ username: item.username, role: employee.role }, process.env.ACCESS_TOKEN_SECRET)
-  return res.status(200).send({ token, employee })
-})
-app.get('/lookup', async (req, res) => {
+app.get('/lookup', authenticateAccessToken, authenticateManager, async (req, res) => {
   // TODO: alti privilegi
   const { item } = req.body
   logger.info(`Finding user ${item.username}`)

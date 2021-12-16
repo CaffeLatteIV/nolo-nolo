@@ -29,6 +29,19 @@ content-type: application/json
 }
 ###
 
+POST http://localhost:5001/v1/clients/logout HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+    "RefreshToken":"",
+    "username":"mario",
+    "password":"gino"
+
+  }
+}
+###
+
 GET http://localhost:5001/v1/clients/lookup HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlvIiwiaWF0IjoxNjM5NjUxMTk0fQ.704IeblqIA6FgF2ciSw-ITth_nIb-gG0LJATPn16WQU
 content-type: application/json

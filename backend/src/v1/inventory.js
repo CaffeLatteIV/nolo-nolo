@@ -1,13 +1,13 @@
 import Express from 'express'
 import Database from '../database/inventory.js'
 import loggerWrapper from '../logger.js'
-import { authenticateToken } from './authenticate.js'
+import { authenticateAccessToken } from './authenticate.js'
 // TODO: i FUNZIONARI/MANAGER non possono aggiungere prenotazioni ai clienti(?)
 // TODO: rendere impossibile agli altri utenti di aggiungere prenotazioni non proprie
 const db = new Database()
 const logger = loggerWrapper('Inventory API')
 const app = Express.Router()
-app.use(authenticateToken)
+app.use(authenticateAccessToken)
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
   logger.info(`Finding item ${item.title}`)

@@ -31,6 +31,16 @@ Content-Type: application/json
   }
 }
 ###
+DELETE http://localhost:5001/v1/employee/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhb2xvIiwicm9sZSI6ImZ1bnppb25hcmlvIiwiaWF0IjoxNjM5NjYyMzM0LCJleHAiOjE2Mzk2NjMyMzR9.wh8aPzQVF68kL_w3745WW8AmPy5M72fS7ZbKIFMrcpw
+Content-Type: application/json
+
+{
+  "item":{
+    "username":"paolo",
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhb2xvIiwicm9sZSI6ImZ1bnppb25hcmlvIiwiaWF0IjoxNjM5NjYyMzM0fQ.d8uVsirSZ2m5Lh5Of3VdApF8L1qCbl4HnG8W8pq4KsU"}
+}
+###
 GET http://localhost:5001/v1/employee/lookup
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTYzOTY1MzAxMn0.YwqS7LOOnbsOTqhXMn_526-n0N5HgSIzwBxFsoxzcMA
 Content-Type: application/json
