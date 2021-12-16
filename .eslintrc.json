@@ -18,6 +18,29 @@
         "react"
     ],
     "rules": {
+        "max-len": [
+            "error",
+            180,
+            2,
+            {
+                "code": 180,
+                "ignoreTrailingComments": true,
+                "ignoreComments": true,
+                "ignoreStrings": true,
+                "ignoreUrls": true
+            }
+        ],
+        "object-curly-newline": [
+            "error",
+            {
+                "multiline": true,
+                "consistent": true
+            }
+        ],
+        "import/extensions": [
+            "error",
+            { "js": "always", "json": "always" }
+        ],
         "react/jsx-filename-extension": [
             1,
             {
@@ -37,25 +60,6 @@
             "declaration",
             {
                 "allowArrowFunctions": true
-            }
-        ],
-        "object-curly-newline": [
-            "error",
-            {
-                "multiline": true
-            }
-        ],
-        "import/extensions": 0,
-        "max-len": [
-            "error",
-            180,
-            2,
-            {
-                "code": 180,
-                "ignoreTrailingComments": true,
-                "ignoreComments": true,
-                "ignoreStrings": true,
-                "ignoreUrls": true
             }
         ],
         "react/jsx-one-expression-per-line": 0,
