@@ -22,3 +22,82 @@ background-color: white;
 h2.price{
     color: var(--main-text-color);
 }
+
+
+
+/*preso da versione con vue, controllare che il resto sopra non rompa qualcosa*/
+html, body{
+    height: 100%;
+    background-color: #adadad;
+}
+a:link, a:visited, a i{
+    color: black;
+}
+#catNav {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#catNav::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#catNav {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+} 
+
+.carousel-caption h5, .carousel-caption p {
+    text-decoration: wavy;            
+    color: white;
+    font-weight: bold;
+    text-shadow: -1px  1px 0 #000,
+                  1px  1px 0 #000,
+                  1px -1px 0 #000,
+                 -1px -1px 0 #000;
+}
+.carousel {
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+/*Back to top button CSS*/
+.backToTopBtn{
+    /*General style*/
+    height: 2.5em;
+    width: 2.5em;
+    border: none; 
+    outline: none;
+    background-color: #121212;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0;
+    display: block;
+
+    /*Keeps button in bottom right corner*/
+    position: fixed; 
+    bottom: 0.7em;
+    right: 0.7em;
+
+    /*Keeps button on top of everything*/
+    z-index: 99;
+
+    /*Makes scroll smoother*/
+    scroll-behavior: smooth;
+
+    /*Hides button out of screen to show animation*/
+    transform: translateY(4em);
+    transition: all 0.4s ease; 
+}
+.showBackToTopBtn{
+    transform: translateY(0);
+}
+.backToTopBtn span{
+    margin: auto;
+    display: inline-flex;
+    vertical-align: bottom;
+    align-items: center;
+}
