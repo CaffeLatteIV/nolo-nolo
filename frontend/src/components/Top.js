@@ -1,7 +1,7 @@
 import React from 'React'
 
 import Navbar from './Navbar'
-import Searchbar from '.Searchbar'
+import Searchbar from './Searchbar'
 import Categories from './Categories'
 
 function Top () {
