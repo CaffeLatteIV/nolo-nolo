@@ -64,7 +64,7 @@ a:link, a:visited, a i{
 }
 
 /*Back to top button CSS*/
-.backToTopBtn{
+#backToTopBtn{
     /*General style*/
     height: 2.5em;
     width: 2.5em;
@@ -84,18 +84,15 @@ a:link, a:visited, a i{
 
     /*Keeps button on top of everything*/
     z-index: 99;
-
-    /*Makes scroll smoother*/
-    scroll-behavior: smooth;
-
-    /*Hides button out of screen to show animation*/
-    transform: translateY(4em);
-    transition: all 0.4s ease; 
 }
-.showBackToTopBtn{
+.goTop{
     transform: translateY(0);
 }
-.backToTopBtn span{
+.goTopHidden{
+    transform: translateY(4em);
+    transition: all 0.4s ease;
+}
+#backToTopBtn span{
     margin: auto;
     display: inline-flex;
     vertical-align: bottom;
