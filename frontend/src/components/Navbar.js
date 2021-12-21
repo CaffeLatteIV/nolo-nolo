@@ -17,12 +17,12 @@ function Navbar () {
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
                             <a className="nav-link" href="#">
-                                <span className="material-icons" style="color: white;">person_outline</span>
+                                <span className="material-icons text-white">person_outline</span>
                             </a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">
-                                <span className="material-icons" style="color: white;">shopping_cart</span>
+                                <span className="material-icons text-white">shopping_cart</span>
                             </a>
                         </li>
                     </ul>
