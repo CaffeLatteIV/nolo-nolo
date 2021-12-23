@@ -10,6 +10,6 @@ function GoTop (props) {
     </>
   )
 }
-GoTop.propTypes = { scrollUp: PropTypes.func.isRequired, showGoTop: PropTypes }
+GoTop.propTypes = { scrollUp: PropTypes.func.isRequired, showGoTop: PropTypes.string.isRequired }
 
 export default GoTop

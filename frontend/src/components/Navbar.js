@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function Navbar () {
+  const [isLogged] = useState(false)
   return (
         <div>
         {/* Main navbar */}
@@ -15,9 +16,14 @@ function Navbar () {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                            <a className="nav-link" title="Accedi o Registrati" href="#">
-                                <span className="material-icons text-white">person_outline</span>
-                            </a>
+                            {isLogged
+                              ? <a className="nav-link" title="Account" href="#">
+                                    <span className="material-icons text-white">person</span>
+                                </a>
+                              : <a className="nav-link" title="Accedi o Registrati" href="#">
+                                    <span className="material-icons text-white">person_outline</span>
+                                </a>
+                            }
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" title="Carrello" href="#">
