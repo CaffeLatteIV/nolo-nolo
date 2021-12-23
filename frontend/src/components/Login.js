@@ -29,7 +29,7 @@ const Form = () => {
   return (
   <>
     <div className='container p-3'>
-        <div className='p-4 md-01dp rounded'>
+        <div className='p-4 mt-4 md-01dp rounded'>
             <form className="form" onSubmit={onSubmit}>
                 <div className='mt-2'>
                     <label
@@ -100,6 +100,9 @@ const Form = () => {
                     Accedi
                 </button>
             </form>
+            <div className='mt-2 text-center'>
+                <a className='text-white' title='Registrati' href='#'>Non hai un account? Registrati qui</a>
+            </div>
         </div>
     </div>
   </>

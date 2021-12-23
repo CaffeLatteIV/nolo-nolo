@@ -5,6 +5,7 @@ import Top from '../components/Top'
 import GoTop from '../components/GoTop'
 import Content from '../components/Content'
 // import Login from '../components/Login'
+// import ProductPage from '../components/ProductPage'
 
 function Dashboard () {
   // All below handles the back to top functionality
