@@ -1,10 +1,108 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-:root {
-  --main-text-color: #FFAA4C;
-  --secondary-text-color: #264653;
+html,
+body {
+  height: 100%;
+  background: #121212;
 }
-body{
-  background-color: #F1F3FA;
-  font-family: 'Roboto', sans-serif;
+a:link,
+a:visited,
+a i {
+  color: black;
+}
+#catNav {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#catNav::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#catNav {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+  color: white;
+  font-weight: bold;
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
+}
+.carousel {
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/*Back to top button CSS*/
+#backToTopBtn {
+  /*General style*/
+  height: 2.5em;
+  width: 2.5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0;
+  display: hidden;
+
+  /*Keeps button in bottom right corner*/
+  position: fixed;
+  bottom: 0.7em;
+  right: 0.7em;
+
+  /*Keeps button on top of everything*/
+  z-index: 99;
+}
+.goTop {
+  transform: translateY(0);
+}
+.goTopHidden {
+  transform: translateY(4em);
+  transition: all 0.4s;
+}
+#backToTopBtn span {
+  margin: auto;
+  display: inline-flex;
+  vertical-align: bottom;
+  align-items: center;
+}
+
+/*Material Design Backgrounds for Dark Theme
+Source: https://material.io/design/color/dark-theme.html*/
+.md-01dp {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.md-02dp {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+.md-03dp {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.md-04dp {
+    background-color: rgba(255, 255, 255, 0.09);
+}
+.md-06dp {
+    background-color: rgba(255, 255, 255, 0.11);
+}
+.md-08dp {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+.md-12dp {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+.md-16dp {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.md-24dp {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+#backToTopBtn {
+  background-color: #1DA1F2;
+} 
+#btn-ricerca {
+  background: #1DA1F2;
 }

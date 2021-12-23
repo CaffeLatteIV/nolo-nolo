@@ -6,14 +6,16 @@ import Carousel from './Carousel'
 function Content () {
   return (
     <>
-      <Carousel/>
       <div className="container p-2">
+        <div className="p-1">
+          <Carousel/>
+        </div>
           <div className="container-fluid row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 p-0 m-0" id="card-container">
-              { Array.from({ length: 30 }, (_, i) => (
-                <div className="col p-1">
-                    <ProductCard/>
-                </div>
-              ))}
+          { Array.from({ length: 30 }, (_, i) => (
+            <div className="col p-1">
+                <ProductCard/>
+            </div>
+          ))}
           </div>
       </div>
     </>

@@ -3,10 +3,10 @@ import React from 'react'
 function Searchbar () {
   return (
         <div>
-            <div className="container-fluid w-100 bg-dark">
-                <form className="d-flex ">
-                    <input className="form-control me-1" type="search" placeholder="Search.." aria-label="Search"/>
-                    <button className="btn btn-outline-success" type="submit">Search</button>
+            <div className="container-fluid w-100 md-04dp">
+                <form className="d-flex">
+                    <input className="form-control me-1 bg-transparent" type="search" placeholder="Cerca.." aria-label="Search"/>
+                    <button className="btn text-black" id="btn-ricerca" type="submit">Cerca</button>
                 </form>
             </div>
         </div>

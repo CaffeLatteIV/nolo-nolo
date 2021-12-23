@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
+import image from '../images/carousel-pic.jpg'
+
 function Carousel () {
-  const imageSource = '.carousel-pic.jpg'
   const [carouselItems, setCarouselItems] = useState([
     {
       id: 0,
@@ -39,8 +40,8 @@ function Carousel () {
     ])
   }, [])
   return (
-        <>
-        {/* Carousel */}
+    <>
+      <div className='p-2 md-02dp rounded'>
         <div id="carouselDark" className="carousel carousel-dark slide p-0 mb-0" data-bs-ride="carousel">
             <div className="carousel-indicators">
             <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -49,14 +50,14 @@ function Carousel () {
             </div>
             <div className="carousel-inner">
                 <div className="carousel-item active" data-bs-interval="4000">
-                    <img src={imageSource} className="d-block w-100" alt="First Item"/>
+                    <img src={image} className="d-block w-100" alt="First Item" style={{ 'max-height': '50vh' }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[0].title }</h5>
                         <p>Price: ${ carouselItems[0].price }/month</p>
                     </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="3000">
-                    <img src={imageSource} className="d-block w-100" alt="Second Item"/>
+                    <img src={image} className="d-block w-100" alt="Second Item" style={{ 'max-height': '50vh' }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[1].title }</h5>
                         <p>Price: ${ carouselItems[1].price }/month</p>
@@ -64,7 +65,7 @@ function Carousel () {
                     </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="3000">
-                    <img src={imageSource} className="d-block w-100" alt="Third Item"/>
+                    <img src={image} className="d-block w-100" alt="Third Item" style={{ 'max-height': '50vh' }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[2].title }</h5>
                         <p>Price: ${ carouselItems[2].price }/month</p>
@@ -80,7 +81,8 @@ function Carousel () {
                 <span className="visually-hidden">Next</span>
             </button>
         </div>
-        </>
+      </div>
+    </>
   )
 }
 
