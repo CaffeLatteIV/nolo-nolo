@@ -30,7 +30,7 @@ function ProductPage () {
                     {/* Contenitore Prezzo finale per i giorni selezionati sul calendario di cui sopra, Bottone Noleggia e Bottone aggiungi al carrello */}
                     <div className='col p-2'>
                         <div className='md-02dp rounded h-100 p-4'>
-                            <p className='fs-1 mb-0 text-center' id="price">€ { calculatedPrice } </p>
+                            <p className='fs-1 mb-0 text-center price'>€ { calculatedPrice } </p>
                             <div className='d-flex flex-column'>
                                 <div className='p-2'>
                                     <button className='w-100 rounded p-2 fs-4 border-0 bg-site-primary'>Aggiungi al carrello</button>

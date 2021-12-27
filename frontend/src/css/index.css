@@ -79,7 +79,7 @@
 /*End of GoTop CSS*/
 
 /*ProductPage CSS*/
-  #price {
+  .price {
     color: #92ff51;
   }
 /*End of ProductPage CSS*/
@@ -118,6 +118,9 @@
   /*Proprietary Backgrounds*/
     .bg-site-primary{
       background-color: #4bb5f6;
+    }
+    .bg-self-red{
+      background-color: #CF6679;
     }
   /*End of Proprietary BackGrounds*/
 /*End of General Purpose Backgrounds*/

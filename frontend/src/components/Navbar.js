@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function Navbar () {
   const [isLogged] = useState(false)
@@ -17,18 +18,18 @@ function Navbar () {
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
                             {isLogged
-                              ? <a className="nav-link" title="Account" href="#">
+                              ? <Link to='/login' className="nav-link" title="Account">
                                     <span className="material-icons text-white">person</span>
-                                </a>
-                              : <a className="nav-link" title="Accedi o Registrati" href="#">
+                                </Link>
+                              : <Link to='/login' className="nav-link" title="Account">
                                     <span className="material-icons text-white">person_outline</span>
-                                </a>
+                                </Link>
                             }
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" title="Carrello" href="#">
+                            <Link to='/cart' className="nav-link" title="Carrello">
                                 <span className="material-icons text-white">shopping_cart</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>

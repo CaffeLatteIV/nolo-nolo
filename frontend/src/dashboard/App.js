@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-// css
-import './dashboard.css'
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import Top from '../components/Top'
 import GoTop from '../components/GoTop'
-import Content from '../components/Content'
-// import Login from '../components/Login'
-// import ProductPage from '../components/ProductPage'
+import Homepage from '../components/Homepage'
+import Login from '../components/Login'
+import ProductPage from '../components/ProductPage'
+import Cart from '../components/Cart'
 
 function Dashboard () {
   // All below handles the back to top functionality
@@ -30,10 +32,17 @@ function Dashboard () {
 
   return (
     <>
-      <div ref={refScrollUp}> </div>
+    <Router>
+      <div ref={refScrollUp} />
       <Top />
-      <Content/>
+        <Routes>
+          <Route path='/' element={ <Homepage /> } />
+          <Route path='/login' element={ <Login /> } />
+          <Route path='/product' element={ <ProductPage /> } />
+          <Route path='/cart' element={ <Cart /> } />
+        </Routes>
       <GoTop showGoTop={showGoTop} scrollUp={handleScrollUp}/>
+      </Router>
     </>
   )
 }

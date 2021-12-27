@@ -3,7 +3,7 @@ import React from 'react'
 import ProductCard from './ProductCard'
 import Carousel from './Carousel'
 
-function Content () {
+function Homepage () {
   return (
     <>
       <div className="container p-2">
@@ -23,4 +23,4 @@ function Content () {
   )
 }
 
-export default Content
+export default Homepage
