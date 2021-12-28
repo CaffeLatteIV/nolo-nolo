@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Top from '../components/Top'
+import Footer from '../components/Footer'
 import GoTop from '../components/GoTop'
 import Homepage from '../components/Homepage'
 import Login from '../components/Login'
@@ -37,11 +38,14 @@ function Dashboard () {
       <Top />
         <Routes>
           <Route path='/' element={ <Homepage /> } />
-          <Route path='/login' element={ <Login /> } />
+          <Route path='/login' element={ <Login isLogging /> } />
+          <Route path='/register' element={ <Login isLogging={false}/> } />
           <Route path='/product' element={ <ProductPage /> } />
           <Route path='/cart' element={ <Cart /> } />
+          <Route path='/productpage' element={ <ProductPage />} />
         </Routes>
       <GoTop showGoTop={showGoTop} scrollUp={handleScrollUp}/>
+      <Footer />
       </Router>
     </>
   )

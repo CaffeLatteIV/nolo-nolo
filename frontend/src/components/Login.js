@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import './Login.css'
 
-const Form = () => {
+function Login ({ isLogging }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isValid, setValid] = useState(true)
-
   const setText = event => {
     event.target.name === 'name'
       ? setEmail(event.target.value)
@@ -20,7 +21,6 @@ const Form = () => {
       document.querySelector('#password').focus()
     }
   }
-
   const onSubmit = event => {
     event.preventDefault()
     validate()
@@ -31,7 +31,7 @@ const Form = () => {
     <div className='container p-3'>
         <div className='p-4 mt-4 md-01dp rounded'>
             <form className="form" onSubmit={onSubmit}>
-                <div className='mt-2'>
+                <div className='mt-2 justify-content-center'>
                     <label
                         className={
                             email || isValid ? 'form__label' : 'form__label form__label--error'
@@ -43,7 +43,7 @@ const Form = () => {
                         name="name"
                         id="email"
                         className={
-                            email || isValid ? 'form__input' : 'form__input form__input--error'
+                            email || isValid ? 'form__input w-100 ' : 'form__input form__input--error w-100'
                         }
                         value={email}
                         onChange={setText}
@@ -59,7 +59,7 @@ const Form = () => {
                         id="mailAlert"
                         className="form__alert"
                         >
-                        Devi inserire l&apos;indirizzo email
+                        Devi inserire la tua email
                         </div>
                     )}
                 </div>
@@ -75,7 +75,7 @@ const Form = () => {
                         name="password"
                         id="password"
                         className={
-                            password || isValid ? 'form__input' : 'form__input form__input--error'
+                            password || isValid ? 'form__input w-100' : 'form__input form__input--error w-100'
                         }
                         value={password}
                         onChange={setText}
@@ -92,21 +92,22 @@ const Form = () => {
                         id="passwordAlert"
                         className="form__alert"
                         >
-                        Devi inserire una password
+                        Devi inserire la tua password
                         </div>
                     )}
                 </div>
                 <button type="submit" className="form__submit mt-3 p-1 px-2 text-black">
-                    Accedi
+                    { isLogging ? 'Accedi' : 'Registrati' }
                 </button>
             </form>
             <div className='mt-2 text-center'>
-                <a className='text-white' title='Registrati' href='#'>Non hai un account? Registrati qui</a>
+                {isLogging ? <Link to='/register' className='text-white' title='Registrati'>Non hai un account? Registrati qui</Link> : <Link to='login' className='text-white' title='Accedi'>Hai già un account? Accedi qui</Link> }
             </div>
         </div>
     </div>
   </>
   )
 }
+Login.propTypes = { isLogging: PropTypes.bool.isRequired }
 
-export default Form
+export default Login

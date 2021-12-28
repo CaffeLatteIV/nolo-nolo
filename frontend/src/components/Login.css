@@ -21,10 +21,6 @@
 .form__input--error {
     border: 1px solid #CF6679;
 }
-.form__input:focus {
-    border: none;
-    outline: none;
-}
 .form__alert {
     color: #CF6679;
     font-size: 1em;
