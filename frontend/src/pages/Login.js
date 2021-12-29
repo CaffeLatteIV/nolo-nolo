@@ -101,7 +101,7 @@ function Login ({ isLogging }) {
                 </button>
             </form>
             <div className='mt-2 text-center'>
-                {isLogging ? <Link to='/register' className='text-white' title='Registrati'>Non hai un account? Registrati qui</Link> : <Link to='login' className='text-white' title='Accedi'>Hai già un account? Accedi qui</Link> }
+                {isLogging ? <Link to='/register' className='text-white' title='Registrati'>Non hai un account? Registrati qui</Link> : <Link to='/login' className='text-white' title='Accedi'>Hai già un account? Accedi qui</Link> }
             </div>
         </div>
     </div>

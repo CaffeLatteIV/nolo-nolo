@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import productPic from '../images/product-pic.jpg'
 
 function CartItem ({ name, price }) {
-  // this code is not for production, it's just for crafting the frontend
   const [quantity, setQuantity] = useState(1)
   const addOne = () => {
     setQuantity(quantity + 1)
@@ -13,8 +12,6 @@ function CartItem ({ name, price }) {
       setQuantity(quantity - 1)
     }
   }
-  console.log(name)
-  console.log(price)
   return (
     <>
     <div className="p-2 px-3">

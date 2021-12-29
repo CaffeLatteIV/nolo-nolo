@@ -50,7 +50,7 @@ function Carousel () {
             </div>
             <div className="carousel-inner">
                 <div className="carousel-item active" data-bs-interval="4000">
-                    <img src={image} className="d-block w-100" alt="First Item" style={{ 'max-height': '50vh' }}/>
+                    <img src={image} className="d-block w-100" alt="First Item" style={{ maxHeight: '50vh' }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[0].title }</h5>
                         <p>Price: ${ carouselItems[0].price }/month</p>
