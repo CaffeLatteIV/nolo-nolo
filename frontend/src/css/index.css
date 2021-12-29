@@ -5,11 +5,6 @@
     background: #121212;
     color: white;
   }
-  a:link,
-  a:visited,
-  a i {
-    color: black;
-  }
   #catNav {
     overflow: auto;
     white-space: nowrap;
@@ -146,9 +141,22 @@ footer {
   rgba(255, 255, 255, 0.00) 95.2%,
   rgba(255, 255, 255, 0.00) 98.2%,
   rgba(255, 255, 255, 0.00) 100%
-    );
+  );
 }
 
 .product-card-link{
   text-decoration: none;
+}
+
+.skip-link {
+  background: #121212;
+  color: white;
+  left: 50%;
+  position: absolute;
+  transform: translateY(-100%);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0%);
 }

@@ -34,8 +34,9 @@ function Dashboard () {
   return (
     <>
     <Router>
-      <div ref={refScrollUp} />
+      <a className='skip-link' href='#main' ref={refScrollUp}>Passa al contenuto principale</a>
       <Top />
+      <main id="main">
         <Routes>
           <Route path='/' element={ <Homepage /> } />
           <Route path='/login' element={ <Login isLogging /> } />
@@ -44,6 +45,7 @@ function Dashboard () {
           <Route path='/cart' element={ <Cart /> } />
           <Route path='/productpage' element={ <ProductPage />} />
         </Routes>
+        </main>
       <GoTop showGoTop={showGoTop} scrollUp={handleScrollUp}/>
       <Footer />
       </Router>
