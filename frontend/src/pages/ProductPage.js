@@ -5,6 +5,7 @@ function ProductPage () {
   const productTitle = useState('Cuffie Beats Solo3 Wireless – Chip per cuffie Apple W1, Bluetooth di Classe 1, 40 ore di ascolto - Rosso')
   const productDescription = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce laoreet posuere magna a tincidunt. Maecenas sit amet pharetra nulla.')
   const calculatedPrice = useState('41.57')
+  document.title = productTitle
   return (
         <>
             <div className='container mt-2 md-0dp rounded'>

@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard'
 import Carousel from '../components/Carousel'
 
 function Homepage () {
+  document.title = 'NOLONOLO'
   return (
     <>
       <div className="container p-2">

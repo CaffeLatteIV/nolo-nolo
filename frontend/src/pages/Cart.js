@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import CartItem from '../components/CartItem'
 
 function Cart () {
+  document.title = 'NOLONOLO Carello'
   const arrayOfProducts = useState(
     {
       id: 0,

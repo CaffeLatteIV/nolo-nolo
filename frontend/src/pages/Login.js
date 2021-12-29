@@ -4,6 +4,11 @@ import PropTypes from 'prop-types'
 import '../css/Login.css'
 
 function Login ({ isLogging }) {
+  if (isLogging) {
+    document.title = 'NOLONOLO Accedi'
+  } else {
+    document.title = 'NOLONOLO Registrati'
+  }
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isValid, setValid] = useState(true)
