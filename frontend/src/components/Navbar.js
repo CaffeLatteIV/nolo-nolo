@@ -11,7 +11,7 @@ function Navbar () {
                 <Link to='/' className="navbar-brand text-white" title="Menù principale">
                     NOLONOLO
                 </Link>
-                <button className="navbar-toggler"type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler"type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Apri pannello di navigazione">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">

@@ -17,7 +17,7 @@ function ProductPage () {
                     <div className='col p-2 h-100'>
                         <div className='md-02dp rounded p-4'>
                             <div className='row'>
-                                <img src={ productPic } className="" alt="Item Pic"/>
+                                <img src={ productPic } className="" alt={ 'Immagine del prodotto' }/>
                             </div>
                         </div>
                     </div>

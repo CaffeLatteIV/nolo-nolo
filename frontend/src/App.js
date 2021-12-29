@@ -5,12 +5,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Top from './components/Top'
 import Footer from './components/Footer'
 import GoTop from './components/GoTop'
+
 import Homepage from './pages/Homepage'
 import Login from './pages/Login'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
 
-function Dashboard () {
+function App () {
+  const newLang = 'it'
+  document.documentElement.lang = newLang
   // All below handles the back to top functionality
   const [scrollPosition, setScrollPosition] = useState(0)
   const [showGoTop, setshowGoTop] = useState('goTopHidden')
@@ -45,7 +48,7 @@ function Dashboard () {
           <Route path='/cart' element={ <Cart /> } />
           <Route path='/productpage' element={ <ProductPage />} />
         </Routes>
-        </main>
+      </main>
       <GoTop showGoTop={showGoTop} scrollUp={handleScrollUp}/>
       <Footer />
       </Router>
@@ -53,4 +56,4 @@ function Dashboard () {
   )
 }
 
-export default Dashboard
+export default App
