@@ -50,14 +50,14 @@ function Carousel () {
             </div>
             <div className="carousel-inner">
                 <div className="carousel-item active" data-bs-interval="4000">
-                    <img src={image} className="d-block w-100" alt="First Item" style={{ maxHeight: '50vh' }}/>
+                    <img src={image} className="d-block w-100" alt="First Item" style={{ maxHeight: '50vh' /* this will be obsolete with use of personalized images that fit the actual content */ }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[0].title }</h5>
                         <p>Price: ${ carouselItems[0].price }/month</p>
                     </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="3000">
-                    <img src={image} className="d-block w-100" alt="Second Item" style={{ 'max-height': '50vh' }}/>
+                    <img src={image} className="d-block w-100" alt="Second Item" style={{ maxHeight: '50vh' }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[1].title }</h5>
                         <p>Price: ${ carouselItems[1].price }/month</p>
@@ -65,7 +65,7 @@ function Carousel () {
                     </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="3000">
-                    <img src={image} className="d-block w-100" alt="Third Item" style={{ 'max-height': '50vh' }}/>
+                    <img src={image} className="d-block w-100" alt="Third Item" style={{ maxHeight: '50vh' }}/>
                     <div className="carousel-caption">
                         <h5>{ carouselItems[2].title }</h5>
                         <p>Price: ${ carouselItems[2].price }/month</p>
