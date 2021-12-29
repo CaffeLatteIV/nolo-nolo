@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import './Login.css'
+import '../css/Login.css'
 
 function Login ({ isLogging }) {
   const [email, setEmail] = useState('')

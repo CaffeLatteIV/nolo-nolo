@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ProductCard from './ProductCard'
-import Carousel from './Carousel'
+import ProductCard from '../components/ProductCard'
+import Carousel from '../components/Carousel'
 
 function Homepage () {
   return (

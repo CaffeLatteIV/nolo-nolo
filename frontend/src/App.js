@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import Top from '../components/Top'
-import Footer from '../components/Footer'
-import GoTop from '../components/GoTop'
-import Homepage from '../components/Homepage'
-import Login from '../components/Login'
-import ProductPage from '../components/ProductPage'
-import Cart from '../components/Cart'
+import Top from './components/Top'
+import Footer from './components/Footer'
+import GoTop from './components/GoTop'
+import Homepage from './pages/Homepage'
+import Login from './pages/Login'
+import ProductPage from './pages/ProductPage'
+import Cart from './pages/Cart'
 
 function Dashboard () {
   // All below handles the back to top functionality

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import productPic from '../images/product-pic.jpg'
 
-function CartItem () {
+function CartItem ({ name, price }) {
   // this code is not for production, it's just for crafting the frontend
-  const productTitle = useState('Prodotto')
-  const price = useState(13.50)
   const [quantity, setQuantity] = useState(1)
   const addOne = () => {
     setQuantity(quantity + 1)
@@ -14,7 +13,8 @@ function CartItem () {
       setQuantity(quantity - 1)
     }
   }
-
+  console.log(name)
+  console.log(price)
   return (
     <>
     <div className="p-2 px-3">
@@ -23,7 +23,7 @@ function CartItem () {
             <img src={ productPic } className="card-img" alt="Item Pic"/>
         </div>
         <div className='col-7 p-2'>
-            <h5 className='m-0 text-wrap fs-4'>{ productTitle }</h5>
+            <h5 className='m-0 text-wrap fs-4'>{ name }</h5>
         </div>
         <div className='col-3 p-2 text-end m-0 price fs-4 fw-bold'>€{ price }</div>
       </div>
@@ -42,5 +42,6 @@ function CartItem () {
     </>
   )
 }
+CartItem.propTypes = { name: PropTypes.string.isRequired, price: PropTypes.number.isRequired }
 
 export default CartItem
