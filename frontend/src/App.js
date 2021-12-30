@@ -12,6 +12,7 @@ import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
 import NotFound from './pages/NotFound'
 import Orders from './pages/Orders'
+import Account from './pages/Account'
 
 function App () {
   const newLang = 'it'
@@ -50,6 +51,7 @@ function App () {
           <Route path='/cart' element={ <Cart /> } />
           <Route path='/productpage' element={ <ProductPage />} />
           <Route path='/orders' element={ <Orders />} />
+          <Route path='/account' element={ <Account /> } />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </main>

@@ -22,14 +22,14 @@ function ProductPage () {
                         </div>
                     </div>
                     {/* Contenitore Titolo, Descrizione, Calendario */}
-                    <div className='col-sm-8 p-2'>
+                    <div className='col-sm-6 p-2'>
                         <div className='md-02dp rounded p-4 h-100'>
                             <p className='fw-bold m-0'>Descrizione: </p>
                             <p className='text-wrap'>{ productDescription }</p>
                         </div>
                     </div>
                     {/* Contenitore Prezzo finale per i giorni selezionati sul calendario di cui sopra, Bottone Noleggia e Bottone aggiungi al carrello */}
-                    <div className='col-sm-2 p-2'>
+                    <div className='col-sm-4 p-2'>
                         <div className='md-02dp rounded p-4'>
                             <p className='fs-3 mb-0 text-center price'>€ { calculatedPrice } </p>
                             <div className='d-flex flex-column'>
