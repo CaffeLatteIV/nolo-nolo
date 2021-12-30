@@ -17,16 +17,12 @@ function BookedOrders ({ name, price }) {
           <div className='col-7 p-2'>
             <h3 className='m-0 text-wrap text-white'>{ name }</h3>
           </div>
-          <div className='col-3 p-2 m-0 text-white fw-bold'>
+          <div className='col-lg-3 p-2 m-0 text-white text-center'>
             <div>
-                <p>
                     Da: {startingDate}
-                </p>
             </div>
             <div>
-                <p>
                     Fino a: {finalDate}
-                </p>
             </div>
           </div>
         </div>

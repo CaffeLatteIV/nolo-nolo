@@ -44,6 +44,7 @@ function ProductPage () {
                     </div>
                 </div>
             </div>
+            <p style={{ color: 'yellow' }}>TODO: add Calendar</p>
         </>
   )
 }

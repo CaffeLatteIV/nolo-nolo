@@ -16,9 +16,8 @@ function ActiveOrders ({ name, price }) {
           <div className='col-7 p-2'>
               <h3 className='m-0 text-wrap text-white'>{ name }</h3>
           </div>
-          <div className='col-3 p-2 m-0 text-white fw-bold'>
-              <p>Fino a:</p>
-              <span>{ finalDate }</span>
+          <div className='col-lg-3 p-2 m-0 text-white text-center'>
+                Da: { finalDate }
           </div>
         </div>
       </div>

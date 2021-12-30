@@ -141,7 +141,3 @@
 .skip-link:focus {
   transform: translateY(0%);
 }
-
-#main {
-  min-height: 70vh;
-}
