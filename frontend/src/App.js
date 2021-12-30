@@ -10,6 +10,7 @@ import Homepage from './pages/Homepage'
 import Login from './pages/Login'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
+import NotFound from './pages/NotFound'
 
 function App () {
   const newLang = 'it'
@@ -47,6 +48,7 @@ function App () {
           <Route path='/product' element={ <ProductPage /> } />
           <Route path='/cart' element={ <Cart /> } />
           <Route path='/productpage' element={ <ProductPage />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </main>
       <GoTop showGoTop={showGoTop} scrollUp={handleScrollUp}/>

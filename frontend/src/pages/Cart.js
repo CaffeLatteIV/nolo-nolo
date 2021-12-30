@@ -10,15 +10,14 @@ function Cart () {
       price: 9.99
     }
   )
-  console.log(arrayOfProducts[0].id)
   return (
     <>
     <div className='container p-2 mt-2'>
       <div className="p-2 md-04dp rounded">
         <CartItem name={arrayOfProducts[0].name} price={arrayOfProducts[0].price} />
       </div>
-      <div className='p-2'>
-        <button className='w-100 rounded p-2 mt-4 fs-4 border-0 bg-site-primary'>Noleggia subito</button>
+      <div className='p-2 d-flex justify-content-center'>
+        <button className='w-auto rounded p-2 mt-4 fs-4 border-0 bg-site-primary'>Noleggia subito</button>
       </div>
     </div>
     </>

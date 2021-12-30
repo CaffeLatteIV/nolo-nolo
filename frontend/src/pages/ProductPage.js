@@ -12,32 +12,32 @@ function ProductPage () {
                 <div className='row p-2'>
                     <h3 className='text-wrap p-2 rounded m-0'>{ productTitle }</h3>
                 </div>
-                <div className='row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-3'>
+                <div className='row'>
                     {/* Contenitore immagine e collezione di immagini (?) */}
-                    <div className='col p-2 h-100'>
-                        <div className='md-02dp rounded p-4'>
+                    <div className='col-sm-2 p-2'>
+                        <div className='md-02dp rounded p-4 h-100'>
                             <div className='row'>
                                 <img src={ productPic } className="" alt={ 'Immagine del prodotto' }/>
                             </div>
                         </div>
                     </div>
                     {/* Contenitore Titolo, Descrizione, Calendario */}
-                    <div className='col p-2'>
+                    <div className='col-sm-8 p-2'>
                         <div className='md-02dp rounded p-4 h-100'>
                             <p className='fw-bold m-0'>Descrizione: </p>
                             <p className='text-wrap'>{ productDescription }</p>
                         </div>
                     </div>
                     {/* Contenitore Prezzo finale per i giorni selezionati sul calendario di cui sopra, Bottone Noleggia e Bottone aggiungi al carrello */}
-                    <div className='col p-2'>
-                        <div className='md-02dp rounded h-100 p-4'>
-                            <p className='fs-1 mb-0 text-center price'>€ { calculatedPrice } </p>
+                    <div className='col-sm-2 p-2'>
+                        <div className='md-02dp rounded p-4'>
+                            <p className='fs-3 mb-0 text-center price'>€ { calculatedPrice } </p>
                             <div className='d-flex flex-column'>
                                 <div className='p-2'>
-                                    <button className='w-100 rounded p-2 fs-4 border-0 bg-site-primary'>Aggiungi al carrello</button>
+                                    <button className='w-100 rounded p-1 border-0 bg-site-primary'>Aggiungi al carrello</button>
                                 </div>
                                 <div className='p-2'>
-                                    <button className='w-100 rounded p-2 fs-4 border-0 bg-site-primary'>Noleggia subito</button>
+                                    <button className='w-100 rounded p-1 border-0 bg-site-primary'>Noleggia subito</button>
                                 </div>
                             </div>
                         </div>

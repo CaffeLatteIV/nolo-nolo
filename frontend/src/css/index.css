@@ -125,25 +125,6 @@
   cursor: not-allowed;
 }
 
-footer {
-  position: absolute;
-  background-image: linear-gradient(
-  rgba(255, 255, 255, 0.12) 0%,
-  rgba(255, 255, 255, 0.10) 19%,
-  rgba(255, 255, 255, 0.08) 34%,
-  rgba(255, 255, 255, 0.06) 47%,
-  rgba(255, 255, 255, 0.04) 56.5%,
-  rgba(255, 255, 255, 0.03) 65%,
-  rgba(255, 255, 255, 0.02) 73%,
-  rgba(255, 255, 255, 0.01) 80.2%,
-  rgba(255, 255, 255, 0.0) 86.1%,
-  rgba(255, 255, 255, 0.00) 91%,
-  rgba(255, 255, 255, 0.00) 95.2%,
-  rgba(255, 255, 255, 0.00) 98.2%,
-  rgba(255, 255, 255, 0.00) 100%
-  );
-}
-
 .product-card-link{
   text-decoration: none;
 }
@@ -159,4 +140,8 @@ footer {
 
 .skip-link:focus {
   transform: translateY(0%);
+}
+
+#main {
+  min-height: 70vh;
 }
