@@ -4,6 +4,7 @@
   "private": true,
   "workspaces": [
     "frontend/backoffice",
+    "frontend/frontoffice",
     "backend"
   ],
   "scripts": {
@@ -12,12 +13,21 @@
     "start":"npx concurrently npm:start:*"
 
   },
+  "eslintConfig": {
+    "extends": [
+      "../react-app",
+      "../react-app/jest"
+    ]
+  },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.1"
+    "eslint-plugin-promise": "^5.1.1",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0"
   },
   "dependencies": {
     "concurrently": "^6.4.0"
