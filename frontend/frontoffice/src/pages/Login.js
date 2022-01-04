@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 import '../css/Login.css'
 
+const URL = process.env.URL || 'http://localhost:5001/'
 function Login ({ isLogging }) {
   if (isLogging) {
     document.title = 'NOLONOLO Accedi'
@@ -26,9 +28,16 @@ function Login ({ isLogging }) {
       document.querySelector('#password').focus()
     }
   }
+  const getUserInfo = async (email,password)=>{
+   const {data} = await axios.post(URL+'/v1/clients/login',{email,password})
+   console.log(data)
+
+  }
   const onSubmit = event => {
     event.preventDefault()
     validate()
+    if (isValid) getUserInfo(email,password)
+
   }
 
   return (

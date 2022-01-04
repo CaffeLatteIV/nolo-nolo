@@ -15,7 +15,7 @@ app.use(Express.json())
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
+  return next()
 })
 // error handling
 app.use((req, res, next) => {
@@ -23,10 +23,10 @@ app.use((req, res, next) => {
     logger.error('Request body undefined')
     return res.status(404).send({ code: 404, msg: 'request is undefined' })
   }
-  if (req.body.item === undefined) {
-    logger.error('Request item undefined')
-    return res.status(404).send({ code: 404, msg: 'request body is undefined' })
-  }
+  // if (req.body.item === undefined) {
+  //   logger.error('Request item undefined')
+  //   return res.status(404).send({ code: 404, msg: 'request body is undefined' })
+  // }
   return next()
 })
 

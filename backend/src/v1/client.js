@@ -33,13 +33,13 @@ app.post('/register', async (req, res) => {
 })
 
 app.post('/login', async (req, res) => {
-  const { item } = req.body
-  logger.info(`Finding user ${item.username}`)
-  const password = await generateHash(item.password)
-  const client = await db.findClient(item.username, password)
+  const { username, password } = req.body
+  logger.info(`Finding user ${username}`)
+  const encryptedPassword = await generateHash(password)
+  const client = await db.findClient(username, encryptedPassword)
   if (client === null) return res.status(404).send({ code: 404, msg: 'client not found' })
-  const accessToken = generateAccessToken(item.username, undefined)
-  const refreshToken = generateRefreshToken(item.username, undefined)
+  const accessToken = generateAccessToken(username, undefined)
+  const refreshToken = generateRefreshToken(username, undefined)
   await tokenDB.addRefreshToken(refreshToken)
   return res.status(200).send({ accessToken, refreshToken, client })
 })
@@ -59,9 +59,9 @@ app.delete('/logout', authenticateAccessToken, async (req, res) => {
   return res.status(204).send({ code: 204, msg: 'Logged out' })
 })
 app.get('/lookup', authenticateAccessToken, authenticateUserRole, async (req, res) => {
-  const { item } = req.body
-  logger.info(`Finding user ${item.username}`)
-  const user = await db.lookupClient(item.username)
+  const { username } = req.body
+  logger.info(`Finding user ${username}`)
+  const user = await db.lookupClient(username)
   if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
   return res.status(200).send({ user })
 })
