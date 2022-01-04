@@ -39,6 +39,12 @@ const inventorySchema = new Schema({
     type: String,
     required: true,
   },
+  media: {
+    img: {
+      type: String,
+      default: 'http://localhost:5001/v1/inventories/image/not-available.png', // TODO cambiare
+    },
+  },
 })
 const rentSchema = new Schema({
   start: {

@@ -14,7 +14,6 @@ class Employee {
 
   async addEmployee({ username, password, role }) {
     const employee = await this.lookupEmployee(username)
-    console.log(employee)
     if (employee) return undefined
     return new this.Employee({
       username,
