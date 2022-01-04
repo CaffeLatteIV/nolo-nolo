@@ -8,15 +8,9 @@
     "backend"
   ],
   "scripts": {
-    "start:fe": "npm start --workspace=frontend",
+    "start:fe": "npm start --workspace=frontend/frontoffice",
     "start:be": "npm start --workspace=backend",
     "start": "npx concurrently npm:start:*"
-  },
-  "eslintConfig": {
-    "extends": [
-      "../react-app",
-      "../react-app/jest"
-    ]
   },
   "devDependencies": {
     "create-react-app": "^5.0.0",

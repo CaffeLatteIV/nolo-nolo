@@ -60,8 +60,6 @@ yarn-error.log*
 ehthumbs.db
 Thumbs.db
 node_modules
-node_modules
-package-lock.json
 package.json
 .vscode/settings.json
 
