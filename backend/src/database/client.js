@@ -12,25 +12,23 @@ class Client {
     this.Clients = mongoose.model('clients', clientSchema)
   }
 
-  async addClients({ username, password }) {
-    const client = await this.Clients.findOne({ username })
-    if (client) return undefined
+  async addClient(email, password ) {
     return new this.Clients({
-      username,
+      email,
       password,
     }).save()
   }
 
-  async updateClient({ username, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
-    return this.Clients.findOneAndUpdate({ username }, { preferredCategories, payment, fidelityPoints, description, favourites, notifications })
+  async updateClient({ email, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
+    return this.Clients.findOneAndUpdate({ email }, { preferredCategories, payment, fidelityPoints, description, favourites, notifications })
   }
 
-  async findClient(username, password) {
-    return this.Clients.findOne({ username, password }, 'username preferredCategories payment fidelityPoints favourites notifications').exec()
+  async findClient(email) {
+    return this.Clients.findOne({ email }, 'email preferredCategories payment fidelityPoints favourites notifications').exec()
   }
 
-  async lookupClient(username) {
-    return this.Clients.findOne({ username }, 'username preferredCategories payment fidelityPoints favourites notifications').exec()
+  async lookupClient(email) {
+    return this.Clients.findOne({ email }, 'email preferredCategories payment fidelityPoints favourites notifications').exec()
   }
 }
 export default Client

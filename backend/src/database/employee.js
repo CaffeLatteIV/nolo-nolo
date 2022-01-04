@@ -12,23 +12,23 @@ class Employee {
     this.Employee = mongoose.model('employees', employeeSchema)
   }
 
-  async addEmployee({ username, password, role }) {
-    const employee = await this.lookupEmployee(username)
+  async addEmployee({ email, password, role }) {
+    const employee = await this.lookupEmployee(email)
     console.log(employee)
     if (employee) return undefined
     return new this.Employee({
-      username,
+      email,
       password,
       role,
     }).save()
   }
 
-  async findEmployee(username, password) {
-    return this.Employee.findOne({ username, password }, 'username role').exec()
+  async findEmployee(email, password) {
+    return this.Employee.findOne({ email, password }, 'email role').exec()
   }
 
-  async lookupEmployee(username) {
-    return this.Employee.findOne({ username }, 'username role').exec()
+  async lookupEmployee(email) {
+    return this.Employee.findOne({ email }, 'email role').exec()
   }
 }
 export default Employee

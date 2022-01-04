@@ -12,13 +12,13 @@ const app = Express.Router()
 app.post('/login', async (req, res) => {
   const { item } = req.body
 
-  logger.info(`Finding employee ${item.username}`)
+  logger.info(`Finding employee ${item.email}`)
   item.password = await generateHash(item.password) // encrypt password
-  const employee = await db.findEmployee(item.username, item.password)
+  const employee = await db.findEmployee(item.email, item.password)
   if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
   logger.info('Found')
-  const accessToken = generateAccessToken(item.username, employee.role)
-  const refreshToken = generateRefreshToken(item.username, employee.role)
+  const accessToken = generateAccessToken(item.email, employee.role)
+  const refreshToken = generateRefreshToken(item.email, employee.role)
   await tokenDB.addRefreshToken(refreshToken)
   return res.status(200).send({ accessToken, refreshToken, employee })
 })
@@ -41,17 +41,17 @@ app.delete('/logout', authenticateAccessToken, authenticateUserRole, async (req,
 app.post('/register', authenticateAccessToken, authenticateManager, async (req, res) => {
   try {
     const { item } = req.body
-    logger.info(`Adding: {${item.username}}, role: {${item.role}}`)
+    logger.info(`Adding: {${item.email}}, role: {${item.role}}`)
     item.password = await generateHash(item.password) // encrypt password
     const employee = await db.addEmployee(item)
     if (employee === undefined) {
       logger.warn('Employee already registered')
-      return res.status(400).send({ code: 400, msg: 'Username already registered' })
+      return res.status(400).send({ code: 400, msg: 'email already registered' })
     }
     logger.info('Employee registered')
     // token per autenticazione
-    const accessToken = generateAccessToken(item.username, item.role)
-    const refreshToken = generateRefreshToken(item.username, item.role)
+    const accessToken = generateAccessToken(item.email, item.role)
+    const refreshToken = generateRefreshToken(item.email, item.role)
     await tokenDB.addRefreshToken(refreshToken)
     return res.status(200).send({ accessToken, refreshToken })
   } catch (err) {
@@ -63,8 +63,8 @@ app.post('/register', authenticateAccessToken, authenticateManager, async (req, 
 app.get('/lookup', authenticateAccessToken, authenticateManager, async (req, res) => {
   // TODO: alti privilegi
   const { item } = req.body
-  logger.info(`Finding user ${item.username}`)
-  const employee = await db.lookupEmployee(item.username)
+  logger.info(`Finding user ${item.email}`)
+  const employee = await db.lookupEmployee(item.email)
   if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
   return res.status(200).send({ employee })
 })

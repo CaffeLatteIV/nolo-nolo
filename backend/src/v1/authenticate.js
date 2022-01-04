@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 
 
-function generateAccessToken(username, role) {
-  return jwt.sign({ username, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+function generateAccessToken(email, role) {
+  return jwt.sign({ email, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
 }
-function generateRefreshToken(username, role) {
-  return jwt.sign({ username, role }, process.env.REFRESH_TOKEN_SECRET)
+function generateRefreshToken(email, role) {
+  return jwt.sign({ email, role }, process.env.REFRESH_TOKEN_SECRET)
 }
 function authenticateAccessToken(req, res, next) {
   const authHeader = req.headers.authorization

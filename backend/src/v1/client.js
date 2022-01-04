@@ -13,44 +13,55 @@ const app = Express.Router()
 
 app.post('/register', async (req, res) => {
   try {
-    const { item } = req.body
-    logger.info(`Adding: ${item.username}`)
-    item.password = await generateHash(item.password) // encrypt password
-    const client = await db.addClients(item) // controllo già nella funzione se esiste un utente
-    if (client === undefined) {
+    let { email,password } = req.body
+    if(!email || !password) {
+      logger.error('Username or password undefiend')
+      return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
+    }
+    logger.info(`Adding: ${email}`)
+    password = await generateHash(password) // encrypt password
+    const client = await db.findClient(email) // controllo già nella funzione se esiste un utente
+    if (client !== null) {
       logger.warn('User already registered')
       return res.status(400).send({ code: 400, msg: 'Client already registered' })
     }
     logger.info('Added')
-    const accessToken = generateAccessToken(item.username, undefined)
-    const refreshToken = generateRefreshToken(item.username, undefined)
+    await db.addClient(email,password)
+    const accessToken = generateAccessToken(email, undefined)
+    const refreshToken = generateRefreshToken(email, undefined)
     await tokenDB.addRefreshToken(refreshToken)
     return res.status(200).send({ accessToken, refreshToken, client })
   } catch (err) {
     logger.error(err.message)
+    logger.error(err.stack)
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
 })
 
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body
-  logger.info(`Finding user ${username}`)
+  console.log(req.body)
+  const { email, password } = req.body
+  if(!email || !password) {
+    logger.error('Username or password undefiend')
+    return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
+  }
+  logger.info(`Finding user ${email}`)
   const encryptedPassword = await generateHash(password)
-  const client = await db.findClient(username, encryptedPassword)
+  const client = await db.findClient(email, encryptedPassword)
   if (client === null) return res.status(404).send({ code: 404, msg: 'client not found' })
-  const accessToken = generateAccessToken(username, undefined)
-  const refreshToken = generateRefreshToken(username, undefined)
+  const accessToken = generateAccessToken(email, undefined)
+  const refreshToken = generateRefreshToken(email, undefined)
   await tokenDB.addRefreshToken(refreshToken)
   return res.status(200).send({ accessToken, refreshToken, client })
 })
 app.delete('/logout', authenticateAccessToken, async (req, res) => {
-  const { item } = req.body
+  const { refreshToken } = req.body
   logger.info('Logging out user')
-  if (item.refreshToken === undefined) {
+  if (refreshToken === undefined) {
     logger.warn('Mssing refresh token to destroy')
     res.status(400).send({ code: 400, msg: 'Mssing refresh token' })
   }
-  const tokenDeleted = await tokenDB.deleteToken(item.refreshToken)
+  const tokenDeleted = await tokenDB.deleteToken(refreshToken)
   if (tokenDeleted === undefined) {
     logger.warn('Invalid refresh token')
     return res.status(400).send({ code: 400, msg: 'Invalid refresh token' })
@@ -59,9 +70,9 @@ app.delete('/logout', authenticateAccessToken, async (req, res) => {
   return res.status(204).send({ code: 204, msg: 'Logged out' })
 })
 app.get('/lookup', authenticateAccessToken, authenticateUserRole, async (req, res) => {
-  const { username } = req.body
-  logger.info(`Finding user ${username}`)
-  const user = await db.lookupClient(username)
+  const { email } = req.body
+  logger.info(`Finding user ${email}`)
+  const user = await db.lookupClient(email)
   if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
   return res.status(200).send({ user })
 })

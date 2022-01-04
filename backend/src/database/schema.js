@@ -67,7 +67,7 @@ const rentSchema = new Schema({
   },
 })
 const clientSchema = new Schema({
-  username: {
+  email: {
     type: String,
     required: true,
   },
@@ -94,7 +94,7 @@ const clientSchema = new Schema({
   },
 })
 const employeeSchema = new Schema({
-  username: {
+  email: {
     type: String,
     required: true,
   },

@@ -22,7 +22,7 @@ app.post('/token', async (req, res) => {
       logger.error(err.stack)
       return res.status(403).send({ code: 403, msg: 'Error' })
     }
-    accessToken = generateAccessToken(item.username, item.role)
+    accessToken = generateAccessToken(item.email, item.role)
     return res.status(200).send({ accessToken })
   })
 })

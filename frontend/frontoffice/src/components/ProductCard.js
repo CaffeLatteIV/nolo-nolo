@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import productPic from '../images/product-pic.jpg'
 
-function ProductCard () {
-  const [productName, setProductName] = useState('undefined')
-  const [price, setPrice] = useState(0.00)
-
-    setProductName('Prodotto')
-    setPrice(9.99)
+function ProductCard ({productName,price}) {
+  // const [productName, setProductName] = useState('Prodotto')
+  // const [price, setPrice] = useState(9.99)
+  // setProductName('Prodotto')
+  // setPrice(9.99)
 
   return (
     <Link to='/productpage' className='product-card-link'>

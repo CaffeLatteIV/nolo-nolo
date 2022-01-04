@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
@@ -29,9 +29,8 @@ function App () {
       return setshowGoTop('goTopHidden')
     }
   }
-  useEffect(() => {
+  //use effect
     window.addEventListener('scroll', handleVisibleButton)
-  })
   const refScrollUp = useRef()
   const handleScrollUp = () => {
     refScrollUp.current.scrollIntoView({ behaviour: 'smooth' })

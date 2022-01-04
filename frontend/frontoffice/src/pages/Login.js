@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import '../css/Login.css'
 
-const URL = process.env.URL || 'http://localhost:5001/'
+const URL = process.env.URL || 'http://localhost:5000/'
 function Login ({ isLogging }) {
   if (isLogging) {
     document.title = 'NOLONOLO Accedi'
@@ -28,15 +28,22 @@ function Login ({ isLogging }) {
       document.querySelector('#password').focus()
     }
   }
-  const getUserInfo = async (email,password)=>{
-   const {data} = await axios.post(URL+'/v1/clients/login',{email,password})
-   console.log(data)
+  const getUserInfo = async (email,password, url)=>{
+  const {data} = axios({
+      method: 'post',
+      url: URL+'v1/clients/'+url,
+      data: {
+        email,
+        password
+      }
+    });
+  console.log(data)
 
   }
-  const onSubmit = event => {
+  const onSubmit = async (event) => {
     event.preventDefault()
     validate()
-    if (isValid) getUserInfo(email,password)
+    if (isValid) await getUserInfo(email,password,'register')
 
   }
 
