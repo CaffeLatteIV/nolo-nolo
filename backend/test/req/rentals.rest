@@ -1,0 +1,63 @@
+POST http://localhost:5001/v1/rentals/add HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "start":948590625678,
+      "end":948990625999,
+      "productCode":"61b1bfed920b3b3b7167f9ab",
+      "clientCode":"61b1bfed920b3b3b7167f9ab",
+      "price":400,
+      "fidelityPoints":200
+  }
+}
+
+###
+
+GET http://localhost:5001/v1/rentals/find HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "productCode":"61b1bfed920b3b3b7167f9ab",
+      "clientCode":"61b1bfed920b3b3b7167f9ab"
+  }
+}
+###
+
+GET http://localhost:5001/v1/rentals/find/product HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "productCode":"61b1bfed920b3b3b7167f9ab"
+  }
+}
+###
+
+GET http://localhost:5001/v1/rentals/find/client HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "clientCode":"61b1bfed920b3b3b7167f9ab"
+  }
+}
+###
+GET http://localhost:5001/v1/rentals/find/date/end HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "date":998590625678
+  }
+}
+###
+GET http://localhost:5001/v1/rentals/find/date/start HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "date":998590625678
+  }
+}

@@ -1,0 +1,74 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "max-len": [
+            "error",
+            180,
+            2,
+            {
+                "code": 180,
+                "ignoreTrailingComments": true,
+                "ignoreComments": true,
+                "ignoreStrings": true,
+                "ignoreUrls": true
+            }
+        ],
+        "object-curly-newline": [
+            "error",
+            {
+                "multiline": true,
+                "consistent": true
+            }
+        ],
+        "import/extensions": [
+            "error",
+            { "js": "always", "json": "always" }
+        ],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "func-names": 0,
+        "func-style": [
+            "error",
+            "declaration",
+            {
+                "allowArrowFunctions": true
+            }
+        ],
+        "react/jsx-one-expression-per-line": 0,
+        "linebreak-style": 0,
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": "function-declaration"
+            }
+        ]
+    }
+}

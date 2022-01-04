@@ -1,7 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Dashboard from './dashboard/dashboard'
+
+import App from './App'
+import './css/index.css'
+
 ReactDOM.render(
-  <Dashboard/>,
+  <App />,
   document.getElementById('root')
 )
