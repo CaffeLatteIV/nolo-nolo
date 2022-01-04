@@ -18,7 +18,8 @@ function Dashboard() {
             <SummaryPanel title="Fatturato" price={342156} change={4.5} />
             <SummaryPanel title="Fatturato" price={342156} change={-4.5} />
             <SummaryPanel title="Fatturato" price={342156} change={4.5} />
-            <SummaryPanel title="Fatturato" price={342156} change={4.5} />
+            <SummaryPanel title="Fatturato"
+            price={342156} change={4.5} />
           </section>
         </div>
 
