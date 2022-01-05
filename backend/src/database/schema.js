@@ -65,6 +65,10 @@ const rentSchema = new Schema({
     type: Number,
     required: true,
   },
+  status:{
+    type:String,
+    enum:['In uso', 'Prenotato']
+  }
 })
 const clientSchema = new Schema({
   email: {

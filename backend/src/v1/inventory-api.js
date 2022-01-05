@@ -7,7 +7,6 @@ import { authenticateAccessToken } from './authenticate.js'
 const db = new Database()
 const logger = loggerWrapper('Inventory API')
 const app = Express.Router()
-app.use(authenticateAccessToken)
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
   logger.info(`Finding item ${item.title}`)
@@ -22,11 +21,16 @@ app.get('/category', async (req, res) => {
   if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
   return res.status(200).send({ products })
 })
+app.get('/categories', async (req, res) => {
+  logger.info(`Finding all different category names`)
+  const categories = await db.listAllCategoryNames()
+  if (categories === null) return res.status(404).send({ code: 404, msg: 'No category available' })
+  return res.status(200).send({ categories })
+})
 app.get('/products', async (req, res) => {
-  const { item } = req.body
-  logger.info(`Finding ${item.title}`)
-  const products = await db.findAllTitle(item.title, item.available)
-  if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
+  logger.info(`Sending list of all products`)
+  const products = await db.findAllAvailable()
+  if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })
 })
 app.post('/product', async (req, res) => {

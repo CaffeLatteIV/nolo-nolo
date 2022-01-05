@@ -6,7 +6,7 @@ function Footer() {
       <hr />
       <div className="text-center fw-bold pt-4 m-auto">NOLONOLO</div>
       <div className="text-center p-4">
-        © 2021 Copyright: Libralesso&Babbini
+        Copyright © 2021: Libralesso & Babbini inc. All Rights Reserved
       </div>
     </footer>
   )

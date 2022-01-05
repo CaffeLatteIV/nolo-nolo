@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import productPic from '../images/product-pic.jpg'
 
-function ProductCard({ productName, price }) {
+function ProductCard({ productName, price, condition }) {
   // const [productName, setProductName] = useState('Prodotto')
   // const [price, setPrice] = useState(9.99)
   // setProductName('Prodotto')
@@ -15,11 +15,16 @@ function ProductCard({ productName, price }) {
         <img src={productPic} className="card-img-top" alt="Item Pic" />
         <div className="card-body p-2">
           <h5 className="card-title text-white">{ productName }</h5>
+          <p className="card-text text-white">Condition: {condition}</p>
           <p className="card-text text-white">Price: <span className="tw-bold m-0 p-0">{ price }</span>/month</p>
         </div>
       </div>
     </Link>
   )
 }
-ProductCard.propTypes = { productName: PropTypes.string.isRequired, price: PropTypes.number.isRequired }
+ProductCard.propTypes = {
+  productName: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  condition: PropTypes.string.isRequired,
+}
 export default ProductCard

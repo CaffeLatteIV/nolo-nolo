@@ -1,10 +1,10 @@
 import Express from 'express'
 import loggerWrapper from './logger.js'
-import rental from './v1/rental.js'
-import inventory from './v1/inventory.js'
-import client from './v1/client.js'
-import employee from './v1/employee.js'
-import token from './v1/token.js'
+import rental from './v1/rental-api.js'
+import inventory from './v1/inventory-api.js'
+import client from './v1/client-api.js'
+import employee from './v1/employee-api.js'
+import token from './v1/token-api.js'
 
 const logger = loggerWrapper('API')
 const app = Express()

@@ -14,7 +14,7 @@ const app = Express.Router()
 app.post('/register', async (req, res) => {
   try {
     let { email,password } = req.body
-    if(!email || !password) {
+  if(!(!!email && !!password)) {
       logger.error('Username or password undefiend')
       return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
     }
@@ -39,10 +39,9 @@ app.post('/register', async (req, res) => {
 })
 
 app.post('/login', async (req, res) => {
-  console.log(req.body)
   const { email, password } = req.body
-  if(!email || !password) {
-    logger.error('Username or password undefiend')
+  if(!(!!email && !!password)) {
+    logger.error('Email or password undefiend')
     return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
   }
   logger.info(`Finding user ${email}`)
@@ -52,6 +51,7 @@ app.post('/login', async (req, res) => {
   const accessToken = generateAccessToken(email, undefined)
   const refreshToken = generateRefreshToken(email, undefined)
   await tokenDB.addRefreshToken(refreshToken)
+  logger.info('Found')
   return res.status(200).send({ accessToken, refreshToken, client })
 })
 app.delete('/logout', authenticateAccessToken, async (req, res) => {

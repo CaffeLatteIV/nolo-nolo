@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react'
+import PropTypes from 'prop-types'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-
+import Cookies from 'universal-cookie'
 import Top from './components/Top.js'
 import Footer from './components/Footer.js'
 import GoTop from './components/GoTop.js'
@@ -44,11 +45,11 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login isLogging />} />
           <Route path="/register" element={<Login isLogging={false} />} />
-          <Route path="/product" element={<ProductPage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/productpage" element={<ProductPage />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/account" element={<Account />} />
+          <Route path="/product" element={<RequireAuth><ProductPage /></RequireAuth>} />
+          <Route path="/cart" element={<RequireAuth><Cart /></RequireAuth>} />
+          <Route path="/productpage" element={<RequireAuth><ProductPage /></RequireAuth>} />
+          <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
+          <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -57,5 +58,23 @@ function App() {
     </Router>
   )
 }
+function RequireAuth({ children }) {
+  const cookies = new Cookies()
+  const auth = cookies.get('refreshToken')
+  const location = useLocation()
 
+  if (!auth) {
+    // Redirect them to the /login page, but save the current location they were
+    // trying to go to when they were redirected. This allows us to send them
+    // along to that page after they login, which is a nicer user experience
+    // than dropping them off on the home page.
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
+
+  return (children)
+}
+RequireAuth.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  children: PropTypes.object.isRequired,
+}
 export default App

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 import '../css/Login.css'
 
 const URL = process.env.URL || 'http://localhost:5000/'
@@ -24,7 +25,7 @@ function Login({ isLogging }) {
     }
     return isEmailValid && isPasswordValid
   }
-  async function getUserInfo(email, password) {
+  async function logUser(email, password) {
     const method = isLogging ? 'login' : 'register'
     const { data } = await axios({
       method: 'post',
@@ -34,13 +35,16 @@ function Login({ isLogging }) {
         password,
       },
     })
-    console.log(data)
+    const cookies = new Cookies()
+    cookies.set('accessToken', data.accessToken, { path: '/' })
+    cookies.set('refreshToken', data.refreshToken, { path: '/' })
+    cookies.set('client', data.client, { path: '/' })
   }
   async function onSubmit(event) {
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
-    if (validate(email, password)) await getUserInfo(email, password)
+    if (validate(email, password)) await logUser(email, password)
   }
 
   return (
