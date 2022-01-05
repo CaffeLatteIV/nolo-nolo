@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import productPic from '../images/product-pic.jpg'
 
-function ActiveOrders({ name, price }) {
+function ActiveOrders({ name }) {
   const finalDate = useState('gg/mm/aaaa')
   return (
     <>
-      manca {price}
       <Link to="/productpage" className="product-card-link">
         <div className="p-2 px-3">
           <div className="row">
@@ -27,6 +26,6 @@ function ActiveOrders({ name, price }) {
     </>
   )
 }
-ActiveOrders.propTypes = { name: PropTypes.string.isRequired, price: PropTypes.number.isRequired }
+ActiveOrders.propTypes = { name: PropTypes.string.isRequired }
 
 export default ActiveOrders
