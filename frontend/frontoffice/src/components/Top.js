@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Navbar from './Navbar'
-import Searchbar from './Searchbar'
-import Categories from './Categories'
+import Navbar from './Navbar.js'
+import Searchbar from './Searchbar.js'
+import Categories from './Categories.js'
 
-function Top () {
+function Top() {
   return (
     <div>
       <Navbar />

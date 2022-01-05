@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function GoTop (props) {
+function GoTop({ showGoTop, scrollUp }) {
   return (
-    <>
-      <button className={`bg-site-primary ${props.showGoTop}`} onClick={props.scrollUp} id='backToTopBtn' title="Torna su">
-        <span className="material-icons text-black">arrow_upward</span>
-      </button>
-    </>
+    <button type="submit" className={`bg-site-primary ${showGoTop}`} onClick={scrollUp} id="backToTopBtn" title="Torna su">
+      <span className="material-icons text-black">arrow_upward</span>
+    </button>
   )
 }
 GoTop.propTypes = { scrollUp: PropTypes.func.isRequired, showGoTop: PropTypes.string.isRequired }
