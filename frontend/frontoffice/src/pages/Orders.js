@@ -7,6 +7,20 @@ import BookedOrders from '../components/BookedOrders.js'
 
 const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
 function Orders() {
+  useEffect(async () => {
+    const cookies = new Cookies()
+    const accessToken = cookies.get('accessToken')
+    const clientCode = cookies.get('client')
+    const { data } = await axios({
+      method: 'GET',
+      url: `${URL}/clients/${clientCode}`,
+      headers: {
+        Authorization: `Berarer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    console.log(data)
+  }, [])
   const arrayOfProducts = useState(
     {
       id: 0,

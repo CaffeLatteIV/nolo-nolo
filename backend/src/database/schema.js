@@ -39,6 +39,12 @@ const inventorySchema = new Schema({
     type: String,
     required: true,
   },
+  media: {
+    img: {
+      type: String,
+      default: 'http://localhost:5001/v1/image/not-available.png', // TODO cambiare
+    },
+  },
 })
 const rentSchema = new Schema({
   start: {
@@ -65,14 +71,14 @@ const rentSchema = new Schema({
     type: Number,
     required: true,
   },
-  status:{
-    type:String,
-    enum:['In uso', 'Prenotato']
+  status: {
+    type: String,
+    enum: ['In uso', 'Prenotato'],
   },
-  paid:{
-    type:Number || undefined,
-    default:undefined
-  }
+  paid: {
+    type: Number || undefined,
+    default: undefined,
+  },
 })
 const clientSchema = new Schema({
   email: {
