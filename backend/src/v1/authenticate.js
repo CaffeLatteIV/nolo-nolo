@@ -8,11 +8,11 @@ function generateRefreshToken(email, role) {
   return jwt.sign({ email, role }, process.env.REFRESH_TOKEN_SECRET)
 }
 function authenticateAccessToken(req, res, next) {
-  const authHeader = req.headers.Authorization
+  const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
   if (token === undefined) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(500).send({ code: 500, msg: 'Internal server error' })
+    if (err) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
     req.role = user.role
     return next()
   })

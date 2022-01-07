@@ -23,7 +23,6 @@ app.post('/add', async (req, res) => {
 app.get('/clients/:clientCode', async (req, res) => {
   try {
     const { clientCode } = req.query
-    console.log(clientCode)
     const rent = await db.findUserRentals(clientCode)
     // TODO: verificare che restituisca null e non [null]
     if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })

@@ -1,4 +1,5 @@
 import Express from 'express'
+import cors from 'cors'
 import loggerWrapper from './logger.js'
 import rental from './v1/rental-api.js'
 import inventory from './v1/inventory-api.js'
@@ -10,22 +11,19 @@ import image from './v1/image-api.js'
 const logger = loggerWrapper('API')
 const app = Express()
 const PORT = process.env.PORT || 5000
-app.use(Express.json())
 
-// CORS
-app.all('*', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With')
-  res.header('Access-Control-Allow-Headers', 'Content-Type')
-  res.header('Access-Control-Allow-Headers', 'Authorization')
-  next()
-})
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions))
+app.use(Express.json())
 
 app.use('/v1/rentals', rental)
 app.use('/v1/inventories', inventory)
 app.use('/v1/clients', client)
 app.use('/v1/employee', employee)
 app.use('/v1/image', image)
-app.use('/v1', token)
+app.use('/v1/token', token)
 
 app.listen(PORT, () => logger.info(`Listening on port ${PORT}`))

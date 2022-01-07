@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import express from 'express'
@@ -9,11 +10,26 @@ dotenv.config()
 const logger = loggerWrapper('TOKEN')
 const db = new RefreshToken()
 const app = express.Router()
-app.post('/token', async (req, res) => {
+app.post('/validate', (req, res) => {
+  const { accessToken } = req.body
+  if (!accessToken) {
+    logger.error('Access token is missing')
+    return res.status(404).send({ code: 404, msg: 'Refresh token is missing' })
+  }
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, item) => {
+    if (err) {
+      logger.error(err.message)
+      logger.error(err.stack)
+      return res.status(401).send({ code: 401, msg: 'Unauthorized' })
+    }
+    return res.status(200).send({ code: 200, msg: 'valid' })
+  })
+})
+app.post('/refresh', async (req, res) => {
   const { refreshToken } = req.body
   if (!refreshToken) {
     logger.error('Refresh token is missing')
-    return res.status(401).send({ code: 401, msg: 'Refresh token is missing' })
+    return res.status(404).send({ code: 404, msg: 'Refresh token is missing' })
   }
   let accessToken = ''
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, item) => {
@@ -26,7 +42,7 @@ app.post('/token', async (req, res) => {
     return res.status(200).send({ accessToken })
   })
 })
-app.delete('/token', (req, res) => {
+app.delete('/remove', (req, res) => {
   const { refreshToken } = req.body
   if (!refreshToken) {
     logger.error('Refresh token is missing')
