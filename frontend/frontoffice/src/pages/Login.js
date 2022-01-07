@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
@@ -39,6 +39,7 @@ function Login({ isLogging }) {
     cookies.set('accessToken', data.accessToken, { path: '/' })
     cookies.set('refreshToken', data.refreshToken, { path: '/' })
     cookies.set('client', data.client, { path: '/' })
+    useNavigate('/', { replace: true })
   }
   async function onSubmit(event) {
     event.preventDefault()

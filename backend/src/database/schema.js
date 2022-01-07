@@ -68,6 +68,10 @@ const rentSchema = new Schema({
   status:{
     type:String,
     enum:['In uso', 'Prenotato']
+  },
+  paid:{
+    type:Number || undefined,
+    default:undefined
   }
 })
 const clientSchema = new Schema({
