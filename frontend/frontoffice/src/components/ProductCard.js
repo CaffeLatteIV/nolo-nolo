@@ -4,11 +4,6 @@ import PropTypes from 'prop-types'
 import productPic from '../images/product-pic.jpg'
 
 function ProductCard({ productName, price, condition }) {
-  // const [productName, setProductName] = useState('Prodotto')
-  // const [price, setPrice] = useState(9.99)
-  // setProductName('Prodotto')
-  // setPrice(9.99)
-
   return (
     <Link to="/productpage" className="product-card-link">
       <div className="card p-2 border-0 md-02dp">
