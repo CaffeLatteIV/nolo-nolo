@@ -42,7 +42,7 @@ const inventorySchema = new Schema({
   media: {
     img: {
       type: String,
-      default: 'http://localhost:5001/v1/inventories/image/not-available.png', // TODO cambiare
+      default: 'http://localhost:5001/v1/image/not-available.png', // TODO cambiare
     },
   },
 })

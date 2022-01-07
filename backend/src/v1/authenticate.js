@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 
-
 function generateAccessToken(email, role) {
   return jwt.sign({ email, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
 }
@@ -9,7 +8,7 @@ function generateRefreshToken(email, role) {
   return jwt.sign({ email, role }, process.env.REFRESH_TOKEN_SECRET)
 }
 function authenticateAccessToken(req, res, next) {
-  const authHeader = req.headers.authorization
+  const authHeader = req.headers.Authorization
   const token = authHeader && authHeader.split(' ')[1]
   if (token === undefined) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {

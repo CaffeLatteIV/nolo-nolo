@@ -71,7 +71,7 @@ function RequireAuth({ children }) {
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
-  return (children)
+  return children
 }
 RequireAuth.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types

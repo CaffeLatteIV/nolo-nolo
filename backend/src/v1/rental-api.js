@@ -7,6 +7,7 @@ const logger = loggerWrapper('Rental API')
 const db = new Rental()
 const app = Express.Router()
 app.use(authenticateAccessToken)
+
 app.post('/add', async (req, res) => {
   try {
     const { item } = req.body
@@ -19,10 +20,11 @@ app.post('/add', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while uploading data, try again' })
   }
 })
-app.get('/find/client', async (req, res) => {
+app.get('/clients/:clientCode', async (req, res) => {
   try {
-    const { item } = req.body
-    const rent = await db.findUserRentals(item.clientCode)
+    const { clientCode } = req.query
+    console.log(clientCode)
+    const rent = await db.findUserRentals(clientCode)
     // TODO: verificare che restituisca null e non [null]
     if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
     return res.status(200).send(rent)

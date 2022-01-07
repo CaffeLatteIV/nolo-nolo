@@ -15,10 +15,18 @@ app.use(Express.json())
 // CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  res.header('Access-Control-Allow-Methods', 'POST, GET')
   return next()
 })
-
+// app.use('/', (req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+//   res.header('Access-Control-Allow-Headers', 'Accept')
+//   res.header('Access-Control-Allow-Headers', 'Authorization')
+//   res.header('Access-Control-Allow-Headers', 'Content-Type')
+//   return next()
+// })
 app.use('/v1', token)
 app.use('/v1/rentals', rental)
 app.use('/v1/inventories', inventory)
