@@ -13,23 +13,24 @@ const app = Express.Router()
 
 app.post('/register', async (req, res) => {
   try {
-    let { email,password } = req.body
-  if(!(!!email && !!password)) {
+    const { email } = req.body
+    let { password } = req.body
+    if (!(!!email && !!password)) {
       logger.error('Username or password undefiend')
       return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
     }
     logger.info(`Adding: ${email}`)
     password = await generateHash(password) // encrypt password
-    const client = await db.findClient(email) // controllo già nella funzione se esiste un utente
+    let client = await db.findClient(email) // controllo già nella funzione se esiste un utente
     if (client !== null) {
       logger.warn('User already registered')
       return res.status(400).send({ code: 400, msg: 'Client already registered' })
     }
-    logger.info('Added')
-    await db.addClient(email,password)
+    client = await db.addClient(email, password)
     const accessToken = generateAccessToken(email, undefined)
     const refreshToken = generateRefreshToken(email, undefined)
     await tokenDB.addRefreshToken(refreshToken)
+    logger.info('Added')
     return res.status(200).send({ accessToken, refreshToken, client })
   } catch (err) {
     logger.error(err.message)
@@ -40,7 +41,7 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body
-  if(!(!!email && !!password)) {
+  if (!(!!email && !!password)) {
     logger.error('Email or password undefiend')
     return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
   }

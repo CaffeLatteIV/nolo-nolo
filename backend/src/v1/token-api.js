@@ -13,13 +13,13 @@ const app = express.Router()
 app.post('/validate', (req, res) => {
   const { accessToken } = req.body
   if (!accessToken) {
-    logger.error('Access token is missing')
+    logger.error('Received a request to verify the access token but the access token is missing')
     return res.status(404).send({ code: 404, msg: 'Refresh token is missing' })
   }
-  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, item) => {
+  logger.info('Checking if the access token is still valid')
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err) => {
     if (err) {
-      logger.error(err.message)
-      logger.error(err.stack)
+      logger.info('Access token is no longer valid')
       return res.status(401).send({ code: 401, msg: 'Unauthorized' })
     }
     return res.status(200).send({ code: 200, msg: 'valid' })

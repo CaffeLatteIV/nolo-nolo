@@ -6,9 +6,8 @@ import { authenticateAccessToken } from './authenticate.js'
 const logger = loggerWrapper('Rental API')
 const db = new Rental()
 const app = Express.Router()
-app.use(authenticateAccessToken)
 
-app.post('/add', async (req, res) => {
+app.post('/add', authenticateAccessToken, async (req, res) => {
   try {
     const { item } = req.body
     await db.addRentals(item)
@@ -20,9 +19,10 @@ app.post('/add', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while uploading data, try again' })
   }
 })
-app.get('/clients/:clientCode', async (req, res) => {
+app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
   try {
-    const { clientCode } = req.query
+    const { clientCode } = req.params
+    console.log(clientCode)
     const rent = await db.findUserRentals(clientCode)
     // TODO: verificare che restituisca null e non [null]
     if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
@@ -33,7 +33,7 @@ app.get('/clients/:clientCode', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
-app.get('/find/product', async (req, res) => {
+app.get('/find/product', authenticateAccessToken, async (req, res) => {
   try {
     const { item } = req.body
     const rent = await db.findProductRentals(item.productCode)
@@ -48,7 +48,7 @@ app.get('/find/product', async (req, res) => {
   }
 })
 
-app.get('/find/date/end', async (req, res) => {
+app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
   try {
     const { item } = req.body
     const rent = await db.findEndings(item.date)

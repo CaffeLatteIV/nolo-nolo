@@ -12,9 +12,8 @@ class Employee {
     this.Employee = mongoose.model('employees', employeeSchema)
   }
 
-  async addEmployee({ email, password, role }) {
+  async addEmployee(email, password, role) {
     const employee = await this.lookupEmployee(email)
-    console.log(employee)
     if (employee) return undefined
     return new this.Employee({
       email,

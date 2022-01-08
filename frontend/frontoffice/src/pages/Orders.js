@@ -4,10 +4,11 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 import ActiveOrders from '../components/ActiveOrders.js'
 import BookedOrders from '../components/BookedOrders.js'
-import validateRefreshToken from '../components/refreshToken.js'
+import validateAccessToken from '../components/Tokens.js'
 
 const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
 function Orders() {
+  // const [activeOrdersList, setActiveOrdersList] = useState(undefined)
   const arrayOfProducts = useState(
     {
       id: 0,
@@ -16,20 +17,23 @@ function Orders() {
     },
   )
   useEffect(async () => {
-    await validateRefreshToken()
+    await validateAccessToken()
     const cookie = new Cookies()
     const accessToken = cookie.get('accessToken')
-    const client = cookie.get('client')
+    const id = cookie.get('client')['_id']
     const { data } = await axios({
       method: 'GET',
-      url: `${URL}/clients/${client['_id']}`,
+      url: `${URL}/clients/${id}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
-      data: {
-        item: { clientCode: client['_id'] },
-      },
+    })
+    data.forEach((order) => {
+      const today = Date.now()
+      const { start } = order
+      console.log(start)
+      console.log(today)
     })
     console.log(data)
   }, [])

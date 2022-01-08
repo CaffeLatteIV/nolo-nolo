@@ -1,20 +1,22 @@
-POST http://localhost:5001/v1/rentals/add HTTP/1.1
+POST http://localhost:5000/v1/rentals/add HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY0MTY2MjQyNywiZXhwIjoxNjQxNjYzMzI3fQ.IYGa6z-HlzCZYoJPZKtyTOmaYG_re-xA2n-lgwEcX1A
 content-type: application/json
 
 {
   "item":{
       "start":948590625678,
       "end":948990625999,
-      "productCode":"61b1bfed920b3b3b7167f9ab",
-      "clientCode":"61b1bfed920b3b3b7167f9ab",
+      "productCode":"61d9b9d5a04166beb04bf926",
+      "clientCode":"61d9c3debf30dc434d1ee1c1",
       "price":400,
-      "fidelityPoints":200
+      "fidelityPoints":200,
+      "status":"Prenotato"
   }
 }
 
 ###
 
-GET http://localhost:5001/v1/rentals/find HTTP/1.1
+GET http://localhost:5000/v1/rentals/find HTTP/1.1
 content-type: application/json
 
 {
@@ -25,7 +27,7 @@ content-type: application/json
 }
 ###
 
-GET http://localhost:5001/v1/rentals/find/product HTTP/1.1
+GET http://localhost:5000/v1/rentals/find/product HTTP/1.1
 content-type: application/json
 
 {
@@ -35,7 +37,7 @@ content-type: application/json
 }
 ###
 
-GET http://localhost:5001/v1/rentals/find/client HTTP/1.1
+GET http://localhost:5000/v1/rentals/find/client HTTP/1.1
 content-type: application/json
 
 {
@@ -44,7 +46,7 @@ content-type: application/json
   }
 }
 ###
-GET http://localhost:5001/v1/rentals/find/date/end HTTP/1.1
+GET http://localhost:5000/v1/rentals/find/date/end HTTP/1.1
 content-type: application/json
 
 {
@@ -53,7 +55,7 @@ content-type: application/json
   }
 }
 ###
-GET http://localhost:5001/v1/rentals/find/date/start HTTP/1.1
+GET http://localhost:5000/v1/rentals/find/date/start HTTP/1.1
 content-type: application/json
 
 {
