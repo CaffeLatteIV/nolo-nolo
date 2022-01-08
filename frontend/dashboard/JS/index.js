@@ -29,14 +29,27 @@ const doughnutData = {
         "rgb(54, 162, 235)",
         "rgb(255, 205, 86)",
       ],
-      hoverOffset: 4,
+      hoverOffset: 0,
     },
   ],
 };
 const doughnutConfig = {
   type: "doughnut",
   data: doughnutData,
+  options: {
+    responsive: false,
+  },
 };
 var myChart = new Chart(document.getElementById("pieChart"), doughnutConfig);
 
-$(#v)
+//TODO: 
+
+//Inject values to make doughnut chart canvas accessible
+$(document).ready(function(){
+    var numOggettiNoleggiati = doughnutData.datasets[0].data[0]
+    var numOggettiDisponibili = doughnutData.datasets[0].data[1]
+    var numOggettiPrenotati = doughnutData.datasets[0].data[2]
+    $('#valoreOggettiInNoleggio').html(numOggettiNoleggiati)
+    $('#valoreOggettiDisponibili').html(numOggettiDisponibili)
+    $('#valoreOggettiPrenotati').html(numOggettiPrenotati)
+})

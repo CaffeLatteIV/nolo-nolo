@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -16,8 +16,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../CSS/main.css" />
-    
-    
+
     <title>TITOLO</title>
   </head>
   <body>
@@ -101,12 +100,15 @@
               <div class="col-6 p-1">
                 <div class="md-01dp p-3 rounded h-100 d-flex flex-column">
                   <h5 class="fw-bold">Oggetti in noleggio</h5>
-                  <div class="flex-fill">
-                    <canvas id="pieChart">
-                      <p>Grafico a torta con valori in percentuale.
-                        Oggetti in noleggio: <span id="valoreOggettiInNoleggio"></span>
-                        Oggetti disponibili: <span id="valoreOggettiDisponibili"></span>
-                        Oggeti prenotati: <span id="valoreOggettiPrenotati"></span>
+                  <div class="flex-fill p-2">
+                    <canvas id="pieChart" height="300" class="w-100">
+                      <p>
+                        Grafico a torta con valori in percentuale. Oggetti in
+                        noleggio:
+                        <span id="valoreOggettiInNoleggio"></span>. Oggetti
+                        disponibili:
+                        <span id="valoreOggettiDisponibili"></span>. Oggetti
+                        prenotati: <span id="valoreOggettiPrenotati"></span>.
                       </p>
                     </canvas>
                   </div>
@@ -126,7 +128,7 @@
           <!-- This is lower-left corner -->
           <div class="col-4 p-1">
             <div class="rounded p-3 md-01dp h-100" id="tweetContainer">
-              <h5 class="fw-bold">Gli oggetti più popolari</h5>
+              <h5 class="fw-bold">Oggetti più popolari</h5>
               <!--Template oggetto-->
               <a href="/productpage" class="product-card-link p-2">
                 <div class="p-2 border-0 md-02dp row rounded mx-2">
@@ -134,8 +136,11 @@
                   <div class="col-9 p-2">
                     <h5 class="fw-bold text-white">Barella</h5>
                     <p class="card-text text-white">
-                      <b>Descrizione: </b>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum incidunt cupiditate necessitatibus, eius nobis rem quasi repellendus doloremque dicta impedit architecto consectetur beatae, ratione porro id non in tenetur fuga.
-                      
+                      <b>Descrizione: </b>Lorem, ipsum dolor sit amet
+                      consectetur adipisicing elit. Ipsum incidunt cupiditate
+                      necessitatibus, eius nobis rem quasi repellendus
+                      doloremque dicta impedit architecto consectetur beatae,
+                      ratione porro id non in tenetur fuga.
                     </p>
                   </div>
                 </div>
@@ -145,7 +150,7 @@
           <!-- This is lower-right corner -->
           <div class="col-8 p-1">
             <div class="md-01dp p-3 rounded h-100" id="mapContainer">
-              <h5 class="fw-bold">Mappa</h5>
+              <h5 class="fw-bold">Vendite</h5>
               <div>
                 <canvas id="lineChart"></canvas>
               </div>
