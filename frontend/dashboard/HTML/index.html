@@ -69,93 +69,105 @@
       </form>
     </div>
     <main id="main">
-      <div class="container-fluid mb-5 mt-2">
-        <!-- This is upper row -->
-        <div class="row mx-2">
-          <!-- This is the upper-left corner -->
-          <div class="col-4">
-            <div class="row h-100">
-              <div class="col-6 p-1">
-                <div class="md-01dp p-3 rounded h-100">
-                  <h5 class="fw-bold">I più popolari</h5>
-                  <p>text for demo</p>
-                </div>
-              </div>
-              <div class="col-6 p-1">
-                <div class="md-01dp p-3 rounded h-100">
-                  <h5 class="fw-bold">Tweet analizzati</h5>
-                </div>
-              </div>
-              <div class="col-12 p-1">
-                <div class="md-01dp p-3 rounded h-100">
-                  <h5 class="fw-bold">Distribuzione nella settimana</h5>
-                  <div></div>
-                </div>
+      <div class="container p-2">
+        <div class="row">
+          <div class="col-3 p-2 ps-0">
+            <div class="p-3 md-04dp rounded h-100">
+              <h5 class="fw-bold">Distribuzione</h5>
+              <div>
+                <canvas id="pieChart" height="300" class="w-100">
+                  <p>
+                    Grafico a torta con valori in percentuale. Oggetti in
+                    noleggio:
+                    <span id="valoreOggettiInNoleggio"></span>. Oggetti
+                    disponibili: <span id="valoreOggettiDisponibili"></span>.
+                    Oggetti prenotati:
+                    <span id="valoreOggettiPrenotati"></span>.
+                  </p>
+                </canvas>
               </div>
             </div>
           </div>
-          <!-- This is upper-right corner -->
-          <div class="col-8">
-            <div class="row h-100">
-              <div class="col-6 p-1">
-                <div class="md-01dp p-3 rounded h-100 d-flex flex-column">
-                  <h5 class="fw-bold">Oggetti in noleggio</h5>
-                  <div class="flex-fill p-2">
-                    <canvas id="pieChart" height="300" class="w-100">
-                      <p>
-                        Grafico a torta con valori in percentuale. Oggetti in
-                        noleggio:
-                        <span id="valoreOggettiInNoleggio"></span>. Oggetti
-                        disponibili:
-                        <span id="valoreOggettiDisponibili"></span>. Oggetti
-                        prenotati: <span id="valoreOggettiPrenotati"></span>.
-                      </p>
-                    </canvas>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 p-1">
-                <div class="md-01dp p-3 rounded h-100 d-flex flex-column">
-                  <h5 class="fw-bold">Term Cloud</h5>
-                  <div class="flex-fill"></div>
-                </div>
+          <div class="col-9 p-2 pe-0">
+            <div class="p-3 md-04dp rounded h-100">
+              <h5 class="fw-bold">Soldi (trovare titolo migliore)</h5>
+              <div>
+                <canvas id="lineChart" height="300" class="w-100"></canvas>
               </div>
             </div>
           </div>
         </div>
-        <!-- This is lower row -->
-        <div class="row mx-2">
-          <!-- This is lower-left corner -->
-          <div class="col-4 p-1">
-            <div class="rounded p-3 md-01dp h-100" id="tweetContainer">
-              <h5 class="fw-bold">Oggetti più popolari</h5>
-              <!--Template oggetto-->
-              <a href="/productpage" class="product-card-link p-2">
-                <div class="p-2 border-0 md-02dp row rounded mx-2">
-                  <img src="" class="col-3" alt="Item Pic" />
-                  <div class="col-9 p-2">
-                    <h5 class="fw-bold text-white">Barella</h5>
-                    <p class="card-text text-white">
-                      <b>Descrizione: </b>Lorem, ipsum dolor sit amet
-                      consectetur adipisicing elit. Ipsum incidunt cupiditate
-                      necessitatibus, eius nobis rem quasi repellendus
-                      doloremque dicta impedit architecto consectetur beatae,
-                      ratione porro id non in tenetur fuga.
-                    </p>
-                  </div>
-                </div>
-              </a>
+        <div class="row">
+          <div class="col-9 p-2 ps-0">
+            <div class="p-3 md-04dp rounded h-100">
+              <h5 class="fw-bold">Altra Statistica</h5>
+              <div></div>
             </div>
           </div>
-          <!-- This is lower-right corner -->
-          <div class="col-8 p-1">
-            <div class="md-01dp p-3 rounded h-100" id="mapContainer">
-              <h5 class="fw-bold">Vendite</h5>
-              <div>
-                <canvas id="lineChart"></canvas>
+          <div class="col-3 p-2 pe-0">
+            <div class="p-3 md-04dp rounded h-100">
+              <h5 class="fw-bold">Condizioni maybe</h5>
+              <div></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="md-04dp p-4 mt-2 rounded">
+            <h5>Oggetti più popolari</h5>
+            <div class="row">
+              <div class="col rounded px-3 md-0dp h-100">
+                <a href="/productpage" class="product-card-link p-2">
+                  <div class="p-4 border-0 md-02dp row rounded mx-2">
+                    <img src="" class="col-3" alt="Item Pic" />
+                    <div class="col-9 p-2">
+                      <h5 class="fw-bold text-white">Barella</h5>
+                      <p class="card-text text-white">
+                        <b>Descrizione: </b>Lorem, ipsum dolor sit amet
+                        consectetur adipisicing elit. Ipsum incidunt cupiditate
+                        necessitatibus, eius nobis rem quasi repellendus
+                        doloremque dicta impedit architecto consectetur beatae,
+                        ratione porro id non in tenetur fuga.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col rounded px-3 md-0dp h-100">
+                <a href="/productpage" class="product-card-link p-2">
+                  <div class="p-4 border-0 md-02dp row rounded mx-2">
+                    <img src="" class="col-3" alt="Item Pic" />
+                    <div class="col-9 p-2">
+                      <h5 class="fw-bold text-white">Barella</h5>
+                      <p class="card-text text-white">
+                        <b>Descrizione: </b>Lorem, ipsum dolor sit amet
+                        consectetur adipisicing elit. Ipsum incidunt cupiditate
+                        necessitatibus, eius nobis rem quasi repellendus
+                        doloremque dicta impedit architecto consectetur beatae,
+                        ratione porro id non in tenetur fuga.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col rounded px-3 md-0dp h-100">
+                <a href="/productpage" class="product-card-link p-2">
+                  <div class="p-4 border-0 md-02dp row rounded mx-2">
+                    <img src="" class="col-3" alt="Item Pic" />
+                    <div class="col-9 p-2">
+                      <h5 class="fw-bold text-white">Barella</h5>
+                      <p class="card-text text-white">
+                        <b>Descrizione: </b>Lorem, ipsum dolor sit amet
+                        consectetur adipisicing elit. Ipsum incidunt cupiditate
+                        necessitatibus, eius nobis rem quasi repellendus
+                        doloremque dicta impedit architecto consectetur beatae,
+                        ratione porro id non in tenetur fuga.
+                      </p>
+                    </div>
+                  </div>
+                </a>
               </div>
             </div>
-          </div>
+        </div>
         </div>
       </div>
     </main>
