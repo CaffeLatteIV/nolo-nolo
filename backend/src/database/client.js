@@ -12,11 +12,13 @@ class Client {
     this.Clients = mongoose.model('clients', clientSchema)
   }
 
-  async addClient(email, password ) {
-    return new this.Clients({
+  async addClient(email, password) {
+    const client = await new this.Clients({
       email,
       password,
     }).save()
+    delete client.password // security (la password è comunque cryptata)
+    return client
   }
 
   async updateClient({ email, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {

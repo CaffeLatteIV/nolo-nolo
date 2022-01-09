@@ -13,13 +13,15 @@ class Employee {
   }
 
   async addEmployee(email, password, role) {
-    const employee = await this.lookupEmployee(email)
+    let employee = await this.lookupEmployee(email)
     if (employee) return undefined
-    return new this.Employee({
+    employee = await new this.Employee({
       email,
       password,
       role,
     }).save()
+    delete employee.password // security (la password è comunque cryptata)
+    return employee
   }
 
   async findEmployee(email, password) {

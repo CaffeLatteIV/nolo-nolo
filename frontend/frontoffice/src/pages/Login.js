@@ -12,9 +12,11 @@ function Login({ isLogging }) {
   } else {
     document.title = 'NOLONOLO Registrati'
   }
+  const navigate = useNavigate()
   const [isEmailValid, validatEmail] = useState(true)
   const [isPasswordValid, validatPassword] = useState(true)
 
+  // verifica che i parametri email e password siano stati inseriti
   function validate(email, password) {
     validatEmail(!!email)
     validatPassword(!!password)
@@ -25,6 +27,7 @@ function Login({ isLogging }) {
     }
     return isEmailValid && isPasswordValid
   }
+  // invia una richiestaal server per loggare o registrare l'utente
   async function logUser(email, password) {
     const method = isLogging ? 'login' : 'register'
     const { data } = await axios({
@@ -39,13 +42,13 @@ function Login({ isLogging }) {
     cookies.set('accessToken', data.accessToken, { path: '/' })
     cookies.set('refreshToken', data.refreshToken, { path: '/' })
     cookies.set('client', data.client, { path: '/' })
-    useNavigate('/', { replace: true })
   }
   async function onSubmit(event) {
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
     if (validate(email, password)) await logUser(email, password)
+    navigate('/', { replace: true })
   }
 
   return (
