@@ -9,13 +9,7 @@ import validateAccessToken from '../components/Tokens.js'
 const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
 function Orders() {
   // const [activeOrdersList, setActiveOrdersList] = useState(undefined)
-  const arrayOfProducts = useState(
-    {
-      id: 0,
-      name: 'Prodotto',
-      price: 9.99,
-    },
-  )
+  const [productList, setProductList] = useState({ bookedOrders: [], activeOrders: [], olderOrders: [] })
   useEffect(async () => {
     await validateAccessToken()
     const cookie = new Cookies()
@@ -29,13 +23,25 @@ function Orders() {
         'Content-Type': 'application/json',
       },
     })
+    const bookedOrdersList = []
+    const activeOrdersList = []
+    const olderOrdersList = []
     data.forEach((order) => {
       const today = Date.now()
-      const { start } = order
-      console.log(start)
-      console.log(today)
+      const { end, start } = order
+      if (today >= start && today <= end) {
+        activeOrdersList.push(order)
+      } else if (today < start) {
+        bookedOrdersList.push(order)
+      } else {
+        olderOrdersList.push(order)
+      }
     })
-    console.log(data)
+    setProductList({
+      bookedOrders: bookedOrdersList,
+      activeOrders: activeOrdersList,
+      olderOrders: olderOrdersList,
+    })
   }, [])
   return (
     <div className="container p-2 mt-2">
@@ -43,14 +49,60 @@ function Orders() {
         <div className="p-2">
           <div className="p-3 px-4 md-04dp rounded">
             <h2>In uso ora</h2>
-            <ActiveOrders name={arrayOfProducts[0].name} price={arrayOfProducts[0].price} />
-            <ActiveOrders name={arrayOfProducts[0].name} price={arrayOfProducts[0].price} />
+            {
+              (!productList.activeOrders || productList.activeOrders.length === 0) ? <p>Nessun prodotto</p>
+                : productList.activeOrders.map(
+                  ({ title, start, end, price, fidelityPoints, paid }) => (
+                    <ActiveOrders
+                      title={title || 'manca'}
+                      price={price}
+                      start={start}
+                      end={end}
+                      fidelityPoints={fidelityPoints}
+                      paid={paid}
+                    />
+                  ),
+                )
+            }
           </div>
         </div>
         <div className="p-2">
           <div className="p-3 px-4 md-04dp rounded">
             <h2>Prenotati</h2>
-            <BookedOrders name={arrayOfProducts[0].name} price={arrayOfProducts[0].price} />
+            {
+              (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
+                : productList.bookedOrders.map(
+                  ({ title, start, end, price, fidelityPoints, paid }) => (
+                    <BookedOrders
+                      title={title || 'manca'}
+                      price={price}
+                      start={start}
+                      end={end}
+                      fidelityPoints={fidelityPoints}
+                      paid={paid}
+                    />
+                  ),
+                )
+            }
+          </div>
+        </div>
+        <div className="p-2">
+          <div className="p-3 px-4 md-04dp rounded">
+            <h2>Vecchi ordini</h2>
+            {
+              (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
+                ({ title, start, end, price, fidelityPoints, paid }) => (
+                  <BookedOrders
+                    title={title || 'manca'}
+                    price={price}
+                    start={start}
+                    end={end}
+                    fidelityPoints={fidelityPoints}
+                    paid={paid}
+                  />
+                ),
+              )
+            }
           </div>
         </div>
       </div>

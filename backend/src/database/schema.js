@@ -47,6 +47,10 @@ const inventorySchema = new Schema({
   },
 })
 const rentSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
   start: {
     type: Number,
     required: true,

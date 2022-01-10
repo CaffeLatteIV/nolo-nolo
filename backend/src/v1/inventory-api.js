@@ -40,6 +40,14 @@ app.get('/products', async (req, res) => {
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })
 })
+app.get('/products/:productID', async (req, res) => {
+  const { productID } = req.params
+  console.log(productID)
+  logger.info(`Sending product ${productID}`)
+  const products = await db.findOneAvailable(undefined, undefined, productID)
+  if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
+  return res.status(200).send({ products })
+})
 app.post('/product', async (req, res) => {
   try {
     const { item } = req.body

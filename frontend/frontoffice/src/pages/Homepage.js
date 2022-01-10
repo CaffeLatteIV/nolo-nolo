@@ -24,7 +24,7 @@ function Homepage() {
       <div className="container-fluid row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 p-0 m-0" id="card-container">
         { products ? products.map(({ _id, title, price, condition }) => (
           <div key={_id} className="col p-1">
-            <ProductCard productName={title} condition={condition} price={price.weekday} />
+            <ProductCard id={_id} title={title} condition={condition} price={price.weekday} />
           </div>
         )) : 'caricamento...'}
       </div>
