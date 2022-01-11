@@ -40,15 +40,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a href="#" class="nav-link" title="Account">
-                <span class="material-icons text-white">person_outline</span>
+            <li class="nav-item dropstart">
+              <a href="#" class="nav-link dropstart-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                <span class="material-icons text-white">person</span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link" title="Carrello">
-                <span class="material-icons text-white">shopping_cart</span>
-              </a>
+              <ul class="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                <li class="p-2 rounded md-24dp"><a class="dropdown-item md-error rounded text-white" id="logout" href="#">Esci</a></li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -71,7 +69,7 @@
     <main id="main">
       <div class="container p-2">
         <h1>Statistiche</h1>
-        <div class="row md-04dp rounded p-3 mb-4">
+        <div class="row md-01dp rounded p-3 mb-4">
           <div class="col-3">
             <img src="" class="col-3" alt="Item Pic" />
           </div>
@@ -87,8 +85,8 @@
         </div>
         <div class="row">
           <div class="col-3 p-2 ps-0">
-            <div class="p-3 md-04dp rounded h-100">
-              <h5 class="fw-bold">Distribuzione</h5>
+            <div class="p-3 md-01dp rounded h-100">
+              <h4 class="fw-bold">Distribuzione</h4>
               <div>
                 <canvas id="pieChart" height="300" class="w-100">
                   <p>
@@ -104,8 +102,8 @@
             </div>
           </div>
           <div class="col-9 p-2 pe-0">
-            <div class="p-3 md-04dp rounded h-100">
-              <h5 class="fw-bold">Soldi (trovare titolo migliore + NONaccessibile)</h5>
+            <div class="p-3 md-01dp rounded h-100">
+              <h4 class="fw-bold">Soldi (trovare titolo migliore + NONaccessibile)</h4>
               <div>
                 <canvas id="lineChart" height="300" class="w-100"></canvas>
               </div>
@@ -113,17 +111,29 @@
           </div>
         </div>
         <div class="row">
-            <div class="col-9 p-2 ps-0">
-              <div class="p-3 md-04dp rounded h-100">
-                <h5 class="fw-bold">Altra Statistica</h5>
-                <div>
+            <div class="col-8 p-2 ps-0">
+              <div class="p-4 md-01dp rounded h-100">
+                <h4 class="fw-bold">Altre</h4>
+                <div class="row">
+                  <div class="p-2 col-6">
+                    <div class=" flex-column md-04dp rounded p-4">
+                      <h5 class="text-center pb-2">Tempo medio di noleggio (giorni)</h5>
+                      <div class="text-center pt-2 fs-2">5</div>
+                    </div>
+                  </div>
+                  <div class="p-2 col-6">
+                    <div class="flex-column md-04dp rounded p-4">
+                      <h5 class="text-center pb-2">Numero medio di noleggi al mese</h5>
+                      <div class="text-center pt-2 fs-2">100</div>
+                    </div>
+                  </div>
                   
                 </div>
               </div>
             </div>
-            <div class="col-3 p-2 pe-0">
-              <div class="p-3 md-04dp rounded h-100">
-                <h5 class="fw-bold">Condizioni maybe</h5>
+            <div class="col-4 p-2 pe-0">
+              <div class="p-3 md-01dp rounded h-100">
+                <h4 class="fw-bold">Condizioni maybe</h4>
                 <div>
                   
                 </div>

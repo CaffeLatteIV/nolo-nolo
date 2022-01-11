@@ -82,6 +82,15 @@ body {
 /*General Purpose Backgrounds*/
 /*Material Design Backgrounds for Dark Theme
 Source: https://material.io/design/color/dark-theme.html*/
+  .md-error {
+    background-color: #CF6679;
+  }
+  #logout:hover {
+    background-color: #CF6679;
+  }
+  .md-base {
+    background-color: #121212;
+  }
   .md-01dp {
       background-color: rgba(255, 255, 255, 0.05);
   }
