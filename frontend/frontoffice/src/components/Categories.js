@@ -10,7 +10,7 @@ function Categories() {
   useEffect(async () => {
     const { data } = await axios({
       method: 'GET',
-      url: `${URL}/categories`,
+      url: `${URL}/categories?unique=true`,
     })
     setCategories(data.categories)
   }, [])

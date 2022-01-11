@@ -7,6 +7,7 @@ import client from './v1/client-api.js'
 import employee from './v1/employee-api.js'
 import token from './v1/token-api.js'
 import image from './v1/image-api.js'
+import operation from './v1/operation-api.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -24,6 +25,7 @@ app.use('/v1/inventories', inventory)
 app.use('/v1/clients', client)
 app.use('/v1/employee', employee)
 app.use('/v1/image', image)
+app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 
 app.listen(PORT, () => logger.info(`Listening on port ${PORT}`))

@@ -1,6 +1,6 @@
 import Express from 'express'
 import dotenv from 'dotenv'
-import { authenticateAccessToken, generateAccessToken, generateRefreshToken, authenticateUserRole, generateHash } from './authenticate.js'
+import { authenticateAccessToken, generateAccessToken, generateRefreshToken, authenticateUserRole, generateHash } from '../utils/authenticate.js'
 import Client from '../database/client.js'
 import RefreshToken from '../database/refreshToken.js'
 import loggerWrapper from '../logger.js'

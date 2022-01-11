@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import express from 'express'
 import loggerWrapper from '../logger.js'
-import { generateAccessToken } from './authenticate.js'
+import { generateAccessToken } from '../utils/authenticate.js'
 import RefreshToken from '../database/refreshToken.js'
 
 dotenv.config()

@@ -47,7 +47,6 @@ function App() {
           <Route path="/register" element={<Login isLogging={false} />} />
           <Route path="/product" element={<RequireAuth><ProductPage /></RequireAuth>} />
           <Route path="/cart" element={<RequireAuth><Cart /></RequireAuth>} />
-          <Route path="/productpage" element={<RequireAuth><ProductPage /></RequireAuth>} />
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
           <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />

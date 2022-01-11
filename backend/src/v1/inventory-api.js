@@ -12,7 +12,6 @@ const app = Express.Router()
 
 const upload = multer({
   dest: '../images',
-  // you might also want to set some limits: https://github.com/expressjs/multer#limits
 })
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
@@ -21,16 +20,18 @@ app.get('/findOne', async (req, res) => {
   if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
   return res.status(200).send({ products })
 })
-app.get('/category', async (req, res) => {
-  const { item } = req.body
-  logger.info(`Finding items of ${item.category} category`)
-  const products = await db.findAllCategory(item.category, item.available)
+app.get('/categories/:category', async (req, res) => {
+  const { category } = req.params
+  const { available } = req.query
+  logger.info(`Finding items of ${category} category`)
+  const products = await db.findAllCategory(category, available)
   if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
   return res.status(200).send({ products })
 })
 app.get('/categories', async (req, res) => {
+  const { unique } = req.query
   logger.info('Finding all different category names')
-  const categories = await db.listAllCategoryNames()
+  const categories = await db.listAllCategoryNames(unique)
   if (categories === null) return res.status(404).send({ code: 404, msg: 'No category available' })
   return res.status(200).send({ categories })
 })

@@ -52,8 +52,9 @@ function Orders() {
             {
               (!productList.activeOrders || productList.activeOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.activeOrders.map(
-                  ({ title, start, end, price, fidelityPoints, paid }) => (
+                  ({ title, start, end, price, fidelityPoints, paid, productCode }) => (
                     <ActiveOrders
+                      id={productCode}
                       title={title || 'manca'}
                       price={price}
                       start={start}
@@ -72,8 +73,9 @@ function Orders() {
             {
               (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.bookedOrders.map(
-                  ({ title, start, end, price, fidelityPoints, paid }) => (
+                  ({ title, start, end, price, fidelityPoints, paid, productCode }) => (
                     <BookedOrders
+                      id={productCode}
                       title={title || 'manca'}
                       price={price}
                       start={start}
@@ -91,8 +93,9 @@ function Orders() {
             <h2>Vecchi ordini</h2>
             {
               (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
-                ({ title, start, end, price, fidelityPoints, paid }) => (
+                ({ title, start, end, price, fidelityPoints, paid, productCode }) => (
                   <BookedOrders
+                    id={productCode}
                     title={title || 'manca'}
                     price={price}
                     start={start}

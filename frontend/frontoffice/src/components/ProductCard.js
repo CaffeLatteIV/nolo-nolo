@@ -1,13 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import productPic from '../images/product-pic.jpg'
 
-function ProductCard({ id, title, price, condition }) {
+function ProductCard({ id, title, price, condition, img }) {
   return (
-    <Link to={`/productpage?id=${id}`} className="product-card-link">
+    <Link to={`/product?id=${id}`} className="product-card-link">
       <div className="card p-2 border-0 md-02dp">
-        <img src={productPic} className="card-img-top" alt="Item Pic" />
+        <img src={img} className="card-img-top" alt="Item Pic" />
         <div className="card-body p-2">
           <h5 className="card-title text-white">{ title }</h5>
           <p className="card-text text-white">Condition: {condition}</p>
@@ -22,5 +21,6 @@ ProductCard.propTypes = {
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   condition: PropTypes.string.isRequired,
+  img: PropTypes.string.isRequired,
 }
 export default ProductCard

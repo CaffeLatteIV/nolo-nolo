@@ -1,7 +1,7 @@
 import Express from 'express'
 import Rental from '../database/rental.js'
 import loggerWrapper from '../logger.js'
-import { authenticateAccessToken } from './authenticate.js'
+import { authenticateAccessToken } from '../utils/authenticate.js'
 
 const logger = loggerWrapper('Rental API')
 const db = new Rental()
