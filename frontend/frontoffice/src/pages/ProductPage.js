@@ -1,17 +1,30 @@
+/* eslint-disable dot-notation */
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Cookies from 'universal-cookie'
 import axios from 'axios'
 
 const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories/products'
 function ProductPage() {
   const [product, setProduct] = useState(undefined)
   const { search } = useLocation()
+  const query = new URLSearchParams(search)
+  const id = query.get('id')
+  // se il parametro id non è presente restituisce la pagina 404
+  if (id === null) {
+    const navigate = useNavigate()
+    navigate('*') // \* = route per pagina 404
+  }
   useEffect(async () => {
-    const query = new URLSearchParams(search)
-    const id = query.get('id')
     const { data } = await axios.get(`${PRODUCT_URL}/${id}`)
     setProduct(data.products)
   }, [])
+  function addCart() {
+    const cookie = new Cookies()
+    const cart = cookie.get('cart') || []
+    cart.push({ product, start: 0, end: 0 })
+    cookie.set('cart', cart)
+  }
   return (
     <>
       <div className="container mt-2 md-0dp rounded">
@@ -40,7 +53,7 @@ function ProductPage() {
               <p className="fs-3 mb-0 text-center price">€ { product ? product.price.weekday : 'Caricamento' } </p>
               <div className="d-flex flex-column">
                 <div className="p-2">
-                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary">Aggiungi al carrello</button>
+                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary" onClick={addCart}>Aggiungi al carrello</button>
                 </div>
                 <div className="p-2">
                   <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary">Noleggia subito</button>
