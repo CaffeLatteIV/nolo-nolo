@@ -13,6 +13,7 @@ import ProductPage from './pages/ProductPage.js'
 import Cart from './pages/Cart.js'
 import NotFound from './pages/NotFound.js'
 import Orders from './pages/Orders.js'
+import CategoryPage from './pages/CategoryPage.js'
 import Account from './pages/Account.js'
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/product" element={<RequireAuth><ProductPage /></RequireAuth>} />
           <Route path="/cart" element={<RequireAuth><Cart /></RequireAuth>} />
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
+          <Route path="/category" element={<CategoryPage />} />
           <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
