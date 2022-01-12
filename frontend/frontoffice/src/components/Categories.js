@@ -23,8 +23,8 @@ function Categories() {
 
         <div className="collapse navbar-collapse" id="catNav">
           <ul className="navbar-nav">
-            {categories ? categories.map(({ _id, category }) => (
-              <li key={_id} className="nav-item">
+            {categories ? categories.map((category) => (
+              <li key={Math.random()} className="nav-item">
                 <a className="nav-link active text-white" title={category} href="#">{category}</a>
               </li>
             )) : ''}
