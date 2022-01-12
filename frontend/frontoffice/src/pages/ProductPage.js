@@ -19,11 +19,9 @@ function ProductPage() {
     const { data } = await axios.get(`${PRODUCT_URL}/${id}`)
     setProduct(data.products)
   }, [])
-  function addCart() {
+  function rent() {
     const cookie = new Cookies()
-    const cart = cookie.get('cart') || []
-    cart.push({ product, start: 0, end: 0 })
-    cookie.set('cart', cart)
+    cookie.set('rent', { product, start: 0, end: 0 })
   }
   return (
     <>
@@ -53,10 +51,7 @@ function ProductPage() {
               <p className="fs-3 mb-0 text-center price">€ { product ? product.price.weekday : 'Caricamento' } </p>
               <div className="d-flex flex-column">
                 <div className="p-2">
-                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary" onClick={addCart}>Aggiungi al carrello</button>
-                </div>
-                <div className="p-2">
-                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary">Noleggia subito</button>
+                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary" onlick={rent}>Noleggia subito</button>
                 </div>
               </div>
             </div>
