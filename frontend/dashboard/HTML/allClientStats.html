@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
-                <a class="nav-link text-white" href="./clientStats.html">Clienti</a>
+                <a class="nav-link text-white" href="./allClientStats.html">Clienti</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link text-white" href="./itemStats.html">Oggetti</a>
@@ -84,7 +84,7 @@
         <div class="container p-2">
           <h1>Statistiche Clienti</h1>
           <div class="row">
-            <div class="col-5 p-2 ps-0">
+            <div class="col-7 p-2 ps-0">
               <div class="p-3 md-01dp rounded h-100">
                 <h5 class="fw-bold">Età</h5>
                 <div>
@@ -96,11 +96,15 @@
                 </div>
               </div>
             </div>
-            <div class="col-7 p-2 pe-0">
+            <div class="col-5 p-2 pe-0">
               <div class="p-3 md-01dp rounded h-100">
-                <h5 class="fw-bold">Soldi (trovare titolo migliore + NONaccessibile)</h5>
+                <h5 class="fw-bold">Genere</h5>
                 <div>
-                  <canvas id="lineChart" height="300" class="w-100"></canvas>
+                  <canvas id="genderChart" height="300" class="w-100">
+                    <p>
+                      Grafico a torta contenente informazione sul genere dei clienti.
+                    </p>
+                  </canvas>
                 </div>
               </div>
             </div>
@@ -110,16 +114,16 @@
               <div class="p-4 md-01dp rounded h-100">
                 <h4 class="fw-bold">Altre</h4>
                 <div class="row">
-                  <div class="p-2 col-6">
+                  <div class="p-2 col-6 h-100">
                     <div class=" flex-column md-04dp rounded p-4">
-                      <h5 class="text-center pb-2">Tempo medio di noleggio (giorni)</h5>
+                      <h5 class="text-center pb-2">Spesa media di noleggio per persona</h5>
                       <div class="text-center pt-2 fs-2">5</div>
                     </div>
                   </div>
-                  <div class="p-2 col-6">
+                  <div class="p-2 col-6 h-100">
                     <div class="flex-column md-04dp rounded p-4">
-                      <h5 class="text-center pb-2">Numero medio di noleggi al mese</h5>
-                      <div class="text-center pt-2 fs-2">100</div>
+                      <h5 class="text-center pb-2">Numero medio di noleggi per persona al mese</h5>
+                      <div class="text-center pt-2 fs-2">2</div>
                     </div>
                   </div>
                 </div>

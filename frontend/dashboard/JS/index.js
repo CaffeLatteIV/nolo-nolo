@@ -92,6 +92,29 @@ const condizioniConfig = {
 };
 var condizioniChart = new Chart(document.getElementById("condizioniChart"), condizioniConfig);
 
+//Setup per Pie Chart --> Contiene dati sul genere dei clienti
+const genderData = {
+  labels: [
+    'Maschio',
+    'Femmina',
+    'Non specificato'
+  ],
+  datasets: [{
+    label: 'Genere',
+    data: [47, 48, 1],
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ]
+  }]
+};
+const genderConfig = {
+  type: 'pie',
+  data: genderData,
+};
+var genderChart = new Chart(document.getElementById("genderChart"), genderConfig);
+
 $(document).ready(function () {
   //Inject values to make "Distribuzione" chart canvas accessible
   var numOggettiNoleggiati = distrData.datasets[0].data[0]
