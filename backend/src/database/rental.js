@@ -12,8 +12,9 @@ class Rental {
     this.Rentals = mongoose.model('rentals', rentSchema)
   }
 
-  async addRentals({ start, end, productCode, clientCode, price, fidelityPoints }) {
+  async addRentals({ title, start, end, productCode, clientCode, price, fidelityPoints }) {
     await new this.Rentals({
+      title,
       start,
       end,
       clientCode,
