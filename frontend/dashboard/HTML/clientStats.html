@@ -17,7 +17,7 @@
     />
     <link rel="stylesheet" href="../CSS/main.css" />
 
-    <title>NOLONOLO - Statistiche Oggetti</title>
+    <title>NOLONOLO - Statistiche Clienti</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Passa al contenuto principale</a>
@@ -25,43 +25,43 @@
     <nav class="navbar navbar-expand md-04dp">
       <div class="container-fluid">
         <a href="./index.html" class="navbar-brand text-white" title="Menù principale">
-          <h2>NOLONOLO</h2>
+            <h2>NOLONOLO</h2>
         </a>
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
+          data-bs-target="#navbarText"
+          aria-controls="navbarText"
           aria-expanded="false"
           aria-label="Apri pannello di navigazione"
         >
           <span class="navbar-toggler-icon" />
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link text-white" href="./clientStats.html">Clienti</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="./itemStats.html">Oggetti</a>
-            </li>
-          </ul>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropstart">
-              <a href="#" class="nav-link dropstart-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
-                <span class="material-icons text-white">person</span>
-              </a>
-              <ul class="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
-                <li class="p-2 rounded md-24dp">
-                  <a class="dropdown-item md-error rounded text-white" id="logout" href="#">Esci</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="./clientStats.html">Clienti</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="./itemStats.html">Oggetti</a>
+              </li>
+            </ul>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item dropstart">
+                <a href="#" class="nav-link dropstart-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
+                  <span class="material-icons text-white">person</span>
+                </a>
+                <ul class="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                  <li class="p-2 rounded md-24dp">
+                    <a class="dropdown-item md-error rounded text-white" id="logout" href="#">Esci</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
       </div>
     </nav>
     <!--Searchbar-->
@@ -78,51 +78,34 @@
         </button>
       </form>
     </div>
+
+    <!--Main content-->
     <main id="main">
-      <div class="container p-2">
-        <h1>Statistiche Oggetti</h1>
-        <div class="row md-01dp rounded p-3 mb-4">
-          <div class="col-3">
-            <img src="" class="col-3" alt="Item Pic" />
-          </div>
-          <div class="col-9">
-            <h4>Nome Oggetto</h4>
-            <p class="m-0">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Aspernatur non consequatur sunt consequuntur, eligendi, porro odit
-              nihil, nemo quasi inventore vitae possimus unde incidunt tempora
-              repellat iste voluptates. Exercitationem, dolores.
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-3 p-2 ps-0">
-            <div class="p-3 md-01dp rounded h-100">
-              <h4 class="fw-bold">Distribuzione</h4>
-              <div>
-                <canvas id="distrChart" height="300" class="w-100">
-                  <p>
-                    Grafico a torta con valori in percentuale. Oggetti in
-                    noleggio:
-                    <span id="valoreOggettiInNoleggio"></span>. Oggetti
-                    disponibili: <span id="valoreOggettiDisponibili"></span>.
-                    Oggetti prenotati:
-                    <span id="valoreOggettiPrenotati"></span>.
-                  </p>
-                </canvas>
+        <div class="container p-2">
+          <h1>Statistiche Clienti</h1>
+          <div class="row">
+            <div class="col-5 p-2 ps-0">
+              <div class="p-3 md-01dp rounded h-100">
+                <h5 class="fw-bold">Età</h5>
+                <div>
+                    <canvas id="ageChart" height="300" class="w-100">
+                        <p>
+                            Grafico a barre che mostra la distribuzione di età dei clienti.
+                        </p>
+                    </canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-7 p-2 pe-0">
+              <div class="p-3 md-01dp rounded h-100">
+                <h5 class="fw-bold">Soldi (trovare titolo migliore + NONaccessibile)</h5>
+                <div>
+                  <canvas id="lineChart" height="300" class="w-100"></canvas>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-9 p-2 pe-0">
-            <div class="p-3 md-01dp rounded h-100">
-              <h4 class="fw-bold">Soldi (trovare titolo migliore + NONaccessibile)</h4>
-              <div>
-                <canvas id="lineChart" height="300" class="w-100"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
+          <div class="row">
             <div class="col-8 p-2 ps-0">
               <div class="p-4 md-01dp rounded h-100">
                 <h4 class="fw-bold">Altre</h4>
@@ -160,8 +143,8 @@
               </div>
             </div>
           </div>
-      </div>
-    </main>
+        </div>
+      </main>
 
     <!--FOOTER-->
     <footer class="mt-4 pb-4 w-100">

@@ -10,7 +10,7 @@ function Navbar() {
       <nav className="navbar navbar-expand md-04dp">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand text-white" title="Menù principale">
-            NOLONOLO
+            <h2>NOLONOLO</h2>
           </Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Apri pannello di navigazione">
             <span className="navbar-toggler-icon" />
