@@ -9,8 +9,10 @@ const app = Express.Router()
 
 app.post('/add', authenticateAccessToken, async (req, res) => {
   try {
-    const { item } = req.body
-    await db.addRentals(item)
+    const { product } = req.body
+    logger.info(`A user bought a new product: ${product.productCode}`)
+
+    await db.addRentals(product)
 
     return res.status(200).send({ code: 200, msg: 'Rental added' })
   } catch (err) {
