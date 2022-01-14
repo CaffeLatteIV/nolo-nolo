@@ -14,9 +14,9 @@ function Carousel() {
       <div className="p-2 md-02dp rounded">
         <div id="carouselDark" className="carousel carousel-dark slide p-0 mb-0" data-bs-ride="carousel">
           <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1" />
-            <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="1" aria-label="Slide 2" />
-            <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="2" aria-label="Slide 3" />
+            {carouselItems[0] ? <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1" /> : ''}
+            {carouselItems[1] ? <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="1" aria-label="Slide 2" /> : ''}
+            {carouselItems[2] ? <button type="button" data-bs-target="#carouselDark" data-bs-slide-to="2" aria-label="Slide 3" /> : ''}
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active" data-bs-interval="4000">
