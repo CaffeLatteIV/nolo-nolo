@@ -10,9 +10,9 @@ function ProductPage() {
   const { search } = useLocation()
   const query = new URLSearchParams(search)
   const id = query.get('id')
+  const navigate = useNavigate()
   // se il parametro id non è presente restituisce la pagina 404
   if (id === null) {
-    const navigate = useNavigate()
     navigate('*') // \* = route per pagina 404
   }
   useEffect(async () => {
@@ -21,7 +21,8 @@ function ProductPage() {
   }, [])
   function rent() {
     const cookie = new Cookies()
-    cookie.set('rent', { product, start: 0, end: 0 })
+    cookie.set('rent', { newRent: product, start: 0, end: 0 })
+    navigate('/receipt')
   }
   return (
     <>
@@ -47,11 +48,11 @@ function ProductPage() {
           </div>
           {/* Contenitore Prezzo finale per i giorni selezionati sul calendario di cui sopra, Bottone Noleggia e Bottone aggiungi al carrello */}
           <div className="col-sm-4 p-2">
-            <div className="md-02dp rounded p-4">
+            <div className="md-02dp rounded p-4 h-100">
               <p className="fs-3 mb-0 text-center price">€ { product ? product.price.weekday : 'Caricamento' } </p>
               <div className="d-flex flex-column">
                 <div className="p-2">
-                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary" onlick={rent}>Noleggia subito</button>
+                  <button type="submit" className="w-100 rounded p-1 border-0 bg-site-primary" onClick={rent}>Noleggia subito</button>
                 </div>
               </div>
             </div>
