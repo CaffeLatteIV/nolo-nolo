@@ -81,66 +81,75 @@
 
     <!--Main content-->
     <main id="main">
-        <div class="container p-2">
-          <h1>Statistiche Clienti</h1>
-          <div class="row">
-            <div class="col-5 p-2 ps-0">
-              <div class="p-3 md-01dp rounded h-100">
-                <h5 class="fw-bold">Età</h5>
-                <div>
-                    <canvas id="ageChart" height="300" class="w-100">
-                        <p>
-                            Grafico a barre che mostra la distribuzione di età dei clienti.
-                        </p>
-                    </canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-7 p-2 pe-0">
-              <div class="p-3 md-01dp rounded h-100">
-                <h5 class="fw-bold">Genere</h5>
-                <div>
-                  <canvas id="genderChart" height="300" class="w-100">
-                    <p>
-                      Grafico a torta che rappresenta i dati sul genere dei clienti.
-                      
-                    </p>
-                  </canvas>
-                </div>
+      <div class="container p-2">
+        <h1>Statistiche Clienti</h1>
+        <div class="row">
+          <div class="col-7 p-2 ps-0">
+            <div class="p-3 md-01dp rounded h-100">
+              <h5 class="fw-bold">Età</h5>
+              <div>
+                <canvas id="ageChart" height="300" class="w-100">
+                  <p>
+                    Grafico a barre che mostra la distribuzione di età dei clienti.
+                    Fascia 13-17: <span id="f1"></span>.
+                    Fascia 18-24: <span id="f2"></span>.
+                    Fascia 25-34: <span id="f3"></span>.
+                    Fascia 35-44: <span id="f4"></span>.
+                    Fascia 45-54: <span id="f5"></span>.
+                    Fascia 55-64: <span id="f6"></span>.
+                    Fascia 65+: <span id="f7"></span>.
+                  </p>
+                </canvas>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-8 p-2 ps-0">
-              <div class="p-4 md-01dp rounded h-100">
-                <h4 class="fw-bold">Altre</h4>
-                <div class="row">
-                  <div class="p-2 col-6">
-                    <div class=" flex-column md-04dp rounded p-4">
-                      <h5 class="text-center pb-2">Tempo medio di noleggio (giorni)</h5>
-                      <div class="text-center pt-2 fs-2">5</div>
-                    </div>
-                  </div>
-                  <div class="p-2 col-6">
-                    <div class="flex-column md-04dp rounded p-4">
-                      <h5 class="text-center pb-2">Numero medio di noleggi al mese</h5>
-                      <div class="text-center pt-2 fs-2">100</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-4 p-2 pe-0">
-              <div class="p-3 md-01dp rounded h-100">
-                <h4 class="fw-bold">Condizioni</h4>
-                <div>
-                  
-                </div>
+          <div class="col-5 p-2 pe-0">
+            <div class="p-3 md-01dp rounded h-100">
+              <h5 class="fw-bold">Genere</h5>
+              <div>
+                <canvas id="genderChart" height="300" class="w-100">
+                  <p>
+                    Grafico a torta che mostra distribuzione percentuale del genere dei clienti.
+                    Maschi: <span id="maschi"></span>%.
+                    Femmine: <span id="femmine"></span>%.
+                    Non specificati: <span id="nonSpec"></span>%.
+                  </p>
+                </canvas>
               </div>
             </div>
           </div>
         </div>
-      </main>
+        <div class="row">
+          <div class="col-8 p-2 ps-0">
+            <div class="p-4 md-01dp rounded h-100">
+              <h4 class="fw-bold">Altre</h4>
+              <div class="row">
+                <div class="p-2 col-6">
+                  <div class=" flex-column md-04dp rounded p-4">
+                    <h5 class="text-center pb-2">Tempo medio di noleggio (giorni)</h5>
+                    <div class="text-center pt-2 fs-2">5</div>
+                  </div>
+                </div>
+                <div class="p-2 col-6">
+                  <div class="flex-column md-04dp rounded p-4">
+                    <h5 class="text-center pb-2">Numero medio di noleggi al mese</h5>
+                    <div class="text-center pt-2 fs-2">100</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 p-2 pe-0">
+            <div class="p-3 md-01dp rounded h-100">
+              <h4 class="fw-bold">Condizioni</h4>
+              <div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
     <!--FOOTER-->
     <footer class="mt-4 pb-4 w-100">
