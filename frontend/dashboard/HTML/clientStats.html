@@ -98,9 +98,14 @@
             </div>
             <div class="col-7 p-2 pe-0">
               <div class="p-3 md-01dp rounded h-100">
-                <h5 class="fw-bold">Soldi (trovare titolo migliore + NONaccessibile)</h5>
+                <h5 class="fw-bold">Genere</h5>
                 <div>
-                  <canvas id="lineChart" height="300" class="w-100"></canvas>
+                  <canvas id="genderChart" height="300" class="w-100">
+                    <p>
+                      Grafico a torta che rappresenta i dati sul genere dei clienti.
+                      
+                    </p>
+                  </canvas>
                 </div>
               </div>
             </div>
@@ -129,16 +134,7 @@
               <div class="p-3 md-01dp rounded h-100">
                 <h4 class="fw-bold">Condizioni</h4>
                 <div>
-                  <canvas id="condizioniChart" height="200" class="w-100">
-                    <p>
-                      Grafico a torta con valori in percentuale. Oggetti in
-                      ottime condizioni:
-                      <span id="valoreOttimeCond"></span>. Oggetti
-                      in buone condizioni: <span id="valoreBuoneCond"></span>.
-                      Oggetti parzialmente danneggiati:
-                      <span id="valoreParzDanneggiati"></span>.
-                    </p>
-                  </canvas>
+                  
                 </div>
               </div>
             </div>
@@ -161,6 +157,6 @@
     ></script>
     <!--Chart.js CDN-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript" src="../JS/index.js"></script>
+    <script type="text/javascript" src="../JS/clientStats.js"></script>
   </body>
 </html>

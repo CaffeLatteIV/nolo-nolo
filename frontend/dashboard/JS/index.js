@@ -42,30 +42,6 @@ const distrConfig = {
 };
 var distrChart = new Chart(document.getElementById("distrChart"), distrConfig);
 
-//Setup for Bar Chart --> Contiene dati su età clienti
-const ageData = {
-  labels: ["13-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"],
-  datasets: [{
-    label: 'Età clienti',
-    data: [6, 37, 80, 105, 107, 55, 40],
-    backgroundColor: [
-      "#1DA1F2"
-    ],
-    borderRadius: 5
-  }]
-};
-const ageConfig = {
-  type: 'bar',
-  data: ageData,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  },
-};
-var ageChart = new Chart(document.getElementById("ageChart"), ageConfig);
 
 //Setup for Doughnut Chart --> Contiene dati su condizioni
 const condizioniData = {
@@ -107,4 +83,28 @@ $(document).ready(function () {
   $('#valoreOttimeCond').html(numOttimi)
   $('#valoreBuoneCond').html(numBuono)
   $('#valoreParzDanneggiati').html(numParzDanneggiati)
+  var gennaio = lineData.datasets[0].data[0]
+    var febbraio = lineData.datasets[0].data[1]
+    var marzo = lineData.datasets[0].data[2]
+    var aprile = lineData.datasets[0].data[3]
+    var maggio = lineData.datasets[0].data[4]
+    var giugno = lineData.datasets[0].data[5]
+    var luglio = lineData.datasets[0].data[6]
+    var agosto = lineData.datasets[0].data[7]
+    var settembre = lineData.datasets[0].data[8]
+    var ottobre = lineData.datasets[0].data[9]
+    var novembre = lineData.datasets[0].data[10]
+    var dicembre = lineData.datasets[0].data[11]
+    $('#gennaio').html(gennaio)
+    $('#febbraio').html(febbraio)
+    $('#marzo').html(marzo)
+    $('#aprile').html(aprile)
+    $('#maggio').html(maggio)
+    $('#giugno').html(giugno)
+    $('#luglio').html(luglio)
+    $('#agosto').html(agosto)
+    $('#settembre').html(settembre)
+    $('#ottobre').html(ottobre)
+    $('#novembre').html(novembre)
+    $('#dicembre').html(dicembre)
 })
