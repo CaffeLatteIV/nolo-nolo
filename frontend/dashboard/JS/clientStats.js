@@ -54,8 +54,8 @@ $(document).ready(function () {
     var femmine = genderData.datasets[0].data[1]
     var nonSpec = genderData.datasets[0].data[2]
     $('#maschi').html(maschi)
-    $('#maschi').html(maschi)
-    $('#maschi').html(maschi)
+    $('#femmine').html(femmine)
+    $('#nonSpec').html(nonSpec)
     var fOne = genderData.datasets[0].data[0]
     var fTwo = genderData.datasets[0].data[1]
     var fThree = genderData.datasets[0].data[2]

@@ -4,7 +4,9 @@ body {
   height: 100%;
   background: #121212;
   color: white;
+  scrollbar-color: grey transparent;
 }
+
 #catNav {
   overflow: auto;
   white-space: nowrap;
@@ -149,4 +151,17 @@ text-decoration: none;
 
 .skip-link:focus {
 transform: translateY(0%);
+}
+
+
+.lowerPartClients {
+  height: 180px;
+  
+}
+#list::-webkit-scrollbar {
+  display: none;
+}
+#list {
+  overflow-y: auto;
+  scrollbar-color: grey transparent;
 }
