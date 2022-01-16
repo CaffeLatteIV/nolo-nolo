@@ -10,7 +10,7 @@ function Navbar() {
       <nav className="navbar navbar-expand md-04dp">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand text-white" title="Menù principale">
-            NOLONOLO
+            <h2>NOLONOLO</h2>
           </Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Apri pannello di navigazione">
             <span className="navbar-toggler-icon" />
@@ -21,20 +21,22 @@ function Navbar() {
                 {isLogged
                   ? (
                     <>
-                      <button className="btn dropdown-toggle" type="button" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a href="#" className="nav-link dropstart-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
                         <span className="material-icons text-white">person</span>
-                      </button>
-
-                      <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li>
+                      </a>
+                      <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                        <li className="md-24dp rounded-top">
                           <Link to="/account" className="nav-link text-white px-4" title="Il mio account">
                             Il mio account
                           </Link>
                         </li>
-                        <li>
+                        <li className="md-24dp">
                           <Link to="/orders" className="nav-link text-white px-4" title="I miei ordini">
                             I miei ordini
                           </Link>
+                        </li>
+                        <li className="p-2 md-24dp rounded-bottom">
+                          <a className="dropdown-item md-error rounded text-white" id="logout" href="#">Esci</a>
                         </li>
                       </ul>
                     </>
@@ -60,13 +62,6 @@ function Navbar() {
                       </ul>
                     </>
                   )}
-                {/* <Link to='/login' className="nav-link" title="Account">
-                                    <span className="material-icons text-white">person</span>
-                                </Link>
-                              : <Link to='/login' className="nav-link" title="Account">
-                                    <span className="material-icons text-white">person_outline</span>
-                            </Link> */}
-
               </li>
               <li className="nav-item">
                 <Link to="/cart" className="nav-link" title="Carrello">
