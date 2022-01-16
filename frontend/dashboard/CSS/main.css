@@ -24,7 +24,6 @@ body {
 }
 /*End of Entire site CSS*/
 
-
 /*Carousel CSS*/
 .carousel-caption h5,
 .carousel-caption p {
@@ -38,7 +37,6 @@ body {
   overflow: hidden;
 }
 /*End of Carousel CSS*/
-
 
 /*GoTop CSS*/
 #backToTopBtn {
@@ -84,82 +82,85 @@ body {
 /*General Purpose Backgrounds*/
 /*Material Design Backgrounds for Dark Theme
 Source: https://material.io/design/color/dark-theme.html*/
-  .md-error {
-    background-color: #CF6679;
-  }
-  #logout:hover {
-    background-color: #CF6679;
-  }
-  .md-base {
-    background-color: #121212;
-  }
-  .md-01dp {
-      background-color: rgba(255, 255, 255, 0.05);
-  }
-  .md-02dp {
-      background-color: rgba(255, 255, 255, 0.07);
-  }
-  .md-03dp {
-      background-color: rgba(255, 255, 255, 0.08);
-  }
-  .md-04dp {
-      background-color: rgba(255, 255, 255, 0.09);
-  }
-  .md-06dp {
-      background-color: rgba(255, 255, 255, 0.11);
-  }
-  .md-08dp {
-      background-color: rgba(255, 255, 255, 0.12);
-  }
-  .md-12dp {
-      background-color: rgba(255, 255, 255, 0.14);
-  }
-  .md-16dp {
-      background-color: rgba(255, 255, 255, 0.15);
-  }
-  .md-24dp {
-      background-color: rgba(255, 255, 255, 0.16);
-  }
+.md-error {
+  background-color: #cf6679;
+}
+#logout:hover {
+  background-color: #cf6679;
+}
+.md-base {
+  background-color: #121212;
+}
+.md-01dp {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.md-02dp {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+.md-03dp {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.md-04dp {
+  background-color: rgba(255, 255, 255, 0.09);
+}
+.md-06dp {
+  background-color: rgba(255, 255, 255, 0.11);
+}
+.md-08dp {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.md-12dp {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+.md-16dp {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.md-24dp {
+  background-color: rgba(255, 255, 255, 0.16);
+}
 /*End of Material Design Backgrounds*/
 /*Proprietary Backgrounds*/
-  .bg-site-primary{
-    background-color: #4bb5f6;
-  }
-  .bg-self-red{
-    background-color: #CF6679;
-  }
+.bg-site-primary {
+  background-color: #4bb5f6;
+}
+.bg-self-red {
+  background-color: #cf6679;
+}
 /*End of Proprietary BackGrounds*/
 /*End of General Purpose Backgrounds*/
 
-#canBeDisabled[aria-disabled="true"]{
-background: gray;
-cursor: not-allowed;
+#canBeDisabled[aria-disabled="true"] {
+  background: gray;
+  cursor: not-allowed;
 }
 
-.product-card-link{
-text-decoration: none;
+.product-card-link {
+  text-decoration: none;
 }
 
 .skip-link {
-background: #121212;
-color: white;
-left: 50%;
-position: absolute;
-transform: translateY(-100%);
-text-decoration: none;
+  background: #121212;
+  color: white;
+  left: 50%;
+  position: absolute;
+  transform: translateY(-100%);
+  text-decoration: none;
 }
 
 .skip-link:focus {
-transform: translateY(0%);
+  transform: translateY(0%);
 }
-
 
 .lowerPartClients {
   height: 180px;
-  
 }
 #list::-webkit-scrollbar {
-  display: none;
+  background: transparent;
+  width: 0.5em;
+}
+#list::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 5em;
 }
 #list {
   overflow-y: auto;
