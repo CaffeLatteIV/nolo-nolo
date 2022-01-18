@@ -31,7 +31,6 @@ function Receipt() {
       status: 'Prenotato',
       fidelityPoints: newRent.fidelityPoints || 0,
     }
-    console.log(product)
     const accessToken = cookie.get('accessToken')
     axios.post(`${URL}/add`, { product }, {
       headers: {
@@ -43,6 +42,7 @@ function Receipt() {
   }
   return (
     <div>
+      <h1>RIEPILOGO</h1>
       Codice prodotto: {newRent['_id']}
       <br />
       Titolo:{newRent.title}
