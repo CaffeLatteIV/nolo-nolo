@@ -9,8 +9,8 @@ function ProductCard({ id, title, price, condition, img }) {
         <img src={img} className="card-img-top" alt="Item Pic" />
         <div className="card-body p-2">
           <h5 className="card-title text-white">{ title }</h5>
-          <p className="card-text text-white">Condition: {condition}</p>
-          <p className="card-text text-white">Price: <span className="tw-bold m-0 p-0">{ price }</span>/month</p>
+          <p className="card-text text-white">Condizione: {condition}</p>
+          <p className="card-text text-white">Prezzo: <span className="tw-bold m-0 p-0">{ price }€</span>/mese</p>
         </div>
       </div>
     </Link>
