@@ -43,7 +43,6 @@ app.get('/products', async (req, res) => {
 })
 app.get('/products/:productID', async (req, res) => {
   const { productID } = req.params
-  console.log(productID)
   logger.info(`Sending product ${productID}`)
   const products = await db.findOneAvailable(undefined, undefined, productID)
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
