@@ -46,6 +46,7 @@ function Receipt() {
   }
   return (
     <div>
+      <h1>RIEPILOGO</h1>
       Codice prodotto: {newRent['_id']}
       <br />
       Titolo:{newRent.title}
