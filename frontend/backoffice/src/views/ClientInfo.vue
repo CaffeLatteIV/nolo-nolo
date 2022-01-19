@@ -65,7 +65,9 @@
               id="dateInput"
               value="1946-06-02"
             />
-            <label for="dateInput" class="form-label ps-2">Data di nascita</label>
+            <label for="dateInput" class="form-label ps-2"
+              >Data di nascita</label
+            >
           </div>
         </div>
 
@@ -83,41 +85,42 @@
       </div>
 
       <div class="d-md-flex justify-content-start align-items-center mb-4 pb-2">
-        <h6 class="mb-0 me-4">Gender:</h6>
+        <fieldset>
+          <legend class="mb-0 me-4 fs-5">Genere:</legend>
+          <div class="form-check form-check-inline mb-0 me-4">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="femaleGender"
+              value="option1"
+            />
+            <label class="form-check-label" for="femaleGender">Femmina</label>
+          </div>
 
-        <div class="form-check form-check-inline mb-0 me-4">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="inlineRadioOptions"
-            id="femaleGender"
-            value="option1"
-          />
-          <label class="form-check-label" for="femaleGender">Femmina</label>
-        </div>
+          <div class="form-check form-check-inline mb-0 me-4">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="maleGender"
+              value="option2"
+              checked
+            />
+            <label class="form-check-label" for="maleGender">Maschio</label>
+          </div>
 
-        <div class="form-check form-check-inline mb-0 me-4">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="inlineRadioOptions"
-            id="maleGender"
-            value="option2"
-            checked
-          />
-          <label class="form-check-label" for="maleGender">Maschio</label>
-        </div>
-
-        <div class="form-check form-check-inline mb-0">
-          <input
-            class="form-check-input"
-            type="radio"
-            name="inlineRadioOptions"
-            id="otherGender"
-            value="option3"
-          />
-          <label class="form-check-label" for="otherGender">Altro</label>
-        </div>
+          <div class="form-check form-check-inline mb-0">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="otherGender"
+              value="option3"
+            />
+            <label class="form-check-label" for="otherGender">Altro</label>
+          </div>
+        </fieldset>
       </div>
 
       <!-- Submit button -->
@@ -156,6 +159,6 @@ button.btn {
   border: none;
 }
 ::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+  filter: invert(1);
 }
 </style>
