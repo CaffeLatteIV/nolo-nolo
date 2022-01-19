@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import moment from 'moment'
 
 const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories/products'
 function ProductPage() {
@@ -21,7 +22,9 @@ function ProductPage() {
   }, [])
   function rent() {
     const cookie = new Cookies()
-    cookie.set('rent', { newRent: product, start: 0, end: 0 })
+    const start = moment(new Date()).valueOf()
+    cookie.set('rent', { newRent: product, start, end: (start + 86400000) }) // ms in a day
+    console.log(product)
     navigate('/receipt')
   }
   return (

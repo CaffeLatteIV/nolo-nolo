@@ -10,6 +10,10 @@ const app = Express.Router()
 app.post('/add', authenticateAccessToken, async (req, res) => {
   try {
     const { product } = req.body
+    if (!product) {
+      logger.error('Missing product to add')
+      return res.status(404).send({ code: 404, msg: 'Missing product to add' })
+    }
     logger.info(`A user bought a new product: ${product.productCode}`)
 
     await db.addRentals(product)
@@ -36,8 +40,12 @@ app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
 })
 app.get('/find/product', authenticateAccessToken, async (req, res) => {
   try {
-    const { item } = req.body
-    const rent = await db.findProductRentals(item.productCode)
+    const { productCode } = req.body
+    if (!productCode) {
+      logger.error('Missing productCode')
+      return res.status(404).send({ code: 404, msg: 'Missing productCode' })
+    }
+    const rent = await db.findProductRentals(productCode)
     // TODO: verificare che restituisca null e non [null]
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     // TODO: verificare che restituisca un oggetto json e non un array e basta
@@ -51,8 +59,12 @@ app.get('/find/product', authenticateAccessToken, async (req, res) => {
 
 app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
   try {
-    const { item } = req.body
-    const rent = await db.findEndings(item.date)
+    const { date } = req.body
+    if (!date) {
+      logger.error('Missing date')
+      return res.status(404).send({ code: 404, msg: 'Missing date' })
+    }
+    const rent = await db.findEndings(date)
     // TODO: verificare che restituisca null e non [null]
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     // TODO: verificare che restituisca un oggetto json e non un array e basta
@@ -65,8 +77,12 @@ app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
 })
 app.get('/find/date/start', async (req, res) => {
   try {
-    const { item } = req.body
-    const rent = await db.findStarts(item.date)
+    const { date } = req.body
+    if (!date) {
+      logger.error('Missing date')
+      return res.status(404).send({ code: 404, msg: 'Missing date' })
+    }
+    const rent = await db.findStarts(date)
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     return res.status(200).send({ rent })
   } catch (err) {
@@ -77,8 +93,8 @@ app.get('/find/date/start', async (req, res) => {
 })
 app.get('/find', async (req, res) => {
   try {
-    const { item } = req.body
-    const rent = await db.find(item.productCode, item.clientCode)
+    const { productCode, clientCode } = req.body
+    const rent = await db.find(productCode, clientCode)
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' })// può essere cambiato e restituire solo l'array vuoto
     return res.status(200).send({ rent })
   } catch (err) {

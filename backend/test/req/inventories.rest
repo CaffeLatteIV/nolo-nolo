@@ -12,8 +12,8 @@ content-type: application/json
     },
     "condition":"Buona",
     "category":"Bici",
-    "title":"Mountain bike",
-    "description":"Bellissima bici"
+    "title":"Mountain bike3",
+    "description":"Bellissima bici3"
   }
 }
 

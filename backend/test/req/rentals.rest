@@ -1,13 +1,14 @@
 POST http://localhost:5000/v1/rentals/add HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY0MTY2MjQyNywiZXhwIjoxNjQxNjYzMzI3fQ.IYGa6z-HlzCZYoJPZKtyTOmaYG_re-xA2n-lgwEcX1A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI1MDAxNTEsImV4cCI6MTY0MjUwMTA1MX0._Tt2ac6WjKSoEvjVt0hNRjQWFjHKWngJtDubfwTHKww
 content-type: application/json
 
 {
-  "item":{
+  "product":{
+    "title":"Bellissima bici",
       "start":948590625678,
       "end":948990625999,
-      "productCode":"61d9b9d5a04166beb04bf926",
-      "clientCode":"61d9c3debf30dc434d1ee1c1",
+      "productCode":"61e68e0bdd170b22357611cf",
+      "clientCode":"61bb177a9f716e2ae378b3f4",
       "price":400,
       "fidelityPoints":200,
       "status":"Prenotato"
