@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
@@ -45,6 +47,13 @@ const inventorySchema = new Schema({
       default: 'http://localhost:5000/v1/image/not-available.png', // TODO cambiare
     },
   },
+
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const rentSchema = new Schema({
   title: {
@@ -83,6 +92,12 @@ const rentSchema = new Schema({
     type: Number || undefined,
     default: undefined,
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const clientSchema = new Schema({
   email: {
@@ -110,6 +125,12 @@ const clientSchema = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const employeeSchema = new Schema({
   email: {
@@ -131,7 +152,18 @@ const refreshTokenSchema = new Schema({
     type: String,
     required: true,
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
+clientSchema.set('toJSON', { virtuals: true })
+refreshTokenSchema.set('toJSON', { virtuals: true })
+employeeSchema.set('toJSON', { virtuals: true })
+rentSchema.set('toJSON', { virtuals: true })
+
 export {
   inventorySchema,
   rentSchema,
