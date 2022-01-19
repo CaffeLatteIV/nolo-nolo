@@ -1,9 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react'
+import React from 'react'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-function Navbar() {
-  const [isLogged] = useState(true)
+const URL = process.env.TOKEN_URL || 'http://localhost:5000/v1/token'
+function Navbar({ logged, setLogged }) {
+  async function logout() {
+    const cookies = new Cookies()
+    const refreshToken = cookies.get('refreshToken')
+    if (refreshToken) {
+      await axios.delete(`${URL}/remove`, { data: { refreshToken } })
+    }
+    cookies.remove('client')
+    cookies.remove('refreshToken')
+    cookies.remove('accessToken')
+    setLogged(false)
+  }
   return (
     <div>
       {/* Main navbar */}
@@ -18,7 +32,7 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item dropstart">
-                {isLogged
+                {logged
                   ? (
                     <>
                       <a href="#" className="nav-link dropstart-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
@@ -36,7 +50,7 @@ function Navbar() {
                           </Link>
                         </li>
                         <li className="p-2 md-24dp rounded-bottom">
-                          <a className="dropdown-item md-error rounded text-white" id="logout" href="#">Esci</a>
+                          <a className="dropdown-item md-error rounded text-white" id="logout" href="#" onClick={logout}>Esci</a>
                         </li>
                       </ul>
                     </>
@@ -63,11 +77,11 @@ function Navbar() {
                     </>
                   )}
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to="/cart" className="nav-link" title="Carrello">
                   <span className="material-icons text-white">shopping_cart</span>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
@@ -75,5 +89,6 @@ function Navbar() {
     </div>
   )
 }
+Navbar.propTypes = { logged: PropTypes.bool.isRequired, setLogged: PropTypes.func.isRequired }
 
 export default Navbar

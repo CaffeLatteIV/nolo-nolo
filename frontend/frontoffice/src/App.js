@@ -15,6 +15,7 @@ import NotFound from './pages/NotFound.js'
 import Orders from './pages/Orders.js'
 import CategoryPage from './pages/CategoryPage.js'
 import Account from './pages/Account.js'
+import SearchPage from './pages/SearchPage.js'
 
 function App() {
   const newLang = 'it'
@@ -22,6 +23,7 @@ function App() {
   // All below handles the back to top functionality
   const [scrollPosition, setScrollPosition] = useState(0)
   const [showGoTop, setshowGoTop] = useState('goTopHidden')
+  const [isLogged, setIsLogged] = useState(false)
   const handleVisibleButton = () => {
     const position = window.pageYOffset
     setScrollPosition(position)
@@ -40,12 +42,13 @@ function App() {
   return (
     <Router>
       <a className="skip-link" href="#main" ref={refScrollUp}>Passa al contenuto principale</a>
-      <Top />
+      <Top logged={isLogged} setLogged={(logged) => { setIsLogged(logged) }} />
       <main id="main">
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/login" element={<Login isLogging />} />
-          <Route path="/register" element={<Login isLogging={false} />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/login" element={<Login isLogging setLogged={(logged) => { setIsLogged(logged) }} />} />
+          <Route path="/register" element={<Login isLogging={false} setLogged={(logged) => { setIsLogged(logged) }} />} />
           <Route path="/product" element={<RequireAuth><ProductPage /></RequireAuth>} />
           {/* <Route path="/cart" element={<RequireAuth><Cart /></RequireAuth>} /> */}
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
