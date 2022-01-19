@@ -54,6 +54,11 @@ const inventorySchema = new Schema({
     versionKey: false,
     transform(doc, ret) { delete ret._id },
   },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const rentSchema = new Schema({
   title: {
@@ -71,10 +76,12 @@ const rentSchema = new Schema({
   productCode: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref: 'inventories',
   },
   clientCode: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref: 'employees',
   },
   price: {
     type: Number,
@@ -94,6 +101,11 @@ const rentSchema = new Schema({
   },
 }, {
   toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
     virtuals: true,
     versionKey: false,
     transform(doc, ret) { delete ret._id },
@@ -146,6 +158,17 @@ const employeeSchema = new Schema({
     enum: ['funzionario', 'manager'],
     required: true,
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const refreshTokenSchema = new Schema({
   token: {
@@ -158,11 +181,12 @@ const refreshTokenSchema = new Schema({
     versionKey: false,
     transform(doc, ret) { delete ret._id },
   },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
-clientSchema.set('toJSON', { virtuals: true })
-refreshTokenSchema.set('toJSON', { virtuals: true })
-employeeSchema.set('toJSON', { virtuals: true })
-rentSchema.set('toJSON', { virtuals: true })
 
 export {
   inventorySchema,
