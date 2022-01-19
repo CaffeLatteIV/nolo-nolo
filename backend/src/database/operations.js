@@ -25,7 +25,9 @@ class Operation {
         uniqueItems[productCode] += 1
       }
     })
+    console.log(uniqueItems)
     const itemsArr = Object.keys(uniqueItems).sort((a, b) => uniqueItems[a] - uniqueItems[b]).slice(0, n - 1)
+    console.log(itemsArr)
     const res = []
     for (let i = 0; i < itemsArr.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop

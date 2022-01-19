@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
+    "moment": "^2.29.1",
     "moment-business-days": "^1.2.0",
     "prop-types": "^15.8.1",
     "random": "^3.0.6",

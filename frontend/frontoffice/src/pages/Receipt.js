@@ -16,9 +16,13 @@ function Receipt() {
   const daysBetweenDates = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
   const businessDays = moment(end).businessDiff(moment(start))
   const holidayDays = daysBetweenDates - businessDays
-  const price = ((newRent.price.weekdays * businessDays) || 0) + ((newRent.price.weekends * holidayDays) || 0)
+  let price = ((newRent.price.weekdays * businessDays) || 0) + ((newRent.price.weekends * holidayDays) || 0)
+  if (price <= 0) {
+    price = (new Date(start).getDay() % 6) ? newRent.price.weekday : newRent.price.weekend
+    console.log(new Date(start).getDay())
+  }
 
-  function handleConfirm() {
+  async function handleConfirm() {
     validateAccessToken()
     const client = cookie.get('client')
     const product = {
@@ -32,7 +36,7 @@ function Receipt() {
       fidelityPoints: newRent.fidelityPoints || 0,
     }
     const accessToken = cookie.get('accessToken')
-    axios.post(`${URL}/add`, { product }, {
+    await axios.post(`${URL}/add`, { product }, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
@@ -51,12 +55,14 @@ function Receipt() {
       <br />
       condizione: {newRent.condition}
       <br />
-      Prezzo: <div> <div>Giorni lavorativi:{newRent.price.weekdays}</div><div>Giorni feriali: {newRent.price.weekends}</div> </div>
+      Prezzo: <div> <div>Giorni lavorativi: {newRent.price.weekday}€</div><div>Giorni feriali: {newRent.price.weekend}€</div> </div>
       <br />
       Durata noleggio: {daysBetweenDates}
       <br />
-      TOTALE: {price}
+      TOTALE: {price}€
+      <br />
       <button type="button" onClick={handleConfirm}>Conferma</button>
+      <br />
       TODO: Design e bottone conferma acquisto
 
     </div>
