@@ -39,7 +39,7 @@ class Operation {
   // utilizza la distanza di levenshtein https://en.wikipedia.org/wiki/Levenshtein_distance
   async findSimilarTitle(title) {
     await this.connect()
-    const productList = await this.Inventory.find({}, 'title').exec() // restituisce sia il titolo che l'id corrispondente all'oggetto
+    const productList = await this.Inventory.find().exec() // restituisce sia il titolo che l'id corrispondente all'oggetto
     const titleList = productList.map((product) => product.title) // estraggo solo il titolo
     const closestTitle = closest(title, titleList) // trovo il titolo più simile
     return productList.filter((product) => product.title === closestTitle) // ritorno tutti gli oggetti con lo stesso titolo + il loro ID
