@@ -22,13 +22,13 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link text-white" href="./clientStats.html">Store</a>
+            <a class="nav-link text-white" href="/#">Store</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="./itemStats.html">Clienti</a>
+            <a class="nav-link text-white" href="/admin/clientList">Clienti</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="./itemStats.html">Inventario</a>
+            <a class="nav-link text-white" href="/admin/inventory">Inventario</a>
           </li>
         </ul>
       </div>

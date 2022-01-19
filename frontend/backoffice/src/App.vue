@@ -3,9 +3,9 @@
   <Navbar />
   <Searchbar />
   <main id="main">
+    <router-view />
   </main>
   <Footer />
-  <router-view />
 </template>
 
 <script>
@@ -22,4 +22,3 @@ export default {
   },
 };
 </script>
-
