@@ -7,13 +7,13 @@ content-type: application/json
     "available":true,
     "price":{
       "weekend":25,
-      "weekday":50,
+      "weekday":15,
       "points":200
     },
-    "condition":"Buona",
+    "condition":"Ottima",
     "category":"Bici",
-    "title":"Mountain bike3",
-    "description":"Bellissima bici3"
+    "title":"Esperia Mtb Michigan 26\" ",
+    "description":"Mountain Bike 26\" da ragazzo caratterizzata da telaio in acciaio, forcella ammortizzata acciaio, cambio Shimano TZ500 21V, comandi 7x3V con leve freno integrate, freni v-brake alluminio e cerchi alluminio con coperture 26x1,95."
   }
 }
 

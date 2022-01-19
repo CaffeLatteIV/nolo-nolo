@@ -19,7 +19,6 @@ function Receipt() {
   let price = ((newRent.price.weekdays * businessDays) || 0) + ((newRent.price.weekends * holidayDays) || 0)
   if (price <= 0) {
     price = (new Date(start).getDay() % 6) ? newRent.price.weekday : newRent.price.weekend
-    console.log(new Date(start).getDay())
   }
 
   async function handleConfirm() {
@@ -29,10 +28,10 @@ function Receipt() {
       title: newRent.title,
       start,
       end,
-      productCode: newRent['_id'],
-      clientCode: client['_id'],
+      productCode: newRent.id,
+      clientCode: client.id,
       price,
-      status: 'Prenotato',
+      status: 'Prenotato', // se l'utente conferma lo status diventa prenotato
       fidelityPoints: newRent.fidelityPoints || 0,
     }
     const accessToken = cookie.get('accessToken')
@@ -47,7 +46,7 @@ function Receipt() {
   return (
     <div>
       <h1>RIEPILOGO</h1>
-      Codice prodotto: {newRent['_id']}
+      Codice prodotto: {newRent.id}
       <br />
       Titolo:{newRent.title}
       <br />

@@ -24,7 +24,6 @@ function ProductPage() {
     const cookie = new Cookies()
     const start = moment(new Date()).valueOf()
     cookie.set('rent', { newRent: product, start, end: (start + 86400000) }) // ms in a day
-    console.log(product)
     navigate('/receipt')
   }
   return (

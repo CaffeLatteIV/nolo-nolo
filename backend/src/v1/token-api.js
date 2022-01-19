@@ -46,7 +46,7 @@ app.delete('/remove', (req, res) => {
   const { refreshToken } = req.body
   if (!refreshToken) {
     logger.error('Refresh token is missing')
-    return res.status(401).send({ code: 401, msg: 'Refresh token is missing' })
+    return res.status(401).send({ code: 404, msg: 'Refresh token is missing' })
   }
   try {
     db.deleteToken(refreshToken)

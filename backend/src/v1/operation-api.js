@@ -11,5 +11,13 @@ app.get('/bestSellers', async (req, res) => {
   const operation = new Operation()
   res.send({ bestSellers: await operation.findbestSellers(n) })
 })
+app.get('/search/:title', async (req, res) => {
+  const { title } = req.params
+  if (title === undefined) {
+    res.status(404).send({ code: 404, msg: 'Invalid query' })
+  }
+  const operation = new Operation()
+  res.send({ result: await operation.findSimilarTitle(title) })
+})
 
 export default app

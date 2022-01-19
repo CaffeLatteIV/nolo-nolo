@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
@@ -45,6 +47,18 @@ const inventorySchema = new Schema({
       default: 'http://localhost:5000/v1/image/not-available.png', // TODO cambiare
     },
   },
+
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const rentSchema = new Schema({
   title: {
@@ -62,10 +76,12 @@ const rentSchema = new Schema({
   productCode: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref: 'inventories',
   },
   clientCode: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref: 'employees',
   },
   price: {
     type: Number,
@@ -82,6 +98,17 @@ const rentSchema = new Schema({
   paid: {
     type: Number || undefined,
     default: undefined,
+  },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
   },
 })
 const clientSchema = new Schema({
@@ -110,6 +137,12 @@ const clientSchema = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const employeeSchema = new Schema({
   email: {
@@ -125,13 +158,36 @@ const employeeSchema = new Schema({
     enum: ['funzionario', 'manager'],
     required: true,
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
 const refreshTokenSchema = new Schema({
   token: {
     type: String,
     required: true,
   },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
 })
+
 export {
   inventorySchema,
   rentSchema,

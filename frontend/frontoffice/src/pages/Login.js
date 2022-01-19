@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie'
 import '../css/Login.css'
 
 const URL = process.env.URL || 'http://localhost:5000/'
-function Login({ isLogging }) {
+function Login({ isLogging, setLogged }) {
   if (isLogging) {
     document.title = 'NOLONOLO Accedi'
   } else {
@@ -48,6 +48,7 @@ function Login({ isLogging }) {
     const email = event.target.email.value
     const password = event.target.password.value
     if (validate(email, password)) await logUser(email, password)
+    setLogged(true) // conferma il login ad app.js
     navigate('/', { replace: true })
   }
 
@@ -120,6 +121,6 @@ function Login({ isLogging }) {
     </div>
   )
 }
-Login.propTypes = { isLogging: PropTypes.bool.isRequired }
+Login.propTypes = { isLogging: PropTypes.bool.isRequired, setLogged: PropTypes.func.isRequired }
 
 export default Login
