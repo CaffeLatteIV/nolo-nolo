@@ -8,13 +8,12 @@ import validateAccessToken from '../components/Tokens.js'
 
 const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
 function Orders() {
-  // const [activeOrdersList, setActiveOrdersList] = useState(undefined)
   const [productList, setProductList] = useState({ bookedOrders: [], activeOrders: [], olderOrders: [] })
   useEffect(async () => {
     await validateAccessToken()
     const cookie = new Cookies()
     const accessToken = cookie.get('accessToken')
-    const id = cookie.get('client')['_id']
+    const { id } = cookie.get('client')
     const { data } = await axios({
       method: 'GET',
       url: `${URL}/clients/${id}`,
@@ -55,7 +54,7 @@ function Orders() {
                   ({ title, start, end, price, fidelityPoints, paid, productCode }) => (
                     <ActiveOrders
                       id={productCode}
-                      title={title || 'manca'}
+                      title={title}
                       price={price}
                       start={start}
                       end={end}
@@ -76,7 +75,7 @@ function Orders() {
                   ({ title, start, end, price, fidelityPoints, paid, productCode }) => (
                     <BookedOrders
                       id={productCode}
-                      title={title || 'manca'}
+                      title={title}
                       price={price}
                       start={start}
                       end={end}
@@ -96,7 +95,7 @@ function Orders() {
                 ({ title, start, end, price, fidelityPoints, paid, productCode }) => (
                   <BookedOrders
                     id={productCode}
-                    title={title || 'manca'}
+                    title={title}
                     price={price}
                     start={start}
                     end={end}
