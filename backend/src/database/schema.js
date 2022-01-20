@@ -47,6 +47,14 @@ const inventorySchema = new Schema({
       default: 'http://localhost:5000/v1/image/not-available.png', // TODO cambiare
     },
   },
+  stock: {
+    type: Number,
+    default: 1,
+  },
+  fidelityPoints: {
+    type: Number,
+    default: 3,
+  },
 
 }, {
   toObject: {
@@ -91,13 +99,13 @@ const rentSchema = new Schema({
     type: Number,
     required: true,
   },
+  earnedFidelityPoints: {
+    type: Number,
+    required: true,
+  },
   status: {
     type: String,
     enum: ['In uso', 'Prenotato'],
-  },
-  paid: {
-    type: Number || undefined,
-    default: undefined,
   },
 }, {
   toObject: {
@@ -139,6 +147,11 @@ const clientSchema = new Schema({
   },
 }, {
   toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
     virtuals: true,
     versionKey: false,
     transform(doc, ret) { delete ret._id },
