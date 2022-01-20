@@ -1,7 +1,6 @@
 /* eslint-disable dot-notation */
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Cookies from 'universal-cookie'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -21,10 +20,9 @@ function ProductPage() {
     setProduct(data.products)
   }, [])
   function rent() {
-    const cookie = new Cookies()
+    // TODO prendere i parametri inseriti dall'utente
     const start = moment(new Date()).valueOf()
-    cookie.set('rent', { newRent: product, start, end: (start + 86400000) }) // ms in a day
-    navigate('/receipt')
+    navigate('/receipt', { state: { newRent: product, start, end: (start + 86400000) } }) // ms in a day
   }
   return (
     <>
