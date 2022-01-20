@@ -14,10 +14,13 @@ app.post('/add', authenticateAccessToken, async (req, res) => {
       logger.error('Missing product to add')
       return res.status(404).send({ code: 404, msg: 'Missing product to add' })
     }
-    logger.info(`A user bought a new product: ${product.productCode}`)
-
+    const overlappingProduct = await db.findOverlappingDates(product.start, product.end, product.productCode)
+    if (overlappingProduct) {
+      logger.info('Selected dates are not available for this product')
+      return res.status(402).send({ code: 402, msg: 'Selected dates are not available for this product' })
+    }
     await db.addRentals(product)
-
+    logger.info(`A user rented a new product: ${product.productCode}`)
     return res.status(200).send({ code: 200, msg: 'Rental added' })
   } catch (err) {
     logger.error(err.message)
@@ -29,7 +32,6 @@ app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
   try {
     const { clientCode } = req.params
     const rent = await db.findUserRentals(clientCode)
-    // TODO: verificare che restituisca null e non [null]
     if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
     return res.status(200).send(rent)
   } catch (err) {
@@ -38,15 +40,14 @@ app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
-app.get('/find/product', authenticateAccessToken, async (req, res) => {
+app.get('/find/:productCode', authenticateAccessToken, async (req, res) => {
   try {
-    const { productCode } = req.body
+    const { productCode } = req.params
     if (!productCode) {
       logger.error('Missing productCode')
       return res.status(404).send({ code: 404, msg: 'Missing productCode' })
     }
     const rent = await db.findProductRentals(productCode)
-    // TODO: verificare che restituisca null e non [null]
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     // TODO: verificare che restituisca un oggetto json e non un array e basta
     return res.status(200).send(rent)
