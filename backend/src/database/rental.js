@@ -12,7 +12,7 @@ class Rental {
     this.Rentals = mongoose.model('rentals', rentSchema)
   }
 
-  async addRentals({ title, start, end, productCode, clientCode, price, fidelityPoints }) {
+  async addRentals({ earnedFidelityPoints, title, start, end, productCode, clientCode, price, fidelityPoints }) {
     await new this.Rentals({
       title,
       start,
@@ -20,6 +20,7 @@ class Rental {
       clientCode,
       productCode,
       price,
+      earnedFidelityPoints,
       fidelityPoints,
     }).save()
   }
@@ -34,6 +35,12 @@ class Rental {
 
   async find(clientCode, productCode) {
     return this.Rentals.find({ productCode, clientCode }).exec()
+  }
+
+  async findOverlappingDates(start, end, productCode) {
+    const overlappingProduct = await this.Rentals.findOne({ start: { $gte: start, $lte: end }, productCode })
+    if (overlappingProduct) return { start: overlappingProduct.start, end }
+    return undefined
   }
 
   async findEndings(date) {
