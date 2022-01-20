@@ -21,8 +21,8 @@ class Client {
     return client
   }
 
-  async updateClient({ email, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
-    return this.Clients.findOneAndUpdate({ email }, { preferredCategories, payment, fidelityPoints, description, favourites, notifications })
+  async updateClient({ id, email, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
+    return this.Clients.findOneAndUpdate({ id, email }, { preferredCategories, payment, fidelityPoints, description, favourites, notifications })
   }
 
   async findClient(email) {
