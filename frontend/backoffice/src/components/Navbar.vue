@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link text-white" href="/#">Store</a>
+            <a class="nav-link text-white" href="http://127.0.0.1:3000/">Store</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" href="/admin/clientList">Clienti</a>
