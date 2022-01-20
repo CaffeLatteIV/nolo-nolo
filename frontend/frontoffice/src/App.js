@@ -47,13 +47,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/category" element={<CategoryPage />} />
           <Route path="/login" element={<Login isLogging setLogged={(logged) => { setIsLogged(logged) }} />} />
           <Route path="/register" element={<Login isLogging={false} setLogged={(logged) => { setIsLogged(logged) }} />} />
           <Route path="/product" element={<RequireAuth><ProductPage /></RequireAuth>} />
-          {/* <Route path="/cart" element={<RequireAuth><Cart /></RequireAuth>} /> */}
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
           <Route path="/receipt" element={<RequireAuth><Receipt /></RequireAuth>} />
-          <Route path="/category" element={<CategoryPage />} />
           <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
