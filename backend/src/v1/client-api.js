@@ -77,5 +77,9 @@ app.get('/lookup', authenticateAccessToken, authenticateUserRole, async (req, re
   if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
   return res.status(200).send({ user })
 })
-
+app.post('/update', async (req, res) => {
+  const { client } = req.body
+  await db.updateClient(client)
+  return res.send({ code: 200, msg: 'ok' })
+})
 export default app

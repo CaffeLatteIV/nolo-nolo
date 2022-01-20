@@ -7,7 +7,6 @@ const URL = process.env.OPERATIONS_URL || 'http://localhost:5000/v1/operations'
 function SearchPage() {
   const [products, setProducts] = useState(undefined)
   const { state } = useLocation()
-  // viene eseguito una volta sola (alla prima visita della pagina)
   const { searchText } = state
   // se il parametro id non è presente restituisce la pagina 404
   if (searchText === null) {

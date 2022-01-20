@@ -2,16 +2,16 @@
 import React from 'react'
 import moment from 'moment-business-days'
 // import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Cookie from 'universal-cookie'
 import axios from 'axios'
 import validateAccessToken from '../components/Tokens.js'
 
 const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
 function Receipt() {
-  const cookie = new Cookie()
-  const { newRent, start, end } = cookie.get('rent')
   const navigate = useNavigate()
+  const { state } = useLocation()
+  const { newRent, start, end } = state
   if (!newRent) navigate('*')
   const daysBetweenDates = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
   const businessDays = moment(end).businessDiff(moment(start))
@@ -20,20 +20,24 @@ function Receipt() {
   if (price <= 0) {
     price = (new Date(start).getDay() % 6) ? newRent.price.weekday : newRent.price.weekend
   }
-
+  const earnedFidelityPoints = daysBetweenDates * newRent.fidelityPoints
   async function handleConfirm() {
     validateAccessToken()
+    const cookie = new Cookie()
     const client = cookie.get('client')
     const product = {
       title: newRent.title,
       start,
       end,
+      earnedFidelityPoints,
       productCode: newRent.id,
       clientCode: client.id,
       price,
       status: 'Prenotato', // se l'utente conferma lo status diventa prenotato
       fidelityPoints: newRent.fidelityPoints || 0,
     }
+    console.log(product)
+    console.log(client)
     const accessToken = cookie.get('accessToken')
     await axios.post(`${URL}/add`, { product }, {
       headers: {

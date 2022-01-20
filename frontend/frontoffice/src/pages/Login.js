@@ -41,6 +41,7 @@ function Login({ isLogging, setLogged }) {
     const cookies = new Cookies()
     cookies.set('accessToken', data.accessToken, { path: '/' })
     cookies.set('refreshToken', data.refreshToken, { path: '/' })
+    console.log(data.client)
     cookies.set('client', data.client, { path: '/' })
   }
   async function onSubmit(event) {

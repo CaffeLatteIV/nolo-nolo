@@ -44,6 +44,7 @@ async function populate() {
       category: 'Bici corsa',
       title: 'Cervelo Bici Gravel Aspero',
       description: 'Cervelo Bici Gravel Aspero Apex 1 Seabreeze/Blue ',
+      stock: 5,
     },
     {
       available: false,
@@ -97,4 +98,4 @@ async function populate() {
     },
   ])
 }
-// populate()
+populate()
