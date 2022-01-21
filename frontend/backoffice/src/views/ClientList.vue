@@ -7,108 +7,40 @@
     <div class="p-4">
       <ul class="list-group list-group-flush rounded" id="list">
         <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
-        <li class="list-group-item md-04dp border-dark">
-          <a href="" class="text-white text-decoration-none">
-            <div class="row px-3">
-              <div class="col-4 fs-4 py-3">Biggus Dickus</div>
-              <div class="col-7 py-3 d-flex flex-row-reverse">
-                <div v-show="1 === 1" class="px-2 pt-2">
-                  <div class="tag-one rounded px-1 text-black">
-                    Prenotazione attiva
-                  </div>
-                </div>
-                <div v-show="1 === 2" class="p-2">
-                  <div class="tag-two rounded px-1 text-black">
-                    Noleggio in corso
-                  </div>
-                </div>
-              </div>
-              <div class="col-1">
-                <router-link
-                  to="/admin/client"
-                  exact-path
-                  class="d-flex justify-content-end py-3 text-decoration-none"
-                  role="button"
-                  aria-label="Aggiungi nuovo cliente"
-                  title="Aggiungi nuovo cliente"
-                >
-                  <span class="material-icons text-white rounded p-1"
-                    >create</span
-                  >
-                </router-link>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li class="list-group-item md-04dp border-dark">
-          <a href="" class="text-white text-decoration-none">
-            <div class="row px-3">
-              <div class="col-4 fs-4 py-3">Biggus Dickus</div>
-              <div class="col-7 py-3 d-flex flex-row-reverse">
-                <div v-show="1 === 2" class="px-2 pt-2">
-                  <div class="tag-one rounded px-1 text-black">
-                    Prenotazione attiva
-                  </div>
-                </div>
-                <div v-show="1 === 1" class="p-2">
-                  <div class="tag-two rounded px-1 text-black">
-                    Noleggio in corso
-                  </div>
-                </div>
-              </div>
-              <div class="col-1">
-                <router-link
-                  to="/admin/client"
-                  exact-path
-                  class="d-flex justify-content-end py-3 text-decoration-none"
-                  role="button"
-                  aria-label="Aggiungi nuovo cliente"
-                  title="Aggiungi nuovo cliente"
-                >
-                  <span class="material-icons text-white rounded p-1"
-                    >create</span
-                  >
-                </router-link>
-              </div>
-            </div>
-          </a>
-        </li>
         <li
           class="list-group-item md-04dp border-dark"
           v-for="n in 20"
           :key="n"
         >
-          <a href="" class="text-white text-decoration-none">
-            <div class="row px-3">
-              <div class="col-4 fs-4 py-3">Biggus Dickus</div>
-              <div class="col-7 py-3 d-flex flex-row-reverse">
-                <div v-show="1 === 1" class="px-2 pt-2">
-                  <div class="tag-one rounded px-1 text-black">
-                    Prenotazione attiva
-                  </div>
-                </div>
-                <div v-show="2 === 2" class="p-2">
-                  <div class="tag-two rounded px-1 text-black">
-                    Noleggio in corso
-                  </div>
+          <div class="row px-3 text-white">
+            <div class="col-4 fs-4 py-3">Biggus Dickus</div>
+            <div class="col-7 py-3 d-flex flex-row-reverse">
+              <div v-show="1 === 1" class="px-2 pt-2">
+                <div class="tag-one rounded px-1 text-black">
+                  Prenotazione attiva
                 </div>
               </div>
-              <div class="col-1">
-                <router-link
-                  to="/admin/client"
-                  exact-path
-                  class="d-flex justify-content-end py-3 text-decoration-none"
-                  role="button"
-                  aria-label="Aggiungi nuovo cliente"
-                  title="Aggiungi nuovo cliente"
-                >
-                  <span class="material-icons text-white rounded p-1"
-                    >create</span
-                  >
-                </router-link>
+              <div v-show="2 === 2" class="p-2">
+                <div class="tag-two rounded px-1 text-black">
+                  Noleggio in corso
+                </div>
               </div>
             </div>
-          </a>
+            <div class="col-1">
+              <router-link
+                to="/admin/client"
+                exact-path
+                class="d-flex justify-content-end py-3 text-decoration-none"
+                role="button"
+                aria-label="Aggiungi nuovo cliente"
+                title="Modifica informazioni dell'utente"
+              >
+                <span class="material-icons text-white rounded p-1"
+                  >create</span
+                >
+              </router-link>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -122,9 +54,6 @@ export default {
 </script>
 
 <style scoped>
-#addClientBtn {
-  color: #4bb5f6;
-}
 .tag-one {
   background: #bb86fc;
 }

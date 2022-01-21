@@ -24,8 +24,12 @@
     <!--NAVBAR-->
     <nav class="navbar navbar-expand md-04dp">
       <div class="container-fluid">
-        <a href="./index.html" class="navbar-brand text-white" title="Menù principale">
-            <h2>NOLONOLO</h2>
+        <a
+          href="./index.html"
+          class="navbar-brand text-white"
+          title="Menù principale"
+        >
+          <h2>NOLONOLO</h2>
         </a>
         <button
           class="navbar-toggler"
@@ -39,29 +43,85 @@
           <span class="navbar-toggler-icon" />
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link text-white" href="./clientStats.html">Clienti</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="./itemStats.html">Oggetti</a>
-              </li>
-            </ul>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item dropstart">
-                <a href="#" class="nav-link dropstart-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Account">
-                  <span class="material-icons text-white">person</span>
-                </a>
-                <ul class="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
-                  <li class="p-2 rounded md-24dp">
-                    <a class="dropdown-item md-error rounded text-white" id="logout" href="#">Esci</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="http://127.0.0.1:3000/"
+                >Store</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-white"
+                href="http://127.0.0.1:8080/admin/clientList"
+                >Clienti</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-white"
+                href="http://127.0.0.1:8080/admin/inventory"
+                >Inventario</a
+              >
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle text-white text.decoration-none"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Statistiche
+              </a>
+              <ul
+                class="dropdown-menu rounded m-0 border-0 md-base p-0"
+                aria-labelledby="navbarDropdown"
+              >
+                <li class="p-2 nav-item md-12dp rounded-top">
+                  <a class="nav-link text-white" href="./clientStats.html"
+                    >Clienti</a
+                  >
+                </li>
+                <li class="p-2 nav-item md-12dp rounded-bottom">
+                  <a class="nav-link text-white" href="./itemStats.html"
+                    >Oggetti</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropstart">
+              <a
+                href="#"
+                class="nav-link dropstart-toggle"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                title="Account"
+              >
+                <span class="material-icons text-white">person</span>
+              </a>
+              <ul
+                class="dropdown-menu rounded m-0 border-0 md-base p-0"
+                aria-labelledby="navbarDropdown"
+              >
+                <li class="p-2 rounded md-24dp">
+                  <a
+                    class="dropdown-item md-error rounded text-white"
+                    id="logout"
+                    href="#"
+                    >Esci</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
     <!--Searchbar-->
@@ -90,13 +150,11 @@
               <div>
                 <canvas id="ageChart" height="300" class="w-100">
                   <p>
-                    Grafico a barre che mostra la distribuzione di età dei clienti.
-                    Fascia 13-17: <span id="f1"></span>.
-                    Fascia 18-24: <span id="f2"></span>.
-                    Fascia 25-34: <span id="f3"></span>.
-                    Fascia 35-44: <span id="f4"></span>.
-                    Fascia 45-54: <span id="f5"></span>.
-                    Fascia 55-64: <span id="f6"></span>.
+                    Grafico a barre che mostra la distribuzione di età dei
+                    clienti. Fascia 13-17: <span id="f1"></span>. Fascia 18-24:
+                    <span id="f2"></span>. Fascia 25-34: <span id="f3"></span>.
+                    Fascia 35-44: <span id="f4"></span>. Fascia 45-54:
+                    <span id="f5"></span>. Fascia 55-64: <span id="f6"></span>.
                     Fascia 65+: <span id="f7"></span>.
                   </p>
                 </canvas>
@@ -109,10 +167,10 @@
               <div>
                 <canvas id="genderChart" height="300" class="w-100">
                   <p>
-                    Grafico a torta che mostra distribuzione percentuale del genere dei clienti.
-                    Maschi: <span id="maschi"></span>%.
-                    Femmine: <span id="femmine"></span>%.
-                    Non specificati: <span id="nonSpec"></span>%.
+                    Grafico a torta che mostra distribuzione percentuale del
+                    genere dei clienti. Maschi: <span id="maschi"></span>%.
+                    Femmine: <span id="femmine"></span>%. Non specificati:
+                    <span id="nonSpec"></span>%.
                   </p>
                 </canvas>
               </div>
@@ -123,16 +181,20 @@
           <div class="col-8 p-2 ps-0">
             <div class="p-4 md-01dp rounded h-100">
               <h4 class="fw-bold">Altre</h4>
-              <div class="row  lowerPartClients">
+              <div class="row lowerPartClients">
                 <div class="p-2 col-6">
                   <div class="flex-column md-04dp rounded p-4">
-                    <h5 class="text-center pb-2">Tempo medio di noleggio (giorni)</h5>
+                    <h5 class="text-center pb-2">
+                      Tempo medio di noleggio (giorni)
+                    </h5>
                     <div class="text-center pt-2 fs-2">5</div>
                   </div>
                 </div>
                 <div class="p-2 col-6">
                   <div class="flex-column md-04dp rounded p-4">
-                    <h5 class="text-center pb-2">Numero medio di noleggi per persona</h5>
+                    <h5 class="text-center pb-2">
+                      Numero medio di noleggi per persona
+                    </h5>
                     <div class="text-center pt-2 fs-2">15</div>
                   </div>
                 </div>
@@ -143,18 +205,61 @@
             <div class="p-4 md-01dp rounded">
               <h4 class="fw-bold">Clienti</h4>
               <div class="p-2">
-                <ul  class="list-group list-group-flush rounded lowerPartClients" id="list">
+                <ul
+                  class="list-group list-group-flush rounded lowerPartClients"
+                  id="list"
+                >
                   <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Giulia Zanelli</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Mattia Babbini</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Tina Breschina</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Virginia Galeati</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Alessandro Libralesso</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Leonardo Melchiorri</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Martino Zoffoli</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Giuseppe Costa</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Elena Lippolis</a></li>
-                  <li class="list-group-item md-04dp border-dark"><a href="" class="text-white text-decoration-none">Elena Azzolini</a></li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Giulia Zanelli</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Mattia Babbini</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Tina Breschina</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Virginia Galeati</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Alessandro Libralesso</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Leonardo Melchiorri</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Martino Zoffoli</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Giuseppe Costa</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Elena Lippolis</a
+                    >
+                  </li>
+                  <li class="list-group-item md-04dp border-dark">
+                    <a href="" class="text-white text-decoration-none"
+                      >Elena Azzolini</a
+                    >
+                  </li>
                 </ul>
               </div>
             </div>
@@ -167,7 +272,9 @@
     <footer class="mt-4 pb-4 w-100">
       <hr />
       <div class="text-center fw-bold pt-4 m-auto">NOLONOLO</div>
-      <div class="text-center p-4">Copyright © 2021: Libralesso & Babbini inc. All Rights Reserved</div>
+      <div class="text-center p-4">
+        Copyright © 2021: Libralesso & Babbini inc. All Rights Reserved
+      </div>
     </footer>
 
     <!-- Bootstrap Bundle with Popper -->
