@@ -5,14 +5,14 @@ import Navbar from './Navbar.js'
 import Searchbar from './Searchbar.js'
 import Categories from './Categories.js'
 
-function Top({ logged, setLogged }) {
+function Top({ updateLogged }) {
   return (
     <div>
-      <Navbar logged={logged} setLogged={setLogged} />
+      <Navbar updateLogged={updateLogged} />
       <Searchbar />
       <Categories />
     </div>
   )
 }
-Top.propTypes = { logged: PropTypes.bool.isRequired, setLogged: PropTypes.func.isRequired }
+Top.propTypes = { updateLogged: PropTypes.bool.isRequired }
 export default Top

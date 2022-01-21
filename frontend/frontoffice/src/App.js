@@ -42,7 +42,7 @@ function App() {
   return (
     <Router>
       <a className="skip-link" href="#main" ref={refScrollUp}>Passa al contenuto principale</a>
-      <Top logged={isLogged} setLogged={(logged) => { setIsLogged(logged) }} />
+      <Top updateLogged={isLogged} />
       <main id="main">
         <Routes>
           <Route path="/" element={<Homepage />} />

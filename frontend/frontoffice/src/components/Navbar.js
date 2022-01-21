@@ -1,14 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const URL = process.env.TOKEN_URL || 'http://localhost:5000/v1/token'
-function Navbar({ logged, setLogged }) {
+function Navbar({ updateLogged }) {
+  const cookies = new Cookies()
+  const [logged, setLogged] = useState((cookies.get('client') !== undefined))
+  useEffect(() => {
+    setLogged((cookies.get('client') !== undefined) || updateLogged)
+  }, [updateLogged])
   async function logout() {
-    const cookies = new Cookies()
+    // const cookies = new Cookies()
     const refreshToken = cookies.get('refreshToken')
     if (refreshToken) {
       await axios.delete(`${URL}/remove`, { data: { refreshToken } })
@@ -89,6 +94,6 @@ function Navbar({ logged, setLogged }) {
     </div>
   )
 }
-Navbar.propTypes = { logged: PropTypes.bool.isRequired, setLogged: PropTypes.func.isRequired }
+Navbar.propTypes = { updateLogged: PropTypes.bool.isRequired }
 
 export default Navbar
