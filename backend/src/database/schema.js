@@ -200,6 +200,35 @@ const refreshTokenSchema = new Schema({
     transform(doc, ret) { delete ret._id },
   },
 })
+const offerSchema = new Schema({
+  start: {
+    type: Number,
+    required: true,
+  },
+  end: {
+    type: String,
+    required: true,
+  },
+  discount: {
+    type: Number,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+})
 
 export {
   inventorySchema,
@@ -207,4 +236,5 @@ export {
   clientSchema,
   employeeSchema,
   refreshTokenSchema,
+  offerSchema,
 }
