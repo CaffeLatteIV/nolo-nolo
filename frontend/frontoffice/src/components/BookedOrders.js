@@ -7,7 +7,6 @@ import productPic from '../images/product-pic.jpg'
 function BookedOrders({ id, title, price, start, end }) {
   return (
     <>
-      manca {price}
       <Link to={`/product?id=${id}`} className="product-card-link">
         <div className="p-2 px-3">
           <div className="row">
@@ -16,14 +15,11 @@ function BookedOrders({ id, title, price, start, end }) {
             </div>
             <div className="col-7 p-2">
               <h4 className="m-0 text-wrap text-white">{ title }</h4>
+              <p className="text-white">{price}€</p>
             </div>
             <div className="col-lg-3 p-2 m-0 text-white text-center">
-              <div>
-                Da: {dayjs(start).format('DD/MM/YYYY')}
-              </div>
-              <div>
-                Fino a: {dayjs(end).format('DD/MM/YYYY')}
-              </div>
+              Da: { dayjs(start).format('DD/MM/YYYY') }&nbsp;
+              A: { dayjs(end).format('DD/MM/YYYY') }
             </div>
           </div>
         </div>
