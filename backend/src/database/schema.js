@@ -206,7 +206,7 @@ const offerSchema = new Schema({
     required: true,
   },
   end: {
-    type: String,
+    type: Number,
     required: true,
   },
   discount: {
