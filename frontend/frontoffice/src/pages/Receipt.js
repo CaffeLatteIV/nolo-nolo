@@ -63,8 +63,6 @@ function Receipt() {
       status: 'Prenotato', // se l'utente conferma lo status diventa prenotato
       fidelityPoints: spentFidelityPoints,
     }
-    console.log(product)
-    console.log(client)
     const accessToken = cookie.get('accessToken')
     await axios.post(`${URL}/add`, { product }, {
       headers: {
