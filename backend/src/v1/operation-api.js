@@ -1,5 +1,5 @@
 import express from 'express'
-// import { authenticateAccessToken } from '../utils/authenticate.js'
+import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
 import Operation from '../database/operations.js'
 
 const app = express.Router()
@@ -18,6 +18,29 @@ app.get('/search/:title', async (req, res) => {
   }
   const operation = new Operation()
   res.send({ result: await operation.findSimilarTitle(title) })
+})
+app.get('/clients/count/age', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  res.send({ result: await operation.groupClientAge() })
+})
+app.get('/clients/count/gender', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  res.send({ result: await operation.countGender() })
+})
+app.get('/rentals/revenue/month/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { title } = req.params
+  const operation = new Operation()
+  res.send({ result: await operation.getRevenueByMonth(title) })
+})
+app.get('/rentals/count/status/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { title } = req.params
+  const operation = new Operation()
+  res.send({ result: await operation.countStatus(title) })
+})
+app.get('/rentals/count/conditions/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { title } = req.params
+  const operation = new Operation()
+  res.send({ result: await operation.countConditions(title) })
 })
 
 export default app
