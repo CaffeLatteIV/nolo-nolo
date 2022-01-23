@@ -7,7 +7,11 @@ function Carousel() {
   const [carouselItems, setCarouselItems] = useState(undefined)
   useEffect(async () => {
     const { data } = await axios.get(`${URL}/bestSellers?n=3`)
-    setCarouselItems(data.bestSellers)
+    if (data.bestSellers.length === 0) {
+      setCarouselItems(undefined)
+    } else {
+      setCarouselItems(data.bestSellers)
+    }
   }, [])
   return (carouselItems
     ? (
