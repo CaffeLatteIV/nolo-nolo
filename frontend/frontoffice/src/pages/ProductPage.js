@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
+import Cookies from 'universal-cookie'
 
 const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories/products'
 function ProductPage() {
   const [product, setProduct] = useState(undefined)
+  const [useFidelityPoints, setUseFidelityPoints] = useState(false)
   const { search } = useLocation()
   const query = new URLSearchParams(search)
   const id = query.get('id')
@@ -22,6 +24,9 @@ function ProductPage() {
   function rent() {
     // TODO prendere i parametri inseriti dall'utente
     const start = moment(new Date()).valueOf()
+    const cookies = new Cookies()
+    const client = cookies.get('client')
+    if (useFidelityPoints) product.useFidelityPoints = client.fidelityPoints
     navigate('/receipt', { state: { newRent: product, start, end: (start + 86400000) } }) // ms in a day
   }
   return (
@@ -59,6 +64,7 @@ function ProductPage() {
           </div>
         </div>
       </div>
+      <input type="checkbox" value={useFidelityPoints} onChange={(event) => { setUseFidelityPoints(event.target.checked) }} />
       <p style={{ color: 'yellow' }}>TODO: add Calendar</p>
     </>
   )
