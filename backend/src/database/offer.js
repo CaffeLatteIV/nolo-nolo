@@ -13,6 +13,7 @@ class Offer {
   }
 
   async getOffer(start, end) {
+    await this.connect()
     // cerca un'offerta che abbia l'inizio o la fine nel range cercato
     return this.Offer.find({
       $or: [
