@@ -13,6 +13,7 @@ async function validateAccessToken() {
     const refreshToken = cookie.get('refreshToken')
     const { data } = await axios.post(`${URL}/refresh`, { refreshToken })
     cookie.set('accessToken', data.accessToken)
+    return true
   }
 }
 export default validateAccessToken
