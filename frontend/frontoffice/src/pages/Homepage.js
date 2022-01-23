@@ -8,18 +8,26 @@ function Homepage() {
   const [products, setProducts] = useState(undefined)
   // viene eseguito una volta sola (alla prima visita della pagina)
   useEffect(async () => {
-    const { data } = await axios({
-      method: 'GET',
-      url: `${URL}/products`,
-    })
-    setProducts(data.products)
+    try {
+      const { data } = await axios({
+        method: 'GET',
+        url: `${URL}/products`,
+      })
+      if (!data) {
+        setProducts(undefined)
+      } else {
+        setProducts(data.products)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }, [])
 
   document.title = 'NOLONOLO'
   return (
     <div className="container p-2">
       <div className="p-1">
-        <Carousel />
+        {products ? <Carousel /> : ''}
       </div>
       <div className="container-fluid row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 p-0 m-0" id="card-container">
         { products ? products.map(({ id, title, price, condition, media }) => (
