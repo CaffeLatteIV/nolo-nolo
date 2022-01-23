@@ -98,17 +98,24 @@ async function populate() {
   //     description: 'Kellys Bici Ibrida Phanatic 10 Dark Ocean.',
   //   },
   // ])
-  // await offer.insertMany([{
-  //   title: 'Super sconti',
-  //   start: 1653673600000,
-  //   end: 1656092800000,
-  //   discount: 15,
-  // },
-  // {
-  //   title: 'Sconti febbraio',
-  //   start: 1643673600000,
-  //   end: 1646092800000,
-  //   discount: 15,
-  // }])
+  await offer.insertMany([
+    // {
+    //   title: 'Super sconti',
+    //   start: 1653673600000,
+    //   end: 1656092800000,
+    //   discount: 15,
+    // },
+    // {
+    //   title: 'Sconti febbraio',
+    //   start: 1643673600000,
+    //   end: 1646092800000,
+    //   discount: 15,
+    // },
+    {
+      title: 'Sconti Fine gennaio',
+      start: 1642848840000,
+      end: 1643626440000,
+      discount: 18,
+    }])
 }
 // populate()
