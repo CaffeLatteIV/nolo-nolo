@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 function ProductCard({ id, title, price, condition, img }) {
   return (
-    <Link to={`/product?id=${id}`} className="product-card-link">
-      <div className="card p-2 border-0 md-02dp">
+    <Link to={`/product?id=${id}`} className="product-card-link h-100">
+      <div className="card p-2 border-0 md-02dp h-100">
         <img src={img} className="card-img-top" alt="Item Pic" />
-        <div className="card-body p-2">
+        <div className="card-body p-2 h-100">
           <h5 className="card-title text-white">{ title }</h5>
           <p className="card-text text-white">Condizione: {condition}</p>
           <p className="card-text text-white">Prezzo: <span className="tw-bold m-0 p-0">{ price }€</span>/mese</p>
