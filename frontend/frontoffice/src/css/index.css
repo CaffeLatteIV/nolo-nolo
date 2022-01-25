@@ -200,4 +200,22 @@ Source: https://material.io/design/color/dark-theme.html*/
 }
 #accountInfo .form-check-input:checked{
   border: 3px solid #4bb5f6;
+}#datepicker {
+  background-color: #383838;
+}
+.react-datepicker,
+.react-datepicker__header,
+.react-datepicker__day-name,
+.react-datepicker__current-month,
+.react-datepicker__day {
+  background-color: #1e1e1e;
+  color: white;
+}
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next{
+  margin: 1em;
+}
+.react-datepicker__day--disabled {
+  background-color: #1e1e1e;
+  color: gray;
 }
