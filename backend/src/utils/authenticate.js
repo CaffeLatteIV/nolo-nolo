@@ -18,7 +18,7 @@ function authenticateAccessToken(req, res, next) {
   })
 }
 function authenticateUserRole(req, res, next) {
-  if (req.role === ('funzionario' || 'manager')) return next()
+  if (req.role === 'funzionario' || req.role === 'manager') return next()
   return res.status(401).send({ code: 401, msg: 'Unauthorized' })
 }
 function authenticateManager(req, res, next) {
