@@ -32,6 +32,11 @@ app.get('/rentals/revenue/month/:title', authenticateAccessToken, authenticateUs
   const operation = new Operation()
   res.send({ result: await operation.getRevenueByMonth(title) })
 })
+app.get('/rentals/revenue/month/', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  console.log('wooo')
+  res.send({ result: await operation.getRevenueByMonth() })
+})
 app.get('/rentals/count/status/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { title } = req.params
   const operation = new Operation()

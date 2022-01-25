@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable dot-notation */
 import mongoose from 'mongoose'
-import { closest } from 'fastest-levenshtein'
+import { closest, distance } from 'fastest-levenshtein'
 import { clientSchema, inventorySchema, rentSchema } from './schema.js'
 
 class Operation {
@@ -42,9 +42,13 @@ class Operation {
   async findSimilarTitle(title) {
     await this.connect()
     const productList = await this.Inventory.find().exec() // restituisce sia il titolo che l'id corrispondente all'oggetto
-    const titleList = productList.map((product) => product.title) // estraggo solo il titolo
-    const closestTitle = closest(title, titleList) // trovo il titolo più simile
-    return productList.filter((product) => product.title === closestTitle) // ritorno tutti gli oggetti con lo stesso titolo + il loro ID
+    const titleList = [...new Set(productList.map((product) => product.title))] // estraggo solo il titolo
+    const wordList = []
+    titleList.forEach((word) => {
+      wordList.push(...word.split(' '))
+    })
+    const closestTitle = closest(title, wordList) // trovo il titolo più simile
+    return productList.filter((product) => product.title.includes(closestTitle)) // ritorno tutti gli oggetti con lo stesso titolo + il loro ID
   }
 
   async groupClientAge() {
@@ -74,15 +78,18 @@ class Operation {
   async getRevenueByMonth(title = undefined) {
     await this.connect()
     const labels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
-    const data = {}
+    const data = { Gennaio: 4 }
+    const currentYearNumber = new Date().getFullYear()
+    let currentMonth = new Date(`${currentYearNumber}.01.01`).getTime()
+    let nextMonth = 0
     for (let i = 0; i < labels.length; i += 1) {
-      const currentYearNumber = new Date().getFullYear().toString() + (2629800000 * i)
-      const currentMonth = new Date(`${currentYearNumber}.01.01`).getTime()
-      const nextMonth = currentMonth + (2629800000 * (i + 1)) // ms in a month
+      nextMonth = currentMonth + 2629800000 // ms in a month
       const query = { start: { $gte: currentMonth, $lte: nextMonth } }
       if (title) query.title = title
-      const revenue = await (await this.Rentals.find(query)).reduce((a, b) => a.price + b.price)
+      const revenue = await this.Rentals.find(query).exec()
+      if (revenue) return revenue.reduce((a, b) => a.price + b.price)
       data[labels[i]] = revenue
+      currentMonth = nextMonth
     }
     return { data, labels }
   }
