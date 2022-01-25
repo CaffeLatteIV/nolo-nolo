@@ -8,7 +8,7 @@
       anche instagram direi. Quantomeno ho preso ispirazione da loro. Ricordati
       di cancellare questo messaggio quando hai finito.</span
     >
-    <form>
+    <form class="w-50 m-auto">
       <div class="row mb-4">
         <div class="col">
           <div>
@@ -138,15 +138,14 @@ export default {
 </script>
 
 <style scoped>
-input {
+input{
   background: #383838;
+  border: none;
   color: white;
-  border: none;
 }
-input:focus {
+.input:focus {
   background: #383838;
   border: none;
-  outline: none !important;
   color: white;
 }
 form {
@@ -159,6 +158,6 @@ button.btn {
   border: none;
 }
 ::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  filter: invert(1); /* Rende il simbolo del calendario bianco su sfondo nero */
 }
 </style>
