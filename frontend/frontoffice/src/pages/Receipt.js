@@ -73,25 +73,47 @@ function Receipt() {
     navigate('/orders')
   }
   return (
-    <div>
-      <h1>RIEPILOGO</h1>
-      Codice prodotto: {newRent.id}
+    <div className="container md-01dp p-4 mt-4 rounded">
+      <h1>Riepilogo Ordine</h1>
+      <table className="table">
+        <tbody>
+          <tr>
+            <th className="scope text-white">Codice prodotto:</th>
+            <td className="text-white">{newRent.id}</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Titolo:</th>
+            <td className="text-white">{newRent.title}</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Descrizione:</th>
+            <td className="text-white">{newRent.description}</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Condizione:</th>
+            <td className="text-white">{newRent.condition}</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Durata noleggio:</th>
+            <td className="text-white">{daysBetweenDates}</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Prezzo giorni lavorativi:</th>
+            <td className="text-white">{newRent.price.weekday}€</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Prezzo giorni feriali:</th>
+            <td className="text-white">{newRent.price.weekend}€</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">TOTALE:</th>
+            <td className="text-white">{price}€</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" onClick={handleConfirm} className="btn text-black bg-site-primary">Conferma</button>
       <br />
-      Titolo:{newRent.title}
-      <br />
-      Descrizione: {newRent.description}
-      <br />
-      condizione: {newRent.condition}
-      <br />
-      Prezzo: <div> <div>Giorni lavorativi: {newRent.price.weekday}€</div><div>Giorni feriali: {newRent.price.weekend}€</div> </div>
-      <br />
-      Durata noleggio: {daysBetweenDates}
-      <br />
-      TOTALE: {price}€
-      <br />
-      <button type="button" onClick={handleConfirm}>Conferma</button>
-      <br />
-      TODO: Design e bottone conferma acquisto
+      TODO: bottone conferma acquisto
 
     </div>
   )
