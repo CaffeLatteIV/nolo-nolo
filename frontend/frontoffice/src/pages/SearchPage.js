@@ -18,14 +18,15 @@ function SearchPage() {
       method: 'GET',
       url: `${URL}/search/${searchText}`,
     })
+    console.log(data.result)
     setProducts(data.result)
-  }, [])
+  }, [searchText])
 
   document.title = 'NOLONOLO'
   return (
     <div className="container p-2">
       <div className="container-fluid row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 p-0 m-0" id="card-container">
-        { products ? products.map(({ id, title, price, condition, media }) => (
+        {products ? products.map(({ id, title, price, condition, media }) => (
           <div key={id} className="col p-1">
             <ProductCard id={id} title={title} condition={condition} price={price.weekday} img={media.img} />
           </div>
