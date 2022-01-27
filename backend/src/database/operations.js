@@ -96,9 +96,7 @@ class Operation {
 
   async avgRentByMonth(title = undefined) {
     await this.connect()
-    const currentYearNumber = new Date().getFullYear()
-    const month = new Date(`${currentYearNumber}.01.01`).getTime()
-    const query = { end: { $gte: month } }
+    const query = {}
     if (title) query.title = title
     const data = (await this.Rentals.find(query).exec()).length || 0
     return Math.ceil(data / 12)
@@ -130,17 +128,14 @@ class Operation {
     return { labels, data: [ottima, buona, pd] }
   }
 
-  async avgRentLength(clientCode = undefined) {
+  async avgRentLength(title = undefined) {
     await this.connect()
     let query = {}
-    if (clientCode) query = { clientCode }
+    if (title) query = { title }
     const rentals = await this.Rentals.find(query).exec()
-    let totalTime = 0
-    rentals.forEach((rent) => {
-      totalTime += rent.end - rent.start
-    })
+    const totalTime = rentals.reduce((accomulator, rent) => accomulator + (rent.end - rent.start), 0)
     const totalDays = totalTime / 86400000 // ms in a day
-    return totalDays / rentals.length
+    return Math.ceil(totalDays / rentals.length)
   }
 }
 
