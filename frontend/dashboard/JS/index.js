@@ -71,14 +71,14 @@ const condizioniConfig = {
 };
 var condizioniChart = new Chart(document.getElementById("condizioniChart"), condizioniConfig);
 async function setBestsellers() {
-  const bestSellers = await bestSellers()
+  const bestSellerList = await bestSellers()
   let res = ''
-  bestSellers.forEach((product) => {
+  bestSellerList.bestSellers.forEach((product) => {
 
     res += `<div class="col rounded px-3 md-0dp h-100">
-    <a href="./itemStats.html" class="product-card-link p-2">
+    <a href="./itemStats.html?title=${encodeURIComponent(product.title)}&id=${encodeURIComponent(product.id)}" class="product-card-link p-2">
       <div class="p-4 border-0 md-02dp row rounded mx-2">
-        <img src="" class="col-3" alt="Item Pic" />
+        <img src="${product.media.img}" class="col-3" alt="Item Pic" />
         <div class="col-9 p-2">
           <h5 class="fw-bold text-white">${product.title}</h5>
           <p class="card-text text-white">
