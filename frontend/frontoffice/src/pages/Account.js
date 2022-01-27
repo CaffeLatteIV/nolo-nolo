@@ -1,23 +1,37 @@
-import React from 'react'
-import Cookies from 'universal-cookie'
+import React, { useState } from 'react'
+
+import PersonalInfo from '../components/Personalnfo.js'
+import AccountPreferences from '../components/AccountPrefereneces.js'
 
 function Account() {
-  const cookies = new Cookies()
-  const client = cookies.get('client')
+  const [isPersonal, setIsPersonal] = useState(true)
+  const goToPersonalInfo = () => {
+    setIsPersonal(true)
+  }
+  const goToPreferences = () => {
+    setIsPersonal(false)
+  }
   return (
     <div className="container p-2">
-      <div className="md-04dp mt-3 p-2 rounded">
-        <div className="p-2">
-          <h1>Il mio account</h1>
-          <h4 className="mt-4 mb-0">Email:</h4>
-          <span> { client.email } </span>
-          <h4 className="mt-4 mb-0">Categorie Preferite:</h4>
-          <span> { client.preferredCategories } </span>
-          <h4 className="mt-4 mb-0">Punti fedeltà:</h4>
-          <span> { client.fidelityPoints } </span>
-          <h4 className="mt-4 mb-0">Prodotti preferiti:</h4>
-          <span> { client.favourites } </span>
+      <div className="container md-01dp mt-4 rounded p-4">
+        <h1 className="mb-4 text-center">Informazioni Account</h1>
+        <span className="text-danger">
+          MATTIA i valori che sono messi non sono placeholder, devi passarli tu
+          nell&apos;attributo value dei tag input (per il radio input è
+          l&apos;attributo checked) perchè così puoi sia vedere i valori che
+          modificarli. Fa così anche instagram direi. Quantomeno ho preso
+          ispirazione da loro. Ricordati di cancellare questo messaggio quando
+          hai finito.
+        </span>
+        <div className="w-50 m-auto tab-container row">
+          <div className="col mb-4 p-2 text-center">
+            <button type="button" className={`w-100 h-100 text-white ${isPersonal ? 'fw-bold border-bottom' : ' border-bottom border-secondary'} border-3`} id="tabController1" onClick={goToPersonalInfo}>Dati Personali</button>
+          </div>
+          <div className="col mb-4 p-2 text-center">
+            <button type="button" className={`w-100 h-100 text-white ${isPersonal ? ' border-bottom border-secondary' : 'fw-bold border-bottom'} border-3`} id="tabController2" onClick={goToPreferences}>Preferenze</button>
+          </div>
         </div>
+        { isPersonal ? <PersonalInfo /> : <AccountPreferences />}
       </div>
     </div>
   )
