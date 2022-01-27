@@ -1,9 +1,13 @@
+import {countClientGender, groupClientAge} from './requests.js'
+// let searchParams = new URLSearchParams(window.location.search)
+// let client = searchParams.get('client')
 //Setup for Bar Chart --> Contiene dati su età clienti
+const ageClients = (await groupClientAge()).result
 const ageData = {
-    labels: ["13-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"],
+    labels: ageClients.labels,
     datasets: [{
         label: 'Età clienti',
-        data: [6, 37, 80, 105, 107, 55, 40],
+        data: ageClients.data,
         backgroundColor: [
             "#1DA1F2"
         ],
@@ -22,16 +26,12 @@ const ageConfig = {
     },
 };
 var ageChart = new Chart(document.getElementById("ageChart"), ageConfig);
-
+const genderList = (await countClientGender()).result
 const genderData = {
-    labels: [
-        'Maschio',
-        'Femmina',
-        'Non specificato'
-    ],
+    labels: genderList.labels,
     datasets: [{
         label: 'Genere',
-        data: [47, 49, 4],
+        data: genderList.data,
         backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
