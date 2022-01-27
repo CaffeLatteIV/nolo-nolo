@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable dot-notation */
 import mongoose from 'mongoose'
-import { closest, distance } from 'fastest-levenshtein'
+import { closest } from 'fastest-levenshtein'
 import { clientSchema, inventorySchema, rentSchema } from './schema.js'
 
 class Operation {
@@ -78,7 +78,7 @@ class Operation {
   async getRevenueByMonth(title = undefined) {
     await this.connect()
     const labels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
-    const data = { Gennaio: 4 }
+    const data = []
     const currentYearNumber = new Date().getFullYear()
     let currentMonth = new Date(`${currentYearNumber}.01.01`).getTime()
     let nextMonth = 0
@@ -86,42 +86,51 @@ class Operation {
       nextMonth = currentMonth + 2629800000 // ms in a month
       const query = { start: { $gte: currentMonth, $lte: nextMonth } }
       if (title) query.title = title
-      const revenue = await this.Rentals.find(query).exec()
-      if (revenue) return revenue.reduce((a, b) => a.price + b.price)
-      data[labels[i]] = revenue
+      const rentList = await this.Rentals.find(query, 'price').exec()
+      const price = rentList ? rentList.reduce((accumulator, rent) => accumulator + rent.price, 0) : 0
+      data.push(price)
       currentMonth = nextMonth
     }
     return { data, labels }
   }
 
+  async avgRentByMonth(title = undefined) {
+    await this.connect()
+    const currentYearNumber = new Date().getFullYear()
+    const month = new Date(`${currentYearNumber}.01.01`).getTime()
+    const query = { end: { $gte: month } }
+    if (title) query.title = title
+    const data = (await this.Rentals.find(query).exec()).length || 0
+    return Math.ceil(data / 12)
+  }
+
   async countStatus(title = undefined) {
     await this.connect()
     const today = new Date().getTime()
-    const query = { start: { $gte: today } }
+    const query = { start: { $lte: today }, end: { $gte: today } }
     if (title) query.title = title
     query.status = 'Noleggiato'
-    const noleggiati = (await this.Rentals.find(query)).length || 0
+    const noleggiati = (await this.Rentals.find(query).exec()).length || 0
     query.status = 'Prenotato'
-    const prenotati = (await this.Rentals.find(query)).length || 0
+    const prenotati = (await this.Rentals.find(query).exec()).length || 0
     return { data: [noleggiati, prenotati], labels: ['Noleggiati', 'Prenotati'] }
   }
 
   async countConditions(title = undefined) {
     await this.connect()
-    const today = new Date().getTime()
-    const query = { start: { $gte: today } }
+    const query = {}
     if (title) query.title = title
     query.condition = 'Ottima'
-    const ottima = (await this.Rentals.find(query)).length || 0
+    const ottima = (await this.Inventory.find(query).exec()).length || 0
     query.condition = 'Buona'
-    const buona = (await this.Rentals.find(query)).length || 0
+    const buona = (await this.Inventory.find(query).exec()).length || 0
     query.condition = 'Parzialmente danneggiato'
-    const pd = (await this.Rentals.find(query)).length || 0
+    const pd = (await this.Inventory.find(query).exec()).length || 0
     const labels = ['Ottimo', 'Buono', 'Parzialmente danneggiato']
     return { labels, data: [ottima, buona, pd] }
   }
 
-  async avgRent(clientCode = undefined) {
+  async avgRentLength(clientCode = undefined) {
     await this.connect()
     let query = {}
     if (clientCode) query = { clientCode }

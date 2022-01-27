@@ -34,7 +34,6 @@ app.get('/rentals/revenue/month/:title', authenticateAccessToken, authenticateUs
 })
 app.get('/rentals/revenue/month/', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const operation = new Operation()
-  console.log('wooo')
   res.send({ result: await operation.getRevenueByMonth() })
 })
 app.get('/rentals/count/status/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
@@ -42,10 +41,36 @@ app.get('/rentals/count/status/:title', authenticateAccessToken, authenticateUse
   const operation = new Operation()
   res.send({ result: await operation.countStatus(title) })
 })
+app.get('/rentals/count/status/', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  res.send({ result: await operation.countStatus() })
+})
 app.get('/rentals/count/conditions/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { title } = req.params
   const operation = new Operation()
   res.send({ result: await operation.countConditions(title) })
+})
+app.get('/rentals/count/conditions/', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  res.send({ result: await operation.countConditions() })
+})
+app.get('/rentals/single/avg/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { title } = req.params
+  const operation = new Operation()
+  res.send({ result: await operation.avgRentLength(title) })
+})
+app.get('/rentals/single/avg/', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  res.send({ result: await operation.avgRentLength() })
+})
+app.get('/rentals/month/avg/:title', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { title } = req.params
+  const operation = new Operation()
+  res.send({ result: await operation.avgRentByMonth(title) })
+})
+app.get('/rentals/month/avg/', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const operation = new Operation()
+  res.send({ result: await operation.avgRentByMonth() })
 })
 
 export default app

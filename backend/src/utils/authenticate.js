@@ -7,6 +7,7 @@ function generateAccessToken(email, role) {
 function generateRefreshToken(email, role) {
   return jwt.sign({ email, role }, process.env.REFRESH_TOKEN_SECRET)
 }
+// eslint-disable-next-line consistent-return
 function authenticateAccessToken(req, res, next) {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
