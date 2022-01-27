@@ -1,15 +1,20 @@
-//Setup for LineChart --> Da decidere cosa contenga come dati
+import { getMonthlyRevenue, getStatus, getConditions, getProduct, avgRentMonth, avgRentLength } from './requests.js'
+let searchParams = new URLSearchParams(window.location.search)
+let product = searchParams.get('title')
+let productId = searchParams.get('id')
+let productObj = (await getProduct(productId)).products
+const revenue = await getMonthlyRevenue(product)
 const lineData = {
-    labels: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"],
-    datasets: [
-      {
-        label: "My First dataset",
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
-        data: [13, 10, 45, 10, 20, 30, 45, 33, 65, 23, 19, 50],
-      },
-    ],
-  };
+  labels: revenue.result.labels,
+  datasets: [
+    {
+      label: "My First dataset",
+      backgroundColor: "rgb(255, 99, 132)",
+      borderColor: "rgb(255, 99, 132)",
+      data: revenue.result.data,
+    },
+  ],
+};
   const lineConfig = {
     type: "line",
     data: lineData,
@@ -18,12 +23,13 @@ const lineData = {
   var lineChart = new Chart(document.getElementById("lineChart"), lineConfig);
   
   //Setup for Doughnut Chart --> Contiene dati su disponibilità
+  const statusData = await getStatus(product)
   const distrData = {
-    labels: ["Noleggiati", "Disponibili", "Prenotati"],
+    labels: statusData.result.labels,
     datasets: [
       {
         label: "Oggetti in noleggio",
-        data: [300, 50, 100],
+        data: statusData.result.data,
         backgroundColor: [
           "rgb(255, 99, 132)",
           "rgb(54, 162, 235)",
@@ -44,12 +50,13 @@ const lineData = {
   
   
   //Setup for Doughnut Chart --> Contiene dati su condizioni
+  const conditions = await getConditions(product)
   const condizioniData = {
-    labels: ["Ottimi", "Buoni", "Parzialmente Danneggiati"],
+    labels: conditions.result.labels,
     datasets: [
       {
         label: "Condizioni oggetti",
-        data: [330, 500, 120],
+        data: conditions.result.data,
         backgroundColor: [
           "rgb(255, 99, 132)",
           "rgb(54, 162, 235)",
@@ -68,8 +75,13 @@ const lineData = {
   };
   var condizioniChart = new Chart(document.getElementById("condizioniChart"), condizioniConfig);
   
-  $(document).ready(function () {
+  $(document).ready(async function () {
     //Inject values to make "Distribuzione" chart canvas accessible
+    $("#numero-medio-noleggi-mese").text((await avgRentMonth(product)).result)
+    $("#tempo-medio-noleggi").text((await avgRentLength(product)).result)
+    $("#product-description").text(productObj.description)
+    $("#product-title").text(productObj.title)
+    $("#product-img").attr("src",productObj.media.img)
     var numOggettiNoleggiati = distrData.datasets[0].data[0]
     var numOggettiDisponibili = distrData.datasets[0].data[1]
     var numOggettiPrenotati = distrData.datasets[0].data[2]
