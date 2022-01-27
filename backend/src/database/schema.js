@@ -141,9 +141,14 @@ const clientSchema = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
   },
-  notifications: {
-    type: [Schema.Types.ObjectId],
-    default: [],
+  gender: {
+    type: String,
+    enum: ['Maschio', 'Femmina', 'Non specificato'],
+    default: 'Non specificato',
+  },
+  age: {
+    type: Number,
+    required: true,
   },
 }, {
   toObject: {
