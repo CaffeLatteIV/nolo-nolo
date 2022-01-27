@@ -29,7 +29,7 @@ class Operation {
         uniqueItems[productCode] += 1
       }
     })
-    const itemsArr = Object.keys(uniqueItems).sort((a, b) => uniqueItems[a] - uniqueItems[b]).slice(0, n - 1) // prendo i n-titoli più venduti
+    const itemsArr = Object.keys(uniqueItems).sort((a, b) => uniqueItems[a] - uniqueItems[b]).slice(0, n) // prendo i n-titoli più venduti
     const res = []
     for (let i = 0; i < itemsArr.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
