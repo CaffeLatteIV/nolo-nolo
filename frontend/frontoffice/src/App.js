@@ -8,7 +8,7 @@ import Footer from './components/Footer.js'
 import GoTop from './components/GoTop.js'
 
 import Homepage from './pages/Homepage.js'
-import Login from './pages/Login.js'
+import LogPage from './pages/LogPage.js'
 import ProductPage from './pages/ProductPage.js'
 import Receipt from './pages/Receipt.js'
 import NotFound from './pages/NotFound.js'
@@ -48,8 +48,8 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/category" element={<CategoryPage />} />
-          <Route path="/login" element={<Login isLogging setLogged={(logged) => { setIsLogged(logged) }} />} />
-          <Route path="/register" element={<Login isLogging={false} setLogged={(logged) => { setIsLogged(logged) }} />} />
+          <Route path="/login" element={<LogPage isLogging setLogged={(logged) => { setIsLogged(logged) }} />} />
+          <Route path="/register" element={<LogPage isLogging={false} setLogged={(logged) => { setIsLogged(logged) }} />} />
           <Route path="/product" element={<RequireAuth><ProductPage /></RequireAuth>} />
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
           <Route path="/receipt" element={<RequireAuth><Receipt /></RequireAuth>} />

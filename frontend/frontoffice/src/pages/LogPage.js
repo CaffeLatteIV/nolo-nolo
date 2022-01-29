@@ -3,10 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+
+import Register from '../components/Register.js'
+import Login from '../components/Login.js'
+
 import '../css/Login.css'
 
 const URL = process.env.URL || 'http://localhost:5000/'
-function Login({ isLogging, setLogged }) {
+function LogPage({ isLogging, setLogged }) {
   if (isLogging) {
     document.title = 'NOLONOLO Accedi'
   } else {
@@ -55,10 +59,12 @@ function Login({ isLogging, setLogged }) {
   return (
     <div className="container p-3">
       <div className="p-4 mt-4 md-01dp rounded">
-        <form className="form" onSubmit={onSubmit}>
+        <h1 className="text-center mb-4">{isLogging ? 'Accedi' : 'Registrati'}</h1>
+        <form className="form" id="accountInfo" onSubmit={onSubmit}>
+          {isLogging ? <Login /> : <Register /> }
+          {/* Va rimosso a partire da qua fino a dove indicato AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */}
           <div className="mt-2 justify-content-center">
             <label htmlFor="email" className={isEmailValid ? 'form__label' : 'form__label form__label--error'}>
-              E-mail
               <input
                 type="text"
                 name="name"
@@ -68,6 +74,7 @@ function Login({ isLogging, setLogged }) {
                 aria-invalid={!isEmailValid}
                 aria-describedby="mailAlert"
               />
+              E-mail
             </label>
             {!isEmailValid && (
             <div
@@ -85,7 +92,6 @@ function Login({ isLogging, setLogged }) {
               htmlFor="password"
               className={isPasswordValid ? 'form__label' : 'form__label form__label--error'}
             >
-              Password
               <input
                 type="password"
                 name="password"
@@ -95,6 +101,7 @@ function Login({ isLogging, setLogged }) {
                 aria-invalid={!isPasswordValid}
                 aria-describedby="passwordAlert"
               />
+              Password
             </label>
             {!isPasswordValid && (
             <div
@@ -108,9 +115,10 @@ function Login({ isLogging, setLogged }) {
             </div>
             )}
           </div>
-          <button type="submit" className="form__submit mt-3 p-1 px-2 text-black">
+          <button type="submit" className="form__submit p-1 px-2 text-black">
             { isLogging ? 'Accedi' : 'Registrati' }
           </button>
+          {/* Va rimosso fino a qua AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */}
         </form>
         <div className="mt-2 text-center">
           {isLogging
@@ -121,6 +129,6 @@ function Login({ isLogging, setLogged }) {
     </div>
   )
 }
-Login.propTypes = { isLogging: PropTypes.bool.isRequired, setLogged: PropTypes.func.isRequired }
+LogPage.propTypes = { isLogging: PropTypes.bool.isRequired, setLogged: PropTypes.func.isRequired }
 
-export default Login
+export default LogPage

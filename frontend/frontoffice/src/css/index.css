@@ -179,6 +179,7 @@ Source: https://material.io/design/color/dark-theme.html*/
 }
 #accountInfo button.btn {
   width: 100%;
+  color: black;
   background: #4bb5f6;
   border: none;
 }
