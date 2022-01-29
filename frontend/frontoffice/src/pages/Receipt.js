@@ -106,8 +106,20 @@ function Receipt() {
             <td className="text-white">{newRent.price.weekend}€</td>
           </tr>
           <tr>
-            <th className="scope text-white">TOTALE:</th>
-            <td className="text-white">{price}€</td>
+            <th className="scope text-white">Punti fedeltà spesi:</th>
+            <td className="{text-white} text-danger"> Nessuno (togliere parentesi graffe a text-white e rimuovere text-danger nelle classi)</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Punti fedeltà guadagnati:</th>
+            <td className="{text-white} text-danger"> un pochino (togliere parentesi graffe a text-white e rimuovere text-danger nelle classi)</td>
+          </tr>
+          <tr>
+            <th className="scope text-white">Sconto applicato:</th>
+            <td className="{text-white} text-danger"> - percent %  ovvero - (Totale-(Totale*0.percent)) € (togliere parentesi graffe a text-white e rimuovere text-danger nelle classi)</td>
+          </tr>
+          <tr>
+            <th className="scope text-white fs-3">TOTALE:</th>
+            <td className="text-white fs-3">{price}€</td>
           </tr>
         </tbody>
       </table>

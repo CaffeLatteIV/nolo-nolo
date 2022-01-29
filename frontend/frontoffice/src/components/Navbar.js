@@ -85,14 +85,15 @@ function Navbar({ updateLogged }) {
                         </Link>
                       </li>
                       <li className="p-2 md-24dp rounded-bottom">
-                        <a
+                        <Link
                           className="dropdown-item md-error rounded text-white"
                           id="logout"
-                          href="#"
+                          to="/"
+                          // eslint-disable-next-line react/jsx-no-bind
                           onClick={logout}
                         >
                           Esci
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </>
