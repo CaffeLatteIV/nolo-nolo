@@ -54,7 +54,7 @@
                 <a
                   class="dropdown-item md-error rounded text-white"
                   id="logout"
-                  href="#"
+                  href="http://127.0.0.1:3000/"
                   >Esci</a
                 >
               </li>
