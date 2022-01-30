@@ -170,3 +170,48 @@ Source: https://material.io/design/color/dark-theme.html*/
   background-color: #1e1e1e;
   border: none;
 }
+
+#newItemForm div label input,
+#newItemForm div label select,
+#newItemForm div label select option{
+  background-color: #323232;
+  color: white;
+  border: none;
+  appearance: none;
+}
+textarea.form-control,
+textarea.form-control:focus {
+  background-color: #323232;
+  border: none;
+  color: white;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input[type=file]::file-selector-button,
+input#image.form-control[type=file]::file-selector-button:hover{
+  background-color: #323232 !important;
+  color: white;
+  border: none;
+}
+
+select {
+  
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+}

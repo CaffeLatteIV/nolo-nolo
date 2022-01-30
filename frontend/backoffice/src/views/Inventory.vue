@@ -7,7 +7,7 @@
       </div>
       <div class="col-1">
         <router-link
-          to="#"
+          to="/admin/NewItem"
           exact-path
           class="d-flex justify-content-end py-3 text-decoration-none"
           role="button"
@@ -43,7 +43,7 @@
               </div>
               <div class="col-1">
                 <router-link
-                  to="/admin/client"
+                  to="/admin/ModifyItem"
                   exact-path
                   class="d-flex justify-content-end py-3 text-decoration-none"
                   role="button"
