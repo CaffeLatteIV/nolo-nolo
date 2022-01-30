@@ -166,3 +166,7 @@ Source: https://material.io/design/color/dark-theme.html*/
   overflow-y: auto;
   scrollbar-color: grey transparent;
 }
+#searchbar {
+  background-color: #1e1e1e;
+  border: none;
+}
