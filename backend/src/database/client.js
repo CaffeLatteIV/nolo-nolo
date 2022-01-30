@@ -12,25 +12,50 @@ class Client {
     this.Clients = mongoose.model('clients', clientSchema)
   }
 
-  async addClient(email, password) {
+  async addClient(email, password, name, surname, phoneNumber, birthDate, gender, address, favourites, preferredCategories, fidelityPoints) {
     const client = await new this.Clients({
       email,
       password,
+      name,
+      surname,
+      birthDate,
+      address,
+      gender,
+      phoneNumber,
+      preferredCategories,
+      favourites,
+      fidelityPoints,
     }).save()
     delete client.password // security (la password è comunque cryptata)
     return client
   }
 
-  async updateClient({ id, email, preferredCategories, payment, fidelityPoints, description, favourites, notifications }) {
-    return this.Clients.findOneAndUpdate({ id, email }, { preferredCategories, payment, fidelityPoints, description, favourites, notifications })
+  async updatePersonalInfo({ id, name, surname, phoneNumber, birthDate, email, gender, address }) {
+    return this.Clients.findOneAndUpdate({ _id: id }, {
+      name,
+      surname,
+      email,
+      birthDate,
+      address,
+      gender,
+      phoneNumber,
+    })
   }
 
-  async findClient(email) {
-    return this.Clients.findOne({ email }, 'email preferredCategories payment fidelityPoints favourites notifications').exec()
+  async updatePreferences({ id, favourites, preferredCategories, fidelityPoints }) {
+    return this.Clients.findOneAndUpdate({ id }, {
+      preferredCategories,
+      favourites,
+      fidelityPoints,
+    })
+  }
+
+  async login(email, password) {
+    return this.Clients.findOne({ email, password }, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites ').exec()
   }
 
   async lookupClient(email) {
-    return this.Clients.findOne({ email }, 'email preferredCategories payment fidelityPoints favourites notifications').exec()
+    return this.Clients.findOne({ email }, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
   }
 }
 export default Client

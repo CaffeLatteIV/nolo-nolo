@@ -120,12 +120,27 @@ const rentSchema = new Schema({
   },
 })
 const clientSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  surname: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
   },
   password: {
     type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+  },
+  birthDate: {
+    type: Number,
     required: true,
   },
   preferredCategories: {
@@ -146,8 +161,8 @@ const clientSchema = new Schema({
     enum: ['Maschio', 'Femmina', 'Non specificato'],
     default: 'Non specificato',
   },
-  age: {
-    type: Number,
+  phoneNumber: {
+    type: String,
     required: true,
   },
 }, {

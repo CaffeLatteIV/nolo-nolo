@@ -13,25 +13,24 @@ const app = Express.Router()
 
 app.post('/register', async (req, res) => {
   try {
-    const { email } = req.body
-    let { password } = req.body
-    if (!(!!email && !!password)) {
+    const { client } = req.body
+    if (!(!!client.email && !!client.password)) {
       logger.error('Username or password undefiend')
       return res.status(404).send({ code: 404, msg: 'Username or password undefiend' })
     }
-    logger.info(`Adding: ${email}`)
-    password = await generateHash(password) // encrypt password
-    let client = await db.findClient(email) // controllo già nella funzione se esiste un utente
+    logger.info(`Adding: ${client.email}`)
+    client.password = await generateHash(client.password) // encrypt password
+    let clientFound = await db.findClient(client.email) // controllo già nella funzione se esiste un utente
     if (client !== null) {
       logger.warn('User already registered')
       return res.status(400).send({ code: 400, msg: 'Client already registered' })
     }
-    client = await db.addClient(email, password)
-    const accessToken = generateAccessToken(email, undefined)
-    const refreshToken = generateRefreshToken(email, undefined)
+    clientFound = await db.addClient(client.email, client.password)
+    const accessToken = generateAccessToken(client.email, undefined)
+    const refreshToken = generateRefreshToken(client.email, undefined)
     await tokenDB.addRefreshToken(refreshToken)
     logger.info('Added')
-    return res.status(200).send({ accessToken, refreshToken, client })
+    return res.status(200).send({ accessToken, refreshToken, client: clientFound })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)
@@ -47,7 +46,7 @@ app.post('/login', async (req, res) => {
   }
   logger.info(`Finding user ${email}`)
   const encryptedPassword = await generateHash(password)
-  const client = await db.findClient(email, encryptedPassword)
+  const client = await db.login(email, encryptedPassword)
   if (client === null) return res.status(404).send({ code: 404, msg: 'client not found' })
   const accessToken = generateAccessToken(email, undefined)
   const refreshToken = generateRefreshToken(email, undefined)
@@ -77,9 +76,26 @@ app.get('/lookup', authenticateAccessToken, authenticateUserRole, async (req, re
   if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
   return res.status(200).send({ user })
 })
-app.post('/update', async (req, res) => {
-  const { client } = req.body
-  await db.updateClient(client)
-  return res.send({ code: 200, msg: 'ok' })
+app.post('/update/personalInfo', authenticateAccessToken, async (req, res) => {
+  try {
+    const { client } = req.body
+    const clientData = await db.updatePersonalInfo(client)
+    return res.send({ client: clientData })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
+  }
+})
+app.post('/update/preferences', authenticateAccessToken, async (req, res) => {
+  try {
+    const { client } = req.body
+    await db.updatePreferences(client)
+    return res.send({ code: 200, msg: 'ok' })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
+  }
 })
 export default app

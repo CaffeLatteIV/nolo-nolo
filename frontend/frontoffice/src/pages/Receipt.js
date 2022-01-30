@@ -20,7 +20,6 @@ function Receipt() {
   const [price, setPrice] = useState(0)
   const [spentFidelityPoints, setSpentFidelityPoints] = useState(0)
   useEffect(async () => {
-    console.log(start)
     const { data } = await axios.get(`${URL_OFFERS}/`, { headers: { 'Content-Type': 'application/json' }, params: { start, end } })
     const { offers } = data
     let priceTmp = 0

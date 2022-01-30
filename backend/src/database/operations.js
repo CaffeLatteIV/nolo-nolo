@@ -53,24 +53,26 @@ class Operation {
 
   async groupClientAge() {
     await this.connect()
-    const data = {}
-    data.u17 = (await this.Clients.find({ age: { $lte: 17 } }).exec()).length || 0
-    data.u24 = (await this.Clients.find({ age: { $gte: 18, $lte: 24 } }).exec()).length || 0
-    data.u34 = (await this.Clients.find({ age: { $gte: 24, $lte: 34 } }).exec()).length || 0
-    data.u44 = (await this.Clients.find({ age: { $gte: 34, $lte: 44 } }).exec()).length || 0
-    data.u54 = (await this.Clients.find({ age: { $gte: 44, $lte: 54 } }).exec()).length || 0
-    data.u64 = (await this.Clients.find({ age: { $gte: 54, $lte: 64 } }).exec()).length || 0
-    data.o65 = (await this.Clients.find({ age: { $gte: 65 } }).exec()).length || 0
+    const data = []
+    const msYear = 31556952000 // ms in a year
+    const today = new Date().getTime()
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (17 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (18 * msYear)), $lte: (today - (24 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (24 * msYear)), $lte: (today - (34 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (34 * msYear)), $lte: (today - (44 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (44 * msYear)), $lte: (today - (54 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (54 * msYear)), $lte: (today - (64 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (65 * msYear)) } }).exec()).length || 0)
     const labels = ['0-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
     return { data, labels }
   }
 
   async countGender() {
     await this.connect()
-    const data = {}
-    data.Maschio = (await this.Clients.find({ gender: 'Maschio' }).exec()).length || 0
-    data.Femmina = (await this.Clients.find({ gender: 'Femmina' }).exec()).length || 0
-    data.NS = (await this.Clients.find({ gender: 'Non specificato' }).exec()).length || 0
+    const data = []
+    data.push((await this.Clients.find({ gender: 'Maschio' }).exec()).length || 0)
+    data.push((await this.Clients.find({ gender: 'Femmina' }).exec()).length || 0)
+    data.push((await this.Clients.find({ gender: 'Non specificato' }).exec()).length || 0)
     const labels = ['Maschio', 'Femmina', 'Non specificato']
     return { data, labels }
   }
@@ -105,7 +107,7 @@ class Operation {
   async countStatus(title = undefined) {
     await this.connect()
     const today = new Date().getTime()
-    const query = { start: { $lte: today }, end: { $gte: today } }
+    const query = { end: { $gte: today } }
     if (title) query.title = title
     query.status = 'Noleggiato'
     const noleggiati = (await this.Rentals.find(query).exec()).length || 0

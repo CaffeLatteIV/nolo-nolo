@@ -18,7 +18,6 @@ function SearchPage() {
       method: 'GET',
       url: `${URL}/search/${searchText}`,
     })
-    console.log(data.result)
     setProducts(data.result)
   }, [searchText])
 

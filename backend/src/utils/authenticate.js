@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
+import loggerWrapper from '../logger.js'
 
+const logger = loggerWrapper('Authenticate')
 function generateAccessToken(email, role) {
   return jwt.sign({ email, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
 }
@@ -13,7 +15,10 @@ function authenticateAccessToken(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1]
   if (token === undefined) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
+    if (err) {
+      logger.error(err.message)
+      return res.send({ code: 401, msg: 'Unauthorized' })
+    }
     req.role = user.role
     return next()
   })

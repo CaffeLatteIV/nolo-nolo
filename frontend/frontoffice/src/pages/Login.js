@@ -38,18 +38,24 @@ function Login({ isLogging, setLogged }) {
         password,
       },
     })
-    const cookies = new Cookies()
-    cookies.set('accessToken', data.accessToken, { path: '/' })
-    cookies.set('refreshToken', data.refreshToken, { path: '/' })
-    cookies.set('client', data.client, { path: '/' })
+    if (data && data.accessToken && data.refreshToken && data.client) {
+      const cookies = new Cookies()
+      cookies.set('accessToken', data.accessToken, { path: '/' })
+      cookies.set('refreshToken', data.refreshToken, { path: '/' })
+      cookies.set('client', data.client, { path: '/' })
+      return true
+    }
+    return false
   }
   async function onSubmit(event) {
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
-    if (validate(email, password)) await logUser(email, password)
-    setLogged(true) // conferma il login ad app.js
-    navigate('/', { replace: true })
+    if (validate(email, password)) {
+      const logged = await logUser(email, password)
+      setLogged(logged) // conferma il login ad app.js
+      navigate('/', { replace: true })
+    }
   }
 
   return (
@@ -70,14 +76,14 @@ function Login({ isLogging, setLogged }) {
               />
             </label>
             {!isEmailValid && (
-            <div
-              role="alert"
-              aria-atomic="true"
-              id="mailAlert"
-              className="form__alert"
-            >
-              Devi inserire la tua email
-            </div>
+              <div
+                role="alert"
+                aria-atomic="true"
+                id="mailAlert"
+                className="form__alert"
+              >
+                Devi inserire la tua email
+              </div>
             )}
           </div>
           <div className="mt-2">
@@ -97,19 +103,19 @@ function Login({ isLogging, setLogged }) {
               />
             </label>
             {!isPasswordValid && (
-            <div
-              aria-live="polite"
-              role="alert"
-              aria-atomic="true"
-              id="passwordAlert"
-              className="form__alert"
-            >
-              Devi inserire la tua password
-            </div>
+              <div
+                aria-live="polite"
+                role="alert"
+                aria-atomic="true"
+                id="passwordAlert"
+                className="form__alert"
+              >
+                Devi inserire la tua password
+              </div>
             )}
           </div>
           <button type="submit" className="form__submit mt-3 p-1 px-2 text-black">
-            { isLogging ? 'Accedi' : 'Registrati' }
+            {isLogging ? 'Accedi' : 'Registrati'}
           </button>
         </form>
         <div className="mt-2 text-center">

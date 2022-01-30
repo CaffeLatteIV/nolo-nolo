@@ -20,7 +20,7 @@ app.post('/validate', (req, res) => {
   jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err) => {
     if (err) {
       logger.info('Access token is no longer valid')
-      return res.status(401).send({ code: 401, msg: 'Unauthorized' })
+      return res.send({ code: 401, msg: 'Unauthorized' })
     }
     return res.status(200).send({ code: 200, msg: 'valid' })
   })

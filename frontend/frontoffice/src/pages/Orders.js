@@ -51,13 +51,14 @@ function Orders() {
             {
               (!productList.activeOrders || productList.activeOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.activeOrders.map(
-                  ({ id, title, start, end, price, fidelityPoints, paid, productCode }) => (
+                  ({ id, title, start, end, price, media, fidelityPoints, paid, productCode }) => (
                     <ActiveOrders
                       key={id}
                       id={productCode}
                       title={title}
                       price={price}
                       start={start}
+                      img={media.img}
                       end={end}
                       fidelityPoints={fidelityPoints}
                       paid={paid}
@@ -73,12 +74,13 @@ function Orders() {
             {
               (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.bookedOrders.map(
-                  ({ id, title, start, end, price, fidelityPoints, paid, productCode }) => (
+                  ({ id, title, start, end, price, media, fidelityPoints, paid, productCode }) => (
                     <BookedOrders
                       key={id}
                       id={productCode}
                       title={title}
                       price={price}
+                      img={media.img}
                       start={start}
                       end={end}
                       fidelityPoints={fidelityPoints}
@@ -94,10 +96,11 @@ function Orders() {
             <h2>Vecchi ordini</h2>
             {
               (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
-                ({ id, title, start, end, price, fidelityPoints, paid, productCode }) => (
+                ({ id, title, start, end, media, price, fidelityPoints, paid, productCode }) => (
                   <BookedOrders
                     key={id}
                     id={productCode}
+                    img={media.img}
                     title={title}
                     price={price}
                     start={start}

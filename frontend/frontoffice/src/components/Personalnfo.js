@@ -1,17 +1,38 @@
 import React, { useState } from 'react'
-
+import dayjs from 'dayjs'
 import Cookies from 'universal-cookie'
+import axios from 'axios'
+import validateAcessToken from './Tokens.js'
 
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
 function PersonalInfo() {
   const cookies = new Cookies()
   const client = cookies.get('client')
-  const [gender, setGender] = useState()
-  const handleRadioChange = (e) => {
-    setGender(e.target.value)
+  console.log(client)
+  const [gender, setGender] = useState(client.gender)
+  const [address, setAddress] = useState(client.address)
+  const [phoneNumber, setPhoneNumber] = useState(client.phoneNumber)
+  const [birthDate, setBirtDate] = useState(client.birthDate)
+  const [name, setName] = useState(client.name)
+  const [surname, setSurname] = useState(client.surname)
+  const [email, setEmail] = useState(client.email)
+  async function updateChanges() {
+    await validateAcessToken()
+    const accessToken = cookies.get('accessToken')
+    const brthDateNumber = new Date(birthDate).getTime()
+    const clientData = { id: client.id, name, surname, phoneNumber, birthDate: brthDateNumber, email, gender, address }
+    cookies.remove('client', { path: '/' })
+    cookies.set('client', clientData, { path: '/' })
+    await axios.post(`${CLIENT_URL}/update/personalInfo`, { client: clientData }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-type': 'application/json',
+      },
+    })
   }
   return (
 
-    <form id="accountInfo" className="w-50 m-auto">
+    <div id="accountInfo" className="w-50 m-auto">
       <div className="row mb-4">
         <div className="col">
           <div>
@@ -20,7 +41,8 @@ function PersonalInfo() {
                 type="text"
                 id="nomeInput"
                 className="form-control"
-                value="John"
+                onChange={(e) => setName(e.target.value)}
+                value={name || 'Inserisci il nome'}
               />
               Nome
             </label>
@@ -33,7 +55,8 @@ function PersonalInfo() {
                 type="text"
                 id="cognomeInput"
                 className="form-control"
-                value="Doe"
+                onChange={(e) => setSurname(e.target.value)}
+                value={surname || 'Inserisci il cognome'}
               />
               Cognome
             </label>
@@ -48,7 +71,8 @@ function PersonalInfo() {
             type="text"
             id="addressInput"
             className="form-control"
-            value="via Arcobaleno 38"
+            onChange={(e) => setAddress(e.target.value)}
+            value={address || 'Aggiungi indirizzo'}
           />
           Indirizzo
         </label>
@@ -61,7 +85,8 @@ function PersonalInfo() {
             type="email"
             id="emailInput"
             className="form-control"
-            value={client.email}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           Email
         </label>
@@ -75,7 +100,8 @@ function PersonalInfo() {
                 type="date"
                 className="form-control"
                 id="dateInput"
-                value="1946-06-02"
+                onChange={(e) => setBirtDate(e.target.value)}
+                value={birthDate ? dayjs(birthDate).format('YYYY-MM-DD') : 'gg/mm/aaaa'}
               />
               Data di nascita
             </label>
@@ -89,7 +115,8 @@ function PersonalInfo() {
                 type="tel"
                 id="phoneNumber"
                 className="form-control"
-                value="3335719046"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phoneNumber || '335 00000000'}
               />
               Telefono
             </label>
@@ -107,9 +134,9 @@ function PersonalInfo() {
                 type="radio"
                 name="inlineRadioOptions"
                 id="femaleGender"
-                value="F"
-                onChange={handleRadioChange}
-                checked={gender === 'F'}
+                value="Femmina"
+                onChange={(e) => setGender(e.target.value)}
+                checked={gender === 'Femmina'}
               />
               Femmina
             </label>
@@ -121,9 +148,9 @@ function PersonalInfo() {
                 type="radio"
                 name="inlineRadioOptions"
                 id="maleGender"
-                value="M"
-                onChange={handleRadioChange}
-                checked={gender === 'M'}
+                value="Maschio"
+                onChange={(e) => setGender(e.target.value)}
+                checked={gender === 'Maschio'}
               />
               Maschio
             </label>
@@ -135,20 +162,20 @@ function PersonalInfo() {
                 type="radio"
                 name="inlineRadioOptions"
                 id="otherGender"
-                value="O"
-                onChange={handleRadioChange}
-                checked={gender === 'O'}
+                value="Non specificato"
+                onChange={(e) => setGender(e.target.value)}
+                checked={gender === 'Non specificato'}
               />
-              Altro {gender}
+              Non specificato
             </label>
           </div>
         </fieldset>
       </div>
       {/* Submit button */}
-      <button type="submit" className="btn mb-4 text-black">
+      <button type="submit" className="btn mb-4 text-black" onClick={updateChanges}>
         Conferma modifiche
       </button>
-    </form>
+    </div>
   )
 }
 

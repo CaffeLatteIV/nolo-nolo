@@ -26,73 +26,82 @@ async function populate() {
   for (let i = 0; i < 200; i += 1) {
     const email = `${Math.floor(Math.random() * 5000)}@gmail.com`
     const gender = genderList[Math.floor(Math.random() * 3)]
-    const age = Math.floor(Math.random() * 85)
     const fidelityPoints = Math.floor(Math.random() * 5000)
     const payment = paymentList[Math.floor(Math.random() * 3)]
     const preferredCategories = categoryList[Math.floor(Math.random() * 4)]
+    const dateStr = `${2021 - (Math.floor((Math.random() * 75) + 15))}.${(Math.floor(Math.random() * 12) + 1)}.${Math.floor((Math.random() * 28) + 1)}`
+    const birthDate = new Date(dateStr).getTime()
+    const name = `mario${Math.floor(Math.random() * 5000)}`
+    const surname = `mario${Math.floor(Math.random() * 5000)}`
+    const phoneNumber = `${Math.floor(Math.random() * 10000000000)}`
+    const address = `via san mamolo ${Math.floor(Math.random() * 5000)}`
     const user = {
       email,
+      name,
+      surname,
+      birthDate,
+      address,
+      phoneNumber,
       password: password1,
       preferredCategories,
       payment,
       fidelityPoints,
       favourites: ['61b1bfed920b3b3b7167f9ab'],
       notifications: ['61b1bfed920b3b3b7167f9ab'],
-      age,
       gender,
     }
     clientList.push(user)
   }
 
-  // await clients.insertMany(clientList)
-  const clientIdList = await clients.find({}, 'id').exec()
-  const productList = await inventory.find().exec()
-  const offers = await offer.find().exec()
-  const statusList = ['Noleggiato', 'Prenotato']
-  const rentList = []
-  for (let i = 0; i < 500; i += 1) {
-    const client = clientIdList[Math.floor(Math.random() * clientIdList.length)]
-    const clientCode = client.id
-    let spendablefidelityPoints = client.fidelityPoints
-    const product = productList[Math.floor(Math.random() * productList.length)]
-    const { title } = product
-    const productCode = product.id
-    const year = Math.floor(2023 - (Math.random() * 3))
-    const month = Math.floor(Math.random() * 12) + 1
-    let day = Math.floor(Math.random() * 28) + 1
-    const start = new Date(`${year}.${month}.${day}`).getTime()
-    day = Math.floor(Math.random() * (28 - day)) + day
-    const end = new Date(`${year}.${month}.${day}`).getTime()
-    let spentFidelityPointsTmp = 0
-    let priceTmp = 0
-    for (let j = start; j < end; j += 86400000) {
-      let priceDay = 0
-      const dayT = new Date(i)
-      const isWeekend = dayT.getDay() === 0 || dayT.getDay() === 6
-      if (spendablefidelityPoints > 0 && spendablefidelityPoints - product.price.fidelityPoints > 0) {
-        spendablefidelityPoints -= product.price.fidelityPoints
-        spentFidelityPointsTmp += product.price.fidelityPoints
-      } else if (isWeekend) {
-        priceDay = product.price.weekend
-      } else {
-        priceDay = product.price.weekday
-      }
-      offers.forEach((offerTmp) => {
-        if (j >= offerTmp.start && j <= offerTmp.end) {
-          priceDay = (priceDay * 100) / (100 - priceDay.discount)
-        }
-      })
-      priceTmp += priceDay || 0
-    }
-    const fidelityPoints = spentFidelityPointsTmp
-    const price = priceTmp
-    const status = statusList[Math.floor(Math.random() * 2)]
-    const daysBetweenDates = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
-    const earnedFidelityPoints = daysBetweenDates * 3
-    const rentObj = { title, start, end, productCode, clientCode, price, fidelityPoints, earnedFidelityPoints, status }
-    rentList.push(rentObj)
-  }
-  await rentals.insertMany(rentList)
+  await clients.insertMany(clientList)
+  // const clientIdList = await clients.find({}, 'id').exec()
+  // const productList = await inventory.find().exec()
+  // const offers = await offer.find().exec()
+  // const statusList = ['Noleggiato', 'Prenotato']
+  // const rentList = []
+  // for (let i = 0; i < 500; i += 1) {
+  //   const client = clientIdList[Math.floor(Math.random() * clientIdList.length)]
+  //   const clientCode = client.id
+  //   let spendablefidelityPoints = client.fidelityPoints
+  //   const product = productList[Math.floor(Math.random() * productList.length)]
+  //   const { title } = product
+  //   const productCode = product.id
+  //   const year = Math.floor(2023 - (Math.random() * 3))
+  //   const month = Math.floor(Math.random() * 12) + 1
+  //   let day = Math.floor(Math.random() * 28) + 1
+  //   const start = new Date(`${year}.${month}.${day}`).getTime()
+  //   day = Math.floor(Math.random() * (28 - day)) + day
+  //   const end = new Date(`${year}.${month}.${day}`).getTime()
+  //   let spentFidelityPointsTmp = 0
+  //   let priceTmp = 0
+  //   for (let j = start; j < end; j += 86400000) {
+  //     let priceDay = 0
+  //     const dayT = new Date(i)
+  //     const isWeekend = dayT.getDay() === 0 || dayT.getDay() === 6
+  //     if (spendablefidelityPoints > 0 && spendablefidelityPoints - product.price.fidelityPoints > 0) {
+  //       spendablefidelityPoints -= product.price.fidelityPoints
+  //       spentFidelityPointsTmp += product.price.fidelityPoints
+  //     } else if (isWeekend) {
+  //       priceDay = product.price.weekend
+  //     } else {
+  //       priceDay = product.price.weekday
+  //     }
+  //     offers.forEach((offerTmp) => {
+  //       if (j >= offerTmp.start && j <= offerTmp.end) {
+  //         priceDay = (priceDay * 100) / (100 - priceDay.discount)
+  //       }
+  //     })
+  //     priceTmp += priceDay || 0
+  //   }
+  //   const fidelityPoints = spentFidelityPointsTmp
+  //   const price = priceTmp
+  //   const status = statusList[Math.floor(Math.random() * 2)]
+  //   const daysBetweenDates = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
+  //   const earnedFidelityPoints = daysBetweenDates * 3
+  //   const rentObj = { title, start, end, productCode, clientCode, price, fidelityPoints, earnedFidelityPoints, status }
+  //   rentList.push(rentObj)
+  // }
+  // await rentals.insertMany(rentList)
   // await inventory.insertMany([
   //   {
   //     available: true,

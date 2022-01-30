@@ -106,24 +106,26 @@ async function validateAccessToken() {
     type: 'POST',
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify({ accessToken }),
-    error: () => {
-      console.log('Asking for new access token')
-      // aggiorno il refresh token
-      const refreshToken = cookies.get('refreshToken')
-      if (refreshToken) {
-        $.ajax({
-          url: `${TOKEN_URL}/refresh`,
-          type: 'POST',
-          data: JSON.stringify({ refreshToken }),
-          contentType: "application/json; charset=utf-8",
-          success: (response) => {
-            cookies.remove('accessToken')
-            cookies.set('accessToken', response.accessToken, { path: '/' })
-          }
-        })
+    success: (data) => {
+      if (data.code === 401) {
+        console.log('Asking for new access token')
+        // aggiorno il refresh token
+        const refreshToken = cookies.get('refreshToken')
+        if (refreshToken) {
+          $.ajax({
+            url: `${TOKEN_URL}/refresh`,
+            type: 'POST',
+            data: JSON.stringify({ refreshToken }),
+            contentType: "application/json; charset=utf-8",
+            success: (response) => {
+              cookies.remove('accessToken')
+              cookies.set('accessToken', response.accessToken, { path: '/' })
+            }
+          })
+        }
       }
 
     }
   })
 }
-export { getMonthlyRevenue, getStatus,getProduct, groupClientAge, countClientGender, getConditions, avgRentMonth, avgRentLength, bestSellers }
+export { getMonthlyRevenue, getStatus, getProduct, groupClientAge, countClientGender, getConditions, avgRentMonth, avgRentLength, bestSellers }
