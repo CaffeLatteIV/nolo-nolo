@@ -54,8 +54,12 @@ class Client {
     return this.Clients.findOne({ email, password }, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites ').exec()
   }
 
-  async lookupClient(email) {
-    return this.Clients.findOne({ email }, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
+  async lookupClient(id) {
+    return this.Clients.findOne({ id }, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
+  }
+
+  async getClientList() {
+    return this.Clients.find({}, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
   }
 }
 export default Client

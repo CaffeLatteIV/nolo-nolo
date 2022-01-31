@@ -69,10 +69,16 @@ app.delete('/logout', authenticateAccessToken, async (req, res) => {
   logger.info('logged out')
   return res.status(204).send({ code: 204, msg: 'Logged out' })
 })
+app.get('/lookup/:id', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { id } = req.params
+  logger.info(`Finding user ${id}`)
+  const user = await db.lookupClient(id)
+  if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
+  return res.status(200).send({ user })
+})
 app.get('/lookup', authenticateAccessToken, authenticateUserRole, async (req, res) => {
-  const { email } = req.body
-  logger.info(`Finding user ${email}`)
-  const user = await db.lookupClient(email)
+  logger.info('Sending all users')
+  const user = await db.getClientList()
   if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
   return res.status(200).send({ user })
 })

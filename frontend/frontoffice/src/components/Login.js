@@ -58,7 +58,7 @@ function Login({ setLogged }) {
         </label>
       </div>
       <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
-        Registrati
+        Accedi
       </button>
     </div>
   )
