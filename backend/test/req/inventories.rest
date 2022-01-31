@@ -69,3 +69,5 @@ content-type: application/json
     "title":"Mountain bike"
   }
 }
+###
+GET http://localhost:5000/v1/inventories/categories HTTP/1.1

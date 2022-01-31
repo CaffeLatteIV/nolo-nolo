@@ -1,6 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+import { useNavigate } from 'react-router-dom'
 
-function Register() {
+function Register(setLogged) {
+  const [gender, setGender] = useState('')
+  const [address, setAddress] = useState('')
+  const [password, setPassword] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [birthDate, setBirtDate] = useState('')
+  const [name, setName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [email, setEmail] = useState('')
+  const navigate = useNavigate()
+  async function registerUser() {
+    const { data } = await axios({
+      method: 'post',
+      url: `${URL}v1/clients/login`,
+      data: {
+        client: {
+          email,
+          password,
+          gender,
+          address,
+          phoneNumber,
+          birthDate,
+          name,
+          surname,
+        },
+      },
+    })
+    if (data && data.accessToken && data.refreshToken && data.client) {
+      const cookies = new Cookies()
+      cookies.set('accessToken', data.accessToken, { path: '/', sameSite: 'Lax' })
+      cookies.set('refreshToken', data.refreshToken, { path: '/', sameSite: 'Lax' })
+      cookies.set('client', data.client, { path: '/', sameSite: 'Lax' })
+      return true
+    }
+    return false
+  }
+  async function handleClick() {
+    const logged = await registerUser(email, password)
+    setLogged(logged)
+    navigate('/', { replace: true })
+  }
   return (
     <form className="w-50 m-auto" id="accountInfo">
       <div className="row mb-4">
@@ -10,17 +53,19 @@ function Register() {
               type="text"
               id="nomeInput"
               className="form-control"
-              value=""
+              onChange={(e) => setName(e.target.value)}
+              value={name}
             />Nome
           </label>
         </div>
         <div className="col">
           <label className="form-label ps-2 w-100" htmlFor="cognomeInput">
             <input
+              onChange={(e) => setSurname(e.target.value)}
+              value={surname}
               type="text"
               id="cognomeInput"
               className="form-control"
-              value=""
             />Cognome
           </label>
         </div>
@@ -33,7 +78,8 @@ function Register() {
             type="text"
             id="addressInput"
             className="form-control"
-            value=""
+            onChange={(e) => setAddress(e.target.value)}
+            value={address}
           />Indirizzo
         </label>
       </div>
@@ -46,7 +92,8 @@ function Register() {
               type="email"
               id="emailInput"
               className="form-control"
-              value=""
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />Email
           </label>
         </div>
@@ -56,7 +103,8 @@ function Register() {
               type="password"
               id="passwordInput"
               className="form-control"
-              value=""
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />Password
           </label>
         </div>
@@ -73,7 +121,8 @@ function Register() {
                 type="date"
                 className="form-control"
                 id="dateInput"
-                value=""
+                onChange={(e) => setBirtDate(new Date(e).getTime())}
+                value={birthDate}
               />Data di nascita
             </label>
           </div>
@@ -87,7 +136,8 @@ function Register() {
                 type="tel"
                 id="phoneNumber"
                 className="form-control"
-                value=""
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phoneNumber}
               />Telefono
             </label>
           </div>
@@ -105,7 +155,8 @@ function Register() {
                 type="radio"
                 name="inlineRadioOptions"
                 id="femaleGender"
-                value="option1"
+                onChange={(e) => setGender(e.target.value)}
+                value="Femmina"
               />Femmina
             </label>
           </div>
@@ -118,7 +169,8 @@ function Register() {
                 type="radio"
                 name="inlineRadioOptions"
                 id="maleGender"
-                value="option2"
+                onChange={(e) => setGender(e.target.value)}
+                value="Maschio"
               />Maschio
             </label>
           </div>
@@ -131,15 +183,16 @@ function Register() {
                 type="radio"
                 name="inlineRadioOptions"
                 id="otherGender"
-                value="option3"
-              />Altro
+                onChange={(e) => setGender(e.target.value)}
+                value="Non specificato"
+              />Non specificato
             </label>
           </div>
         </fieldset>
       </div>
 
       {/* Submit button */}
-      <button type="submit" className="btn btn-primary mb-4 text-black">
+      <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
         Registrati
       </button>
     </form>

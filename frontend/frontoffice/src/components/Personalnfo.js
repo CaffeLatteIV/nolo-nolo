@@ -8,7 +8,6 @@ const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
 function PersonalInfo() {
   const cookies = new Cookies()
   const client = cookies.get('client')
-  console.log(client)
   const [gender, setGender] = useState(client.gender)
   const [address, setAddress] = useState(client.address)
   const [phoneNumber, setPhoneNumber] = useState(client.phoneNumber)
@@ -22,7 +21,7 @@ function PersonalInfo() {
     const brthDateNumber = new Date(birthDate).getTime()
     const clientData = { id: client.id, name, surname, phoneNumber, birthDate: brthDateNumber, email, gender, address }
     cookies.remove('client', { path: '/' })
-    cookies.set('client', clientData, { path: '/' })
+    cookies.set('client', clientData, { path: '/', sameSite: 'lax' })
     await axios.post(`${CLIENT_URL}/update/personalInfo`, { client: clientData }, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

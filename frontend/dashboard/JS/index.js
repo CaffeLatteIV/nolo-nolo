@@ -20,7 +20,9 @@ var lineChart = new Chart(document.getElementById("lineChart"), lineConfig);
 
 //Setup for Doughnut Chart --> Contiene dati su disponibilità
 const statusData = await getStatus()
-console.log(statusData)
+const cookies = new UniversalCookie()
+
+console.log(cookies.get('client'))
 const distrData = {
   labels: statusData.result.labels,
   datasets: [

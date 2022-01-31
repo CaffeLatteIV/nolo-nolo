@@ -30,12 +30,10 @@ class Rental {
     const rentals = await this.Rentals.find({ clientCode }).populate('productCode', 'media').exec()
     const res = []
     rentals.forEach((element) => {
-      console.log(rentals)
       element.media = element.productCode.media
       element.productCode = element.productCode.id
       res.push(element)
     })
-    console.log(res)
     return res
   }
 

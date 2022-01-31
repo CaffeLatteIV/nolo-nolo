@@ -25,7 +25,7 @@ app.post('/register', async (req, res) => {
       logger.warn('User already registered')
       return res.status(400).send({ code: 400, msg: 'Client already registered' })
     }
-    clientFound = await db.addClient(client.email, client.password)
+    clientFound = await db.addClient(client)
     const accessToken = generateAccessToken(client.email, undefined)
     const refreshToken = generateRefreshToken(client.email, undefined)
     await tokenDB.addRefreshToken(refreshToken)

@@ -13,7 +13,7 @@ async function validateAccessToken() {
       const refreshToken = cookie.get('refreshToken')
       const res = await axios.post(`${URL}/refresh`, { refreshToken })
       cookie.remove('accessToken', { path: '/' })
-      cookie.set('accessToken', res.data.accessToken, { path: '/' })
+      cookie.set('accessToken', res.data.accessToken, { path: '/', sameSite: 'Lax' })
     }
   } catch (err) {
     const navigate = useNavigate()

@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import axios from 'axios'
-import moment from 'moment'
 import Cookies from 'universal-cookie'
+import Favourites from '../components/Favourites.js'
 
-const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories/products'
+const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories'
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
@@ -15,10 +15,6 @@ function ProductPage() {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
-  }
-  const [isFavourite, setIsFavourite] = useState(true)
-  const changeFavouriteStatus = () => {
-    setIsFavourite(!isFavourite)
   }
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
@@ -31,17 +27,16 @@ function ProductPage() {
     navigate('*') // \* = route per pagina 404
   }
   useEffect(async () => {
-    const { data } = await axios.get(`${PRODUCT_URL}/${id}`)
+    const { data } = await axios.get(`${PRODUCT_URL}/products/${id}`)
     setProduct(data.products)
   }, [])
+  const cookies = new Cookies()
+  const client = cookies.get('client')
   function rent() {
     // TODO prendere i parametri inseriti dall'utente
-    const start = moment(new Date()).valueOf()
-    const cookies = new Cookies()
-    const client = cookies.get('client')
     if (useFidelityPoints) product.useFidelityPoints = client.fidelityPoints
     navigate('/receipt', {
-      state: { newRent: product, start, end: start + 86400000 },
+      state: { newRent: product, start: startDate, end: endDate },
     }) // ms in a day
   }
   return (
@@ -112,13 +107,7 @@ function ProductPage() {
                 Voglio usare i punti fedeltà
               </label>
               <div className="p-2 row">
-                <div className="col-2 ps-0 pe-1 d-flex flex-column justify-content-center">
-                  <button className="md-08dp w-100 rounded p-0 m-0 border-0 text-white text-center" onClick={changeFavouriteStatus} type="button">
-                    { isFavourite
-                      ? <span className="material-icons p-1">star_outline</span>
-                      : <span className="material-icons  p-1 text-warning">star</span>}
-                  </button>
-                </div>
+                <Favourites id={id} clientCode={client.id} />
                 <div className="col-10  px-0">
                   <button
                     type="submit"
