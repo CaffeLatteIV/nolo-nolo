@@ -24,7 +24,7 @@ class Employee {
     return employee
   }
 
-  async findEmployee(email, password) {
+  async login(email, password) {
     return this.Employee.findOne({ email, password }, 'email role').exec()
   }
 

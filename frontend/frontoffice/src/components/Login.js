@@ -4,7 +4,8 @@ import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const URL = process.env.URL || 'http://localhost:5000/'
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
+const EMPLOYEE_URL = process.env.EMPLOYEE_URL || 'http://localhost:5000/v1/employee'
 
 function Login({ setLogged }) {
   const [email, setEmail] = useState('')
@@ -12,15 +13,27 @@ function Login({ setLogged }) {
   const navigate = useNavigate()
   // invia una richiestaal server per loggare o registrare l'utente
   async function logUser() {
-    const { data } = await axios({
+    let { data } = await axios({
       method: 'post',
-      url: `${URL}v1/clients/login`,
+      url: `${CLIENT_URL}v1/clients/login`,
       data: {
         email,
         password,
       },
     })
-    if (data && data.accessToken && data.refreshToken && data.client) {
+    if (!data) {
+      // se non esiste un utente con quella email/password allora lo cercotra gli employee
+      const employee = await axios({
+        method: 'post',
+        url: `${EMPLOYEE_URL}/login`,
+        data: {
+          email,
+          password,
+        },
+      })
+      data = employee.data
+    }
+    if (data && data.accessToken && data.refreshToken) {
       const cookies = new Cookies()
       cookies.set('accessToken', data.accessToken, { path: '/', sameSite: 'Lax' })
       cookies.set('refreshToken', data.refreshToken, { path: '/', sameSite: 'Lax' })

@@ -1,6 +1,7 @@
 import Express from 'express'
 import Employee from '../database/employee.js'
 import RefreshToken from '../database/refreshToken.js'
+import { employeeSchema } from '../database/schema.js'
 import loggerWrapper from '../logger.js'
 import { authenticateAccessToken, generateAccessToken, authenticateUserRole, authenticateManager, generateHash, generateRefreshToken } from '../utils/authenticate.js'
 
@@ -14,13 +15,13 @@ app.post('/login', async (req, res) => {
   let { password } = req.body
   logger.info(`Finding employee ${email}`)
   password = await generateHash(password) // encrypt password
-  const employee = await db.findEmployee(email, password)
+  const employee = await db.login(email, password)
   if (employee === null) return res.status(404).send({ code: 404, msg: 'User not registered' })
   logger.info('Found')
   const accessToken = generateAccessToken(email, employee.role)
   const refreshToken = generateRefreshToken(email, employee.role)
   await tokenDB.addRefreshToken(refreshToken)
-  return res.status(200).send({ accessToken, refreshToken, employee })
+  return res.status(200).send({ accessToken, refreshToken, client: employee }) // per comodità
 })
 app.delete('/logout', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { refreshToken } = req.body
