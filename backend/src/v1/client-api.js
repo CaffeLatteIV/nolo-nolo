@@ -78,9 +78,9 @@ app.get('/lookup/:id', authenticateAccessToken, authenticateUserRole, async (req
 })
 app.get('/lookup', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   logger.info('Sending all users')
-  const user = await db.getClientList()
-  if (user === null) return res.status(404).send({ code: 404, msg: 'User not found' })
-  return res.status(200).send({ user })
+  const clients = await db.getClientList()
+  if (clients === null) return res.status(404).send({ code: 404, msg: 'Users not found' })
+  return res.status(200).send({ clients })
 })
 app.post('/update/personalInfo', authenticateAccessToken, async (req, res) => {
   try {
