@@ -1,7 +1,6 @@
 import Express from 'express'
 import Employee from '../database/employee.js'
 import RefreshToken from '../database/refreshToken.js'
-import { employeeSchema } from '../database/schema.js'
 import loggerWrapper from '../logger.js'
 import { authenticateAccessToken, generateAccessToken, authenticateUserRole, authenticateManager, generateHash, generateRefreshToken } from '../utils/authenticate.js'
 

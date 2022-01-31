@@ -53,7 +53,7 @@ async function populate() {
     clientList.push(user)
   }
 
-  await clients.insertMany(clientList)
+  // await clients.insertMany(clientList)
   const clientIdList = await clients.find({}, 'id').exec()
   const productList = await inventory.find().exec()
   const offers = await offer.find().exec()
@@ -101,7 +101,7 @@ async function populate() {
     const rentObj = { title, start, end, productCode, clientCode, price, fidelityPoints, earnedFidelityPoints, status }
     rentList.push(rentObj)
   }
-  await rentals.insertMany(rentList)
+  // await rentals.insertMany(rentList)
   await inventory.insertMany([
     {
       available: true,

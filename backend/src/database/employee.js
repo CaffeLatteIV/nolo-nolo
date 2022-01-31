@@ -25,6 +25,7 @@ class Employee {
   }
 
   async login(email, password) {
+    console.log(email, password)
     return this.Employee.findOne({ email, password }, 'email role').exec()
   }
 

@@ -13,27 +13,15 @@ function Login({ setLogged }) {
   const navigate = useNavigate()
   // invia una richiestaal server per loggare o registrare l'utente
   async function logUser() {
-    let { data } = await axios({
-      method: 'post',
-      url: `${CLIENT_URL}v1/clients/login`,
-      data: {
-        email,
-        password,
-      },
-    })
-    if (!data) {
+    let data
+    const request = await axios.post(`${CLIENT_URL}/login`, { email, password }, { validateStatus: false })
+    data = request.data
+    if (request.status === 404) {
       // se non esiste un utente con quella email/password allora lo cercotra gli employee
-      const employee = await axios({
-        method: 'post',
-        url: `${EMPLOYEE_URL}/login`,
-        data: {
-          email,
-          password,
-        },
-      })
+      const employee = await axios.post(`${EMPLOYEE_URL}/login`, { email, password }, { validateStatus: false })
       data = employee.data
     }
-    if (data && data.accessToken && data.refreshToken) {
+    if (data && data.accessToken && data.refreshToken && data.client) {
       const cookies = new Cookies()
       cookies.set('accessToken', data.accessToken, { path: '/', sameSite: 'Lax' })
       cookies.set('refreshToken', data.refreshToken, { path: '/', sameSite: 'Lax' })
