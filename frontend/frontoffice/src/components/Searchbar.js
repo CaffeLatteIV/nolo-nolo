@@ -13,7 +13,8 @@ function Searchbar() {
       <div className="container-fluid w-100 md-04dp">
         <form className="d-flex" onSubmit={search}>
           <input
-            className="form-control me-1 bg-transparent text-white"
+            className="form-control me-1 border-0 p-1 ps-3 text-white"
+            id="searchbar"
             type="search"
             placeholder="Cerca.."
             aria-label="Cerca"
