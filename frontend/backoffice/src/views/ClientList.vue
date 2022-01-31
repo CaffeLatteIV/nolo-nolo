@@ -5,15 +5,16 @@
       <h1 class="py-3 m-0">Lista Clienti</h1>
     </div>
     <div class="p-4">
-      <ul class="list-group list-group-flush rounded" id="list">
+      <ul class="list-group list-group-flush rounded" id="list" v-if="!loading">
         <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
-        <li
+        <li 
           class="list-group-item md-04dp border-dark"
-          v-for="n in 20"
+          v-for="n in this.clientList.length"
           :key="n"
+          
         >
           <div class="row px-3 text-white">
-            <div class="col-4 fs-4 py-3">Biggus Dickus</div>
+            <div class="col-4 fs-4 py-3">{{ this.clientList[n-1] ? this.clientList[n-1].name : "Nome mancante" }}</div>
             <div class="col-7 py-3 d-flex flex-row-reverse">
               <div v-show="1 === 1" class="px-2 pt-2">
                 <div class="tag-one rounded px-1 text-black">
@@ -48,8 +49,35 @@
 </template>
 
 <script>
+import axios from "axios";
+import Cookies from "universal-cookie";
+
 export default {
   name: "ClientList",
+  data() {
+    return {
+      loading: true,
+      clientList: []
+    };
+  },
+  mounted() {
+    const cookies = new Cookies();
+    const accessToken = cookies.get("accessToken");
+    console.log(accessToken)
+    console.log(cookies.get('client'))
+    const clientURL =
+      process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
+    axios
+      .get(clientURL + "/lookup", {
+        headers: { Authorization: "Bearer " + accessToken },
+      })
+      .then((response) => {
+        this.loading = false
+        this.clientList = response.data.clients;
+        console.log(this.clientList)
+        
+      });
+  },
 };
 </script>
 

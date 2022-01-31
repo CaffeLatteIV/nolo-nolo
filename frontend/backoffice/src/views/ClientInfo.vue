@@ -1,13 +1,6 @@
 <template>
   <div class="container md-01dp mt-4 rounded p-4">
     <h1 class="mb-4 text-center">Informazioni Account</h1>
-    <span class="text-danger"
-      >MATTIA i valori che sono messi non sono placeholder, devi passarli tu
-      nell'attributo value dei tag input (per il radio input è l'attributo
-      checked) perchè così puoi sia vedere i valori che modificarli. Fa così
-      anche instagram direi. Quantomeno ho preso ispirazione da loro. Ricordati
-      di cancellare questo messaggio quando hai finito.</span
-    >
     <form class="w-50 m-auto">
       <div class="row mb-4">
         <div class="col">
@@ -132,6 +125,12 @@
 </template>
 
 <script>
+import Cookies from 'universal-cookie'
+const cookies = new Cookies()
+const client = cookies.get('client')
+// const accessToken = cookies.get('accessToken')
+// async getClients  
+console.log(client)
 export default {
   name: "AddClient",
 };
