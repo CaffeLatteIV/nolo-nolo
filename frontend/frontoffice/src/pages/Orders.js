@@ -6,7 +6,7 @@ import ActiveOrders from '../components/ActiveOrders.js'
 import BookedOrders from '../components/BookedOrders.js'
 import validateAccessToken from '../components/Tokens.js'
 
-const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
+const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
 function Orders() {
   const [productList, setProductList] = useState({ bookedOrders: [], activeOrders: [], olderOrders: [] })
   useEffect(async () => {
@@ -16,7 +16,7 @@ function Orders() {
     const { id } = cookie.get('client')
     const { data } = await axios({
       method: 'GET',
-      url: `${URL}/clients/${id}`,
+      url: `${RENTALS_URL}/clients/${id}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',

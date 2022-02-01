@@ -7,7 +7,7 @@ import Cookie from 'universal-cookie'
 import axios from 'axios'
 import validateAccessToken from '../components/Tokens.js'
 
-const URL = process.env.ORDERS_URL || 'http://localhost:5000/v1/rentals'
+const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
 const URL_OFFERS = process.env.OFFERS_URL || 'http://localhost:5000/v1/offers'
 function Receipt() {
   const navigate = useNavigate()
@@ -63,7 +63,7 @@ function Receipt() {
       fidelityPoints: spentFidelityPoints,
     }
     const accessToken = cookie.get('accessToken')
-    await axios.post(`${URL}/add`, { product }, {
+    await axios.post(`${RENTALS_URL}/add`, { product }, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',

@@ -76,14 +76,16 @@ app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
-app.get('/available', authenticateAccessToken, async (req, res) => {
+app.post('/available', authenticateAccessToken, async (req, res) => {
   try {
-    const { start, end } = req.body
-    if (!start || !end) {
-      logger.error('Missing date')
+    const { start, end, productCode } = req.body
+    console.log(req.body)
+    console.log(start, end, productCode)
+    if (!start || !end || !productCode) {
+      logger.error('Missing date or product code')
       return res.status(404).send({ code: 404, msg: 'Missing date' })
     }
-    const available = await db.checkAvailability(start, end)
+    const available = await db.checkAvailability(start, end, productCode)
     if (available) {
       return res.status(200).send({ available })
     }
@@ -109,6 +111,15 @@ app.get('/find/date/start', async (req, res) => {
     logger.error(err.stack)
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
+})
+app.post('/getActiveRentals', (req, res) => {
+  const { clientCode, start } = req.body
+  if (!clientCode || !start) {
+    logger.error('Missing date or client code')
+    return res.status(404).send({ code: 404, msg: 'Missing date' })
+  }
+  const rentals = db.getUserActiveRentals(start, clientCode)
+  return res.status(200).send({ rentals })
 })
 app.get('/find', async (req, res) => {
   try {
