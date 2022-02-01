@@ -10,6 +10,7 @@ const EMPLOYEE_URL = process.env.EMPLOYEE_URL || 'http://localhost:5000/v1/emplo
 function Login({ setLogged }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [logError, setLogError] = useState('')
   const navigate = useNavigate()
   // invia una richiestaal server per loggare o registrare l'utente
   async function logUser() {
@@ -31,6 +32,11 @@ function Login({ setLogged }) {
     return false
   }
   async function handleClick() {
+    if (email.length === 0) {
+      setLogError('Devi inserire una email')
+    } else if (password.length === 0) {
+      setLogError('Devi inserire una password')
+    }
     const logged = await logUser(email, password)
     setLogged(logged)
     navigate('/', { replace: true })
@@ -48,7 +54,7 @@ function Login({ setLogged }) {
           />Email
         </label>
         <br />
-        <label className="form-label  mb-4" htmlFor="passwordInput">
+        <label className="form-label mb-4" htmlFor="passwordInput">
           <input
             onChange={(e) => setPassword(e.target.value)}
             type="password"
@@ -61,6 +67,7 @@ function Login({ setLogged }) {
       <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
         Accedi
       </button>
+      <p>{logError}</p>
     </div>
   )
 }
