@@ -32,16 +32,12 @@ function Login({ setLogged }) {
     return false
   }
   async function handleClick() {
-    if (email.length === 0) {
-      setLogError('Devi inserire una email')
-    } else if (password.length === 0) {
-      setLogError('Devi inserire una password')
-    }
     const logged = await logUser(email, password)
     setLogged(logged)
     if (logged) {
       navigate('/', { replace: true })
     }
+    setLogError('Email o password errati')
   }
   return (
     <div className="w-50 m-auto" id="accountInfo">
@@ -69,7 +65,7 @@ function Login({ setLogged }) {
       <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
         Accedi
       </button>
-      <p>{logError}</p>
+      <p className="text-danger text-center fs-4">{logError}</p>
     </div>
   )
 }
