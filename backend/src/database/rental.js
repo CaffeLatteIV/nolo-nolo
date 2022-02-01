@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { rentSchema } from './schema.js'
+import { rentSchema, inventorySchema } from './schema.js'
 
 class Rental {
   constructor() {
@@ -9,6 +9,7 @@ class Rental {
 
   async connect() {
     this.mongoose = await mongoose.connect(this.URL)
+    this.Inventory = mongoose.model('inventories', inventorySchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
   }
 
@@ -45,10 +46,11 @@ class Rental {
     return this.Rentals.find({ productCode, clientCode }).exec()
   }
 
-  async findOverlappingDates(start, end, productCode) {
-    const overlappingProduct = await this.Rentals.findOne({ start: { $gte: start, $lte: end }, productCode })
-    if (overlappingProduct) return { start: overlappingProduct.start, end }
-    return undefined
+  async checkAvailability(start, end, productCode) {
+    const overlappingProduct = await this.Rentals.find({ start: { $gte: start, $lte: end }, productCode }) || []
+    overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode }))
+    const product = await this.Inventory.findById(productCode).exec()
+    return (new Set(overlappingProduct)).size < product.stock
   }
 
   async findEndings(date) {

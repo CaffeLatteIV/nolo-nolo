@@ -42,7 +42,9 @@ function Register(setLogged) {
   async function handleClick() {
     const logged = await registerUser(email, password)
     setLogged(logged)
-    navigate('/', { replace: true })
+    if (logged) {
+      navigate('/', { replace: true })
+    }
   }
   return (
     <form className="w-50 m-auto" id="accountInfo">
