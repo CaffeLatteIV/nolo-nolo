@@ -6,33 +6,54 @@ import 'react-datepicker/dist/react-datepicker.css'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import Favourites from '../components/Favourites.js'
+import validateAccessToken from '../components/Tokens.js'
 
 const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories'
+const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const handleDateChange = (dates) => {
-    const [start, end] = dates
-    const { data } = await axios.get()
-    setStartDate(start)
-    setEndDate(end)
-  }
+  const [available, setAvailable] = useState(true)
+
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
   const { search } = useLocation()
   const query = new URLSearchParams(search)
   const id = query.get('id')
   const navigate = useNavigate()
+  const cookies = new Cookies()
+  const client = cookies.get('client')
   // se il parametro id non è presente restituisce la pagina 404
   if (id === null) {
     navigate('*') // \* = route per pagina 404
+  }
+  const handleDateChange = async (dates) => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+    if (start && end) {
+      await validateAccessToken()
+      const accessToken = cookies.get('accessToken')
+      const { data } = await axios.post(`${RENTALS_URL}/available`, {
+        start: new Date(start).getTime(),
+        end: new Date(end).getTime(),
+        productCode: id,
+
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        validateStatus: false,
+      })
+      setAvailable(data.available || false)
+    }
   }
   useEffect(async () => {
     const { data } = await axios.get(`${PRODUCT_URL}/products/${id}`)
     setProduct(data.products)
   }, [])
-  const cookies = new Cookies()
-  const client = cookies.get('client')
+
   function rent() {
     // TODO prendere i parametri inseriti dall'utente
     if (useFidelityPoints) product.useFidelityPoints = client.fidelityPoints
@@ -67,7 +88,7 @@ function ProductPage() {
               selectsRange
               startDate={startDate}
               endDate={endDate}
-              onChange={(date) => handleDateChange(date)}
+              onChange={async (date) => handleDateChange(date)}
               dateFormat="dd/MM/yyyy"
               minDate={new Date()}
               scrollableMonthYearDropdown
@@ -110,15 +131,26 @@ function ProductPage() {
               <div className="p-2 row">
                 <Favourites id={id} clientCode={client.id} />
                 <div className="col-10  px-0">
-                  <button
-                    type="submit"
-                    className="col-10 w-100 h-100 rounded p-1 border-0 bg-site-primary"
-                    onClick={rent}
-                  >
-                    Procedi con il noleggio
-                  </button>
+                  {available ? (
+                    <button
+                      type="submit"
+                      className="col-10 w-100 h-100 rounded p-1 border-0 bg-site-primary"
+                      onClick={rent}
+                    >
+                      Procedi con il noleggio
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="col-10 w-100 h-100 rounded p-1 border-0 bg-site-primary"
+                    >
+                      Procedi con il noleggio
+                    </button>
+                  )}
                 </div>
               </div>
+              {/* controllo se la data sia disponibile */}
+              {!available ? <span> Le date selezionate non sono disponibili</span> : ''}
             </div>
           </div>
         </div>
