@@ -33,7 +33,9 @@ function Login({ setLogged }) {
   async function handleClick() {
     const logged = await logUser(email, password)
     setLogged(logged)
-    navigate('/', { replace: true })
+    if (logged) {
+      navigate('/', { replace: true })
+    }
   }
   return (
     <div className="w-50 m-auto" id="accountInfo">
