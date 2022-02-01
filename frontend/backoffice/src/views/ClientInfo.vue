@@ -9,7 +9,7 @@
               type="text"
               id="nomeInput"
               class="form-control"
-              value="John"
+              v-model="clientName"
             />
             <label class="form-label ps-2" for="nomeInput">Nome</label>
           </div>
@@ -20,7 +20,7 @@
               type="text"
               id="cognomeInput"
               class="form-control"
-              value="Doe"
+              v-model="clientSurname"
             />
             <label class="form-label ps-2" for="cognomeInput">Cognome</label>
           </div>
@@ -33,7 +33,7 @@
           type="text"
           id="addressInput"
           class="form-control"
-          value="via Arcobaleno 38"
+          v-model="clientAddress"
         />
         <label class="form-label ps-2" for="addressInput">Indirizzo</label>
       </div>
@@ -44,7 +44,7 @@
           type="email"
           id="emailInput"
           class="form-control"
-          value="johndoe@example.com"
+          v-model="clientEmail"
         />
         <label class="form-label ps-2" for="emailInput">Email</label>
       </div>
@@ -56,7 +56,7 @@
               type="date"
               class="form-control"
               id="dateInput"
-              value="1946-06-02"
+              v-model="clientBirthday"
             />
             <label for="dateInput" class="form-label ps-2"
               >Data di nascita</label
@@ -70,7 +70,7 @@
               type="tel"
               id="phoneNumber"
               class="form-control"
-              value="3335719046"
+              v-model="clientTelephone"
             />
             <label class="form-label ps-2" for="phoneNumber">Telefono</label>
           </div>
@@ -86,7 +86,8 @@
               type="radio"
               name="inlineRadioOptions"
               id="femaleGender"
-              value="option1"
+              :checked="clientGender === 'Femmina'"
+              v-model="clientGender"
             />
             <label class="form-check-label" for="femaleGender">Femmina</label>
           </div>
@@ -97,8 +98,8 @@
               type="radio"
               name="inlineRadioOptions"
               id="maleGender"
-              value="option2"
-              checked
+              :checked="clientGender === 'Maschio'"
+              v-model="clientGender"
             />
             <label class="form-check-label" for="maleGender">Maschio</label>
           </div>
@@ -109,7 +110,8 @@
               type="radio"
               name="inlineRadioOptions"
               id="otherGender"
-              value="option3"
+              :checked="clientGender === 'Non specificato'"
+              v-model="clientGender"
             />
             <label class="form-check-label" for="otherGender">Altro</label>
           </div>
@@ -125,14 +127,51 @@
 </template>
 
 <script>
-import Cookies from 'universal-cookie'
-const cookies = new Cookies()
-const client = cookies.get('client')
-// const accessToken = cookies.get('accessToken')
-// async getClients  
-console.log(client)
+import axios from "axios";
+import Cookies from "universal-cookie";
+import dayjs from 'dayjs'
+
 export default {
-  name: "AddClient",
+  name: "Client Info",
+  data() {
+    return {
+      clientName: "",
+      clientSurname: "",
+      clientAddress: "",
+      clientEmail: "",
+      clientBirthday: "",
+      clientTelephone: "",
+      clientGender: "",
+      loading: true,
+    }
+  },
+  mounted() {
+    const cookies = new Cookies();
+    const accessToken = cookies.get("accessToken");
+    console.log(accessToken);
+    console.log(cookies.get("client"));
+    const clientURL =
+      process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
+    axios
+      .get(clientURL + "/lookup/" + this.$route.params.id, {
+        headers: { Authorization: "Bearer " + accessToken },
+      })
+      .then((response) => {
+        const user = response.data.user
+        console.log(user)
+        this.loading = false;
+        this.clientName = user.name;
+        this.clientSurname = user.surname;
+        this.clientEmail = user.email;
+        this.clientAddress = user.address;
+        this.clientBirthday = dayjs(user.birthDate).format('YYYY-MM-DD');
+        this.clientTelephone = user.phoneNumber;
+        this.clientGender = user.gender;
+        console.log('bday' + this.clientBirthday)
+        console.log('gender' + this.clientGender)
+      });
+    console.log('id: ' + this.$route.params.id)
+  },
 };
 </script>
 

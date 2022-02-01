@@ -13,7 +13,7 @@ function ProductPage() {
   const [endDate, setEndDate] = useState(null)
   const handleDateChange = (dates) => {
     const [start, end] = dates
-    const { data } = await axios.get()
+    // const { data } = await axios.get()
     setStartDate(start)
     setEndDate(end)
   }

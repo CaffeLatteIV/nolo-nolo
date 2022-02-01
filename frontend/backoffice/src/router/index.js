@@ -16,12 +16,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "" */ '../views/ClientList.vue')
   },
   {
-    path: '/admin/client',
+    path: '/admin/client/:id',
     name: 'Client Info',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "" */ '../views/ClientInfo.vue')
+    component: () => import(/* webpackChunkName: "" */ '../views/ClientInfo.vue'),
+    props: true,
   },
   {
     path: '/admin/inventory',
@@ -45,7 +46,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "" */ '../views/ModifyItem.vue')
+    component: () => import(/* webpackChunkName: "" */ '../views/ModifyItem.vue'),
   }
 ]
 

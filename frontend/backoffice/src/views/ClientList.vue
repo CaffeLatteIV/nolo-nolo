@@ -7,14 +7,21 @@
     <div class="p-4">
       <ul class="list-group list-group-flush rounded" id="list" v-if="!loading">
         <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
-        <li 
+        <li
           class="list-group-item md-04dp border-dark"
           v-for="n in this.clientList.length"
           :key="n"
-          
         >
           <div class="row px-3 text-white">
-            <div class="col-4 fs-4 py-3">{{ this.clientList[n-1] ? this.clientList[n-1].name : "Nome mancante" }}</div>
+            <div class="col-4 fs-4 py-3">
+              {{
+                this.clientList[n - 1]
+                  ? this.clientList[n - 1].name +
+                    " " +
+                    this.clientList[n - 1].surname
+                  : "Nome mancante"
+              }}
+            </div>
             <div class="col-7 py-3 d-flex flex-row-reverse">
               <div v-show="1 === 1" class="px-2 pt-2">
                 <div class="tag-one rounded px-1 text-black">
@@ -29,7 +36,7 @@
             </div>
             <div class="col-1">
               <router-link
-                to="/admin/client"
+                :to="{ path: '/admin/client/'+this.clientList[n-1].id }"
                 exact-path
                 class="d-flex justify-content-end py-3 text-decoration-none"
                 role="button"
@@ -57,14 +64,14 @@ export default {
   data() {
     return {
       loading: true,
-      clientList: []
+      clientList: [],
     };
   },
   mounted() {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
-    console.log(accessToken)
-    console.log(cookies.get('client'))
+    console.log(accessToken);
+    console.log(cookies.get("client"));
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
     axios
@@ -72,10 +79,9 @@ export default {
         headers: { Authorization: "Bearer " + accessToken },
       })
       .then((response) => {
-        this.loading = false
+        this.loading = false;
         this.clientList = response.data.clients;
-        console.log(this.clientList)
-        
+        console.log(this.clientList);
       });
   },
 };
