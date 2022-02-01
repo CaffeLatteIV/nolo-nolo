@@ -38,6 +38,10 @@ class Rental {
     return res
   }
 
+  async getUserActiveRentals(start, clientCode) {
+    return this.Rentals.find({ start: { $lte: start }, end: { $gte: start }, clientCode }).exec()
+  }
+
   async findProductRentals(productCode) {
     return this.Rentals.find({ productCode }).exec()
   }
@@ -50,6 +54,7 @@ class Rental {
     const overlappingProduct = await this.Rentals.find({ start: { $gte: start, $lte: end }, productCode }) || []
     overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode }))
     const product = await this.Inventory.findById(productCode).exec()
+    console.log((new Set(overlappingProduct)))
     return (new Set(overlappingProduct)).size < product.stock
   }
 
