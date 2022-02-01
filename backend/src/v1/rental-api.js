@@ -14,8 +14,8 @@ app.post('/add', authenticateAccessToken, async (req, res) => {
       logger.error('Missing product to add')
       return res.status(404).send({ code: 404, msg: 'Missing product to add' })
     }
-    const overlappingProduct = await db.findOverlappingDates(product.start, product.end, product.productCode)
-    if (overlappingProduct) {
+    const available = await db.checkAvailability(product.start, product.end, product.productCode)
+    if (!available) {
       logger.info('Selected dates are not available for this product')
       return res.status(402).send({ code: 402, msg: 'Selected dates are not available for this product' })
     }
@@ -70,6 +70,24 @@ app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
     // TODO: verificare che restituisca un oggetto json e non un array e basta
     return res.status(200).send({ rent })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
+})
+app.get('/available', authenticateAccessToken, async (req, res) => {
+  try {
+    const { start, end } = req.body
+    if (!start || !end) {
+      logger.error('Missing date')
+      return res.status(404).send({ code: 404, msg: 'Missing date' })
+    }
+    const available = await db.checkAvailability(start, end)
+    if (available) {
+      return res.status(200).send({ available })
+    }
+    return res.status(409).send({ code: 409, msg: 'Selected period is not available' })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)

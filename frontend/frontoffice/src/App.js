@@ -64,7 +64,7 @@ function App() {
 }
 function RequireAuth({ children }) {
   const cookies = new Cookies()
-  const auth = cookies.get('refreshToken')
+  const auth = cookies.get('client')
   const location = useLocation()
 
   if (!auth) {
