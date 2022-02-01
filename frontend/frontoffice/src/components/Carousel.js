@@ -24,10 +24,12 @@ function Carousel() {
           <div className="carousel-inner">
             {carouselItems.map((item) => (
               <div key={item.id} className="carousel-item active" data-bs-interval="3000">
-                <img src={item.media.img} className="d-block w-100" alt="Item" style={{ maxHeight: '50vh' /* this will be obsolete with use of personalized images that fit the actual content */ }} />
-                <div className="carousel-caption">
-                  <h5>{item.title}</h5>
-                  <p>Prezzo: ${item.price.weekday}/day</p>
+                <div className="bg-white">
+                  <img src={item.media.img} id="carousel" className="d-block " alt="Item" />
+                  <div className="carousel-caption">
+                    <h5>{item.title}</h5>
+                    <p>Prezzo: ${item.price.weekday}/day</p>
+                  </div>
                 </div>
               </div>
             ))}

@@ -226,3 +226,8 @@ Source: https://material.io/design/color/dark-theme.html*/
 #searchbar {
   background-color: #1e1e1e;
 }
+#carousel {
+  max-height: 25vh;
+  margin: auto;
+  overflow: hidden;
+}
