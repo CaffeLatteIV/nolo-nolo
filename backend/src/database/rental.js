@@ -69,5 +69,14 @@ class Rental {
     if (Array.isArray(rentals)) return rentals.sort(((a, b) => a - b)) // asc
     return rentals
   }
+
+  async payRent(rentId) {
+    const rent = await this.Rentals.findById(rentId).exec()
+    const today = new Date().getTime()
+    const avgPrice = Math.ceil(rent.end - rent.start / 86400000) / rent.price
+    const fee = Math.max(Math.floor((today - rent.end) / 86400000), 0) * avgPrice
+    return { fee, avgPrice, rent }
+  }
 }
+
 export default Rental
