@@ -45,6 +45,7 @@ function Orders() {
   return (
     <div className="container p-2 mt-2">
       <div className="">
+        <h1 className="p-2">I miei ordini</h1>
         <div className="p-2">
           <div className="p-3 px-4 md-04dp rounded">
             <h2>In uso ora</h2>
