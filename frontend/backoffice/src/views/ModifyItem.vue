@@ -165,40 +165,40 @@ export default {
       });
   },
   methods: {
-    updateChanges: function () {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const itemURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-      const productData = {
-        id: this.$route.params.id,
-        available: this.available,
-        price: {
-          weekday: this.prezzoFeriali,
-          weekend: this.prezzoFestivi,
-          points: this.costoFedeltà,
-        },
-        condition: this.condition,
-        category: this.category,
-        title: this.title,
-        description: this.description,
-        stock: this.numInStock,
-        fidelityPoints: this.guadagnoFedeltà,
-        // media: {
-        //   img: ""
-        // }
-      };
-      // axios.post(
-      //   `${itemURL}/update/personalInfo`,
-      //   { client: clientData },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`,
-      //       "Content-type": "application/json",
-      //     },
-      //   }
-      // );
-    },
+    // updateChanges: function () {
+    //   const cookies = new Cookies();
+    //   const accessToken = cookies.get("accessToken");
+    //   const itemURL =
+    //     process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+    //   const productData = {
+    //     id: this.$route.params.id,
+    //     available: this.available,
+    //     price: {
+    //       weekday: this.prezzoFeriali,
+    //       weekend: this.prezzoFestivi,
+    //       points: this.costoFedeltà,
+    //     },
+    //     condition: this.condition,
+    //     category: this.category,
+    //     title: this.title,
+    //     description: this.description,
+    //     stock: this.numInStock,
+    //     fidelityPoints: this.guadagnoFedeltà,
+    //     // media: {
+    //     //   img: ""
+    //     // }
+    //   };
+    // axios.post(
+    //   `${itemURL}/products/update`,
+    //   { product: productData },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //       "Content-type": "application/json",
+    //     },
+    //   }
+    // );
+    // },
   },
 };
 </script>
