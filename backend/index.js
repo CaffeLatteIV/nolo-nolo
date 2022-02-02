@@ -3,8 +3,8 @@ import Express from 'express'
 import cors from 'cors'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import loggerWrapper from './src/logger.js'
-// import rental from './src/v1/rental-api.js'
+// import loggerWrapper from './src/logger.js'
+import rental from './src/v1/rental-api.js'
 // import inventory from './src/v1/inventory-api.js'
 // import client from './src/v1/client-api.js'
 // import employee from './src/v1/employee-api.js'
@@ -15,7 +15,7 @@ import loggerWrapper from './src/logger.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const logger = loggerWrapper('API')
+// const logger = loggerWrapper('API')
 const app = Express()
 const PORT = 8000
 
@@ -26,7 +26,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(Express.json())
 
-// app.use('/v1/rentals', rental)
+app.use('/v1/rentals', rental)
 // app.use('/v1/inventories', inventory)
 // app.use('/v1/clients', client)
 // app.use('/v1/employee', employee)
@@ -37,5 +37,5 @@ app.use(Express.json())
 // app.use(Express.static(path.join(__dirname, 'frontoffice')))
 app.get('/site/', (req, res) => res.sendFile(path.join(__dirname, 'frontoffice', 'index.html')))
 app.listen(PORT, () => {
-  logger.info(`Listening on port ${PORT}`)
+  // logger.info(`Listening on port ${PORT}`)
 })
