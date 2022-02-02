@@ -4,7 +4,7 @@ const lineData = {
   labels: revenue.result.labels,
   datasets: [
     {
-      label: "My First dataset",
+      label: "Fatturato mensile",
       backgroundColor: "rgb(255, 99, 132)",
       borderColor: "rgb(255, 99, 132)",
       data: revenue.result.data,

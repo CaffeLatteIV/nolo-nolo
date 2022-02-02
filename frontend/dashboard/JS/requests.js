@@ -98,14 +98,14 @@ async function getProduct(id) {
   })
 }
 async function validateAccessToken() {
-  const cookies = new UniversalCookie()
-  // cookies.set('refreshToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY0MzAzNzM3MH0.rNHJHkrld49itgnDCbcirqkU060xaIZ6hVJT6SWv9QU', { path: '/' })
-  const accessToken = cookies.get('accessToken')
+  const cookie = new UniversalCookie()
+  const accessToken = cookie.get('accessToken')
+  console.log(accessToken)
   $.ajax({
     url: `${TOKEN_URL}/validate`,
     type: 'POST',
     contentType: "application/json; charset=utf-8",
-    data: JSON.stringify({ accessToken }),
+    data: JSON.stringify({ accessToken: accessToken || '' }),
     success: (data) => {
       if (data.code === 401) {
         console.log('Asking for new access token')
@@ -119,7 +119,7 @@ async function validateAccessToken() {
             contentType: "application/json; charset=utf-8",
             success: (response) => {
               cookies.remove('accessToken')
-              cookies.set('accessToken', response.accessToken, { path: '/' })
+              cookies.set('accessToken', response.accessToken, { path: '/', sameSite: 'Lax' })
             }
           })
         }

@@ -49,7 +49,6 @@ app.get('/find/:productCode', authenticateAccessToken, async (req, res) => {
     }
     const rent = await db.findProductRentals(productCode)
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
-    // TODO: verificare che restituisca un oggetto json e non un array e basta
     return res.status(200).send(rent)
   } catch (err) {
     logger.error(err.message)
@@ -66,9 +65,7 @@ app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
       return res.status(404).send({ code: 404, msg: 'Missing date' })
     }
     const rent = await db.findEndings(date)
-    // TODO: verificare che restituisca null e non [null]
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' }) // può essere cambiato e restituire solo l'array vuoto
-    // TODO: verificare che restituisca un oggetto json e non un array e basta
     return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)
@@ -76,8 +73,21 @@ app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
-app.get('/pay/:productCode', authenticateAccessToken, (req, res) => {
-
+app.get('/pay/:rentId', authenticateAccessToken, async (req, res) => {
+  try {
+    const { rentId } = req.params
+    if (!rentId) {
+      logger.error('ProductCode is undefined')
+      return res.status(404).send({ code: 404, msg: 'Not found' })
+    }
+    const rent = await db.payRent(rentId)
+    return res.status(200).send({ paymentInfo: rent })
+  } catch (err) {
+    logger.error('Error while paying rent')
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
 })
 app.post('/available', authenticateAccessToken, async (req, res) => {
   try {
