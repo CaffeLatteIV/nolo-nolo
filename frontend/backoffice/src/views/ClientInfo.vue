@@ -189,8 +189,6 @@ export default {
         gender: this.clientGender,
         address:this.clientAddress,
       };
-      cookies.remove("client", { path: "/" });
-      cookies.set("client", clientData, { path: "/", sameSite: "lax" });
       axios.post(
         `${clientURL}/update/personalInfo`,
         { client: clientData },
