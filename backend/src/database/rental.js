@@ -51,10 +51,10 @@ class Rental {
   }
 
   async checkAvailability(start, end, productCode) {
-    const overlappingProduct = await this.Rentals.find({ start: { $gte: start, $lte: end }, productCode }) || []
-    overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode }))
+    const overlappingProduct = await this.Rentals.find({ start: { $gte: start, $lte: end }, productCode }) || [] // inizia nel periodo
+    overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode })) // finisce nel periodo
+    overlappingProduct.push(...await this.Rentals.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
     const product = await this.Inventory.findById(productCode).exec()
-    console.log((new Set(overlappingProduct)))
     return (new Set(overlappingProduct)).size < product.stock
   }
 
