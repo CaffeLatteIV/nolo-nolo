@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
