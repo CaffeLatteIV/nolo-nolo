@@ -53,5 +53,9 @@ class Inventory {
     if (available !== undefined) return this.Inventory.find({ title, available }).exec()
     return this.Inventory.find({ title }).exec()
   }
+
+  async update(product) {
+    return this.Inventory.findByIdAndUpdate(product.id, product).exec()
+  }
 }
 export default Inventory

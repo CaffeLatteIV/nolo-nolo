@@ -48,6 +48,16 @@ app.get('/products/:productID', async (req, res) => {
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })
 })
+app.post('/products/update', async (req, res) => {
+  const { product } = req.body
+  if (!product) {
+    logger.error('No product received')
+    return res.status(404).send({ code: 404, msg: 'Missing product' })
+  }
+  const products = await db.update(product)
+  if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
+  return res.status(200).send({ products })
+})
 app.post('/product', async (req, res) => {
   try {
     const { item } = req.body
