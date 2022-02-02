@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const URL = process.env.OPERATIONS_URL || 'http://localhost:5000/v1/operations'
@@ -26,10 +27,13 @@ function Carousel() {
               <div key={item.id} className={index === 0 ? 'carousel-item active' : 'carousel-item'} data-bs-interval="3000">
                 <div className="bg-white">
                   <img src={item.media.img} id="carousel" className="d-block" alt="Item" />
-                  <div className="carousel-caption">
-                    <h5>{item.title}</h5>
-                    <p>Prezzo: ${item.price.weekday}/day</p>
-                  </div>
+                  <Link to={`/product?id=${item.id}`}>
+                    <div className="carousel-caption">
+                      <h5>{item.title}</h5>
+                      <p>Prezzo: ${item.price.weekday}/day</p>
+                    </div>
+                  </Link>
+
                 </div>
               </div>
             ))}
