@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand md-04dp">
     <div class="container-fluid">
       <router-link
-        to="/"
+        to="/admin/"
         class="navbar-brand text-white"
         title="Menù principale"
       >

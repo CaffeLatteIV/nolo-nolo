@@ -57,7 +57,7 @@
             <div class="pt-4">
               Qui potrai trovare tutti gli strumenti per la gestione dell'andamento del negozio.
               <br>
-              <a class="text-white" href="/admin/">Visita il portale</a>
+              <a class="text-white" href="/admin/noleggi">Visita il portale</a>
             </div>
           </div>
         </div>
