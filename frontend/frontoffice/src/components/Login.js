@@ -39,6 +39,11 @@ function Login({ setLogged }) {
     }
     setLogError('Email o password errati')
   }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && email.length > 0 && password.length > 0) {
+      handleClick()
+    }
+  }
   return (
     <div className="w-50 m-auto" id="accountInfo">
       <div className="mb-4">
@@ -59,6 +64,7 @@ function Login({ setLogged }) {
             id="passwordInput"
             className="form-control text-white"
             value={password}
+            onKeyDown={handleKeyDown}
           />Password
         </label>
       </div>
