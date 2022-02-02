@@ -78,13 +78,13 @@ async function setBestsellers() {
   let res = ''
   bestSellerList.bestSellers.forEach((product) => {
 
-    res += `<div class="col rounded px-3 md-0dp h-100">
+    res += `<div class="col rounded pb-4">
     <a href="./itemStats.html?title=${encodeURIComponent(product.title)}&id=${encodeURIComponent(product.id)}" class="product-card-link p-2">
-      <div class="p-4 border-0 md-02dp row rounded mx-2">
-        <img src="${product.media.img}" class="col-3" alt="Item Pic" />
-        <div class="col-9 p-2">
+      <div class="p-4 border-0 md-02dp rounded mx-2 h-100">
+        <img src="${product.media.img}" class="col-3 w-100" alt="Item Pic" />
+        <div class="p-2">
           <h5 class="fw-bold text-white">${product.title}</h5>
-          <p class="card-text text-white">
+          <p class="card-text text-white text-break" style="display: -webkit-box; max-height: 10vh; overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
             <b>Descrizione: </b>${product.description}
           </p>
         </div>
