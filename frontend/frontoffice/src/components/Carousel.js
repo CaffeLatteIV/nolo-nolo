@@ -8,6 +8,7 @@ function Carousel() {
   useEffect(async () => {
     const { data } = await axios.get(`${URL}/bestSellers?n=3`)
     const { bestSellers } = data
+    console.log(bestSellers)
     if (!bestSellers) {
       setCarouselItems(undefined)
     } else {
@@ -19,13 +20,13 @@ function Carousel() {
       <div className="p-2 md-02dp rounded">
         <div id="carouselDark" className="carousel carousel-dark slide p-0 mb-0" data-bs-ride="carousel">
           <div className="carousel-indicators">
-            {carouselItems.map((item) => (<button key={item.id} type="button" data-bs-target="#carouselDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1" />))}
+            {carouselItems.map((item, index) => (<button key={item.id} type="button" data-bs-target="#carouselDark" data-bs-slide-to={index} className="active" aria-current={index === 0 ? 'true' : ''} aria-label={`Slide ${index}`} />))}
           </div>
           <div className="carousel-inner">
-            {carouselItems.map((item) => (
-              <div key={item.id} className="carousel-item active" data-bs-interval="3000">
+            {carouselItems.map((item, index) => (
+              <div key={item.id} className={index === 0 ? 'carousel-item active' : 'carousel-item'} data-bs-interval="3000">
                 <div className="bg-white">
-                  <img src={item.media.img} id="carousel" className="d-block " alt="Item" />
+                  <img src={item.media.img} id="carousel" className="d-block" alt="Item" />
                   <div className="carousel-caption">
                     <h5>{item.title}</h5>
                     <p>Prezzo: ${item.price.weekday}/day</p>
