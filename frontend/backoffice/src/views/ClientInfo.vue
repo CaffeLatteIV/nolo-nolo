@@ -119,7 +119,7 @@
       </div>
 
       <!-- Submit button -->
-      <button type="submit" class="btn btn-primary mb-4 text-black">
+      <button type="submit" class="btn btn-primary mb-4 text-black" @click="updateChanges">
         Conferma modifiche
       </button>
     </form>
@@ -129,7 +129,7 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 
 export default {
   name: "Client Info",
@@ -143,7 +143,7 @@ export default {
       clientTelephone: "",
       clientGender: "",
       loading: true,
-    }
+    };
   },
   mounted() {
     const cookies = new Cookies();
@@ -157,26 +157,57 @@ export default {
         headers: { Authorization: "Bearer " + accessToken },
       })
       .then((response) => {
-        const user = response.data.user
-        console.log(user)
+        const user = response.data.user;
+        console.log(user);
         this.loading = false;
         this.clientName = user.name;
         this.clientSurname = user.surname;
         this.clientEmail = user.email;
         this.clientAddress = user.address;
-        this.clientBirthday = dayjs(user.birthDate).format('YYYY-MM-DD');
+        this.clientBirthday = dayjs(user.birthDate).format("YYYY-MM-DD");
         this.clientTelephone = user.phoneNumber;
         this.clientGender = user.gender;
-        console.log('bday' + this.clientBirthday)
-        console.log('gender' + this.clientGender)
+        console.log("bday" + this.clientBirthday);
+        console.log("gender" + this.clientGender);
       });
-    console.log('id: ' + this.$route.params.id)
+    console.log("id: " + this.$route.params.id);
+  },
+  methods: {
+    updateChanges: function () {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const brthDateNumber = new Date(this.clientBirthday).getTime();
+      const clientURL =
+        process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
+      const clientData = {
+        id: this.$route.params.id,
+        name: this.clientName,
+        surname: this.clientSurname,
+        phoneNumber: this.clientTelephone,
+        birthDate: brthDateNumber,
+        email: this.clientEmail,
+        gender: this.clientGender,
+        address:this.clientAddress,
+      };
+      cookies.remove("client", { path: "/" });
+      cookies.set("client", clientData, { path: "/", sameSite: "lax" });
+      axios.post(
+        `${clientURL}/update/personalInfo`,
+        { client: clientData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+    },
   },
 };
 </script>
 
 <style scoped>
-input{
+input {
   background: #383838;
   border: none;
   color: white;
