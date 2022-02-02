@@ -45,11 +45,11 @@
         <div class="col">
           <label for="category" class="form-label p-2 w-100">
             <select name="category" id="category" class="form-select">
-              <option value="bici">Bici</option>
-              <option value="corsa">Bici Corsa</option>
-              <option value="monopattino">Monopattino</option>
-              <option value="e-bike">e-Bike</option>
-              <option value="ibrida">Bici Ibrida</option>
+              <option value="Bici">Bici</option>
+              <option value="Bici Corsa">Bici Corsa</option>
+              <option value="Monopattino">Monopattino</option>
+              <option value="e-Bike">e-Bike</option>
+              <option value="Bici Ibrida">Bici Ibrida</option>
             </select>
             Categoria
           </label>
