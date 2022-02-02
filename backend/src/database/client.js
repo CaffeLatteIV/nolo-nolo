@@ -55,7 +55,7 @@ class Client {
   }
 
   async lookupClient(id) {
-    return this.Clients.findOne({ id }, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
+    return this.Clients.findById(id, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
   }
 
   async getClientList() {
