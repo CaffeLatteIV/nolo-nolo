@@ -122,6 +122,7 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
+import validateAccessToken from '../validateAccessToken.js'
 
 export default {
   name: "ModifyItem",
@@ -141,6 +142,7 @@ export default {
     };
   },
   mounted() {
+    validateAccessToken()
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const itemURL =
@@ -168,51 +170,52 @@ export default {
       });
   },
   methods: {
-    onChangeFileUpload() {
-      this.image = this.$refs.file.files[0];
-    },
-    updateChanges: function () {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const itemURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-      const productData = {
-        id: this.$route.params.id,
-        available: this.available,
-        price: {
-          weekday: this.prezzoFeriali,
-          weekend: this.prezzoFestivi,
-          points: this.costoFedeltà,
-        },
-        condition: this.condition,
-        category: this.category,
-        title: this.title,
-        description: this.description,
-        stock: this.numInStock,
-        fidelityPoints: this.guadagnoFedeltà,
-        // media: {
-        //   img: this.image,
-        // },
-      };
-      const formData = new FormData();
-      formData.append("image", this.image);
-      axios.post(`${itemURL}/image/upload`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-type": "multipart/form-data",
-        },
-      });
-      axios.post(
-        `${itemURL}/products/update`,
-        { product: productData },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-type": "application/json",
-          },
-        }
-      );
-    },
+    // onChangeFileUpload() {
+    //   this.image = this.$refs.file.files[0];
+    // },
+    // updateChanges: function () {
+    //   validateAccessToken
+    //   const cookies = new Cookies();
+    //   const accessToken = cookies.get("accessToken");
+    //   const itemURL =
+    //     process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+    //   const productData = {
+    //     id: this.$route.params.id,
+    //     available: this.available,
+    //     price: {
+    //       weekday: this.prezzoFeriali,
+    //       weekend: this.prezzoFestivi,
+    //       points: this.costoFedeltà,
+    //     },
+    //     condition: this.condition,
+    //     category: this.category,
+    //     title: this.title,
+    //     description: this.description,
+    //     stock: this.numInStock,
+    //     fidelityPoints: this.guadagnoFedeltà,
+    //     // media: {
+    //     //   img: this.image,
+    //     // },
+    //   };
+    //   const formData = new FormData();
+    //   formData.append("image", this.image);
+    //   axios.post(`${itemURL}/image/upload`, formData, {
+    //     headers: {
+    //       Authorization: `Bearer ${accessToken}`,
+    //       "Content-type": "multipart/form-data",
+    //     },
+    //   });
+    //   axios.post(
+    //     `${itemURL}/products/update`,
+    //     { product: productData },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //         "Content-type": "application/json",
+    //       },
+    //     }
+    //   );
+    // },
   },
 };
 </script>

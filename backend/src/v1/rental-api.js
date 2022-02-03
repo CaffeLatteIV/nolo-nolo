@@ -131,9 +131,9 @@ app.post('/getActiveRentals', (req, res) => {
   const rentals = db.getUserActiveRentals(start, clientCode)
   return res.status(200).send({ rentals })
 })
-app.post('/all', authenticateAccessToken, authenticateUserRole, (req, res) => {
+app.get('/all', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   try {
-    const rentals = db.getAllRentals()
+    const rentals = await db.getAllRentals()
     return res.status(200).send({ rentals })
   } catch (err) {
     return res.status(500).send({ code: 500, msg: 'Internal server error' })

@@ -30,6 +30,9 @@
           <li class="nav-item">
             <a class="nav-link text-white" href="/admin/inventory">Inventario</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/noleggi">Noleggi</a>
+          </li>
         </ul>
       </div>
       <div class="collapse navbar-collapse" id="navbarText">
