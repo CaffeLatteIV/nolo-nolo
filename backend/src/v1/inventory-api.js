@@ -1,17 +1,18 @@
+/* eslint-disable no-underscore-dangle */
 import Express from 'express'
 import multer from 'multer'
 import fs from 'fs'
-import path from 'path'
-// import loggerWrapper from '../logger.js'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
+import loggerWrapper from '../logger.js'
 import Database from '../database/inventory.js'
-// TODO: i FUNZIONARI/MANAGER non possono aggiungere prenotazioni ai clienti(?)
-// TODO: rendere impossibile agli altri utenti di aggiungere prenotazioni non proprie
+
 const db = new Database()
-// const logger = loggerWrapper('Inventory API')
+const logger = loggerWrapper('Inventory API')
 const app = Express.Router()
 
 const upload = multer({
-  dest: './images/',
+  dest: '../images/',
 })
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
@@ -65,38 +66,30 @@ app.post('/product', async (req, res) => {
     db.addInventory(item)
     return res.status(200).send({ code: 200, msg: 'Added' })
   } catch (err) {
-    // logger.error(err.message)
-    // logger.error(err.stack)
+    logger.error(err.message)
+    logger.error(err.stack)
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
 })
 
-app.post('/image/upload', upload.single('file' /* name attribute of <file> element in your form */), (req, res) => {
-  const tempPath = req.file.path
-  const targetPath = path.join(__dirname, '../images/image.png')
-  console.log('original name: ', req.file.originalname)
-  if (path.extname(req.file.originalname).toLowerCase() === ('.png' || '.jpg')) {
-    fs.rename(tempPath, targetPath, (err) => {
-      if (err) {
-        console.error(err)
-        console.log(err.message)
-        // logger.error(err.message)
-        // logger.error(err.stack)
-        res.status(500).contentType('application/json').end({ code: 500, msg: 'Error while uploading image' })
-      }
-
-      return res.status(200).contentType('application/json')
-        .end({ code: 200, msg: 'ok' })
-    })
-  } else {
-    fs.unlink(tempPath, (err) => {
-      if (err) {
-        // logger.error(err.message)
-        // logger.error(err.stack)
-      }
-
-      return res.status(403).contentType('application/json').end({ code: 403, msg: 'Only .png or .jpg files are allowed!' })
-    })
+app.post('/image/upload', upload.single('file'), (req, res) => {
+  try {
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = dirname(__filename)
+    const extName = path.extname(req.file.originalname)
+    const tempPath = req.file.path
+    const filename = path.basename(tempPath)
+    const targetPath = path.join(__dirname, `../images/${filename}${extName}`)
+    if (path.extname(req.file.originalname).toLowerCase() === ('.png' || '.jpg')) {
+      fs.renameSync(tempPath, targetPath)
+      return res.status(200).send({ img: `http://localhost:5000/v1/images/${filename}${extName}` })
+    }
+    fs.unlinkSync(tempPath)
+    return res.status(403).send({ code: 403, msg: 'Only .png or .jpg files are allowed!' })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Error while uploading image' })
   }
 })
 export default app

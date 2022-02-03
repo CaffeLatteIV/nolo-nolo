@@ -122,13 +122,13 @@ app.get('/find/date/start', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
-app.post('/getActiveRentals', (req, res) => {
+app.post('/getActiveRentals', async (req, res) => {
   const { clientCode, start } = req.body
   if (!clientCode || !start) {
     // logger.error('Missing date or client code')
     return res.status(404).send({ code: 404, msg: 'Missing date' })
   }
-  const rentals = db.getUserActiveRentals(start, clientCode)
+  const rentals = await db.getUserActiveRentals(start, clientCode)
   return res.status(200).send({ rentals })
 })
 app.get('/all', authenticateAccessToken, authenticateUserRole, async (req, res) => {

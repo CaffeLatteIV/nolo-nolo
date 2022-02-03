@@ -13,8 +13,8 @@ import image from './src/v1/image-api.js'
 import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
 
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = dirname(__filename)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const logger = loggerWrapper('API')
 const app = Express()
 const PORT = 5000
