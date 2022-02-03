@@ -78,6 +78,10 @@ class Rental {
     return this.Rentals.find().exec()
   }
 
+  async deleteRental(id) {
+    return this.Rentals.findByIdAndDelete(id).exec()
+  }
+
   async payRent(rentId) {
     const rent = await this.Rentals.findById(rentId).exec()
     const today = new Date().getTime()

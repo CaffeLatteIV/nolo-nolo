@@ -139,6 +139,15 @@ app.get('/all', authenticateAccessToken, authenticateUserRole, async (req, res) 
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
 })
+app.post('/delete/:rentalId', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { rentalId } = req.params
+    const rentals = await db.deleteRental(rentalId)
+    return res.status(200).send({ rentals })
+  } catch (err) {
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
+  }
+})
 app.get('/find', async (req, res) => {
   try {
     const { productCode, clientCode } = req.body
