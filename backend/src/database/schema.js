@@ -105,7 +105,7 @@ const rentSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['Noleggiato', 'Prenotato'],
+    enum: ['Noleggiato', 'Prenotato', 'Pagato'],
   },
 }, {
   toObject: {
