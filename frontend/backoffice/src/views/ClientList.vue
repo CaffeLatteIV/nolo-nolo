@@ -18,16 +18,13 @@
                 this.clientList[n - 1]
                   ? this.clientList[n - 1].name +
                     " " +
-                    this.clientList[n - 1].surname +
-                    " " +
-                    this.clientNumber +
-                    " "
+                    this.clientList[n - 1].surname
                   : "Nome mancante"
               }}
             </div>
             <div class="col-7 py-3 d-flex flex-row-reverse">
               <div
-                v-if="checkForBookings(this.clientList[n - 1].id)"
+                v-if="checkForBookings(n-1)"
                 class="px-2 pt-2"
               >
                 <div class="tag-one rounded px-1 text-black">
@@ -80,6 +77,8 @@ export default {
     const accessToken = cookies.get("accessToken");
     console.log(accessToken);
     console.log(cookies.get("client"));
+    const rentalsURL =
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
     axios
@@ -89,10 +88,18 @@ export default {
       .then((response) => {
         this.loading = false;
         this.clientList = response.data.clients;
-        // console.log(this.clientList[0].id);
+        
       });
-    console.log("client", this.clientList);
-    // this.checkForBooking("client",this.clientList[0].id)
+    axios
+      .get(rentalsURL + "/all", {
+        headers: { Authorization: "Bearer " + accessToken },
+      })
+      .then((response) => {
+        this.loading = false;
+        this.rentalsAll = response.data.rentals
+        console.log("rentals",this.rentalsAll[0])
+        console.log("client", this.clientList);
+      });
   },
   methods: {
     async validateAccessToken() {
@@ -114,35 +121,9 @@ export default {
         console.log("Refresh Token Error");
       }
     },
-    //Controlla eventuali prenotazioni attive, prendendo in input l'id del cliente e ritornando un booleano
-    checkForBookings(id) {
-      this.validateAccessToken();
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const rentalsURL =
-        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-      axios
-        .get(rentalsURL + "/all", {
-          headers: { Authorization: "Bearer " + accessToken },
-        })
-        console.log(id) // Giusto per far stare zitto il non hai usato la variabile
-        // .then((response) => {
-          //Versione con /add (ESTREMAMENTE PESANTE)
-          // this.loading = false;
-          // this.rentalsAll = response.data.rentals.filter(
-          //   (rent) => rent.id === id
-          // ).filter((rent) => rent.status === "Prenotato");
-          // console.log("haguya",this.rentalsAll)
-          // this.clientNumber
-          //Versione con /clients/:clientCode
-          // console.log("rent",response.data.rent)
-          // // if (response.data.rent.length > 0) {
-          // //   return true
-          // // } else {
-          // //   return false
-          // // }
-          // return false
-        // });
+    checkForBookings(n) {
+      n
+      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
     },
   },
 };

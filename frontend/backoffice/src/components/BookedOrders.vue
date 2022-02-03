@@ -48,7 +48,7 @@
           <div class="col">
             <button
               class="col-1 material-icons bg-transparent border-0 text-white"
-              @click="deleteBooking(this.bookedRentals[n - 1]._id)"
+              @click="deleteBooking(this.bookedRentals[n - 1].id)"
             >
               <span class="material-icons">delete</span>
             </button>
@@ -135,8 +135,10 @@ export default {
       axios.post(rentalURL + "/delete/" + id, {
         headers: { Authorization: "Bearer " + accessToken },
       }).then((response) => {
-        if (response.code === 200){
-          //
+        if (response.code === 500){
+          console.log("Delete did not work")
+        } else{
+          this.rentals = response.data.rentals
         }
       });
     },
