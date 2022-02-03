@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 
-export async function validateAccessToken() {
+export default async function validateAccessToken() {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const URL = process.env.TOKEN_URL || 'http://localhost:5000/v1/token'
