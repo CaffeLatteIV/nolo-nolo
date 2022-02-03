@@ -1,4 +1,18 @@
 <template>
+  <button
+    @click="showAll = true"
+    v-if="!showAll"
+    class="p-2 bg-transparent text-white border-0 text-decoration-underline"
+  >
+    Mostra tutti
+  </button>
+  <button
+    @click="showAll = false"
+    v-else
+    class="p-2 bg-transparent text-white border-0 text-decoration-underline"
+  >
+    Riduci
+  </button>
   <div v-for="n in this.activeRentals.length" :key="n">
     <div
       v-show="n - 1 < 3 || showAll"
@@ -51,15 +65,8 @@
     </div>
   </div>
   <button
-    @click="showAll = true"
-    v-if="!showAll"
-    class="p-2 bg-transparent text-white border-0 text-decoration-underline"
-  >
-    Mostra tutti
-  </button>
-  <button
     @click="showAll = false"
-    v-if="showAll"
+    v-if="showAll === true"
     class="p-2 bg-transparent text-white border-0 text-decoration-underline"
   >
     Riduci
