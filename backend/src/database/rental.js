@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
 import { rentSchema, inventorySchema } from './schema.js'
 
@@ -8,10 +9,10 @@ class Rental {
     this.connect()
   }
 
-  async connect() {
+  connect() {
     // const PASSWORD = 'aixaem7T'
     // const USERNAME = 'site202151'
-    this.mongoose = await mongoose.connect(this.URL)
+    this.mongoose = mongoose.connect(this.URL, { useNewUrlParser: true, useUnifiedTopology: true })
     this.Inventory = mongoose.model('inventories', inventorySchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
   }
@@ -62,15 +63,19 @@ class Rental {
   }
 
   async findEndings(date) {
-    const rentals = this.Rentals.find({ end: { $lte: date } })
+    const rentals = this.Rentals.find({ end: { $lte: date } }).exec()
     if (Array.isArray(rentals)) return rentals.sort(((a, b) => b - a)) // dsc
     return rentals
   }
 
   async findStarts(date) {
-    const rentals = this.Rentals.find({ start: { $gte: date } })
+    const rentals = this.Rentals.find({ start: { $gte: date } }).exec()
     if (Array.isArray(rentals)) return rentals.sort(((a, b) => a - b)) // asc
     return rentals
+  }
+
+  async getAllRentals() {
+    return this.Rentals.find().exec()
   }
 
   async payRent(rentId) {

@@ -1,7 +1,6 @@
 import Express from 'express'
 import Rental from '../database/rental.js'
-// import loggerWrapper from '../logger.js'
-import { authenticateAccessToken } from '../utils/authenticate.js'
+import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
 
 // const logger = loggerWrapper('Rental API')
 const db = new Rental()
@@ -131,6 +130,14 @@ app.post('/getActiveRentals', (req, res) => {
   }
   const rentals = db.getUserActiveRentals(start, clientCode)
   return res.status(200).send({ rentals })
+})
+app.post('/all', authenticateAccessToken, authenticateUserRole, (req, res) => {
+  try {
+    const rentals = db.getAllRentals()
+    return res.status(200).send({ rentals })
+  } catch (err) {
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
+  }
 })
 app.get('/find', async (req, res) => {
   try {
