@@ -75,7 +75,7 @@ class Rental {
   }
 
   async getAllRentals() {
-    return this.Rentals.find().exec()
+    return this.Rentals.find({}).exec()
   }
 
   async payRent(rentId) {
