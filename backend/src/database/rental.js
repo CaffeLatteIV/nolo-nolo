@@ -4,7 +4,7 @@ import { rentSchema, inventorySchema } from './schema.js'
 
 class Rental {
   constructor() {
-    this.URL = 'mongodb://site202151:aixaem7T@mongo_site202151?writeConcern=majority'
+    this.URL = 'mongodb://localhost:27017/nolo-nolo'
     // this.URL = 'mongodb://site202118:om7Dieru@mongo_site202118?writeConcern=majority'
     this.connect()
   }

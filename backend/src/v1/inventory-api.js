@@ -11,7 +11,7 @@ const db = new Database()
 const app = Express.Router()
 
 const upload = multer({
-  dest: '../images',
+  dest: './images/',
 })
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
@@ -74,10 +74,12 @@ app.post('/product', async (req, res) => {
 app.post('/image/upload', upload.single('file' /* name attribute of <file> element in your form */), (req, res) => {
   const tempPath = req.file.path
   const targetPath = path.join(__dirname, '../images/image.png')
-
+  console.log('original name: ', req.file.originalname)
   if (path.extname(req.file.originalname).toLowerCase() === ('.png' || '.jpg')) {
     fs.rename(tempPath, targetPath, (err) => {
       if (err) {
+        console.error(err)
+        console.log(err.message)
         // logger.error(err.message)
         // logger.error(err.stack)
         res.status(500).contentType('application/json').end({ code: 500, msg: 'Error while uploading image' })

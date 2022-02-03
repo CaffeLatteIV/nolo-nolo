@@ -8,9 +8,11 @@
             <input
               type="file"
               class="form-control"
-              id="image"
-              name="image"
+              id="file"
+              name="file"
               accept="image/png, image/jpg"
+              ref="file"
+              @change="onChangeFileUpload"
             />
             Immagine
           </label>
@@ -85,7 +87,7 @@
               v-model="category"
             >
               <option value="Bici">Bici</option>
-              <option value="Bici Corsa">Bici Corsa</option>
+              <option value="Bici corsa">Bici Corsa</option>
               <option value="Monopattino">Monopattino</option>
               <option value="e-Bike">e-Bike</option>
               <option value="Bici Ibrida">Bici Ibrida</option>
@@ -135,6 +137,7 @@ export default {
       available: false,
       condition: "",
       numInStock: 0,
+      image: null,
     };
   },
   mounted() {
@@ -165,6 +168,9 @@ export default {
       });
   },
   methods: {
+    onChangeFileUpload() {
+      this.image = this.$refs.file.files[0];
+    },
     updateChanges: function () {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
@@ -185,19 +191,27 @@ export default {
         stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
         // media: {
-        //   img: ""
-        // }
+        //   img: this.image,
+        // },
       };
-      // axios.post(
-      //   `${itemURL}/update/personalInfo`,
-      //   { client: clientData },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`,
-      //       "Content-type": "application/json",
-      //     },
-      //   }
-      // );
+      const formData = new FormData();
+      formData.append("image", this.image);
+      axios.post(`${itemURL}/image/upload`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-type": "multipart/form-data",
+        },
+      });
+      axios.post(
+        `${itemURL}/products/update`,
+        { product: productData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
     },
   },
 };

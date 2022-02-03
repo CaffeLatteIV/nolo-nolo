@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
+import dotenv from 'dotenv'
+dotenv.config()
 // import loggerWrapper from '../logger.js'
 
 // const logger = loggerWrapper('Authenticate')
