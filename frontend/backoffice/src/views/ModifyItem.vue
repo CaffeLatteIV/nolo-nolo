@@ -195,7 +195,7 @@ export default {
         // },
       };
       const formData = new FormData();
-      formData.append("image", this.image);
+      formData.append("file", this.image);
       axios.post(`${itemURL}/image/upload`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
