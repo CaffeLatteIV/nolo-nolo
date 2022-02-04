@@ -120,9 +120,9 @@ app.post('/info', info )
 
 /* Replace these info with the ones you were given when activating mongoDB */ 
 const mongoCredentials = {
-	user: "siteXXXXXX",
-	pwd: "YYYYYYYYY",
-	site: "mongo_siteXXXXXX"
+	user: "site202151",
+	pwd: "aixaem7T",
+	site: "mongo_site202151"
 }  
 /* end */
 
