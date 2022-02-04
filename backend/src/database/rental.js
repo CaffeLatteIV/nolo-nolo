@@ -4,16 +4,6 @@ import { rentSchema, inventorySchema } from './schema.js'
 
 class Rental {
   constructor() {
-    this.URL = 'mongodb://site202151:aixaem7T@mongo_site202151?writeConcern=majority'
-    // this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
-    // this.URL = 'mongodb://site202118:om7Dieru@mongo_site202118?writeConcern=majority'
-    this.connect()
-  }
-
-  connect() {
-    // const PASSWORD = 'aixaem7T'
-    // const USERNAME = 'site202151'
-    this.mongoose = mongoose.connect(this.URL, { useNewUrlParser: true, useUnifiedTopology: true })
     this.Inventory = mongoose.model('inventories', inventorySchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
   }

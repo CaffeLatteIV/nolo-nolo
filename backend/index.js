@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import Express from 'express'
-// import cors from 'cors'
-// import path, { dirname } from 'path'
-// import { fileURLToPath } from 'url'
+import cors from 'cors'
 import mongoose from 'mongoose'
+import './config.js'
+import path from 'path'
 // import history from 'connect-history-api-fallback'
-// import loggerWrapper from './src/logger.js'
+import loggerWrapper from './src/logger.js'
 // import rental from './src/v1/rental-api.js'
 // import inventory from './src/v1/inventory-api.js'
 // import client from './src/v1/client-api.js'
@@ -15,16 +15,13 @@ import mongoose from 'mongoose'
 // import operation from './src/v1/operation-api.js'
 // import offers from './src/v1/offer-api.js'
 
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = dirname(__filename)
-// const logger = loggerWrapper('API')
+const logger = loggerWrapper('API')
 const app = Express()
 const PORT = 8000
-
-// const corsOptions = {
-//   origin: '*',
-//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-// }
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 // app.use(
 //   history({
 //     rewrites: [
@@ -46,8 +43,24 @@ const PORT = 8000
 //     disableDotRule: false,
 //   }),
 // )
-// app.use(cors(corsOptions))
-// app.use(Express.json())
+app.use(cors(corsOptions))
+app.use(Express.json())
+
+try {
+  const mongoCredentials = {
+    user: 'site202156',
+    pwd: 'eike4AiN',
+    site: 'mongo_site202156',
+  }
+  // const URL = 'mongodb://site202151:aixaem7T@mongo_site202151/nolo-nolo?writeConcern=majority'
+  const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}/nolo?writeConcern=majority`
+  mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  mongoose.connection.on('error', (err) => console.log(err))
+  mongoose.connection.once('open', () => console.log('Connesso al database'))
+} catch (err) {
+  logger.error(err.message)
+  logger.error(err.stack)
+}
 
 // app.use('/v1/rentals', rental)
 // app.use('/v1/inventories', inventory)
@@ -57,17 +70,10 @@ const PORT = 8000
 // app.use('/v1/operations', operation)
 // app.use('/v1/token', token)
 // app.use('/v1/offers', offers)
-// app.use(Express.static(path.join(__dirname, 'frontoffice')))
+// app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
 
-const URL = 'mongodb://site202151:aixaem7T@mongo_site202151?writeConcern=majority'
-mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
-  console.log('Connected to Mongo!')
-})
-// app.get('/site/', (req, res) => res.sendFile(path.join(__dirname, 'frontoffice', 'index.html')))
-app.get('/site/', (req, res) => res.send('wooooo'))
+app.get('/site/', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
+// app.get('/site/', (req, res) => res.send('wooooo'))
 app.listen(PORT, () => {
-  // logger.info(`Listening on port ${PORT}`)
+  logger.info(`Listening on port ${PORT}`)
 })

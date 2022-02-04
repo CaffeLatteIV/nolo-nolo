@@ -2,16 +2,16 @@ import Express from 'express'
 import multer from 'multer'
 import fs from 'fs'
 import path from 'path'
-// import loggerWrapper from '../logger.js'
+import loggerWrapper from '../logger.js'
 import Database from '../database/inventory.js'
-// TODO: i FUNZIONARI/MANAGER non possono aggiungere prenotazioni ai clienti(?)
-// TODO: rendere impossibile agli altri utenti di aggiungere prenotazioni non proprie
+
+const productsFullPath = path.join(global.rootDir, 'src/images')
 const db = new Database()
-// const logger = loggerWrapper('Inventory API')
+const logger = loggerWrapper('Inventory API')
 const app = Express.Router()
 
 const upload = multer({
-  dest: '../images',
+  dest: productsFullPath,
 })
 app.get('/findOne', async (req, res) => {
   const { item } = req.body
@@ -43,7 +43,7 @@ app.get('/products', async (req, res) => {
 })
 app.get('/products/:productID', async (req, res) => {
   const { productID } = req.params
-  // logger.info(`Sending product ${productID}`)
+  logger.info(`Sending product ${productID}`)
   const products = await db.findOneAvailable(undefined, undefined, productID)
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })

@@ -3,12 +3,6 @@ import { clientSchema } from './schema.js'
 
 class Client {
   constructor() {
-    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
-    this.connect()
-  }
-
-  async connect() {
-    this.mongoose = await mongoose.connect(this.URL)
     this.Clients = mongoose.model('clients', clientSchema)
   }
 

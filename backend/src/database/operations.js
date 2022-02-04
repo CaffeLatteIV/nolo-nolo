@@ -7,14 +7,9 @@ import { clientSchema, inventorySchema, rentSchema } from './schema.js'
 class Operation {
   constructor() {
     this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
-    this.connect()
-  }
-
-  async connect() {
-    this.mongoose = await mongoose.connect(this.URL)
+    this.Clients = mongoose.model('clients', clientSchema)
     this.Inventory = mongoose.model('inventories', inventorySchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
-    this.Clients = mongoose.model('clients', clientSchema)
   }
 
   async findbestSellers(n = 3) {

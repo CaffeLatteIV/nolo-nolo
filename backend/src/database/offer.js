@@ -4,11 +4,6 @@ import { offerSchema } from './schema.js'
 class Offer {
   constructor() {
     this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
-    this.connect()
-  }
-
-  async connect() {
-    this.mongoose = await mongoose.connect(this.URL)
     this.Offer = mongoose.model('offers', offerSchema)
   }
 

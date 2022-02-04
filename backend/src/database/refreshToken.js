@@ -3,12 +3,6 @@ import { refreshTokenSchema } from './schema.js'
 
 class RefreshToken {
   constructor() {
-    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
-    this.connect()
-  }
-
-  async connect() {
-    this.mongoose = await mongoose.connect(this.URL)
     this.RefreshToken = mongoose.model('refreshTokens', refreshTokenSchema)
   }
 

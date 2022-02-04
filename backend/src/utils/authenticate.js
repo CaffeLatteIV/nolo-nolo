@@ -1,8 +1,12 @@
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
-// import loggerWrapper from '../logger.js'
+import dotenv from 'dotenv'
+import path from 'path'
 
-// const logger = loggerWrapper('Authenticate')
+dotenv.config({ path: path.resolve(`${global.rootDir}/.env`) })
+import loggerWrapper from '../logger.js'
+
+const logger = loggerWrapper('Authenticate')
 function generateAccessToken(email, role) {
   return jwt.sign({ email, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
 }
@@ -16,7 +20,8 @@ function authenticateAccessToken(req, res, next) {
   if (token === undefined) return res.status(401).send({ code: 401, msg: 'Unauthorized' })
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
-      // logger.error(err.message)
+      logger.error(err.message)
+      logger.error(err.stack)
       return res.send({ code: 401, msg: 'Unauthorized' })
     }
     req.role = user.role
