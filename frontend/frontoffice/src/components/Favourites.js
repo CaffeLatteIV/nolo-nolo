@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+
 import validateAccessToken from './Tokens.js'
 
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
+const CLIENT_URL = process.env.CLIENT_URL || `${global.baseURL}/clients`
 function Favourites({ id }) {
   const cookie = new Cookies()
   const accessToken = cookie.get('accessToken')

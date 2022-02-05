@@ -6,15 +6,15 @@ import './config.js'
 import path from 'path'
 // import history from 'connect-history-api-fallback'
 import loggerWrapper from './src/logger.js'
-// import rental from './src/v1/rental-api.js'
-// import inventory from './src/v1/inventory-api.js'
-// import client from './src/v1/client-api.js'
-// import employee from './src/v1/employee-api.js'
-// import token from './src/v1/token-api.js'
-// import image from './src/v1/image-api.js'
-// import operation from './src/v1/operation-api.js'
-// import offers from './src/v1/offer-api.js'
-
+import rental from './src/v1/rental-api.js'
+import inventory from './src/v1/inventory-api.js'
+import client from './src/v1/client-api.js'
+import employee from './src/v1/employee-api.js'
+import token from './src/v1/token-api.js'
+import image from './src/v1/image-api.js'
+import operation from './src/v1/operation-api.js'
+import offers from './src/v1/offer-api.js'
+import populate from './src/database/addValues.js'
 const logger = loggerWrapper('API')
 const app = Express()
 const PORT = 8000
@@ -46,34 +46,29 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(Express.json())
 
-try {
-  const mongoCredentials = {
-    user: 'site202156',
-    pwd: 'eike4AiN',
-    site: 'mongo_site202156',
-  }
-  // const URL = 'mongodb://site202151:aixaem7T@mongo_site202151/nolo-nolo?writeConcern=majority'
-  const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}/nolo?writeConcern=majority`
-  mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  mongoose.connection.on('error', (err) => console.log(err))
-  mongoose.connection.once('open', () => console.log('Connesso al database'))
-} catch (err) {
-  logger.error(err.message)
-  logger.error(err.stack)
+const mongoCredentials = {
+  user: 'site202156',
+  pwd: 'eike4AiN',
+  site: 'mongo_site202156',
 }
+// const URL = 'mongodb://site202151:aixaem7T@mongo_site202151/nolo-nolo?writeConcern=majority'
+const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}?writeConcern=majority`
+mongoose.connect(URL, { useNewUrlParser: true })
+mongoose.connection.on('error', (err) => logger.error(err))
+mongoose.connection.once('open', () => populate(mongoose.connection))
 
-// app.use('/v1/rentals', rental)
-// app.use('/v1/inventories', inventory)
-// app.use('/v1/clients', client)
-// app.use('/v1/employee', employee)
-// app.use('/v1/image', image)
-// app.use('/v1/operations', operation)
-// app.use('/v1/token', token)
-// app.use('/v1/offers', offers)
-// app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
+app.enable('trust proxy')
+app.use('/v1/rentals', rental)
+app.use('/v1/inventories', inventory)
+app.use('/v1/clients', client)
+app.use('/v1/employee', employee)
+app.use('/v1/image', image)
+app.use('/v1/operations', operation)
+app.use('/v1/token', token)
+app.use('/v1/offers', offers)
+app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
 
-app.get('/site/', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
-// app.get('/site/', (req, res) => res.send('wooooo'))
+app.get('/*', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
 app.listen(PORT, () => {
   logger.info(`Listening on port ${PORT}`)
 })

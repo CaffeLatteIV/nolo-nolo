@@ -1,4 +1,4 @@
-POST http://localhost:5000/v1/rentals/add HTTP/1.1
+POST http://localhost:8000/v1/rentals/add HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI1MDAxNTEsImV4cCI6MTY0MjUwMTA1MX0._Tt2ac6WjKSoEvjVt0hNRjQWFjHKWngJtDubfwTHKww
 content-type: application/json
 
@@ -17,7 +17,7 @@ content-type: application/json
 
 ###
 
-GET http://localhost:5000/v1/rentals/find HTTP/1.1
+GET http://localhost:8000/v1/rentals/find HTTP/1.1
 content-type: application/json
 
 {
@@ -28,7 +28,7 @@ content-type: application/json
 }
 ###
 
-GET http://localhost:5000/v1/rentals/find/product HTTP/1.1
+GET http://localhost:8000/v1/rentals/find/product HTTP/1.1
 content-type: application/json
 
 {
@@ -38,7 +38,7 @@ content-type: application/json
 }
 ###
 
-GET http://localhost:5000/v1/rentals/find/client HTTP/1.1
+GET http://localhost:8000/v1/rentals/find/client HTTP/1.1
 content-type: application/json
 
 {
@@ -47,7 +47,7 @@ content-type: application/json
   }
 }
 ###
-GET http://localhost:5000/v1/rentals/find/date/end HTTP/1.1
+GET http://localhost:8000/v1/rentals/find/date/end HTTP/1.1
 content-type: application/json
 
 {
@@ -56,7 +56,7 @@ content-type: application/json
   }
 }
 ###
-GET http://localhost:5000/v1/rentals/find/date/start HTTP/1.1
+GET http://localhost:8000/v1/rentals/find/date/start HTTP/1.1
 content-type: application/json
 
 {

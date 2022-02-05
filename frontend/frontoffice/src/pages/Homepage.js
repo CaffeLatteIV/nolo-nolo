@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+
 import ProductCard from '../components/ProductCard.js'
 import Carousel from '../components/Carousel.js'
 
-const URL = process.env.INVENTORY_URL || 'http://localhost:5000/v1/inventories'
+const URL = process.env.INVENTORY_URL || `${global.baseURL}/inventories`
 function Homepage() {
   const [products, setProducts] = useState(undefined)
   // viene eseguito una volta sola (alla prima visita della pagina)

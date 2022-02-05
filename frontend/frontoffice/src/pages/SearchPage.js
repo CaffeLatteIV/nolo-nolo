@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
+
 import ProductCard from '../components/ProductCard.js'
 
-const URL = process.env.OPERATIONS_URL || 'http://localhost:5000/v1/operations'
+const URL = process.env.OPERATIONS_URL || `${global.baseURL}/operations`
 function SearchPage() {
   const [products, setProducts] = useState(undefined)
   const { state } = useLocation()

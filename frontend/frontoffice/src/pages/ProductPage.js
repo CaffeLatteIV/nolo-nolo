@@ -5,11 +5,12 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+
 import Favourites from '../components/Favourites.js'
 import validateAccessToken from '../components/Tokens.js'
 
-const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories'
-const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
+const PRODUCT_URL = process.env.PRODUCT_URL || `${global.baseURL}/inventories`
+const RENTALS_URL = process.env.RENTALS_URL || `${global.baseURL}/rentals`
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)

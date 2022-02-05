@@ -90,7 +90,7 @@ export default {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const inventoryURL =
-      process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+      process.env.INVENTORY_URL || "http://localhost:8000/v1/inventories";
     axios
       .get(inventoryURL + "/products", {
         headers: { Authorization: "Bearer " + accessToken },

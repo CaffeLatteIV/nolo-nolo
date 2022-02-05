@@ -9,32 +9,127 @@ import {
 } from './schema.js'
 import { generateHash } from '../utils/authenticate.js'
 
-async function populate() {
-  const db = await mongoose.connect('mongodb://localhost:27017/nolo-nolo')
+function createInventoryList() {
+  // const productList = []
+  // const conditions = ['Ottima', 'Buona', 'Parzialmente danneggiato']
+  // const categoryList = ['Bici', 'Monopattino', 'Bici corsa', 'e-Bike', 'Bici Ibrida']
+  // for (let i = 0; i < n; i += 1) {
+  //   const price = {
+  //     weekend: Math.floor(Math.random() * 30),
+  //     weekday: Math.floor(Math.random() * 15),
+  //     points: Math.floor(100 + Math.random() * 200),
+  //   }
+  //   const condition = conditions[Math.floor(Math.random() * conditions.length)]
+  //   const available = true
+  //   const cateogory = categoryList[Math.floor(Math.random() * categoryList.length)]
+  // }
+  return [
+    {
+      available: true,
+      price: {
+        weekend: 25,
+        weekday: 15,
+        points: 200,
+      },
+      condition: 'Ottima',
+      category: 'Bici',
+      title: 'Esperia Mtb Michigan',
+      description:
+        'Mountain Bike 26" da ragazzo caratterizzata da telaio in acciaio, forcella ammortizzata acciaio, cambio Shimano TZ500 21V, comandi 7x3V con leve freno integrate, freni v-brake alluminio e cerchi alluminio con coperture 26x1,95.',
+    },
+    {
+      available: true,
+      price: {
+        weekend: 35,
+        weekday: 25,
+        points: 350,
+      },
+      media: {
+        img: 'http://localhost:8000/v1/image/cervelo-bici-gravel-aspero-apex-1-seabreeze-blue.jpg',
+      },
+      condition: 'Ottima',
+      category: 'Bici corsa',
+      title: 'Cervelo Bici Gravel Aspero',
+      description: 'Cervelo Bici Gravel Aspero Apex 1 Seabreeze/Blue ',
+      stock: 5,
+    },
+    {
+      available: false,
+      price: {
+        weekend: 25,
+        weekday: 15,
+        points: 100,
+      },
+      condition: 'Buona',
+      category: 'Bici',
+      title: 'Esperia Mtb Michigan',
+      description:
+        'Mountain Bike 26" da ragazzo caratterizzata da telaio in acciaio, forcella ammortizzata acciaio, cambio Shimano TZ500 21V, comandi 7x3V con leve freno integrate, freni v-brake alluminio e cerchi alluminio con coperture 26x1,95.',
+    },
+    {
+      available: true,
+      price: {
+        weekend: 6,
+        weekday: 9,
+        points: 150,
+      },
+      media: {
+        img: 'http://localhost:8000/v1/image/prismalia-monopattino-elettrico-85-pollici-36v-10a-400-w.jpg',
+      },
+      condition: 'Ottima',
+      category: 'Monopattino',
+      title: 'Prismalia Monopattino Elettrico 8.5 pollici',
+      description:
+        'Uno dei migliori monopattini presenti sul mercato unisce doti di agilità e robustezza, grazie al doppio ammortizzatore posteriore riesce ad affrontare senza problemi superfici disconnesse, il sistema di sgancio anteriore è particolarmente robusto e non assume giochi anche dopo un utilizzo continuo, il monopattino è dotato altre che di un freno posteriore a disco di ben 110 mm anche di uno anteriore kers con recupero di energia è possibile scaricare sul proprio telefonino un App gratuita che oltre ad monitorare tutti i dati del mezzo aggiunge la possibilità di inserire il cruise control e persino bloccare il mezzo con  antifurto.',
+    },
+    {
+      available: true,
+      price: {
+        weekend: 25,
+        weekday: 15,
+        points: 170,
+      },
+      media: {
+        img: 'http://localhost:8000/v1/image/ghost-e-riot-trail-cf-advanced-29-12v-brown.jpg',
+      },
+      condition: 'Ottima',
+      category: 'e-Bike',
+      title: 'Ghost E-Riot Trail CF Advanced',
+      description: "Ghost E-Riot Trail CF Advanced 29'' 12v Brown",
+    },
+    {
+      available: true,
+      price: {
+        weekend: 30,
+        weekday: 20,
+        points: 150,
+      },
+      condition: 'Ottima',
+      category: 'Bici Ibrida',
+      title: 'Kellys Bici Ibrida Phanatic',
+      description: 'Kellys Bici Ibrida Phanatic 10 Dark Ocean.',
+    },
+  ]
+}
+async function createClientList(n = 200) {
   const password1 = await generateHash('gino2')
-  const password2 = await generateHash('gino3')
-  const inventory = db.model('inventories', inventorySchema)
-  const offer = db.model('offer', offerSchema)
-  const rentals = db.model('rentals', rentSchema)
-  const employee = db.model('employees', employeeSchema)
-  const clients = db.model('clients', clientSchema)
-  await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
+  // const password2 = await generateHash('gino3')
   const clientList = []
   const paymentList = ['Paypal', 'Mastercard', 'Visa']
   const genderList = ['Maschio', 'Femmina', 'Non specificato']
   const categoryList = ['e-Bike', 'Bici corsa', 'Monopattino', 'Bici']
-  for (let i = 0; i < 200; i += 1) {
-    const email = `${Math.floor(Math.random() * 5000)}@gmail.com`
+  for (let i = 0; i < n; i += 1) {
+    const email = `${Math.floor(Math.random() * 8000)}@gmail.com`
     const gender = genderList[Math.floor(Math.random() * 3)]
-    const fidelityPoints = Math.floor(Math.random() * 5000)
+    const fidelityPoints = Math.floor(Math.random() * 8000)
     const payment = paymentList[Math.floor(Math.random() * 3)]
     const preferredCategories = categoryList[Math.floor(Math.random() * 4)]
     const dateStr = `${2021 - (Math.floor((Math.random() * 75) + 15))}.${(Math.floor(Math.random() * 12) + 1)}.${Math.floor((Math.random() * 28) + 1)}`
     const birthDate = new Date(dateStr).getTime()
-    const name = `mario${Math.floor(Math.random() * 5000)}`
-    const surname = `mario${Math.floor(Math.random() * 5000)}`
+    const name = `mario${Math.floor(Math.random() * 8000)}`
+    const surname = `mario${Math.floor(Math.random() * 8000)}`
     const phoneNumber = `${Math.floor(Math.random() * 10000000000)}`
-    const address = `via san mamolo ${Math.floor(Math.random() * 5000)}`
+    const address = `via san mamolo ${Math.floor(Math.random() * 8000)}`
     const user = {
       email,
       name,
@@ -52,14 +147,16 @@ async function populate() {
     }
     clientList.push(user)
   }
-
-  // await clients.insertMany(clientList)
+  return clientList
+}
+async function createRentList(n = 500) {
   const clientIdList = await clients.find({}, 'id').exec()
   const productList = await inventory.find().exec()
   const offers = await offer.find().exec()
   const statusList = ['Noleggiato', 'Prenotato']
   const rentList = []
-  for (let i = 0; i < 500; i += 1) {
+  console.log('Creating', n, 'ents from those users')
+  for (let i = 0; i < n; i += 1) {
     const client = clientIdList[Math.floor(Math.random() * clientIdList.length)]
     const clientCode = client.id
     let spendablefidelityPoints = client.fidelityPoints
@@ -101,107 +198,45 @@ async function populate() {
     const rentObj = { title, start, end, productCode, clientCode, price, fidelityPoints, earnedFidelityPoints, status }
     rentList.push(rentObj)
   }
-  // await rentals.insertMany(rentList)
-  await inventory.insertMany([
-    {
-      available: true,
-      price: {
-        weekend: 25,
-        weekday: 15,
-        points: 200,
-      },
-      condition: 'Ottima',
-      category: 'Bici',
-      title: 'Esperia Mtb Michigan',
-      description:
-        'Mountain Bike 26" da ragazzo caratterizzata da telaio in acciaio, forcella ammortizzata acciaio, cambio Shimano TZ500 21V, comandi 7x3V con leve freno integrate, freni v-brake alluminio e cerchi alluminio con coperture 26x1,95.',
-    },
-    {
-      available: true,
-      price: {
-        weekend: 35,
-        weekday: 25,
-        points: 350,
-      },
-      media: {
-        img: 'http://localhost:5000/v1/image/cervelo-bici-gravel-aspero-apex-1-seabreeze-blue.jpg',
-      },
-      condition: 'Ottima',
-      category: 'Bici corsa',
-      title: 'Cervelo Bici Gravel Aspero',
-      description: 'Cervelo Bici Gravel Aspero Apex 1 Seabreeze/Blue ',
-      stock: 5,
-    },
-    {
-      available: false,
-      price: {
-        weekend: 25,
-        weekday: 15,
-        points: 100,
-      },
-      condition: 'Buona',
-      category: 'Bici',
-      title: 'Esperia Mtb Michigan',
-      description:
-        'Mountain Bike 26" da ragazzo caratterizzata da telaio in acciaio, forcella ammortizzata acciaio, cambio Shimano TZ500 21V, comandi 7x3V con leve freno integrate, freni v-brake alluminio e cerchi alluminio con coperture 26x1,95.',
-    },
-    {
-      available: true,
-      price: {
-        weekend: 6,
-        weekday: 9,
-        points: 150,
-      },
-      media: {
-        img: 'http://localhost:5000/v1/image/prismalia-monopattino-elettrico-85-pollici-36v-10a-400-w.jpg',
-      },
-      condition: 'Ottima',
-      category: 'Monopattino',
-      title: 'Prismalia Monopattino Elettrico 8.5 pollici',
-      description:
-        'Uno dei migliori monopattini presenti sul mercato unisce doti di agilità e robustezza, grazie al doppio ammortizzatore posteriore riesce ad affrontare senza problemi superfici disconnesse, il sistema di sgancio anteriore è particolarmente robusto e non assume giochi anche dopo un utilizzo continuo, il monopattino è dotato altre che di un freno posteriore a disco di ben 110 mm anche di uno anteriore kers con recupero di energia è possibile scaricare sul proprio telefonino un App gratuita che oltre ad monitorare tutti i dati del mezzo aggiunge la possibilità di inserire il cruise control e persino bloccare il mezzo con  antifurto.',
-    },
-    {
-      available: true,
-      price: {
-        weekend: 25,
-        weekday: 15,
-        points: 170,
-      },
-      media: {
-        img: 'http://localhost:5000/v1/image/ghost-e-riot-trail-cf-advanced-29-12v-brown.jpg',
-      },
-      condition: 'Ottima',
-      category: 'e-Bike',
-      title: 'Ghost E-Riot Trail CF Advanced',
-      description: "Ghost E-Riot Trail CF Advanced 29'' 12v Brown",
-    },
-    {
-      available: true,
-      price: {
-        weekend: 30,
-        weekday: 20,
-        points: 150,
-      },
-      condition: 'Ottima',
-      category: 'Bici Ibrida',
-      title: 'Kellys Bici Ibrida Phanatic',
-      description: 'Kellys Bici Ibrida Phanatic 10 Dark Ocean.',
-    },
-  ])
-  // await offer.insertMany([
-  //   {
-  //     title: 'Super sconti',
-  //     start: 1653673600000,
-  //     end: 1656092800000,
-  //     discount: 15,
-  //   },
-  //   {
-  //     title: 'Sconti febbraio',
-  //     start: 1643673600000,
-  //     end: 1646092800000,
-  //     discount: 15,
-  //   },
-  // ])
 }
-populate()
+async function createOfferList() {
+  return [
+    {
+      title: 'Super sconti',
+      start: 1653673600000,
+      end: 1656092800000,
+      discount: 15,
+    },
+    {
+      title: 'Sconti febbraio',
+      start: 1643673600000,
+      end: 1646092800000,
+      discount: 15,
+    },
+  ]
+}
+async function populate(db) {
+  const inventory = db.model('inventories', inventorySchema)
+  const offer = db.model('offer', offerSchema)
+  const rentals = db.model('rentals', rentSchema)
+  // const employee = db.model('employees', employeeSchema)
+  // const clients = db.model('clients', clientSchema)
+  // await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
+
+  console.log('Uploading products')
+  const inventoryList = createInventoryList()
+  await inventory.insertMany(inventoryList)
+
+  // console.log('Uploading clients')
+  // const clientList = createClientList()
+  // await clients.insertMany(clientList)
+
+  console.log('Uploading rentals')
+  const rentList = createRentList()
+  await rentals.insertMany(rentList)
+
+  console.log('Uploading offers')
+  const offerList = createOfferList()
+  await offer.insertMany(offerList)
+}
+export default populate

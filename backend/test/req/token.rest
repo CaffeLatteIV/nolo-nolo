@@ -1,11 +1,11 @@
-POST http://localhost:5000/v1/token/validate
+POST http://localhost:8000/v1/token/validate
 Content-Type: application/json
 
 {
   "accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpbm8iLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY0MTY1NzkyOSwiZXhwIjoxNjQxNjU4ODI5fQ.U6_XDg3A8IOm4mbG-P_SsQ5Pgg41-j94FxF5F-36nkw"
 }
 ###
-POST http://localhost:5000/v1/token/refresh
+POST http://localhost:8000/v1/token/refresh
 Content-Type: application/json
 
 {

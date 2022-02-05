@@ -2,7 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 import winston from 'winston'
-
+import { fileURLToPath } from 'url'
 const { createLogger, format, transports } = winston
 const { combine, timestamp, printf, colorize, prettyPrint } = format
 
@@ -25,6 +25,9 @@ const customLevels = {
   info: 3,
   debug: 4,
 
+}
+if (!global.rootDir) {
+  global.rootDir = path.dirname(fileURLToPath(import.meta.url))
 }
 const logDir = path.join(global.rootDir, '/logs')
 

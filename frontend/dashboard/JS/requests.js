@@ -1,6 +1,6 @@
-const OPERATION_URL = 'http://localhost:5000/v1/operations'
-const INVENTORY_URL = 'http://localhost:5000/v1/inventories'
-const TOKEN_URL = 'http://localhost:5000/v1/token'
+const OPERATION_URL = 'http://localhost:8000/v1/operations'
+const INVENTORY_URL = 'http://localhost:8000/v1/inventories'
+const TOKEN_URL = 'http://localhost:8000/v1/token'
 
 async function bestSellers() {
   await validateAccessToken()

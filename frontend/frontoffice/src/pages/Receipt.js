@@ -5,10 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Cookie from 'universal-cookie'
 import axios from 'axios'
+
 import validateAccessToken from '../components/Tokens.js'
 
-const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
-const URL_OFFERS = process.env.OFFERS_URL || 'http://localhost:5000/v1/offers'
+const RENTALS_URL = process.env.RENTALS_URL || `${global.baseURL}/rentals`
+const URL_OFFERS = process.env.OFFERS_URL || `${global.baseURL}/offers`
 function Receipt() {
   const navigate = useNavigate()
   const { state } = useLocation()

@@ -141,7 +141,7 @@ export default {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const itemURL =
-      process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+      process.env.INVENTORY_URL || "http://localhost:8000/v1/inventories";
     axios
       .get(itemURL + "/products/" + this.$route.params.id, {
         headers: { Authorization: "Bearer " + accessToken },
@@ -169,7 +169,7 @@ export default {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const itemURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+        process.env.INVENTORY_URL || "http://localhost:8000/v1/inventories";
       const productData = {
         id: this.$route.params.id,
         available: this.available,

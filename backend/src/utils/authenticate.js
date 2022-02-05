@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
 import path from 'path'
+import loggerWrapper from '../logger.js'
 
 dotenv.config({ path: path.resolve(`${global.rootDir}/.env`) })
-import loggerWrapper from '../logger.js'
 
 const logger = loggerWrapper('Authenticate')
 function generateAccessToken(email, role) {

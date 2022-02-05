@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+
 import ActiveOrders from '../components/ActiveOrders.js'
 import BookedOrders from '../components/BookedOrders.js'
 import validateAccessToken from '../components/Tokens.js'
 
-const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
+const RENTALS_URL = process.env.RENTALS_URL || `${global.baseURL}/rentals`
 function Orders() {
   const [productList, setProductList] = useState({ bookedOrders: [], activeOrders: [], olderOrders: [] })
   useEffect(async () => {

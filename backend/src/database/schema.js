@@ -44,7 +44,7 @@ const inventorySchema = new Schema({
   media: {
     img: {
       type: String,
-      default: 'http://localhost:5000/v1/image/not-available.png', // TODO cambiare
+      default: 'http://localhost:8000/v1/image/not-available.png', // TODO cambiare
     },
   },
   stock: {

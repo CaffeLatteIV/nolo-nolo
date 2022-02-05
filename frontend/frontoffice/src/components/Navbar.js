@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const URL = process.env.TOKEN_URL || 'http://localhost:5000/v1/token'
+const URL = process.env.TOKEN_URL || `${global.baseURL}/token`
 function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)

@@ -2,9 +2,10 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
+
 import ProductCard from './ProductCard.js'
 
-const PRODUCT_URL = process.env.PRODUCT_URL || 'http://localhost:5000/v1/inventories'
+const PRODUCT_URL = process.env.PRODUCT_URL || `${global.baseURL}/inventories`
 function AccountPreferences() {
   const cookies = new Cookies()
   const client = cookies.get('client')

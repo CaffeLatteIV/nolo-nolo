@@ -4,8 +4,8 @@ import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
-const EMPLOYEE_URL = process.env.EMPLOYEE_URL || 'http://localhost:5000/v1/employee'
+const CLIENT_URL = process.env.CLIENT_URL || `${global.baseURL}/clients`
+const EMPLOYEE_URL = process.env.EMPLOYEE_URL || `${global.baseURL}/employee`
 
 function Login({ setLogged }) {
   const [email, setEmail] = useState('')

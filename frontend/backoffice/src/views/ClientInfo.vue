@@ -151,7 +151,7 @@ export default {
     console.log(accessToken);
     console.log(cookies.get("client"));
     const clientURL =
-      process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
+      process.env.CLIENT_URL || "http://localhost:8000/v1/clients";
     axios
       .get(clientURL + "/lookup/" + this.$route.params.id, {
         headers: { Authorization: "Bearer " + accessToken },
@@ -178,7 +178,7 @@ export default {
       const accessToken = cookies.get("accessToken");
       const brthDateNumber = new Date(this.clientBirthday).getTime();
       const clientURL =
-        process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
+        process.env.CLIENT_URL || "http://localhost:8000/v1/clients";
       const clientData = {
         id: this.$route.params.id,
         name: this.clientName,
