@@ -6,7 +6,6 @@
     </div>
     <div class="p-4">
       <ul class="list-group list-group-flush rounded" id="list" v-if="!loading">
-        <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
         <li
           class="list-group-item md-04dp border-dark"
           v-for="n in this.clientList.length"
@@ -23,10 +22,7 @@
               }}
             </div>
             <div class="col-7 py-3 d-flex flex-row-reverse">
-              <div
-                v-if="checkForBookings(n-1)"
-                class="px-2 pt-2"
-              >
+              <div v-if="checkForBookings(n - 1)" class="px-2 pt-2">
                 <div class="tag-one rounded px-1 text-black">
                   Prenotazione attiva
                 </div>
@@ -78,7 +74,7 @@ export default {
     console.log(accessToken);
     console.log(cookies.get("client"));
     const rentalsURL =
-        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+      process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
     axios
@@ -88,7 +84,6 @@ export default {
       .then((response) => {
         this.loading = false;
         this.clientList = response.data.clients;
-        
       });
     axios
       .get(rentalsURL + "/all", {
@@ -96,8 +91,8 @@ export default {
       })
       .then((response) => {
         this.loading = false;
-        this.rentalsAll = response.data.rentals
-        console.log("rentals",this.rentalsAll[0])
+        this.rentalsAll = response.data.rentals;
+        console.log("rentals", this.rentalsAll[0]);
         console.log("client", this.clientList);
       });
   },
@@ -121,9 +116,30 @@ export default {
         console.log("Refresh Token Error");
       }
     },
-    checkForBookings(n) {
-      n
+    async checkForBookings(n) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
+      await this.validateAccessToken();
+      console.log(n);
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const id = this.clientList[n].id;
+      const rentalsURL =
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+      axios
+        .get(rentalsURL + "/clients/" + id, {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        .then((response) => {
+          console.log(response.data.rentals)
+          if (
+            response.data.rentals.filter((rent) => rent.clientCode === id)
+              .length === 0
+          ) {
+            return false;
+          } else {
+            return true;
+          }
+        });
     },
   },
 };
