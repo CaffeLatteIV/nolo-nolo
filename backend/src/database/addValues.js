@@ -8,6 +8,7 @@ import {
   offerSchema,
 } from './schema.js'
 import { generateHash } from '../utils/authenticate.js'
+import Offer from './offer.js'
 
 function createInventoryList() {
   // const productList = []
@@ -113,7 +114,6 @@ function createInventoryList() {
 }
 async function createClientList(n = 200) {
   const password1 = await generateHash('gino2')
-  // const password2 = await generateHash('gino3')
   const clientList = []
   const paymentList = ['Paypal', 'Mastercard', 'Visa']
   const genderList = ['Maschio', 'Femmina', 'Non specificato']
@@ -149,7 +149,7 @@ async function createClientList(n = 200) {
   }
   return clientList
 }
-async function createRentList(n = 500) {
+async function createRentList(clients, inventory, offer, n = 500) {
   const clientIdList = await clients.find({}, 'id').exec()
   const productList = await inventory.find().exec()
   const offers = await offer.find().exec()
@@ -219,24 +219,25 @@ async function populate(db) {
   const inventory = db.model('inventories', inventorySchema)
   const offer = db.model('offer', offerSchema)
   const rentals = db.model('rentals', rentSchema)
-  // const employee = db.model('employees', employeeSchema)
-  // const clients = db.model('clients', clientSchema)
-  // await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
+  const employee = db.model('employees', employeeSchema)
+  const clients = db.model('clients', clientSchema)
+  const password2 = await generateHash('gino3')
+  await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
 
   console.log('Uploading products')
   const inventoryList = createInventoryList()
   await inventory.insertMany(inventoryList)
 
-  // console.log('Uploading clients')
-  // const clientList = createClientList()
-  // await clients.insertMany(clientList)
-
-  console.log('Uploading rentals')
-  const rentList = createRentList()
-  await rentals.insertMany(rentList)
+  console.log('Uploading clients')
+  const clientList = createClientList()
+  await clients.insertMany(clientList)
 
   console.log('Uploading offers')
   const offerList = createOfferList()
   await offer.insertMany(offerList)
+
+  console.log('Uploading rentals')
+  const rentList = createRentList(clients, inventory, Offer)
+  await rentals.insertMany(rentList)
 }
 export default populate
