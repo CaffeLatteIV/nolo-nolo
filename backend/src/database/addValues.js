@@ -8,8 +8,9 @@ import {
   offerSchema,
 } from './schema.js'
 import { generateHash } from '../utils/authenticate.js'
-import Offer from './offer.js'
+import loggerWrapper from '../logger.js'
 
+const logger = loggerWrapper('Populate DB')
 function createInventoryList() {
   // const productList = []
   // const conditions = ['Ottima', 'Buona', 'Parzialmente danneggiato']
@@ -155,7 +156,6 @@ async function createRentList(clients, inventory, offer, n = 500) {
   const offers = await offer.find().exec()
   const statusList = ['Noleggiato', 'Prenotato']
   const rentList = []
-  console.log('Creating', n, 'ents from those users')
   for (let i = 0; i < n; i += 1) {
     const client = clientIdList[Math.floor(Math.random() * clientIdList.length)]
     const clientCode = client.id
@@ -198,8 +198,9 @@ async function createRentList(clients, inventory, offer, n = 500) {
     const rentObj = { title, start, end, productCode, clientCode, price, fidelityPoints, earnedFidelityPoints, status }
     rentList.push(rentObj)
   }
+  return rentList
 }
-async function createOfferList() {
+function createOfferList() {
   return [
     {
       title: 'Super sconti',
@@ -215,29 +216,33 @@ async function createOfferList() {
     },
   ]
 }
-async function populate(db) {
-  const inventory = db.model('inventories', inventorySchema)
-  const offer = db.model('offer', offerSchema)
-  const rentals = db.model('rentals', rentSchema)
-  const employee = db.model('employees', employeeSchema)
-  const clients = db.model('clients', clientSchema)
+async function populate() {
+  const inventory = mongoose.model('inventories', inventorySchema)
+  const offer = mongoose.model('offer', offerSchema)
+  const rentals = mongoose.model('rentals', rentSchema)
+  const employee = mongoose.model('employees', employeeSchema)
+  const clients = mongoose.model('clients', clientSchema)
   const password2 = await generateHash('gino3')
   await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
 
-  console.log('Uploading products')
+  logger.info('Uploading products')
   const inventoryList = createInventoryList()
+  logger.info(inventoryList.length)
   await inventory.insertMany(inventoryList)
 
-  console.log('Uploading clients')
-  const clientList = createClientList()
+  logger.info('Uploading clients')
+  const clientList = await createClientList()
+  logger.info(clientList.length)
   await clients.insertMany(clientList)
 
-  console.log('Uploading offers')
+  logger.info('Uploading offers')
   const offerList = createOfferList()
+  logger.info(offerList.length)
   await offer.insertMany(offerList)
 
-  console.log('Uploading rentals')
-  const rentList = createRentList(clients, inventory, Offer)
+  logger.info('Uploading rentals')
+  const rentList = await createRentList(clients, inventory, offer)
+  logger.info(rentList.length)
   await rentals.insertMany(rentList)
 }
 export default populate

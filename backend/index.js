@@ -46,17 +46,19 @@ const corsOptions = {
 // )
 app.use(cors(corsOptions))
 app.use(Express.json())
-
+// wo
 const mongoCredentials = {
   user: 'site202156',
   pwd: 'eike4AiN',
   site: 'mongo_site202156',
 }
 // const URL = 'mongodb://site202151:aixaem7T@mongo_site202151/nolo-nolo?writeConcern=majority'
-const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}?writeConcern=majority`
+const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}/nolo?writeConcern=majority`
 mongoose.connect(URL, { useNewUrlParser: true })
 mongoose.connection.on('error', (err) => logger.error(err))
-mongoose.connection.once('open', () => populate(mongoose.connection))
+mongoose.connection.once('open', () => {
+  populate()
+})
 
 app.enable('trust proxy')
 app.use('/v1/rentals', rental)
