@@ -66,7 +66,7 @@
   </div>
   <button
     @click="showAll = false"
-    v-if="showAll === true"
+    v-if="showAll === true && activeRentals.length !== 0"
     class="p-2 bg-transparent text-white border-0 text-decoration-underline"
   >
     Riduci
@@ -105,6 +105,7 @@ export default {
       })
       .then((response) => {
         this.loadingRentals = false;
+        console.log(response.data.rentals)
         this.activeRentals = response.data.rentals.filter(
           (rent) => rent.status === "Noleggiato"
         );

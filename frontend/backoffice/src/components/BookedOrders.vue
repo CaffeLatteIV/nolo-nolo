@@ -41,6 +41,8 @@
           <div class="col">
             <button
               class="col-1 material-icons bg-transparent border-0 text-white"
+              aria-label="Modifica prenotazione"
+              title="Modifica prenotazione"
             >
               <span class="material-icons">create</span>
             </button>
@@ -49,6 +51,8 @@
             <button
               class="col-1 material-icons bg-transparent border-0 text-white"
               @click="deleteBooking(this.bookedRentals[n - 1].id)"
+              aria-label="Cancella Prenotazione"
+              title="Cancella prenotazione"
             >
               <span class="material-icons">delete</span>
             </button>
@@ -59,7 +63,7 @@
   </div>
   <button
     @click="showAll = false"
-    v-if="showAll === true"
+    v-if="showAll === true && bookedRentals.length !== 0"
     class="p-2 bg-transparent text-white border-0 text-decoration-underline"
   >
     Riduci
@@ -82,38 +86,63 @@ export default {
       showAll: false,
     };
   },
-  mounted() {
-    const cookies = new Cookies();
-    const accessToken = cookies.get("accessToken");
-    const rentalsURL =
-      process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-    const inventoryURL =
-      process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-    axios
-      .get(inventoryURL + "/products", {
-        headers: { Authorization: "Bearer " + accessToken },
-      })
-      .then((response) => {
-        this.loadingInventory = false;
-        this.inventory = response.data.products;
-      });
-    axios
-      .get(rentalsURL + "/all", {
-        headers: { Authorization: "Bearer " + accessToken },
-      })
-      .then((response) => {
-        this.loadingRentals = false;
-        this.bookedRentals = response.data.rentals.filter(
-          (rent) => rent.status === "Prenotato"
-        );
-        console.log("bookedRentals ", this.bookedRentals);
-      });
+  async mounted() {
+    await this.validateAccessToken();
+    this.getBookedRentals();
   },
   methods: {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
     },
-    getProductInfo() {
+    async validateAccessToken() {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
+      try {
+        const { data } = await axios.post(`${URL}/validate`, { accessToken });
+        if (data.code !== 200) {
+          const refreshToken = cookies.get("refreshToken");
+          const res = await axios.post(`${URL}/refresh`, { refreshToken });
+          cookies.remove("accessToken", { path: "/" });
+          cookies.set("accessToken", res.data.accessToken, {
+            path: "/",
+            sameSite: "Lax",
+          });
+        }
+      } catch (err) {
+        console.log("Refresh Token Error");
+      }
+    },
+    async getBookedRentals() {
+      await this.validateAccessToken();
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const rentalsURL =
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+      const inventoryURL =
+        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+      axios
+        .get(inventoryURL + "/products", {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        .then((response) => {
+          this.loadingInventory = false;
+          this.inventory = response.data.products;
+        });
+      axios
+        .get(rentalsURL + "/all", {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        .then((response) => {
+          this.loadingRentals = false;
+          this.bookedRentals = response.data.rentals.filter(
+            (rent) => rent.status === "Prenotato"
+          );
+          console.log("bookedRentals ", this.bookedRentals);
+        });
+    },
+    async getProductInfo() {
+      await this.validateAccessToken();
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
@@ -127,20 +156,31 @@ export default {
           this.inventory = response.data.products;
         });
     },
-    deleteBooking(id) {
+    async deleteBooking(id) {
+      await this.validateAccessToken();
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
+      console.log(accessToken);
       const rentalURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-      axios.post(rentalURL + "/delete/" + id, {
-        headers: { Authorization: "Bearer " + accessToken },
-      }).then((response) => {
-        if (response.code === 500){
-          console.log("Delete did not work")
-        } else{
-          this.rentals = response.data.rentals
-        }
-      });
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+      console.log(id);
+      axios
+        .post(
+          rentalURL + "/delete/" + id,
+          {},
+          {
+            headers: { Authorization: "Bearer " + accessToken },
+          }
+        )
+        .then((response) => {
+          if (response.data.code === 500) {
+            console.log("Delete did not work");
+          } else if (response.data.code === 404) {
+            console.log("didn't work");
+          } else {
+            this.getBookedRentals();
+          }
+        });
     },
   },
 };
