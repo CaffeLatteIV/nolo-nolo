@@ -105,9 +105,10 @@ export default {
       })
       .then((response) => {
         this.loadingRentals = false;
-        console.log(response.data.rentals)
+        console.log(response.data.rentals);
         this.activeRentals = response.data.rentals.filter(
-          (rent) => rent.status === "Noleggiato"
+          (rent) =>
+            rent.status === "Noleggiato" && rent.end > new Date().getTime()
         );
         console.log("activeRentals ", this.activeRentals);
       });
