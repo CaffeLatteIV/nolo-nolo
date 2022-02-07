@@ -9,17 +9,15 @@ function Carousel() {
   useEffect(async () => {
     const { data } = await axios.get(`${URL}/bestSellers?n=3`)
     const { bestSellers } = data
-    console.log(data.bestSellers)
     if (!bestSellers || bestSellers.length === 0) {
       setCarouselItems(undefined)
     } else {
       setCarouselItems(data.bestSellers)
     }
   }, [])
-  return ((carouselItems && carouselItems.length > 0)
+  return (carouselItems
     ? (
       <div className="p-2 md-02dp rounded">
-        wooooo {carouselItems} wooo
         <div id="carouselDark" className="carousel carousel-dark slide p-0 mb-0" data-bs-ride="carousel">
           <div className="carousel-indicators">
             {carouselItems.map((item, index) => (<button key={item?.id} type="button" data-bs-target="#carouselDark" data-bs-slide-to={index} className="active" aria-current={index === 0 ? 'true' : ''} aria-label={`Slide ${index}`} />))}

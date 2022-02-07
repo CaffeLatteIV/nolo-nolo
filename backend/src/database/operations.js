@@ -3,9 +3,9 @@
 import mongoose from 'mongoose'
 import { closest } from 'fastest-levenshtein'
 import { clientSchema, inventorySchema, rentSchema } from './schema.js'
-import loggerWrapper from '../logger.js'
+// import loggerWrapper from '../logger.js'
 
-const logger = loggerWrapper('Operations-DB')
+// const logger = loggerWrapper('Operations-DB')
 class Operation {
   constructor() {
     this.Clients = mongoose.model('clients', clientSchema)
@@ -32,7 +32,6 @@ class Operation {
       const prod = await this.Inventory.findById(itemsArr[i]).exec()
       if (prod) res.push(prod)
     }
-    logger.info(res)
     return res
   }
 
