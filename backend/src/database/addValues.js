@@ -230,19 +230,19 @@ async function populate() {
   logger.info(inventoryList.length)
   await inventory.insertMany(inventoryList)
 
-  logger.info('Uploading clients')
-  const clientList = await createClientList()
-  logger.info(clientList.length)
-  await clients.insertMany(clientList)
+  // logger.info('Uploading clients')
+  // const clientList = await createClientList()
+  // logger.info(clientList.length)
+  // await clients.insertMany(clientList)
 
-  logger.info('Uploading offers')
-  const offerList = createOfferList()
-  logger.info(offerList.length)
-  await offer.insertMany(offerList)
+  // logger.info('Uploading offers')
+  // const offerList = createOfferList()
+  // logger.info(offerList.length)
+  // await offer.insertMany(offerList)
 
-  logger.info('Uploading rentals')
-  const rentList = await createRentList(clients, inventory, offer)
-  logger.info(rentList.length)
-  await rentals.insertMany(rentList)
+  // logger.info('Uploading rentals')
+  // const rentList = await createRentList(clients, inventory, offer)
+  // logger.info(rentList.length)
+  // await rentals.insertMany(rentList)
 }
 export default populate

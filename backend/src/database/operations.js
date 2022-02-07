@@ -3,7 +3,8 @@
 import mongoose from 'mongoose'
 import { closest } from 'fastest-levenshtein'
 import { clientSchema, inventorySchema, rentSchema } from './schema.js'
-
+import loggerWrapper from '../logger.js'
+const logger = loggerWrapper('Operations-DB')
 class Operation {
   constructor() {
     this.Clients = mongoose.model('clients', clientSchema)
@@ -12,7 +13,6 @@ class Operation {
   }
 
   async findbestSellers(n = 3) {
-    await this.connect()
     const rentals = await this.Rentals.find().exec()
     const uniqueItems = {}
     rentals.forEach((item) => {
@@ -29,12 +29,12 @@ class Operation {
       // eslint-disable-next-line no-await-in-loop
       res.push(await this.Inventory.findById(itemsArr[i]).exec()) // restituisco gli oggetti corrispondenti ai titoli
     }
+    logger.info(res)
     return res
   }
 
   // utilizza la distanza di levenshtein https://en.wikipedia.org/wiki/Levenshtein_distance
   async findSimilarTitle(title) {
-    await this.connect()
     const productList = await this.Inventory.find().exec() // restituisce sia il titolo che l'id corrispondente all'oggetto
     const titleList = [...new Set(productList.map((product) => product.title))] // estraggo solo il titolo
     const wordList = []
@@ -46,7 +46,6 @@ class Operation {
   }
 
   async groupClientAge() {
-    await this.connect()
     const data = []
     const msYear = 31556952000 // ms in a year
     const today = new Date().getTime()
@@ -62,7 +61,6 @@ class Operation {
   }
 
   async countGender() {
-    await this.connect()
     const data = []
     data.push((await this.Clients.find({ gender: 'Maschio' }).exec()).length || 0)
     data.push((await this.Clients.find({ gender: 'Femmina' }).exec()).length || 0)
@@ -72,7 +70,6 @@ class Operation {
   }
 
   async getRevenueByMonth(title = undefined) {
-    await this.connect()
     const labels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
     const data = []
     const currentYearNumber = new Date().getFullYear()
@@ -91,7 +88,6 @@ class Operation {
   }
 
   async avgRentByMonth(title = undefined) {
-    await this.connect()
     const query = {}
     if (title) query.title = title
     const data = (await this.Rentals.find(query).exec()).length || 0
@@ -99,7 +95,6 @@ class Operation {
   }
 
   async countStatus(title = undefined) {
-    await this.connect()
     const today = new Date().getTime()
     const query = { end: { $gte: today } }
     if (title) query.title = title
@@ -111,7 +106,6 @@ class Operation {
   }
 
   async countConditions(title = undefined) {
-    await this.connect()
     const query = {}
     if (title) query.title = title
     query.condition = 'Ottima'
@@ -125,7 +119,6 @@ class Operation {
   }
 
   async avgRentLength(title = undefined) {
-    await this.connect()
     let query = {}
     if (title) query = { title }
     const rentals = await this.Rentals.find(query).exec()

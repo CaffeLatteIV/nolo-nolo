@@ -44,7 +44,7 @@ const inventorySchema = new Schema({
   media: {
     img: {
       type: String,
-      default: 'https://site202156.tw.cs.unibo.it/v1/image/not-available.png', // TODO cambiare
+      default: 'https://site202156.tw.cs.unibo.it/v1/image/not-available.png',
     },
   },
   stock: {
