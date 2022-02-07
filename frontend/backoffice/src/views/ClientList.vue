@@ -130,7 +130,7 @@ export default {
           headers: { Authorization: "Bearer " + accessToken },
         })
         .then((response) => {
-          console.log(response.data.rentals)
+          console.log(response.data.rentals )
           if (
             response.data.rentals.filter((rent) => rent.clientCode === id)
               .length === 0
