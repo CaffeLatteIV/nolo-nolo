@@ -81,7 +81,7 @@ app.post('/image/upload', upload.single('file'), (req, res) => {
     const tempPath = req.file.path
     const filename = path.basename(tempPath)
     const targetPath = path.join(__dirname, `../images/${filename}${extName}`)
-    if (path.extname(req.file.originalname).toLowerCase() === ('.png' || '.jpg')) {
+    if (extName.toLowerCase() === '.png' || extName.toLowerCase() === '.jpg') {
       fs.renameSync(tempPath, targetPath)
       return res.status(200).send({ img: `http://localhost:5000/v1/images/${filename}${extName}` })
     }
