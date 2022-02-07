@@ -9,8 +9,8 @@ import Cookies from 'universal-cookie'
 import Favourites from '../components/Favourites.js'
 import validateAccessToken from '../components/Tokens.js'
 
-const PRODUCT_URL = process.env.PRODUCT_URL || `${global.baseURL}/inventories`
-const RENTALS_URL = process.env.RENTALS_URL || `${global.baseURL}/rentals`
+const PRODUCT_URL = process.env.PRODUCT_URL || 'https://site202156.tw.cs.unibo.it/v1/inventories'
+const RENTALS_URL = process.env.RENTALS_URL || 'https://site202156.tw.cs.unibo.it/v1/rentals'
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)

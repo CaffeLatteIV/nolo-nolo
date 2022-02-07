@@ -14,7 +14,7 @@ import token from './src/v1/token-api.js'
 import image from './src/v1/image-api.js'
 import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
-import populate from './src/database/addValues.js'
+// import populate from './src/database/addValues.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -53,11 +53,13 @@ const mongoCredentials = {
   site: 'mongo_site202156',
 }
 // const URL = 'mongodb://site202151:aixaem7T@mongo_site202151/nolo-nolo?writeConcern=majority'
-const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}/nolo?writeConcern=majority`
+const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoCredentials.site}?writeConcern=majority`
 mongoose.connect(URL, { useNewUrlParser: true })
 mongoose.connection.on('error', (err) => logger.error(err))
 mongoose.connection.once('open', () => {
-  populate()
+  // mongoose.connection.useDb('nolo')
+  // populate()
+  logger.info('connected to mongo')
 })
 
 app.enable('trust proxy')
@@ -69,9 +71,9 @@ app.use('/v1/image', image)
 app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 app.use('/v1/offers', offers)
+// app.use('/icons', Express.static(`${global.rootDir}/frontoffice/icons`))
 app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
-
-app.get('/*', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
+// app.get('/', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
 app.listen(PORT, () => {
   logger.info(`Listening on port ${PORT}`)
 })

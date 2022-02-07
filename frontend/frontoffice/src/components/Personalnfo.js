@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import validateAcessToken from './Tokens.js'
 
-const CLIENT_URL = process.env.CLIENT_URL || `${global.baseURL}/clients`
+const CLIENT_URL = process.env.CLIENT_URL || 'https://site202156.tw.cs.unibo.it/v1/clients'
 function PersonalInfo() {
   const cookies = new Cookies()
   const client = cookies.get('client')

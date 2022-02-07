@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-const URL = process.env.TOKEN_URL || `${global.baseURL}/token`
+const URL = process.env.TOKEN_URL || 'https://site202156.tw.cs.unibo.it/v1/token'
 const cookie = new Cookies()
 async function validateAccessToken() {
   const accessToken = cookie.get('accessToken')

@@ -7,7 +7,7 @@ import ActiveOrders from '../components/ActiveOrders.js'
 import BookedOrders from '../components/BookedOrders.js'
 import validateAccessToken from '../components/Tokens.js'
 
-const RENTALS_URL = process.env.RENTALS_URL || `${global.baseURL}/rentals`
+const RENTALS_URL = process.env.RENTALS_URL || 'https://site202156.tw.cs.unibo.it/v1/rentals'
 function Orders() {
   const [productList, setProductList] = useState({ bookedOrders: [], activeOrders: [], olderOrders: [] })
   useEffect(async () => {

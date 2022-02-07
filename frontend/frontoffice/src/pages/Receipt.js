@@ -8,8 +8,8 @@ import axios from 'axios'
 
 import validateAccessToken from '../components/Tokens.js'
 
-const RENTALS_URL = process.env.RENTALS_URL || `${global.baseURL}/rentals`
-const URL_OFFERS = process.env.OFFERS_URL || `${global.baseURL}/offers`
+const RENTALS_URL = process.env.RENTALS_URL || 'https://site202156.tw.cs.unibo.it/v1/rentals'
+const URL_OFFERS = process.env.OFFERS_URL || 'https://site202156.tw.cs.unibo.it/v1/offers'
 function Receipt() {
   const navigate = useNavigate()
   const { state } = useLocation()

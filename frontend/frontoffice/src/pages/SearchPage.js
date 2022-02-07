@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import ProductCard from '../components/ProductCard.js'
 
-const URL = process.env.OPERATIONS_URL || `${global.baseURL}/operations`
+const URL = process.env.OPERATIONS_URL || 'https://site202156.tw.cs.unibo.it/v1/operations'
 function SearchPage() {
   const [products, setProducts] = useState(undefined)
   const { state } = useLocation()

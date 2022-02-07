@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import ProductCard from '../components/ProductCard.js'
 
-const URL = process.env.INVENTORY_URL || `${global.baseURL}/inventories`
+const URL = process.env.INVENTORY_URL || 'https://site202156.tw.cs.unibo.it/v1/inventories'
 function CategoryPage() {
   const [products, setProducts] = useState(undefined)
   const { search } = useLocation()

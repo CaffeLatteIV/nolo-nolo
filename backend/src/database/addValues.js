@@ -47,7 +47,7 @@ function createInventoryList() {
         points: 350,
       },
       media: {
-        img: 'http://localhost:8000/v1/image/cervelo-bici-gravel-aspero-apex-1-seabreeze-blue.jpg',
+        img: 'https://site202156.tw.cs.unibo.it/v1/image/cervelo-bici-gravel-aspero-apex-1-seabreeze-blue.jpg',
       },
       condition: 'Ottima',
       category: 'Bici corsa',
@@ -76,7 +76,7 @@ function createInventoryList() {
         points: 150,
       },
       media: {
-        img: 'http://localhost:8000/v1/image/prismalia-monopattino-elettrico-85-pollici-36v-10a-400-w.jpg',
+        img: 'https://site202156.tw.cs.unibo.it/v1/image/prismalia-monopattino-elettrico-85-pollici-36v-10a-400-w.jpg',
       },
       condition: 'Ottima',
       category: 'Monopattino',
@@ -92,7 +92,7 @@ function createInventoryList() {
         points: 170,
       },
       media: {
-        img: 'http://localhost:8000/v1/image/ghost-e-riot-trail-cf-advanced-29-12v-brown.jpg',
+        img: 'https://site202156.tw.cs.unibo.it/v1/image/ghost-e-riot-trail-cf-advanced-29-12v-brown.jpg',
       },
       condition: 'Ottima',
       category: 'e-Bike',

@@ -4,7 +4,7 @@ import axios from 'axios'
 import ProductCard from '../components/ProductCard.js'
 import Carousel from '../components/Carousel.js'
 
-const URL = process.env.INVENTORY_URL || `${global.baseURL}/inventories`
+const URL = process.env.INVENTORY_URL || 'https://site202156.tw.cs.unibo.it/v1/inventories'
 function Homepage() {
   const [products, setProducts] = useState(undefined)
   // viene eseguito una volta sola (alla prima visita della pagina)

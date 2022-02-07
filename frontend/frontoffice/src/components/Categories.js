@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 // import { Link } from 'react-router-dom'
 
-const URL = process.env.INVENTORY_URL || `${global.baseURL}/inventories`
+const URL = process.env.INVENTORY_URL || 'https://site202156.tw.cs.unibo.it/v1/inventories'
 
 function Categories() {
   const [categories, setCategories] = useState(undefined)

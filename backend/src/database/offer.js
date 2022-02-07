@@ -3,7 +3,6 @@ import { offerSchema } from './schema.js'
 
 class Offer {
   constructor() {
-    this.URL = process.env.URL || 'mongodb://localhost:27017/nolo-nolo'
     this.Offer = mongoose.model('offers', offerSchema)
   }
 

@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie'
 
 import ProductCard from './ProductCard.js'
 
-const PRODUCT_URL = process.env.PRODUCT_URL || `${global.baseURL}/inventories`
+const PRODUCT_URL = process.env.PRODUCT_URL || 'https://site202156.tw.cs.unibo.it/v1/inventories'
 function AccountPreferences() {
   const cookies = new Cookies()
   const client = cookies.get('client')
