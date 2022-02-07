@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import { closest } from 'fastest-levenshtein'
 import { clientSchema, inventorySchema, rentSchema } from './schema.js'
 import loggerWrapper from '../logger.js'
+
 const logger = loggerWrapper('Operations-DB')
 class Operation {
   constructor() {
@@ -26,8 +27,10 @@ class Operation {
     const itemsArr = Object.keys(uniqueItems).sort((a, b) => uniqueItems[a] - uniqueItems[b]).slice(0, n) // prendo i n-titoli più venduti
     const res = []
     for (let i = 0; i < itemsArr.length; i += 1) {
+      // restituisco gli oggetti corrispondenti ai titoli
       // eslint-disable-next-line no-await-in-loop
-      res.push(await this.Inventory.findById(itemsArr[i]).exec()) // restituisco gli oggetti corrispondenti ai titoli
+      const prod = await this.Inventory.findById(itemsArr[i]).exec()
+      if (prod) res.push(prod)
     }
     logger.info(res)
     return res
