@@ -74,6 +74,7 @@ app.post('/product', async (req, res) => {
 
 app.post('/image/upload', upload.single('file'), (req, res) => {
   try {
+    logger.info('siamo in image/upload')
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = dirname(__filename)
     const extName = path.extname(req.file.originalname)

@@ -8,11 +8,8 @@
             <input
               type="file"
               class="form-control"
-              id="file"
-              name="file"
-              accept="image/png, image/jpg"
-              ref="file"
-              @change="onChangeFileUpload"
+              accept=" image/jpg, image/png"
+              @change="onChangeFileUpload($event)"
             />
             Immagine
           </label>
@@ -170,52 +167,57 @@ export default {
       });
   },
   methods: {
-    // onChangeFileUpload() {
-    //   this.image = this.$refs.file.files[0];
-    // },
-    // updateChanges: function () {
-    //   validateAccessToken
-    //   const cookies = new Cookies();
-    //   const accessToken = cookies.get("accessToken");
-    //   const itemURL =
-    //     process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-    //   const productData = {
-    //     id: this.$route.params.id,
-    //     available: this.available,
-    //     price: {
-    //       weekday: this.prezzoFeriali,
-    //       weekend: this.prezzoFestivi,
-    //       points: this.costoFedeltà,
-    //     },
-    //     condition: this.condition,
-    //     category: this.category,
-    //     title: this.title,
-    //     description: this.description,
-    //     stock: this.numInStock,
-    //     fidelityPoints: this.guadagnoFedeltà,
-    //     // media: {
-    //     //   img: this.image,
-    //     // },
-    //   };
-    //   const formData = new FormData();
-    //   formData.append("image", this.image);
-    //   axios.post(`${itemURL}/image/upload`, formData, {
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //       "Content-type": "multipart/form-data",
-    //     },
-    //   });
-    //   axios.post(
-    //     `${itemURL}/products/update`,
-    //     { product: productData },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${accessToken}`,
-    //         "Content-type": "application/json",
-    //       },
-    //     }
-    //   );
-    // },
+    onChangeFileUpload( event ) {
+      this.image =  event.target.files[0]
+      console.log("image ", this.image)
+
+    },
+    updateChanges: function () {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const itemURL =
+        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+      const productData = {
+        id: this.$route.params.id,
+        available: this.available,
+        price: {
+          weekday: this.prezzoFeriali,
+          weekend: this.prezzoFestivi,
+          points: this.costoFedeltà,
+        },
+        condition: this.condition,
+        category: this.category,
+        title: this.title,
+        description: this.description,
+        stock: this.numInStock,
+        fidelityPoints: this.guadagnoFedeltà,
+        media: {
+          img: "http://localhost:5000/v1/image/not-available.png",
+         },
+      };
+      const formData = new FormData();
+      formData.append("file", this.image);
+      axios.post(`${itemURL}/image/upload`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-type": "multipart/form-data",
+        },
+      }).then(function(){
+        console.log("File uploaded successfully")
+      }).then(function(){
+        console.log("Error in file upload")
+      });
+      axios.post(
+        `${itemURL}/products/update`,
+        { product: productData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+    },
   },
 };
 </script>
