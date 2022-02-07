@@ -16,7 +16,6 @@ function generateRefreshToken(email, role) {
 function authenticateAccessToken(req, res, next) {
   const authHeader = req.headers.authorization
   const token = authHeader && authHeader.split(' ')[1]
-  console.log(authHeader)
   if (token === undefined) {
     logger.error('Authentication Error: token undefined')
     return res.status(401).send({ code: 401, msg: 'Unauthorized' })

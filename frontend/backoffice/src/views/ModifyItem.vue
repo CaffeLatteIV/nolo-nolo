@@ -119,7 +119,6 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
-import validateAccessToken from '../validateAccessToken.js'
 
 export default {
   name: "ModifyItem",
@@ -139,7 +138,6 @@ export default {
     };
   },
   mounted() {
-    validateAccessToken()
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const itemURL =
@@ -167,10 +165,9 @@ export default {
       });
   },
   methods: {
-    onChangeFileUpload( event ) {
-      this.image =  event.target.files[0]
-      console.log("image ", this.image)
-
+    onChangeFileUpload(event) {
+      this.image = event.target.files[0];
+      console.log("image ", this.image);
     },
     updateChanges: function () {
       const cookies = new Cookies();
@@ -193,20 +190,20 @@ export default {
         fidelityPoints: this.guadagnoFedeltà,
         media: {
           img: "http://localhost:5000/v1/image/not-available.png",
-         },
+        },
       };
       const formData = new FormData();
       formData.append("file", this.image);
-      axios.post(`${itemURL}/image/upload`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-type": "multipart/form-data",
-        },
-      }).then(function(){
-        console.log("File uploaded successfully")
-      }).then(function(){
-        console.log("Error in file upload")
-      });
+      axios
+        .post(`${itemURL}/image/upload`, formData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          this.media.img = response.data.img;
+        });
       axios.post(
         `${itemURL}/products/update`,
         { product: productData },
