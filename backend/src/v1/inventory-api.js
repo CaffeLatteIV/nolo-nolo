@@ -87,7 +87,7 @@ app.post('/image/upload', upload.single('file'), (req, res) => {
     const targetPath = path.join(__dirname, `../images/${filename}${extName}`)
     if (extName === '.png' || extName === '.jpg') {
       fs.renameSync(tempPath, targetPath)
-      return res.status(200).send({ img: `http://localhost:5000/v1/images/${filename}${extName}` })
+      return res.status(200).send({ img: `http://localhost:5000/v1/image/${filename}${extName}` })
     }
     fs.unlinkSync(tempPath)
     return res.status(403).send({ code: 403, msg: 'Only .png or .jpg files are allowed!' })

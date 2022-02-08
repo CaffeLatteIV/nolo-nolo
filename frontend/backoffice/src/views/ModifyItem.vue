@@ -135,6 +135,7 @@ export default {
       condition: "",
       numInStock: 0,
       image: null,
+      media: {img: ''}
     };
   },
   mounted() {
@@ -188,9 +189,7 @@ export default {
         description: this.description,
         stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
-        media: {
-          img: "http://localhost:5000/v1/image/not-available.png",
-        },
+        media: this.media
       };
       const formData = new FormData();
       formData.append("file", this.image);
@@ -203,17 +202,17 @@ export default {
         })
         .then((response) => {
           this.media.img = response.data.img;
+          axios.post(
+            `${itemURL}/products/update`,
+            { product: productData },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-type": "application/json",
+              },
+            }
+          );
         });
-      axios.post(
-        `${itemURL}/products/update`,
-        { product: productData },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-type": "application/json",
-          },
-        }
-      );
     },
   },
 };
