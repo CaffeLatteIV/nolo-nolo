@@ -27,6 +27,7 @@ const inventorySchema = new Schema({
   condition: {
     type: String,
     enum: ['Ottima', 'Buona', 'Parzialmente danneggiato'],
+    default: 'Ottima',
     required: true,
   },
   category: {
