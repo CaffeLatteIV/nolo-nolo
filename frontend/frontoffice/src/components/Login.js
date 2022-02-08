@@ -36,6 +36,7 @@ function Login({ setLogged }) {
     setLogged(logged)
     if (logged) {
       navigate('/', { replace: true })
+      window.location.reload(true)
     }
     setLogError('Email o password errati')
   }

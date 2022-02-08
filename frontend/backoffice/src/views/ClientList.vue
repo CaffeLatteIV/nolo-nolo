@@ -23,7 +23,10 @@
               }}
             </div>
             <div class="col-7 py-3 d-flex flex-row-reverse">
-              <div v-show="1 === 1" class="px-2 pt-2">
+              <div
+                v-if="checkForBookings(n-1)"
+                class="px-2 pt-2"
+              >
                 <div class="tag-one rounded px-1 text-black">
                   Prenotazione attiva
                 </div>
@@ -36,7 +39,7 @@
             </div>
             <div class="col-1">
               <router-link
-                :to="{ path: '/admin/client/'+this.clientList[n-1].id }"
+                :to="{ path: '/admin/client/' + this.clientList[n - 1].id }"
                 exact-path
                 class="d-flex justify-content-end py-3 text-decoration-none"
                 role="button"
@@ -65,6 +68,8 @@ export default {
     return {
       loading: true,
       clientList: [],
+      clientNumber: 0,
+      rentalsAll: [],
     };
   },
   mounted() {
@@ -72,6 +77,8 @@ export default {
     const accessToken = cookies.get("accessToken");
     console.log(accessToken);
     console.log(cookies.get("client"));
+    const rentalsURL =
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:8000/v1/clients";
     axios
@@ -81,8 +88,43 @@ export default {
       .then((response) => {
         this.loading = false;
         this.clientList = response.data.clients;
-        console.log(this.clientList);
+        
       });
+    axios
+      .get(rentalsURL + "/all", {
+        headers: { Authorization: "Bearer " + accessToken },
+      })
+      .then((response) => {
+        this.loading = false;
+        this.rentalsAll = response.data.rentals
+        console.log("rentals",this.rentalsAll[0])
+        console.log("client", this.clientList);
+      });
+  },
+  methods: {
+    async validateAccessToken() {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
+      try {
+        const { data } = await axios.post(`${URL}/validate`, { accessToken });
+        if (data.code !== 200) {
+          const refreshToken = cookies.get("refreshToken");
+          const res = await axios.post(`${URL}/refresh`, { refreshToken });
+          cookies.remove("accessToken", { path: "/" });
+          cookies.set("accessToken", res.data.accessToken, {
+            path: "/",
+            sameSite: "Lax",
+          });
+        }
+      } catch (err) {
+        console.log("Refresh Token Error");
+      }
+    },
+    checkForBookings(n) {
+      n
+      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
+    },
   },
 };
 </script>

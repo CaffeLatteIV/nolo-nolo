@@ -56,10 +56,9 @@ function ProductPage() {
   }, [])
 
   function rent() {
-    // TODO prendere i parametri inseriti dall'utente
-    if (useFidelityPoints) product.useFidelityPoints = client.fidelityPoints
+    if (useFidelityPoints) product.clientsFidelityPoints = client.fidelityPoints
     navigate('/receipt', {
-      state: { newRent: product, start: startDate, end: endDate },
+      state: { newRent: product, start: new Date(startDate).getTime(), end: new Date(endDate).getTime() },
     }) // ms in a day
   }
   return (

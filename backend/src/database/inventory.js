@@ -6,14 +6,17 @@ class Inventory {
     this.Inventory = mongoose.model('inventories', inventorySchema)
   }
 
-  async addInventory({ available, price, condition, category, title, description }) {
-    await new this.Inventory({
+  async addInventory({ available, price, condition, category, title, description, media, stock, fidelityPoints }) {
+    return new this.Inventory({
       available,
       price,
       condition,
       category,
       title,
       description,
+      media,
+      stock,
+      fidelityPoints,
     }).save()
   }
 
@@ -50,6 +53,10 @@ class Inventory {
 
   async update(product) {
     return this.Inventory.findByIdAndUpdate(product.id, product).exec()
+  }
+
+  async delete(id) {
+    return this.Inventory.findByIdAndDelete(id).exec()
   }
 }
 export default Inventory

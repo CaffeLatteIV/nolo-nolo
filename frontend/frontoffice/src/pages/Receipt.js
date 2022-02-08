@@ -14,9 +14,10 @@ function Receipt() {
   const navigate = useNavigate()
   const { state } = useLocation()
   const { newRent, start, end } = state
-  if (!newRent) navigate('*')
-  const daysBetweenDates = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
+  if (!newRent || !start || !end) navigate('*')
+  const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
   const earnedFidelityPoints = daysBetweenDates * newRent.fidelityPoints
+
   // count weekends tra le due date
   const [price, setPrice] = useState(0)
   const [spentFidelityPoints, setSpentFidelityPoints] = useState(0)
@@ -25,13 +26,14 @@ function Receipt() {
     const { offers } = data
     let priceTmp = 0
     let spentFidelityPointsTmp = 0
+    // 86400000 = ms in a day
     for (let i = start; i < end; i += 86400000) {
       let priceDay = 0
       const day = new Date(i)
       const isWeekend = day.getDay() === 0 || day.getDay() === 6
-      if (newRent.spendablefidelityPoints > 0 && newRent.spendablefidelityPoints - newRent.price.fidelityPoints > 0) {
-        newRent.spendablefidelityPoints -= newRent.price.fidelityPoints
-        spentFidelityPointsTmp += newRent.price.fidelityPoints
+      if (newRent.clientsFidelityPoints - newRent.price.points > 0) {
+        newRent.clientsFidelityPoints -= newRent.price.points
+        spentFidelityPointsTmp += newRent.price.points
       } else if (isWeekend) {
         priceDay = newRent.price.weekend
       } else {
@@ -39,7 +41,7 @@ function Receipt() {
       }
       offers.forEach((offer) => {
         if (i >= offer.start && i <= offer.end) {
-          priceDay = (priceTmp * 100) / (100 - offer.discount)
+          priceDay = (priceDay * 100) / (100 - offer.discount)
         }
       })
       priceTmp += priceDay
@@ -60,7 +62,7 @@ function Receipt() {
       productCode: newRent.id,
       clientCode: client.id,
       price,
-      status: 'Prenotato', // se l'utente conferma lo status diventa prenotato
+      status: 'Prenotato', // se l'utente conferma, lo status diventa prenotato
       fidelityPoints: spentFidelityPoints,
     }
     const accessToken = cookie.get('accessToken')
@@ -107,11 +109,11 @@ function Receipt() {
           </tr>
           <tr>
             <th className="scope text-white">Punti fedeltà spesi:</th>
-            <td className="{text-white} text-danger"> Nessuno (togliere parentesi graffe a text-white e rimuovere text-danger nelle classi)</td>
+            <td className="text-white">{spentFidelityPoints}</td>
           </tr>
           <tr>
             <th className="scope text-white">Punti fedeltà guadagnati:</th>
-            <td className="{text-white} text-danger"> un pochino (togliere parentesi graffe a text-white e rimuovere text-danger nelle classi)</td>
+            <td className="text-white"> {earnedFidelityPoints}</td>
           </tr>
           <tr>
             <th className="scope text-white">Sconto applicato:</th>

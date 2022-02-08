@@ -8,9 +8,8 @@
             <input
               type="file"
               class="form-control"
-              id="image"
-              name="image"
-              accept="image/png, image/jpg"
+              accept=" image/jpg, image/png"
+              @change="onChangeFileUpload($event)"
             />
             Immagine
           </label>
@@ -85,7 +84,7 @@
               v-model="category"
             >
               <option value="Bici">Bici</option>
-              <option value="Bici Corsa">Bici Corsa</option>
+              <option value="Bici corsa">Bici Corsa</option>
               <option value="Monopattino">Monopattino</option>
               <option value="e-Bike">e-Bike</option>
               <option value="Bici Ibrida">Bici Ibrida</option>
@@ -135,6 +134,8 @@ export default {
       available: false,
       condition: "",
       numInStock: 0,
+      image: null,
+      media: {img: ''}
     };
   },
   mounted() {
@@ -165,6 +166,10 @@ export default {
       });
   },
   methods: {
+    onChangeFileUpload(event) {
+      this.image = event.target.files[0];
+      console.log("image ", this.image);
+    },
     updateChanges: function () {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
@@ -184,20 +189,30 @@ export default {
         description: this.description,
         stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
-        // media: {
-        //   img: ""
-        // }
+        media: this.media
       };
-      // axios.post(
-      //   `${itemURL}/update/personalInfo`,
-      //   { client: clientData },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`,
-      //       "Content-type": "application/json",
-      //     },
-      //   }
-      // );
+      const formData = new FormData();
+      formData.append("file", this.image);
+      axios
+        .post(`${itemURL}/image/upload`, formData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          this.media.img = response.data.img;
+          axios.post(
+            `${itemURL}/products/update`,
+            { product: productData },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-type": "application/json",
+              },
+            }
+          );
+        });
     },
   },
 };
