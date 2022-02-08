@@ -98,13 +98,19 @@ app.post('/image/upload', upload.single('file'), (req, res) => {
   }
 })
 app.delete('/delete/:id', async (req, res) => {
-  const { id } = req.params
-  if (!id) {
-    logger.warn('Received a request to delete a product but id is missing')
-    return res.status(404).send({ code: 404, msg: 'ID is undefined' })
+  try {
+    const { id } = req.params
+    if (!id) {
+      logger.warn('Received a request to delete a product but id is missing')
+      return res.status(404).send({ code: 404, msg: 'ID is undefined' })
+    }
+    logger.info(`Received a request to delete ${id}`)
+    await db.delete(id)
+    return res.status(200).send()
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
-  logger.info(`Received a request to delete ${id}`)
-  const product = await db.delete(id)
-  return res.status(200).send({ product })
 })
 export default app
