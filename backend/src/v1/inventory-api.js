@@ -3,8 +3,10 @@ import Express from 'express'
 import multer from 'multer'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import loggerWrapper from '../logger.js'
 import Database from '../database/inventory.js'
+import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
 
 const productsFullPath = path.join(global.rootDir, 'src/images')
 const db = new Database()
@@ -77,9 +79,8 @@ app.post('/add', authenticateAccessToken, authenticateUserRole, async (req, res)
 
 app.post('/image/upload', upload.single('file'), (req, res) => {
   try {
-    logger.info('siamo in image/upload')
     const __filename = fileURLToPath(import.meta.url)
-    const __dirname = dirname(__filename)
+    const __dirname = path.dirname(__filename)
     const extName = path.extname(req.file.originalname).toLowerCase()
     const tempPath = req.file.path
     const filename = path.basename(tempPath)
