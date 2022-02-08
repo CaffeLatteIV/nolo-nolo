@@ -15,9 +15,7 @@ function Receipt() {
   const { newRent, start, end } = state
   if (!newRent || !start || !end) navigate('*')
   const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
-  console.log(daysBetweenDates)
   const earnedFidelityPoints = daysBetweenDates * newRent.fidelityPoints
-  console.log(earnedFidelityPoints)
 
   // count weekends tra le due date
   const [price, setPrice] = useState(0)
@@ -32,7 +30,6 @@ function Receipt() {
       let priceDay = 0
       const day = new Date(i)
       const isWeekend = day.getDay() === 0 || day.getDay() === 6
-      console.log(newRent.clientsFidelityPoints)
       if (newRent.clientsFidelityPoints - newRent.price.points > 0) {
         newRent.clientsFidelityPoints -= newRent.price.points
         spentFidelityPointsTmp += newRent.price.points
@@ -64,7 +61,7 @@ function Receipt() {
       productCode: newRent.id,
       clientCode: client.id,
       price,
-      status: 'Prenotato', // se l'utente conferma lo status diventa prenotato
+      status: 'Prenotato', // se l'utente conferma, lo status diventa prenotato
       fidelityPoints: spentFidelityPoints,
     }
     const accessToken = cookie.get('accessToken')
