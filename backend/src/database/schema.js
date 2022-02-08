@@ -7,7 +7,7 @@ const { Schema } = mongoose
 const inventorySchema = new Schema({
   available: {
     type: Boolean,
-    required: true,
+    default: true,
   },
   price: {
     weekend: {
@@ -56,6 +56,39 @@ const inventorySchema = new Schema({
     default: 3,
   },
 
+}, {
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+    transform(doc, ret) { delete ret._id },
+  },
+})
+const couponSchema = new Schema({
+  title: {
+    type: String,
+  },
+  discount: {
+    type: Number,
+  },
+  start: {
+    type: Number,
+  },
+  end: {
+    type: Number,
+  },
+  usage: {
+    type: Number,
+  },
+  clients: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+    ref: 'clients',
+  },
 }, {
   toObject: {
     virtuals: true,
@@ -257,4 +290,5 @@ export {
   employeeSchema,
   refreshTokenSchema,
   offerSchema,
+  couponSchema,
 }
