@@ -5,10 +5,10 @@ import fs from 'fs'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import loggerWrapper from '../logger.js'
-import Database from '../database/inventory.js'
+import Inventory from '../database/inventory.js'
 import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
 
-const db = new Database()
+const db = new Inventory()
 const logger = loggerWrapper('Inventory API')
 const app = Express.Router()
 
@@ -96,5 +96,15 @@ app.post('/image/upload', upload.single('file'), (req, res) => {
     logger.error(err.stack)
     return res.status(500).send({ code: 500, msg: 'Error while uploading image' })
   }
+})
+app.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params
+  if (!id) {
+    logger.warn('Received a request to delete a product but id is missing')
+    return res.status(404).send({ code: 404, msg: 'ID is undefined' })
+  }
+  logger.info(`Received a request to delete ${id}`)
+  const product = await db.delete(id)
+  return res.status(200).send({ product })
 })
 export default app

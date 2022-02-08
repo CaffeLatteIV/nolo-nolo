@@ -60,5 +60,9 @@ class Inventory {
   async update(product) {
     return this.Inventory.findByIdAndUpdate(product.id, product).exec()
   }
+
+  async delete(id) {
+    return this.Inventory.findByIdAndDelete(id).exec()
+  }
 }
 export default Inventory
