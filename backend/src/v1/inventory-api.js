@@ -6,6 +6,7 @@ import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import loggerWrapper from '../logger.js'
 import Database from '../database/inventory.js'
+import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
 
 const db = new Database()
 const logger = loggerWrapper('Inventory API')
@@ -59,11 +60,14 @@ app.post('/products/update', async (req, res) => {
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })
 })
-app.post('/product', async (req, res) => {
+app.post('/add', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   try {
     const { item } = req.body
+    if (!item) {
+      return res.status(404).send({ msg: 'Product is invalid', code: 404 })
+    }
     logger.info(`Adding: ${item.title}`)
-    db.addInventory(item)
+    await db.addInventory(item)
     return res.status(200).send({ code: 200, msg: 'Added' })
   } catch (err) {
     logger.error(err.message)

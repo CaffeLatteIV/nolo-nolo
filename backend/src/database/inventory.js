@@ -12,14 +12,17 @@ class Inventory {
     this.Inventory = mongoose.model('inventories', inventorySchema)
   }
 
-  async addInventory({ available, price, condition, category, title, description }) {
-    await new this.Inventory({
+  async addInventory({ available, price, condition, category, title, description, media, stock, fidelityPoints }) {
+    return new this.Inventory({
       available,
       price,
       condition,
       category,
       title,
       description,
+      media,
+      stock,
+      fidelityPoints,
     }).save()
   }
 
