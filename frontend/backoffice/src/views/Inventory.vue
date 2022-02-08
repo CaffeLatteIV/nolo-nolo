@@ -28,46 +28,58 @@
           v-for="n in this.inventory.length"
           :key="n"
         >
-          <a
-            href="http://127.0.0.1:3000/product"
-            class="text-white text-decoration-none"
-          >
-            <div class="row px-3">
-              <div class="col-4 fs-4 py-3">
-                {{
-                  this.inventory[n - 1]
-                    ? this.inventory[n - 1].title
-                    : "Nome oggetto mancante"
-                }}
-              </div>
-              <div class="col-7 py-3 d-flex flex-row-reverse">
-                <div v-show="1 === 1" class="px-2 pt-2">
-                  <div class="tag-one rounded px-1 text-black">
-                    Prenotazione attiva
-                  </div>
-                </div>
-                <div v-show="2 === 2" class="p-2">
-                  <div class="tag-two rounded px-1 text-black">
-                    Noleggio in corso
-                  </div>
+          <div class="row px-3 text-white text-decoration-none">
+            <div class="col-4 fs-4 py-3">
+              {{
+                this.inventory[n - 1]
+                  ? this.inventory[n - 1].title
+                  : "Nome oggetto mancante"
+              }}
+            </div>
+            <div class="col-6 py-3 d-flex flex-row-reverse">
+              <div v-show="1 === 1" class="px-2 pt-2">
+                <div class="tag-one rounded px-1 text-black">
+                  Prenotazione attiva
                 </div>
               </div>
-              <div class="col-1">
-                <router-link
-                  :to="{path: '/admin/item/' + this.inventory[n-1].id}"
-                  exact-path
-                  class="d-flex justify-content-end py-3 text-decoration-none"
-                  role="button"
-                  aria-label="Modifica"
-                  title="Modifica"
-                >
-                  <span class="material-icons text-white rounded p-1"
-                    >create</span
-                  >
-                </router-link>
+              <div v-show="2 === 2" class="p-2">
+                <div class="tag-two rounded px-1 text-black">
+                  Noleggio in corso
+                </div>
               </div>
             </div>
-          </a>
+            <div class="col-2 row">
+              <router-link
+                :to="{ path: '/admin/item/' + this.inventory[n - 1].id }"
+                exact-path
+                class="col d-flex justify-content-end py-3 text-decoration-none"
+                role="button"
+                aria-label="Modifica"
+                title="Modifica"
+              >
+                <span class="material-icons text-white rounded p-1"
+                  >create</span
+                >
+              </router-link>
+              <button
+                class="
+                  col
+                  d-flex
+                  justify-content-end
+                  py-3
+                  material-icons
+                  bg-transparent
+                  border-0
+                  text-white
+                "
+                @click="deleteItem(this.inventory[n - 1].id)"
+                aria-label="Cancella Oggetto"
+                title="Cancella oggetto"
+              >
+                <span class="material-icons">delete</span>
+              </button>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -87,7 +99,11 @@ export default {
     };
   },
   mounted() {
-    const cookies = new Cookies();
+    this.getInventory()
+  },
+  methods: {
+    getInventory (){
+      const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const inventoryURL =
       process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
@@ -100,6 +116,22 @@ export default {
         this.inventory = response.data.products;
         console.log(this.inventory);
       });
+    },
+    deleteItem(id) {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const inventoryURL =
+        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+      axios.delete(inventoryURL + "/delete/" + id,
+        {},
+        {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        .then((response) => {
+          console.log(response.data)
+          this.getInventory()
+        });
+    },
   },
 };
 </script>
