@@ -7,7 +7,6 @@ const URL = process.env.INVENTORY_URL || 'https://site202156.tw.cs.unibo.it/v1/i
 
 function Categories() {
   const [categories, setCategories] = useState(undefined)
-  // viene eseguito una volta sola (alla prima visita della pagina)
   useEffect(async () => {
     const { data } = await axios({
       method: 'GET',

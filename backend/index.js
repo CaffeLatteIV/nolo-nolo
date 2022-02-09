@@ -14,7 +14,7 @@ import token from './src/v1/token-api.js'
 import image from './src/v1/image-api.js'
 import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
-// import populate from './src/database/addValues.js'
+import coupon from './src/v1/coupon-api.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -60,7 +60,7 @@ mongoose.connection.once('open', () => {
   // populate()
   logger.info('connected to mongo')
 })
-
+// ------- API ------
 app.enable('trust proxy')
 app.use('/v1/rentals', rental)
 app.use('/v1/inventories', inventory)
@@ -70,7 +70,13 @@ app.use('/v1/image', image)
 app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 app.use('/v1/offers', offers)
+app.use('/v1/coupons', coupon)
+// ------- FINE API ------
+
+// ------- FORNTOFFICE ------
 app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
 app.get('/*', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
+
+// ------- BACKOFFICE ------
 
 app.listen(PORT, () => { logger.info(`Listening on port ${PORT}`) })

@@ -33,7 +33,6 @@ app.get('/categories/:category', async (req, res) => {
 })
 app.get('/categories', async (req, res) => {
   const { unique } = req.query
-  logger.info('Finding all different category names')
   const categories = await db.listAllCategoryNames(unique)
   if (categories === null) return res.status(404).send({ code: 404, msg: 'No category available' })
   return res.status(200).send({ categories })
