@@ -75,6 +75,7 @@ const couponSchema = new Schema({
   },
   discount: {
     type: Number,
+    required: true,
   },
   start: {
     type: Number,
