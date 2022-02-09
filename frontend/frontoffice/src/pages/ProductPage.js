@@ -93,7 +93,7 @@ function ProductPage() {
               scrollableMonthYearDropdown
               withPortal
               placeholderText="Inserisci periodo"
-              className="rounded border-0 text-white px-2 py-1 mb-3"
+              className="rounded border-0 text-white px-2 py-1 mb-3 w-100"
               calendarClassName="text-white border-0"
               id="datepicker"
             />
