@@ -12,7 +12,7 @@ const URL_OFFERS = process.env.OFFERS_URL || 'http://localhost:5000/v1/offers'
 function Receipt() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const { newRent, start, end } = state
+  const { newRent, start, end, coupon } = state
   if (!newRent || !start || !end) navigate('*')
   const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
   const earnedFidelityPoints = daysBetweenDates * newRent.fidelityPoints
@@ -44,6 +44,9 @@ function Receipt() {
         }
       })
       priceTmp += priceDay
+    }
+    if (coupon) {
+      priceTmp = (priceTmp * 100) / (100 - coupon)
     }
     setSpentFidelityPoints(spentFidelityPointsTmp)
     setPrice(priceTmp)
@@ -116,7 +119,7 @@ function Receipt() {
           </tr>
           <tr>
             <th className="scope text-white">Sconto applicato:</th>
-            <td className="{text-white} text-danger"> - percent %  ovvero - (Totale-(Totale*0.percent)) € (togliere parentesi graffe a text-white e rimuovere text-danger nelle classi)</td>
+            <td className="text-white"> {coupon ? `${coupon}%` : '-'}</td>
           </tr>
           <tr>
             <th className="scope text-white fs-3">TOTALE:</th>
@@ -126,7 +129,6 @@ function Receipt() {
       </table>
       <button type="button" onClick={handleConfirm} className="btn text-black bg-site-primary">Conferma</button>
       <br />
-      TODO: bottone conferma acquisto
 
     </div>
   )
