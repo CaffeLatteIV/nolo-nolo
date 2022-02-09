@@ -163,7 +163,7 @@ function ProductPage() {
                 </div>
               </div>
               {/* controllo se la data sia disponibile */}
-              {!available ? <span> Le date selezionate non sono disponibili</span> : ''}
+              {!available ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
             </div>
           </div>
         </div>
