@@ -96,10 +96,13 @@ app.post('/available', authenticateAccessToken, async (req, res) => {
       logger.error('Missing date or product code')
       return res.status(404).send({ code: 404, msg: 'Missing date' })
     }
+    logger.info('Verifying availability for the requested dates')
     const available = await db.checkAvailability(start, end, productCode)
     if (available) {
+      logger.info('Product is available')
       return res.status(200).send({ available })
     }
+    logger.info('Produtct not available')
     return res.status(409).send({ code: 409, msg: 'Selected period is not available' })
   } catch (err) {
     logger.error(err.message)
