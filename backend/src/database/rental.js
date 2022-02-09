@@ -33,13 +33,24 @@ class Rental {
 
   async findUserRentals(clientCode) {
     const rentals = await this.Rentals.find({ clientCode }).populate('productCode', 'media').exec()
-    const res = []
-    rentals.forEach((element) => {
-      element.media = element.productCode.media
-      element.productCode = element.productCode.id
-      res.push(element)
+    // neccessario perchè mongoose (o mongodb) non danno la possibilità di modificare i dati dell'array
+    // quindi bisogna fare un workaround aggiungenod una variabile copia di ogni elemento
+    rentals.forEach((element, index, arr) => {
+      const tmp = {}
+      tmp.title = element.title
+      tmp.start = element.start
+      tmp.end = element.end
+      tmp.media = element.productCode.media
+      tmp.productCode = element.productCode.id
+      tmp.clientCode = element.clientCode
+      tmp.price = element.price
+      tmp.fidelityPoints = element.fidelityPoints
+      tmp.earnedFidelityPoints = element.fidelityPoints
+      tmp.status = element.status
+      tmp.id = element.id
+      arr[index] = tmp
     })
-    return res
+    return rentals
   }
 
   async getUserActiveRentals(start, clientCode) {
