@@ -12,6 +12,7 @@ import token from './src/v1/token-api.js'
 import image from './src/v1/image-api.js'
 import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
+import coupon from './src/v1/coupon-api.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -26,6 +27,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(Express.json())
 
+// ------- API ------
 app.use('/v1/rentals', rental)
 app.use('/v1/inventories', inventory)
 app.use('/v1/clients', client)
@@ -34,6 +36,13 @@ app.use('/v1/image', image)
 app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 app.use('/v1/offers', offers)
+app.use('/v1/coupons', coupon)
+// ------- FINE API ------
+
+// ------- FRONTOFFICE ------
+// ------- BACKOFFICE  ------
+// ------- DAHSBOARD   ------
+
 // app.use(Express.static(path.join(__dirname, 'frontoffice')))
 // app.get('/site/', (req, res) => res.sendFile(path.join(__dirname, 'frontoffice', 'index.html')))
 app.listen(PORT, () => {
