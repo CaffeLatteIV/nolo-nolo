@@ -26,12 +26,12 @@ class Coupon {
     const { start, end, clients, discount } = coupon
     let { usage } = coupon
     const today = new Date().getTime()
-    if (clients.include(clientCode)) return undefined
-    if (start !== 0 && end !== 0 && start <= today && end >= today) {
+    if (clients.include(clientCode)) return undefined // il cliente ha già usato il coupon
+    if (start !== 0 && end !== 0 && start <= today && end >= today) { // coupon a tempo
       await this.Coupon.findByIdAndUpdate(id, { clients }).exec()
       return discount
     }
-    if (usage > 0) {
+    if (usage > 0) { // coupon ad usi
       usage -= 1
       await this.Coupon.findByIdAndUpdate(id, { clients, usage }).exec()
       return discount
@@ -41,7 +41,7 @@ class Coupon {
 
   async listAll() {
     const coupons = await this.Coupon.find().exec()
-    return coupons.sort((a, b) => a.end - b.end)
+    return coupons.sort((a, b) => a.end - b.end) // prima i coupon in scadenza
   }
 }
 export default Coupon
