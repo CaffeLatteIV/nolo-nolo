@@ -22,6 +22,7 @@ app.post('/validate', (req, res) => {
       logger.info('Access token is no longer valid')
       return res.send({ code: 401, msg: 'Unauthorized' })
     }
+    logger.info('Access token is valid')
     return res.status(200).send({ code: 200, msg: 'valid' })
   })
 })
@@ -39,6 +40,7 @@ app.post('/refresh', async (req, res) => {
       return res.status(403).send({ code: 403, msg: 'Error' })
     }
     accessToken = generateAccessToken(item.email, item.role)
+    logger.info('Sending new access token')
     return res.status(200).send({ accessToken })
   })
 })
@@ -50,12 +52,12 @@ app.delete('/remove', (req, res) => {
   }
   try {
     db.deleteToken(refreshToken)
+    return res.status(200).send({ code: 200, msg: 'Deleted' })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
-  return res.status(200).send({ code: 200, msg: 'Deleted' })
 })
 
 export default app
