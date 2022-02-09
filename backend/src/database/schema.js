@@ -78,12 +78,15 @@ const couponSchema = new Schema({
   },
   start: {
     type: Number,
+    default: 0,
   },
   end: {
     type: Number,
+    default: 0,
   },
   usage: {
     type: Number,
+    default: 0,
   },
   clients: {
     type: [Schema.Types.ObjectId],
