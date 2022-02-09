@@ -7,7 +7,6 @@ const URL = process.env.INVENTORY_URL || 'http://localhost:5000/v1/inventories'
 
 function Categories() {
   const [categories, setCategories] = useState(undefined)
-  // viene eseguito una volta sola (alla prima visita della pagina)
   useEffect(async () => {
     const { data } = await axios({
       method: 'GET',
