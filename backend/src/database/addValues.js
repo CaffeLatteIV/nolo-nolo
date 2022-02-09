@@ -6,6 +6,7 @@ import {
   clientSchema,
   employeeSchema,
   offerSchema,
+  couponSchema,
 } from './schema.js'
 import { generateHash } from '../utils/authenticate.js'
 import loggerWrapper from '../logger.js'
@@ -216,14 +217,35 @@ function createOfferList() {
     },
   ]
 }
+function createCouponList() {
+  return [
+    {
+      title: 'PROMO21',
+      discount: 15,
+      usage: 15,
+    },
+    {
+      title: 'PROMO22',
+      discount: 7,
+      usage: 1,
+    },
+    {
+      title: 'PROMOFEBRAIO',
+      discount: 15,
+      start: 1644405477904,
+      end: 1644905477904,
+    },
+  ]
+}
 async function populate() {
   const inventory = mongoose.model('inventories', inventorySchema)
   const offer = mongoose.model('offer', offerSchema)
   const rentals = mongoose.model('rentals', rentSchema)
   const employee = mongoose.model('employees', employeeSchema)
   const clients = mongoose.model('clients', clientSchema)
+  const coupons = mongoose.model('coupons', couponSchema)
   const password2 = await generateHash('gino3')
-  await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
+  // await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
 
   logger.info('Uploading products')
   const inventoryList = createInventoryList()
@@ -244,5 +266,8 @@ async function populate() {
   // const rentList = await createRentList(clients, inventory, offer)
   // logger.info(rentList.length)
   // await rentals.insertMany(rentList)
+  logger.info('adding coupons')
+  const couponList = createCouponList()
+  coupons.insertMany(couponList)
 }
 export default populate
