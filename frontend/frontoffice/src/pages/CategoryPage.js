@@ -22,7 +22,7 @@ function CategoryPage() {
       url: `${URL}/categories/${category}`,
     })
     setProducts(data.products)
-  }, [])
+  }, [category])
 
   document.title = 'NOLONOLO'
   return (
