@@ -21,7 +21,10 @@ function Receipt() {
   const [price, setPrice] = useState(0)
   const [spentFidelityPoints, setSpentFidelityPoints] = useState(0)
   useEffect(async () => {
-    const { data } = await axios.get(`${URL_OFFERS}/`, { headers: { 'Content-Type': 'application/json' }, params: { start, end } })
+    const { data } = await axios.get(`${URL_OFFERS}/`, {
+      headers: { 'Content-Type': 'application/json' },
+      params: { start, end },
+    })
     const { offers } = data
     let priceTmp = 0
     let spentFidelityPointsTmp = 0
@@ -68,75 +71,94 @@ function Receipt() {
       fidelityPoints: spentFidelityPoints,
     }
     const accessToken = cookie.get('accessToken')
-    await axios.post(`${RENTALS_URL}/add`, { product }, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
+    await axios.post(
+      `${RENTALS_URL}/add`,
+      { product },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     navigate('/orders')
   }
   return (
-    <div className="container md-01dp p-4 mt-4 rounded">
-      <h1>Riepilogo Ordine</h1>
-      <table className="table">
-        <tbody>
-          <tr>
-            <th className="scope text-white">Codice prodotto:</th>
-            <td className="text-white">{newRent.id}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Titolo:</th>
-            <td className="text-white">{newRent.title}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Descrizione:</th>
-            <td className="text-white">{newRent.description}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Condizione:</th>
-            <td className="text-white">{newRent.condition}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Durata noleggio:</th>
-            <td className="text-white">{daysBetweenDates}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Prezzo giorni lavorativi:</th>
-            <td className="text-white">{newRent.price.weekday}€</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Prezzo giorni feriali:</th>
-            <td className="text-white">{newRent.price.weekend}€</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Punti fedeltà spesi:</th>
-            <td className="text-white">{spentFidelityPoints}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Punti fedeltà guadagnati:</th>
-            <td className="text-white"> {earnedFidelityPoints}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white">Sconto applicato:</th>
-            <td className="text-white"> {coupon ? `${coupon}%` : '-'}</td>
-          </tr>
-          <tr>
-            <th className="scope text-white fs-3">TOTALE:</th>
-            <td className="text-white fs-3">{price}€</td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" onClick={handleConfirm} className="btn text-black bg-site-primary">Conferma</button>
-      <br />
-
+    <div className="container p-2">
+      <div className="md-01dp p-4 mt-4 rounded">
+        <h1>Riepilogo Ordine</h1>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Codice prodotto:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{newRent.id}</div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Titolo:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{newRent.title}</div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Descrizione:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{newRent.description}</div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Durata noleggio:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{daysBetweenDates} giorn{daysBetweenDates === 1 ? 'o' : 'i'}</div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Prezzo giorni feriali:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{newRent.price.weekday}€</div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Prezzo giorni festivi:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{newRent.price.weekend}</div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Punti fedeltà spesi:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{spentFidelityPoints}
+          </div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Punti fedeltà guadagnati:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{earnedFidelityPoints}
+          </div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold">Sconto applicato:</span>
+          </div>
+          <div className="col-sm-6 col-md-9">{coupon ? `${coupon}%` : '-'}
+          </div>
+        </div>
+        <div className="row border-bottom border-secondary p-2">
+          <div className="col-sm-6 col-md-3">
+            <span className="fw-bold fs-3">TOTALE:</span>
+          </div>
+          <div className="col-sm-6 col-md-9 fs-3">{price}€</div>
+        </div>
+        <button
+          type="button"
+          onClick={handleConfirm}
+          className="btn text-black mt-4 bg-site-primary"
+        >
+          Conferma
+        </button>
+      </div>
     </div>
   )
 }
-// Receipt.propTypes = {
-//   start: PropTypes.number.isRequired,
-//   end: PropTypes.number.isRequired,
-//   // eslint-disable-next-line react/forbid-prop-types
-//   product: PropTypes.object.isRequired,
-// }
 export default Receipt
