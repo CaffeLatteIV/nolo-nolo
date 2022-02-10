@@ -82,8 +82,6 @@ export default {
   name: "ActiveOrders",
   data() {
     return {
-      loadingInventory: true,
-      loadingRentals: true,
       inventory: [],
       activeRentals: [],
       showAll: false,
@@ -104,11 +102,10 @@ export default {
         headers: { Authorization: "Bearer " + accessToken },
       })
       .then((response) => {
-        this.loadingRentals = false;
         console.log(response.data.rentals);
         this.activeRentals = response.data.rentals.filter(
           (rent) =>
-            rent.start < new Date().getTime() && rent.end > new Date().getTime()
+            rent.start <= new Date().getTime() && rent.end >= new Date().getTime()
         );
         console.log("activeRentals ", this.activeRentals);
       });
