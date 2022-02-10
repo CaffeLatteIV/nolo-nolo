@@ -46,6 +46,18 @@
                   >create</span
                 >
               </router-link>
+              <router-link
+                :to="{ path: '/admin/client/history/' + client.id }"
+                exact-path
+                class="col d-flex justify-content-end py-3 text-decoration-none"
+                role="button"
+                aria-label="Vedi ordini"
+                title="Vedi ordini"
+              >
+                <span class="material-icons text-white rounded p-1"
+                  >history</span
+                >
+              </router-link>
               <button
                 class="
                   col
