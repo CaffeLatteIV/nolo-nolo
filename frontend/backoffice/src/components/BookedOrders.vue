@@ -136,7 +136,7 @@ export default {
         .then((response) => {
           this.loadingRentals = false;
           this.bookedRentals = response.data.rentals.filter(
-            (rent) => rent.status === "Prenotato"
+            (rent) => rent.start > new Date().getTime()
           );
           console.log("bookedRentals ", this.bookedRentals);
         });

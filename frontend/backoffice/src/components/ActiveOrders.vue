@@ -108,7 +108,7 @@ export default {
         console.log(response.data.rentals);
         this.activeRentals = response.data.rentals.filter(
           (rent) =>
-            rent.status === "Noleggiato" && rent.end > new Date().getTime()
+            rent.start < new Date().getTime() && rent.end > new Date().getTime()
         );
         console.log("activeRentals ", this.activeRentals);
       });
