@@ -146,15 +146,15 @@ export default {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
-          (rent) => rent.clientCode === id && rent.end > new Date().getTime()
+          (rent) => rent.clientCode === id && rent.start > new Date().getTime()
         ).length > 0
       );
-    },
+    },  
     checkForActive(id, rentalsAll) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
-          (rent) => rent.clientCode === id && rent.end <= new Date().getTime()
+          (rent) => rent.clientCode === id && rent.start <= new Date().getTime() && rent.end >= new Date().getTime()
         ).length > 0
       );
     },

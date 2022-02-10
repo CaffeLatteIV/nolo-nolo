@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.bookedRentals !== 0">
+  <div v-if="this.bookedRentals.length !== 0">
     <button
       @click="showAll = true"
       v-if="!showAll"
