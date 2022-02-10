@@ -163,7 +163,7 @@ async function createRentList(clients, inventory, offer, n = 500) {
       let priceDay = 0
       const dayT = new Date(j)
       const isWeekend = dayT.getDay() === 0 || dayT.getDay() === 6
-      if (spendablefidelityPoints > 0 && spendablefidelityPoints - product.price.fidelityPoints > 0) {
+      if (spendablefidelityPoints - product.price.fidelityPoints > 0) {
         spendablefidelityPoints -= product.price.fidelityPoints
         spentFidelityPointsTmp += product.price.fidelityPoints
       } else if (isWeekend) {
@@ -176,7 +176,7 @@ async function createRentList(clients, inventory, offer, n = 500) {
           priceDay = (priceDay * 100) / (100 - priceDay.discount)
         }
       })
-      priceTmp += priceDay || 0
+      priceTmp += priceDay
     }
     const fidelityPoints = spentFidelityPointsTmp
     const price = priceTmp
