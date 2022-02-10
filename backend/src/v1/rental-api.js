@@ -33,7 +33,7 @@ app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
     const { clientCode } = req.params
     const rent = await db.findUserRentals(clientCode)
     if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
-    return res.status(200).send(rent)
+    return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)
