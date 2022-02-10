@@ -73,7 +73,7 @@ app.use('/v1/offers', offers)
 app.use('/v1/coupons', coupon)
 
 // ------- DAHSBOARD ------
-// app.use(Express.static(path.join(global.rootDir, 'dashboard')))
+app.use(Express.static(path.join(global.rootDir, 'dashboard')))
 app.get('/dashboard/index.html', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'index.html')))
 app.get('/dashboard/clientStats.html', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'clientStats.html')))
 

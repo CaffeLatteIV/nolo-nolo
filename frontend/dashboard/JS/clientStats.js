@@ -3,6 +3,7 @@ import {countClientGender, groupClientAge} from './requests.js'
 // let client = searchParams.get('client')
 //Setup for Bar Chart --> Contiene dati su età clienti
 const ageClients = (await groupClientAge()).result
+console.log(ageClients)
 const ageData = {
     labels: ageClients.labels,
     datasets: [{

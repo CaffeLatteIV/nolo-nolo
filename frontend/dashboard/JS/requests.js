@@ -17,12 +17,15 @@ async function getMonthlyRevenue(title = '') {
   await validateAccessToken()
   const cookie = new UniversalCookie()
   const accessToken = cookie.get('accessToken')
-  return $.ajax({
+  console.log(accessToken)
+  const res = await $.ajax({
     url: `${OPERATION_URL}/rentals/revenue/month/${title}`,
     type: 'GET',
     dataType: "json",
     headers: { "Authorization": "Bearer " + accessToken },
   })
+  console.log('res', res)
+  return res
 }
 async function getStatus(title = '') {
   await validateAccessToken()
@@ -109,14 +112,16 @@ async function validateAccessToken() {
       if (data.code === 401) {
         // aggiorno il refresh token
         const refreshToken = cookie.get('refreshToken')
+        console.log('refreshToken', refreshToken)
         if (refreshToken) {
           $.ajax({
             url: `${TOKEN_URL}/refresh`,
             type: 'POST',
             data: JSON.stringify({ refreshToken }),
+            dataType:'json',
             contentType: "application/json; charset=utf-8",
             success: (response) => {
-              cookie.remove('accessToken')
+              cookie.remove('accessToken', {path:'/'})
               cookie.set('accessToken', response.accessToken, { path: '/', sameSite: 'Lax' })
             }
           })

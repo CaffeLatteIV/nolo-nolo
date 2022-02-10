@@ -24,7 +24,6 @@ function authenticateAccessToken(req, res, next) {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       logger.error(err.message)
-      logger.error(err.stack)
       return res.send({ code: 401, msg: 'Unauthorized' })
     }
     req.role = user.role
@@ -38,6 +37,7 @@ function authenticateUserRole(req, res, next) {
 }
 function authenticateManager(req, res, next) {
   if (req.role === 'manager') return next()
+  logger.warn('User not a manager')
   return res.status(401).send({ code: 401, msg: 'Unauthorized' })
 }
 // create hash algorithm
