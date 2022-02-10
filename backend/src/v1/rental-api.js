@@ -40,7 +40,7 @@ app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
       logger.warn('Client has made no rental')
       return res.status(404).send({ code: 400, msg: 'Not found' })
     }
-    logger.info('Sending user remtals')
+    logger.info('Sending user rentals')
     return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)
