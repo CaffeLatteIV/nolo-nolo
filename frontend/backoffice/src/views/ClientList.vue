@@ -106,7 +106,6 @@ export default {
     const { data } = await axios.get(clientURL + "/lookup", {
       headers: { Authorization: "Bearer " + accessToken },
     });
-    // this.clientList = data.clients;
     const response = await axios.get(rentalsURL + "/all", {
       headers: { Authorization: "Bearer " + accessToken },
     });
