@@ -35,7 +35,6 @@
         />
         Descrizione
       </label>
-
       <div class="row">
         <div class="col">
           <label for="priceWeekDay" class="form-label p-2">
@@ -105,13 +104,21 @@
           </label>
         </div>
       </div>
-      <button
-        type="submit"
-        class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
-        @click="updateChanges"
-      >
-        Modifica
-      </button>
+      <div class="mb-4 ms-2 form-switch">
+        <input type="checkbox" id="flexSwitchCheckChecked" class="form-check-input mt-3" v-model="available"/>
+        <label for="flexSwitchCheckChecked" class="form-check-label p-2 mt-1">
+          Disponibile 
+        </label>
+      </div>
+      <div class="px-2">
+        <button
+          type="submit"
+          class="bg-site-primary border-0 mb-4 rounded py-1 w-100"
+          @click="updateChanges"
+        >
+          Modifica
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -135,7 +142,7 @@ export default {
       condition: "",
       numInStock: 0,
       image: null,
-      media: {img: ''}
+      media: { img: "" },
     };
   },
   mounted() {
@@ -169,6 +176,7 @@ export default {
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
       console.log("image ", this.image);
+      console.log(this.available)
     },
     updateChanges: function () {
       const cookies = new Cookies();
@@ -189,7 +197,7 @@ export default {
         description: this.description,
         stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
-        media: this.media
+        media: this.media,
       };
       const formData = new FormData();
       formData.append("file", this.image);

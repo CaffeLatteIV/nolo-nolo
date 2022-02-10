@@ -126,13 +126,15 @@
           </label>
         </div>
       </div>
-      <button
-        type="submit"
-        class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
-        @click="updateChanges()"
-      >
-        Crea
-      </button>
+      <div class="px-2">
+        <button
+          type="submit"
+          class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
+          @click="updateChanges()"
+        >
+          Crea
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -156,7 +158,7 @@ export default {
       condition: "",
       numInStock: 0,
       image: null,
-      media: {img: ''}
+      media: { img: "" },
     };
   },
   mounted() {},
@@ -184,7 +186,7 @@ export default {
         description: this.description,
         stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
-        media: this.media
+        media: this.media,
       };
       const formData = new FormData();
       formData.append("file", this.image);
