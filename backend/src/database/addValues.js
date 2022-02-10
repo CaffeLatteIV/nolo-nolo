@@ -258,7 +258,4 @@ async function populate() {
   coupons.insertMany(couponList)
 }
 
-// export default populate
-const URL = 'mongodb://localhost:27017/nolo-nolo'
-mongoose.connect(URL)
-populate()
+export default populate
