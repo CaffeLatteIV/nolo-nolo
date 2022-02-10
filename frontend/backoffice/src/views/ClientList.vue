@@ -116,30 +116,18 @@ export default {
         console.log("Refresh Token Error");
       }
     },
-    async checkForBookings(n) {
+    checkForBookings(n) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
-      await this.validateAccessToken();
-      console.log(n);
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const id = this.clientList[n].id;
-      const rentalsURL =
-        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-      axios
-        .get(rentalsURL + "/clients/" + id, {
-          headers: { Authorization: "Bearer " + accessToken },
-        })
-        .then((response) => {
-          console.log(response.data.rentals )
-          if (
-            response.data.rentals.filter((rent) => rent.clientCode === id)
-              .length === 0
-          ) {
-            return false;
-          } else {
-            return true;
-          }
-        });
+      const id = this.clientList[n].id
+      console.log(id)
+      const clientRentals = this.rentalsAll.filter((rent) => rent.clientCode == id)
+      console.log("rentalsAll", this.rentalsAll)
+      console.log("rentals", clientRentals)
+      if (clientRentals.length === 0){
+        return false
+      } else {
+        return true
+      }
     },
   },
 };
