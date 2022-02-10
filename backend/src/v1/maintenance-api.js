@@ -29,7 +29,7 @@ app.delete('/remove/:id', authenticateAccessToken, authenticateUserRole, async (
   }
   return res.status(200).send({ code: 200, msg: 'Removed' })
 })
-app.delete('/get/:productCode', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+app.get('/get/:productCode', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { productCode } = req.params
   if (!productCode) {
     logger.warn('Received a request to show mintenace for a product but it\'s code is missing')
