@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.activeRentals.length !== 0">
+  <div v-if="this.closedRentals.length !== 0">
     <button
       @click="showAll = true"
       v-if="!showAll"
@@ -14,7 +14,7 @@
     >
       Riduci
     </button>
-    <div v-for="n in this.activeRentals.length" :key="n">
+    <div v-for="n in this.closedRentals.length" :key="n">
       <div
         v-show="n - 1 < 3 || showAll"
         class="p-2 px-3 border-bottom border-1 border-secondary"
@@ -22,21 +22,21 @@
         <div class="row">
           <div class="col-7 p-2">
             <h4 class="m-0 text-wrap text-white">
-              {{ this.activeRentals[n - 1].title }}
+              {{ this.closedRentals[n - 1].title }}
             </h4>
             <p class="text-white">
-              Spesa: {{ this.activeRentals[n - 1].price }}€
+              Spesa: {{ this.closedRentals[n - 1].price }}€
             </p>
             <p
               class="text-white"
-              v-show="this.activeRentals[n - 1].fidelityPoints > 0"
+              v-show="this.closedRentals[n - 1].fidelityPoints > 0"
             >
-              Spesa in punti: {{ this.activeRentals[n - 1].fidelityPoints }}€
+              Spesa in punti: {{ this.closedRentals[n - 1].fidelityPoints }}€
             </p>
           </div>
           <div class="col-2 p-2 m-0 text-white text-center">
-            Da: {{ formatDate(this.activeRentals[n - 1].start) }}&nbsp; A:
-            {{ formatDate(this.activeRentals[n - 1].end) }}
+            Da: {{ formatDate(this.closedRentals[n - 1].start) }}&nbsp; A:
+            {{ formatDate(this.closedRentals[n - 1].end) }}
           </div>
           <div class="col-3 row pt-2 m-0">
             <div class="row">
@@ -67,14 +67,16 @@
     </div>
     <button
       @click="showAll = false"
-      v-if="showAll === true && activeRentals.length !== 0"
+      v-if="showAll === true && closedRentals.length !== 0"
       class="p-2 bg-transparent text-white border-0 text-decoration-underline"
     >
       Riduci
     </button>
   </div>
   <div v-else>
-    <p class="p-2 m-0 fs-4">Non ci sono noleggi attivi</p>
+    <p class="p-2 m-0 fs-4">
+      Non sono presenti prenotazioni attive per questo cliente
+    </p>
   </div>
 </template>
 
@@ -84,11 +86,14 @@ import Cookies from "universal-cookie";
 import dayjs from "dayjs";
 
 export default {
-  name: "ActiveOrders",
+  name: "ClientClosedOrders",
+  props: ["id"],
   data() {
     return {
+      loadingInventory: true,
+      loadingRentals: true,
       inventory: [],
-      activeRentals: [],
+      closedRentals: [],
       showAll: false,
       noleggiatoCertificato: false, //da modificare con database changes
       restituitoCertificato: false, //da modificare con database changes
@@ -107,13 +112,12 @@ export default {
         headers: { Authorization: "Bearer " + accessToken },
       })
       .then((response) => {
+        this.loadingRentals = false;
         console.log(response.data.rentals);
-        console.log("date ",new Date().getTime())
-        this.activeRentals = response.data.rentals.filter(
-          (rent) =>
-            rent.start <= new Date().getTime() && rent.end >= new Date().getTime()
-        );
-        console.log("activeRentals ", this.activeRentals);
+        this.closedRentals = response.data.rentals
+          .filter((rent) => rent.clientCode === this.$props.id)
+          .filter((rent) => rent.end < new Date().getTime());
+        console.log("clientclosedRentals ", this.closedRentals);
       });
   },
   methods: {

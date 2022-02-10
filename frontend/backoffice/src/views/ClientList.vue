@@ -46,6 +46,18 @@
                   >create</span
                 >
               </router-link>
+              <router-link
+                :to="{ path: '/admin/client/history/' + client.id }"
+                exact-path
+                class="col d-flex justify-content-end py-3 text-decoration-none"
+                role="button"
+                aria-label="Vedi ordini"
+                title="Vedi ordini"
+              >
+                <span class="material-icons text-white rounded p-1"
+                  >history</span
+                >
+              </router-link>
               <button
                 class="
                   col
@@ -94,7 +106,6 @@ export default {
     const { data } = await axios.get(clientURL + "/lookup", {
       headers: { Authorization: "Bearer " + accessToken },
     });
-    // this.clientList = data.clients;
     const response = await axios.get(rentalsURL + "/all", {
       headers: { Authorization: "Bearer " + accessToken },
     });
