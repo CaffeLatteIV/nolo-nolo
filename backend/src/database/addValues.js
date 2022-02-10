@@ -142,7 +142,7 @@ async function createRentList(clients, inventory, offer, n = 500) {
   const clientIdList = await clients.find({}, 'id').exec()
   const productList = await inventory.find().exec()
   const offers = await offer.find().exec()
-  const statusList = ['Noleggiato', 'Prenotato']
+  const statusList = ['Noleggiato', 'Pagato']
   const rentList = []
   for (let i = 0; i < n; i += 1) {
     const client = clientIdList[Math.floor(Math.random() * clientIdList.length)]
@@ -151,7 +151,7 @@ async function createRentList(clients, inventory, offer, n = 500) {
     const product = productList[Math.floor(Math.random() * productList.length)]
     const { title } = product
     const productCode = product.id
-    const year = Math.floor(2023 - (Math.random() * 3))
+    const year = 2022
     const month = Math.floor(Math.random() * 12) + 1
     let day = Math.floor(Math.random() * 28) + 1
     const start = new Date(`${year}.${month}.${day}`).getTime()
