@@ -159,7 +159,6 @@ async function createRentList(clients, inventory, offer, n = 500) {
     const end = new Date(`${year}.${month}.${day}`).getTime()
     let spentFidelityPointsTmp = 0
     let priceTmp = 0
-    let hasOffer = false
     for (let j = start; j < end; j += 86400000) {
       let priceDay = 0
       const dayT = new Date(j)
@@ -174,8 +173,7 @@ async function createRentList(clients, inventory, offer, n = 500) {
       }
       offers.forEach((offerTmp) => {
         if (j >= offerTmp.start && j <= offerTmp.end) {
-          hasOffer = true
-          priceDay = (priceDay * 100) / (100 - offerTmp.discount)
+          priceDay = Math.floor((priceDay * 100) / (100 - offerTmp.discount))
         }
       })
       priceTmp += priceDay
