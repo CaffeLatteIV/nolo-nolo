@@ -5,39 +5,39 @@
       <h1 class="py-3 m-0">Lista Clienti</h1>
     </div>
     <div class="p-4">
-      <ul class="list-group list-group-flush rounded" id="list" v-if="!loading">
+      <ul
+        class="list-group list-group-flush rounded"
+        id="list"
+        v-if="dataLoaded"
+      >
         <li
           class="list-group-item md-04dp border-dark"
-          v-for="n in this.clientList.length"
-          :key="n"
+          v-for="client in this.clientList"
+          :key="client"
         >
           <div class="row px-3 text-white">
             <div class="col-4 fs-4 py-3">
               {{
-                this.clientList[n - 1]
-                  ? this.clientList[n - 1].name +
-                    " " +
-                    this.clientList[n - 1].surname
-                  : "Nome mancante"
+                client ? client.name + " " + client.surname : "Nome mancante"
               }}
             </div>
-            <div class="col-7 py-3 d-flex flex-row-reverse">
-              <div v-if="checkForBookings(n - 1)" class="px-2 pt-2">
+            <div class="col-6 py-3 d-flex flex-row-reverse">
+              <div v-show="client.hasBookings" class="px-2 pt-2">
                 <div class="tag-one rounded px-1 text-black">
                   Prenotazione attiva
                 </div>
               </div>
-              <div v-show="checkForActive(n-1)" class="p-2">
+              <div v-show="client.hasActiveOrders" class="p-2">
                 <div class="tag-two rounded px-1 text-black">
                   Noleggio in corso
                 </div>
               </div>
             </div>
-            <div class="col-1">
+            <div class="col-2 row">
               <router-link
-                :to="{ path: '/admin/client/' + this.clientList[n - 1].id }"
+                :to="{ path: '/admin/client/' + client.id }"
                 exact-path
-                class="d-flex justify-content-end py-3 text-decoration-none"
+                class="col d-flex justify-content-end py-3 text-decoration-none"
                 role="button"
                 aria-label="Aggiungi nuovo cliente"
                 title="Modifica informazioni dell'utente"
@@ -46,6 +46,22 @@
                   >create</span
                 >
               </router-link>
+              <button
+                class="
+                  col
+                  d-flex
+                  justify-content-end
+                  py-3
+                  material-icons
+                  bg-transparent
+                  border-0
+                "
+                title="Rimuovi Cliente"
+                type="button"
+                :disabled="client.hasBookings || client.hasActiveOrders"
+              >
+                <span class="material-icons p-1">delete</span>
+              </button>
             </div>
           </div>
         </li>
@@ -62,13 +78,11 @@ export default {
   name: "ClientList",
   data() {
     return {
-      loading: true,
+      dataLoaded: false,
       clientList: [],
-      clientNumber: 0,
-      rentalsAll: [],
     };
   },
-  mounted() {
+  async mounted() {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     console.log(accessToken);
@@ -77,24 +91,25 @@ export default {
       process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
-    axios
-      .get(clientURL + "/lookup", {
-        headers: { Authorization: "Bearer " + accessToken },
-      })
-      .then((response) => {
-        this.loading = false;
-        this.clientList = response.data.clients;
-      });
-    axios
-      .get(rentalsURL + "/all", {
-        headers: { Authorization: "Bearer " + accessToken },
-      })
-      .then((response) => {
-        this.loading = false;
-        this.rentalsAll = response.data.rentals;
-        console.log("rentals", this.rentalsAll[0]);
-        console.log("client", this.clientList);
-      });
+    const { data } = await axios.get(clientURL + "/lookup", {
+      headers: { Authorization: "Bearer " + accessToken },
+    });
+    // this.clientList = data.clients;
+    const response = await axios.get(rentalsURL + "/all", {
+      headers: { Authorization: "Bearer " + accessToken },
+    });
+    data.clients.forEach((client) => {
+      client.hasActiveOrders = this.checkForActive(
+        client.id,
+        response.data.rentals
+      );
+      client.hasBookings = this.checkForBookings(
+        client.id,
+        response.data.rentals
+      );
+      this.clientList.push(client);
+    });
+    this.dataLoaded = true;
   },
   methods: {
     async validateAccessToken() {
@@ -116,15 +131,21 @@ export default {
         console.log("Refresh Token Error");
       }
     },
-    checkForBookings(n) {
+    checkForBookings(id, rentalsAll) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
-      const id = this.clientList[n].id
-      return (this.rentalsAll.filter((rent) => rent.clientCode === id && rent.end > new Date().getTime()).length > 0)
+      return (
+        rentalsAll.filter(
+          (rent) => rent.clientCode === id && rent.end > new Date().getTime()
+        ).length > 0
+      );
     },
-    checkForActive(n) {
+    checkForActive(id, rentalsAll) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
-      const id = this.clientList[n].id
-      return (this.rentalsAll.filter((rent) => rent.clientCode === id && rent.end <= new Date().getTime()).length > 0)
+      return (
+        rentalsAll.filter(
+          (rent) => rent.clientCode === id && rent.end <= new Date().getTime()
+        ).length > 0
+      );
     },
   },
 };
@@ -139,5 +160,11 @@ export default {
 }
 .tag-three {
   background: purple;
+}
+button{
+  color:white;
+}
+button:disabled {
+  color:grey;
 }
 </style>
