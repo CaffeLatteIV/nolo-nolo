@@ -13,19 +13,6 @@ import loggerWrapper from '../logger.js'
 
 const logger = loggerWrapper('Populate DB')
 function createInventoryList() {
-  // const productList = []
-  // const conditions = ['Ottima', 'Buona', 'Parzialmente danneggiato']
-  // const categoryList = ['Bici', 'Monopattino', 'Bici corsa', 'e-Bike', 'Bici Ibrida']
-  // for (let i = 0; i < n; i += 1) {
-  //   const price = {
-  //     weekend: Math.floor(Math.random() * 30),
-  //     weekday: Math.floor(Math.random() * 15),
-  //     points: Math.floor(100 + Math.random() * 200),
-  //   }
-  //   const condition = conditions[Math.floor(Math.random() * conditions.length)]
-  //   const available = true
-  //   const cateogory = categoryList[Math.floor(Math.random() * categoryList.length)]
-  // }
   return [
     {
       available: true,
@@ -241,10 +228,10 @@ async function populate() {
   const inventory = mongoose.model('inventories', inventorySchema)
   const offer = mongoose.model('offer', offerSchema)
   const rentals = mongoose.model('rentals', rentSchema)
-  const employee = mongoose.model('employees', employeeSchema)
+  // const employee = mongoose.model('employees', employeeSchema)
   const clients = mongoose.model('clients', clientSchema)
   const coupons = mongoose.model('coupons', couponSchema)
-  const password2 = await generateHash('gino3')
+  // const password2 = await generateHash('gino3')
   // await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
 
   logger.info('Uploading products')
@@ -252,22 +239,26 @@ async function populate() {
   logger.info(inventoryList.length)
   await inventory.insertMany(inventoryList)
 
-  // logger.info('Uploading clients')
-  // const clientList = await createClientList()
-  // logger.info(clientList.length)
-  // await clients.insertMany(clientList)
+  logger.info('Uploading clients')
+  const clientList = await createClientList()
+  logger.info(clientList.length)
+  await clients.insertMany(clientList)
 
-  // logger.info('Uploading offers')
-  // const offerList = createOfferList()
-  // logger.info(offerList.length)
-  // await offer.insertMany(offerList)
+  logger.info('Uploading offers')
+  const offerList = createOfferList()
+  logger.info(offerList.length)
+  await offer.insertMany(offerList)
 
-  // logger.info('Uploading rentals')
-  // const rentList = await createRentList(clients, inventory, offer)
-  // logger.info(rentList.length)
-  // await rentals.insertMany(rentList)
+  logger.info('Uploading rentals')
+  const rentList = await createRentList(clients, inventory, offer)
+  logger.info(rentList.length)
+  await rentals.insertMany(rentList)
   logger.info('adding coupons')
   const couponList = createCouponList()
   coupons.insertMany(couponList)
 }
-export default populate
+
+// export default populate
+const URL = 'mongodb://localhost:27017/nolo-nolo'
+mongoose.connect(URL)
+populate()
