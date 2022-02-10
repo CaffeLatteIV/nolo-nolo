@@ -113,7 +113,7 @@ async function createClientList(n = 200) {
     const fidelityPoints = Math.floor(Math.random() * 8000)
     const payment = paymentList[Math.floor(Math.random() * 3)]
     const preferredCategories = categoryList[Math.floor(Math.random() * 4)]
-    const dateStr = `${2021 - (Math.max(Math.floor((Math.random() * 65)), 15))}.2.2`
+    const dateStr = `${2021 - (Math.max(Math.floor((Math.random() * 75)), 16))}.2.2`
     const birthDate = new Date(dateStr).getTime()
     const name = `mario${Math.floor(Math.random() * 8000)}`
     const surname = `mario${Math.floor(Math.random() * 8000)}`
@@ -258,4 +258,5 @@ async function populate() {
   coupons.insertMany(couponList)
 }
 
-export default populate
+// export default populate
+createClientList(5)

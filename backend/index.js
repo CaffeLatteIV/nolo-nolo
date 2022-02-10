@@ -15,6 +15,7 @@ import image from './src/v1/image-api.js'
 import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
 import coupon from './src/v1/coupon-api.js'
+import populate from './src/database/addValues.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -57,7 +58,7 @@ mongoose.connect(URL, { useNewUrlParser: true })
 mongoose.connection.on('error', (err) => logger.error(err))
 mongoose.connection.once('open', () => {
   // mongoose.connection.useDb('nolo')
-  // populate()
+  populate()
   logger.info('connected to mongo')
 })
 // ------- API ------
