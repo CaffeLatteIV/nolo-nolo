@@ -13,6 +13,7 @@ import image from './src/v1/image-api.js'
 import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
 import coupon from './src/v1/coupon-api.js'
+import maintenance from './src/v1/maintenance-api.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -37,6 +38,7 @@ app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 app.use('/v1/offers', offers)
 app.use('/v1/coupons', coupon)
+app.use('v1/maintenance', maintenance)
 // ------- FINE API ------
 
 // ------- FRONTOFFICE ------

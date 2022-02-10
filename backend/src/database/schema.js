@@ -3,7 +3,21 @@
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
-
+const maintenanceSchema = new Schema({
+  productCode: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'inventories',
+  },
+  start: {
+    type: Number,
+    required: true,
+  },
+  end: {
+    type: Number,
+    default: 0,
+  },
+})
 const inventorySchema = new Schema({
   available: {
     type: Boolean,
@@ -285,6 +299,7 @@ const offerSchema = new Schema({
 })
 
 export {
+  maintenanceSchema,
   inventorySchema,
   rentSchema,
   clientSchema,
