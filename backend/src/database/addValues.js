@@ -161,7 +161,7 @@ async function createRentList(clients, inventory, offer, n = 500) {
     let priceTmp = 0
     for (let j = start; j < end; j += 86400000) {
       let priceDay = 0
-      const dayT = new Date(i)
+      const dayT = new Date(j)
       const isWeekend = dayT.getDay() === 0 || dayT.getDay() === 6
       if (spendablefidelityPoints > 0 && spendablefidelityPoints - product.price.fidelityPoints > 0) {
         spendablefidelityPoints -= product.price.fidelityPoints
