@@ -66,7 +66,7 @@ async function populate() {
     const product = productList[Math.floor(Math.random() * productList.length)]
     const { title } = product
     const productCode = product.id
-    const year = Math.floor(2023 - (Math.random() * 3))
+    const year = 2022
     const month = Math.floor(Math.random() * 12) + 1
     let day = Math.floor(Math.random() * 28) + 1
     const start = new Date(`${year}.${month}.${day}`).getTime()
