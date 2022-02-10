@@ -71,12 +71,14 @@ app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 app.use('/v1/offers', offers)
 app.use('/v1/coupons', coupon)
-// ------- FINE API ------
+
+// ------- DAHSBOARD ------
+// app.use(Express.static(path.join(global.rootDir, 'dashboard')))
+app.get('/dashboard/index.html', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'index.html')))
+app.get('/dashboard/clientStats.html', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'clientStats.html')))
 
 // ------- FORNTOFFICE ------
 app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
 app.get('/*', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
-
-// ------- BACKOFFICE ------
 
 app.listen(PORT, () => { logger.info(`Listening on port ${PORT}`) })
