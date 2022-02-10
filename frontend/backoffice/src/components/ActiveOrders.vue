@@ -117,21 +117,6 @@ export default {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
     },
-    getProductInfo() {
-      this.validateAccessToken();
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const inventoryURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-      axios
-        .get(inventoryURL + "/products", {
-          headers: { Authorization: "Bearer " + accessToken },
-        })
-        .then((response) => {
-          this.loadingInventory = false;
-          this.inventory = response.data.products;
-        });
-    },
     async validateAccessToken() {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");

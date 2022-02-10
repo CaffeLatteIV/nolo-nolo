@@ -1,7 +1,7 @@
 <template>
   <div class="container md-01dp mt-4 rounded p-4">
     <h1 class="mb-4 text-center">Informazioni Account</h1>
-    <form class="w-50 m-auto">
+    <div class="w-50 m-auto">
       <div class="row mb-4">
         <div class="col">
           <div>
@@ -122,7 +122,7 @@
       <button type="submit" class="btn btn-primary mb-4 text-black" @click="updateChanges">
         Conferma modifiche
       </button>
-    </form>
+    </div>
   </div>
 </template>
 
