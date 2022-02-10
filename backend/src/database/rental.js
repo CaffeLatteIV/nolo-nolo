@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
-import { rentSchema, inventorySchema } from './schema.js'
+import { rentSchema, inventorySchema, maintenanceSchema } from './schema.js'
 
 class Rental {
   constructor() {
@@ -15,6 +15,7 @@ class Rental {
     this.mongoose = mongoose.connect(this.URL, { useNewUrlParser: true, useUnifiedTopology: true })
     this.Inventory = mongoose.model('inventories', inventorySchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
+    this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
   }
 
   async addRentals({ earnedFidelityPoints, status, title, start, end, productCode, clientCode, price, fidelityPoints }) {
@@ -69,6 +70,11 @@ class Rental {
     const overlappingProduct = await this.Rentals.find({ start: { $gte: start, $lte: end }, productCode }) || [] // inizia nel periodo
     overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode })) // finisce nel periodo
     overlappingProduct.push(...await this.Rentals.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
+    // maintenance
+    overlappingProduct.push(...await this.Maintenance.find({ start: { $gte: start, $lte: end }, productCode })) // inizia nel periodo
+    overlappingProduct.push(...await this.Maintenance.find({ end: { $gte: start, $lte: end }, productCode })) // finisce nel periodo
+    overlappingProduct.push(...await this.Maintenance.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
+
     const product = await this.Inventory.findById(productCode).exec()
     return (new Set(overlappingProduct)).size < product.stock
   }
