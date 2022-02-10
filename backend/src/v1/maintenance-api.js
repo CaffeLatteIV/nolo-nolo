@@ -17,12 +17,12 @@ app.post('/add', authenticateAccessToken, authenticateUserRole, async (req, res)
   const newMaintenance = await db.addMaintenace(maintenance)
   return res.status(200).send({ maintenance: newMaintenance }) // per comodità
 })
-app.delete('/remove/:id', authenticateAccessToken, authenticateUserRole, async (req, res) => {
-  const { id } = req.params
-  if (!id) return res.status(404).send({ code: 404, msg: 'No coupon received' })
-  logger.info(`received a request to remove ${id}`)
+app.delete('/remove/:productCode', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { productCode } = req.params
+  if (!productCode) return res.status(404).send({ code: 404, msg: 'No productCode received' })
+  logger.info(`received a request to remove ${productCode}`)
 
-  const maintenanceDeleted = await db.removeMaintenance(id)
+  const maintenanceDeleted = await db.removeMaintenance(productCode)
   if (maintenanceDeleted === undefined) {
     logger.warn('No coupon found')
     return res.status(400).send({ code: 404, msg: 'No coupon found' })

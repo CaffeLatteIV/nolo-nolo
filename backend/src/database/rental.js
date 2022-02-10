@@ -72,8 +72,8 @@ class Rental {
     overlappingProduct.push(...await this.Rentals.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
     // maintenance
     overlappingProduct.push(...await this.Maintenance.find({ start: { $gte: start, $lte: end }, productCode })) // inizia nel periodo
-    overlappingProduct.push(...await this.Maintenance.find({ end: { $gte: start, $lte: end }, productCode })) // finisce nel periodo
-    overlappingProduct.push(...await this.Maintenance.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
+    overlappingProduct.push(...await this.Maintenance.find({ $or: [{ end: { $gte: start, $lte: end }, productCode }, { end: 0 }] })) // finisce nel periodo
+    overlappingProduct.push(...await this.Maintenance.find({ $or: [{ start: { $lte: start }, end: { $gte: end }, productCode }, { start: { $lte: start }, end: 0 }] })) // inizia prima e finisce dopo
 
     const product = await this.Inventory.findById(productCode).exec()
     return (new Set(overlappingProduct)).size < product.stock

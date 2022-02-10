@@ -16,8 +16,8 @@ class Maintenance {
     return new this.Maintenance({ productCode, start, end }).save()
   }
 
-  async removeMaintenance(id) {
-    return this.Maintenance.findByIdAndDelete(id).exec()
+  async removeMaintenance(productCode) {
+    return this.Maintenance.deleteMany({ productCode }).exec()
   }
 
   async getMaintenanceList(productCode) {
