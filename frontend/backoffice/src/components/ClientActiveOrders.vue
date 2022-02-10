@@ -74,7 +74,9 @@
     </button>
   </div>
   <div v-else>
-    <p class="p-2 m-0 fs-4">Non ci sono noleggi attivi</p>
+    <p class="p-2 m-0 fs-4">
+      Non sono presenti noleggi attivi per questo cliente
+    </p>
   </div>
 </template>
 
@@ -84,9 +86,12 @@ import Cookies from "universal-cookie";
 import dayjs from "dayjs";
 
 export default {
-  name: "ActiveOrders",
+  name: "ClientActiveOrders",
+  props: ["id"],
   data() {
     return {
+      loadingInventory: true,
+      loadingRentals: true,
       inventory: [],
       activeRentals: [],
       showAll: false,
@@ -107,18 +112,36 @@ export default {
         headers: { Authorization: "Bearer " + accessToken },
       })
       .then((response) => {
+        this.loadingRentals = false;
         console.log(response.data.rentals);
-        console.log("date ",new Date().getTime())
-        this.activeRentals = response.data.rentals.filter(
-          (rent) =>
-            rent.start <= new Date().getTime() && rent.end >= new Date().getTime()
-        );
+        this.activeRentals = response.data.rentals
+          .filter((rent) => rent.clientCode === this.$props.id)
+          .filter(
+            (rent) =>
+              rent.start < new Date().getTime() &&
+              rent.end > new Date().getTime()
+          );
         console.log("activeRentals ", this.activeRentals);
       });
   },
   methods: {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
+    },
+    getProductInfo() {
+      this.validateAccessToken();
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const inventoryURL =
+        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+      axios
+        .get(inventoryURL + "/products", {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        .then((response) => {
+          this.loadingInventory = false;
+          this.inventory = response.data.products;
+        });
     },
     async validateAccessToken() {
       const cookies = new Cookies();
