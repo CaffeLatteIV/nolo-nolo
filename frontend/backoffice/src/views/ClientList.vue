@@ -27,7 +27,7 @@
                   Prenotazione attiva
                 </div>
               </div>
-              <div v-show="2 === 2" class="p-2">
+              <div v-show="checkForActive(n-1)" class="p-2">
                 <div class="tag-two rounded px-1 text-black">
                   Noleggio in corso
                 </div>
@@ -119,15 +119,12 @@ export default {
     checkForBookings(n) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       const id = this.clientList[n].id
-      console.log(id)
-      const clientRentals = this.rentalsAll.filter((rent) => rent.clientCode == id)
-      console.log("rentalsAll", this.rentalsAll)
-      console.log("rentals", clientRentals)
-      if (clientRentals.length === 0){
-        return false
-      } else {
-        return true
-      }
+      return (this.rentalsAll.filter((rent) => rent.clientCode === id && rent.end > new Date().getTime()).length > 0)
+    },
+    checkForActive(n) {
+      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
+      const id = this.clientList[n].id
+      return (this.rentalsAll.filter((rent) => rent.clientCode === id && rent.end <= new Date().getTime()).length > 0)
     },
   },
 };
