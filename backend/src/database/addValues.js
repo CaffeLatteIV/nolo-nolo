@@ -225,6 +225,7 @@ function createCouponList() {
   ]
 }
 async function populate() {
+  await mongoose.connect('mongodb://localhost:27017/nolo-nolo')
   const inventory = mongoose.model('inventories', inventorySchema)
   const offer = mongoose.model('offer', offerSchema)
   const rentals = mongoose.model('rentals', rentSchema)
