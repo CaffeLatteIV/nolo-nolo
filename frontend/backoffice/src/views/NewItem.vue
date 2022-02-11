@@ -166,7 +166,6 @@ export default {
       condition: "",
       numInStock: 0,
       image: null,
-      media: { img: null },
     };
   },
   methods: {
@@ -192,7 +191,6 @@ export default {
         title: this.title,
         description: this.description,
         fidelityPoints: this.guadagnoFedeltà,
-        media: this.media,
       };
       const formData = new FormData();
       formData.append("file", this.image);
@@ -203,7 +201,7 @@ export default {
             "Content-type": "multipart/form-data",
           },
         });
-        this.media.img = data.img;
+        productData["media"] = {img: data.img};
       }
       axios.post(
         `${itemURL}/add`,
