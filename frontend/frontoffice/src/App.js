@@ -16,6 +16,7 @@ import Orders from './pages/Orders.js'
 import CategoryPage from './pages/CategoryPage.js'
 import Account from './pages/Account.js'
 import SearchPage from './pages/SearchPage.js'
+import Payment from './pages/Payment.js'
 
 function App() {
   const newLang = 'it'
@@ -54,6 +55,7 @@ function App() {
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
           <Route path="/receipt" element={<RequireAuth><Receipt /></RequireAuth>} />
           <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

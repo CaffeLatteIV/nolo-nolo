@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import ActiveOrders from '../components/ActiveOrders.js'
-import BookedOrders from '../components/BookedOrders.js'
+import OlderOrders from '../components/OlderOrders.js'
 import validateAccessToken from '../components/Tokens.js'
 
 const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
@@ -77,7 +77,7 @@ function Orders() {
               (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.bookedOrders.map(
                   ({ id, title, start, end, price, media, fidelityPoints, productCode }) => (
-                    <BookedOrders
+                    <ActiveOrders
                       key={id}
                       id={productCode}
                       title={title}
@@ -98,7 +98,7 @@ function Orders() {
             {
               (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
                 ({ id, title, start, end, media, price, fidelityPoints, status, productCode }) => (
-                  <BookedOrders
+                  <OlderOrders
                     key={id}
                     id={productCode}
                     img={media.img}

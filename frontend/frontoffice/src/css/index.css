@@ -231,3 +231,6 @@ Source: https://material.io/design/color/dark-theme.html*/
   margin: auto;
   overflow: hidden;
 }
+.zIndex {
+  z-index: 9999;
+}
