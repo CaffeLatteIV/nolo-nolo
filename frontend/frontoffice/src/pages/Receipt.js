@@ -41,11 +41,14 @@ function Receipt() {
       } else {
         priceDay = newRent.price.weekday
       }
-      offers.forEach((offer) => {
-        if (i >= offer.start && i <= offer.end) {
-          priceDay = (priceDay * 100) / (100 - offer.discount)
-        }
-      })
+      if (offers) {
+        offers.forEach((offer) => {
+          if (i >= offer.start && i <= offer.end) {
+            priceDay = (priceDay * 100) / (100 - offer.discount)
+          }
+        })
+      }
+
       priceTmp += priceDay
     }
     if (coupon) {

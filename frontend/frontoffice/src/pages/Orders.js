@@ -25,22 +25,24 @@ function Orders() {
     const bookedOrdersList = []
     const activeOrdersList = []
     const olderOrdersList = []
-    data.forEach((order) => {
-      const today = Date.now()
-      const { end, start } = order
-      if (today > end) {
-        olderOrdersList.push(order)
-      } else if (today < start) {
-        bookedOrdersList.push(order)
-      } else {
-        activeOrdersList.push(order)
-      }
-    })
-    setProductList({
-      bookedOrders: bookedOrdersList,
-      activeOrders: activeOrdersList,
-      olderOrders: olderOrdersList,
-    })
+    if (data) {
+      data.forEach((order) => {
+        const today = Date.now()
+        const { end, start } = order
+        if (today > end) {
+          olderOrdersList.push(order)
+        } else if (today < start) {
+          bookedOrdersList.push(order)
+        } else {
+          activeOrdersList.push(order)
+        }
+      })
+      setProductList({
+        bookedOrders: bookedOrdersList,
+        activeOrders: activeOrdersList,
+        olderOrders: olderOrdersList,
+      })
+    }
   }, [])
   return (
     <div className="container p-2 mt-2">
