@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
-function ActiveOrders({ id, title, price, start, end, img }) {
+function ActiveOrders({ id, title, price, start, paid, end, img }) {
+  function handlePay() {
+    // TODO: handle pay
+  }
   return (
     <>
       <Link to={`/product?id=${id}`} className="product-card-link">
@@ -20,6 +23,7 @@ function ActiveOrders({ id, title, price, start, end, img }) {
               Da: { dayjs(start).format('DD/MM/YYYY') }&nbsp;
               A: { dayjs(end).format('DD/MM/YYYY') }
             </div>
+            {paid ? '' : (<button type="button" onClick={handlePay}>Paga</button>)}
           </div>
         </div>
       </Link>
@@ -34,6 +38,7 @@ ActiveOrders.propTypes = {
   price: PropTypes.number.isRequired,
   start: PropTypes.number.isRequired,
   end: PropTypes.number.isRequired,
+  paid: PropTypes.bool.isRequired,
 }
 
 export default ActiveOrders

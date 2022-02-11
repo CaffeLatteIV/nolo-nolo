@@ -161,9 +161,9 @@ async function createRentList(clients, inventory, offer, n = 500) {
     let priceTmp = 0
     for (let j = start; j < end; j += 86400000) {
       let priceDay = 0
-      const dayT = new Date(i)
+      const dayT = new Date(j)
       const isWeekend = dayT.getDay() === 0 || dayT.getDay() === 6
-      if (spendablefidelityPoints > 0 && spendablefidelityPoints - product.price.fidelityPoints > 0) {
+      if (spendablefidelityPoints - product.price.fidelityPoints > 0) {
         spendablefidelityPoints -= product.price.fidelityPoints
         spentFidelityPointsTmp += product.price.fidelityPoints
       } else if (isWeekend) {
@@ -173,10 +173,10 @@ async function createRentList(clients, inventory, offer, n = 500) {
       }
       offers.forEach((offerTmp) => {
         if (j >= offerTmp.start && j <= offerTmp.end) {
-          priceDay = (priceDay * 100) / (100 - priceDay.discount)
+          priceDay = Math.floor((priceDay * 100) / (100 - offerTmp.discount))
         }
       })
-      priceTmp += priceDay || 0
+      priceTmp += priceDay
     }
     const fidelityPoints = spentFidelityPointsTmp
     const price = priceTmp
@@ -225,14 +225,15 @@ function createCouponList() {
   ]
 }
 async function populate() {
+  await mongoose.connect('mongodb://localhost:27017/nolo-nolo')
   const inventory = mongoose.model('inventories', inventorySchema)
   const offer = mongoose.model('offer', offerSchema)
   const rentals = mongoose.model('rentals', rentSchema)
-  // const employee = mongoose.model('employees', employeeSchema)
+  const employee = mongoose.model('employees', employeeSchema)
   const clients = mongoose.model('clients', clientSchema)
   const coupons = mongoose.model('coupons', couponSchema)
-  // const password2 = await generateHash('gino3')
-  // await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
+  const password2 = await generateHash('gino3')
+  await employee.insertMany([{ email: 'mario@gmail.com', password: password2, role: 'manager' }])
 
   logger.info('Uploading products')
   const inventoryList = createInventoryList()
@@ -258,5 +259,5 @@ async function populate() {
   coupons.insertMany(couponList)
 }
 
-// export default populate
-createClientList(5)
+export default populate
+// populate()

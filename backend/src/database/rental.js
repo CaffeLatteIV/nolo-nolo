@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
-import { rentSchema, inventorySchema } from './schema.js'
+import { rentSchema, inventorySchema, maintenanceSchema } from './schema.js'
 
 class Rental {
   constructor() {
     this.Inventory = mongoose.model('inventories', inventorySchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
+    this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
   }
 
   async addRentals({ earnedFidelityPoints, status, title, start, end, productCode, clientCode, price, fidelityPoints }) {
@@ -60,6 +61,11 @@ class Rental {
     const overlappingProduct = await this.Rentals.find({ start: { $gte: start, $lte: end }, productCode }) || [] // inizia nel periodo
     overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode })) // finisce nel periodo
     overlappingProduct.push(...await this.Rentals.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
+    // maintenance
+    const hasMaintenance = await this.Maintenance.find({ start: { $gte: start, $lte: end }, productCode }) || [] // inizia nel periodo
+    hasMaintenance.push(...await this.Maintenance.find({ $or: [{ end: { $gte: start, $lte: end }, productCode }, { end: 0 }] })) // finisce nel periodo
+    hasMaintenance.push(...await this.Maintenance.find({ $or: [{ start: { $lte: start }, end: { $gte: end }, productCode }, { start: { $lte: start }, end: 0 }] })) // inizia prima e finisce dopo
+    if (hasMaintenance.length > 0) return false // se il prodotto in quella data è in manutenzione
     const product = await this.Inventory.findById(productCode).exec()
     return (new Set(overlappingProduct)).size < product.stock
   }

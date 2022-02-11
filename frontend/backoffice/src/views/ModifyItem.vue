@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4 rounded md-01dp">
     <h1 class="p-4 text-center">Modifica Oggetto</h1>
-    <form class="w-50 m-auto" id="newItemForm">
+    <div class="w-50 m-auto" id="newItemForm">
       <div class="row">
         <div class="col">
           <label for="image" class="form-label p-2 w-100">
@@ -35,7 +35,6 @@
         />
         Descrizione
       </label>
-
       <div class="row">
         <div class="col">
           <label for="priceWeekDay" class="form-label p-2">
@@ -105,14 +104,28 @@
           </label>
         </div>
       </div>
-      <button
-        type="submit"
-        class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
-        @click="updateChanges"
-      >
-        Modifica
-      </button>
-    </form>
+      <div class="mb-4 ms-2 form-switch">
+        <input
+          type="checkbox"
+          id="flexSwitchCheckChecked"
+          class="form-check-input mt-3"
+          v-model="available"
+        />
+        <label for="flexSwitchCheckChecked" class="form-check-label p-2 mt-1">
+          Disponibile
+        </label>
+      </div>
+      <div class="px-2">
+        <button
+          type="submit"
+          class="bg-site-primary border-0 mb-4 rounded py-1 w-100"
+          @click="updateChanges"
+        >
+          Modifica
+        </button>
+        <p class="text-center w-100 pb-4 updated" v-show="updated" :key="updated">Modifiche effettuate con successo!</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -124,6 +137,7 @@ export default {
   name: "ModifyItem",
   data() {
     return {
+      updated: false,
       title: "",
       description: "",
       prezzoFeriali: 0,
@@ -135,42 +149,42 @@ export default {
       condition: "",
       numInStock: 0,
       image: null,
-      media: {img: ''}
+      media: { img: null },
     };
   },
-  mounted() {
+  async mounted() {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const itemURL =
-      process.env.INVENTORY_URL || "http://localhost:8000/v1/inventories";
-    axios
-      .get(itemURL + "/products/" + this.$route.params.id, {
+      process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+    const { data } = await axios.get(
+      itemURL + "/products/" + this.$route.params.id,
+      {
         headers: { Authorization: "Bearer " + accessToken },
-      })
-      .then((response) => {
-        {
-          const product = response.data.products;
-          console.log(product);
-          this.loading = false;
-          this.available = product.available;
-          this.title = product.title;
-          this.description = product.description;
-          this.prezzoFeriali = product.price.weekday;
-          this.prezzoFestivi = product.price.weekend;
-          this.costoFedeltà = product.price.points;
-          this.guadagnoFedeltà = product.fidelityPoints;
-          this.category = product.category;
-          this.condition = product.condition;
-          this.numInStock = product.stock;
-        }
-      });
+      }
+    );
+    const product = data.products;
+    console.log(product)
+    this.loading = false;
+    this.available = product.available;
+    this.title = product.title;
+    this.description = product.description;
+    this.prezzoFeriali = product.price.weekday;
+    this.prezzoFestivi = product.price.weekend;
+    this.costoFedeltà = product.price.points;
+    this.guadagnoFedeltà = product.fidelityPoints;
+    this.category = product.category;
+    this.condition = product.condition;
+    this.numInStock = product.stock;
+    this.media = product.media
   },
   methods: {
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
       console.log("image ", this.image);
+      console.log(this.available);
     },
-    updateChanges: function () {
+    updateChanges: async function () {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const itemURL =
@@ -189,30 +203,30 @@ export default {
         description: this.description,
         stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
-        media: this.media
+        media: this.media,
       };
       const formData = new FormData();
       formData.append("file", this.image);
-      axios
-        .post(`${itemURL}/image/upload`, formData, {
+      if (this.image) {
+        const { data } = await axios.post(`${itemURL}/image/upload`, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-type": "multipart/form-data",
           },
-        })
-        .then((response) => {
-          this.media.img = response.data.img;
-          axios.post(
-            `${itemURL}/products/update`,
-            { product: productData },
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-type": "application/json",
-              },
-            }
-          );
         });
+        this.media.img = data.img;
+      }
+      axios.post(
+        `${itemURL}/products/update`,
+        { product: productData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+      this.updated = true
     },
   },
 };
@@ -231,5 +245,8 @@ textarea::-webkit-scrollbar {
 textarea::-webkit-scrollbar-thumb {
   background: grey;
   border-radius: 5em;
+}
+.updated {
+  color: #92ff51;
 }
 </style>

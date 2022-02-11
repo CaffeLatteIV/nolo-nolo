@@ -29,12 +29,12 @@ function Orders() {
     data.forEach((order) => {
       const today = Date.now()
       const { end, start } = order
-      if (today >= start && today <= end) {
-        activeOrdersList.push(order)
+      if (today > end) {
+        olderOrdersList.push(order)
       } else if (today < start) {
         bookedOrdersList.push(order)
       } else {
-        olderOrdersList.push(order)
+        activeOrdersList.push(order)
       }
     })
     setProductList({
@@ -53,7 +53,7 @@ function Orders() {
             {
               (!productList.activeOrders || productList.activeOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.activeOrders.map(
-                  ({ id, title, start, end, price, media, fidelityPoints, paid, productCode }) => (
+                  ({ id, title, start, end, price, media, fidelityPoints, status, productCode }) => (
                     <ActiveOrders
                       key={id}
                       id={productCode}
@@ -63,7 +63,7 @@ function Orders() {
                       img={media.img}
                       end={end}
                       fidelityPoints={fidelityPoints}
-                      paid={paid}
+                      paid={status === 'Pagato'}
                     />
                   ),
                 )
@@ -76,7 +76,7 @@ function Orders() {
             {
               (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.bookedOrders.map(
-                  ({ id, title, start, end, price, media, fidelityPoints, paid, productCode }) => (
+                  ({ id, title, start, end, price, media, status, fidelityPoints, productCode }) => (
                     <BookedOrders
                       key={id}
                       id={productCode}
@@ -86,7 +86,7 @@ function Orders() {
                       start={start}
                       end={end}
                       fidelityPoints={fidelityPoints}
-                      paid={paid}
+                      paid={status === 'Pagato'}
                     />
                   ),
                 )
@@ -98,7 +98,7 @@ function Orders() {
             <h2>Vecchi ordini</h2>
             {
               (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
-                ({ id, title, start, end, media, price, fidelityPoints, paid, productCode }) => (
+                ({ id, title, start, end, media, price, fidelityPoints, status, productCode }) => (
                   <BookedOrders
                     key={id}
                     id={productCode}
@@ -108,7 +108,7 @@ function Orders() {
                     start={start}
                     end={end}
                     fidelityPoints={fidelityPoints}
-                    paid={paid}
+                    paid={status === 'Pagato'}
                   />
                 ),
               )

@@ -72,11 +72,11 @@
                   border-0
                   text-white
                 "
-                @click="deleteItem(this.inventory[n - 1].id)"
+                @click="deleteItem(this.inventory[n-1].id)"
                 aria-label="Cancella Oggetto"
                 title="Cancella oggetto"
               >
-                <span class="material-icons">delete</span>
+                <span class="material-icons p-1">delete</span>
               </button>
             </div>
           </div>

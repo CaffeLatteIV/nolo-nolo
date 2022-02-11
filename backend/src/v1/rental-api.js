@@ -31,9 +31,17 @@ app.post('/add', authenticateAccessToken, async (req, res) => {
 app.get('/clients/:clientCode', authenticateAccessToken, async (req, res) => {
   try {
     const { clientCode } = req.params
+    if (!clientCode) {
+      logger.error('Client code is missing')
+      return res.status(404).send({ code: 404, msg: 'Client code is missing' })
+    }
     const rent = await db.findUserRentals(clientCode)
-    if (rent === null) return res.status(404).send({ code: 400, msg: 'Not found' })
-    return res.status(200).send(rent)
+    if (rent === null) {
+      logger.warn('Client has made no rental')
+      return res.status(404).send({ code: 400, msg: 'Not found' })
+    }
+    logger.info('Sending user rentals')
+    return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)

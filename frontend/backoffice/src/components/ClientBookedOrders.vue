@@ -70,8 +70,11 @@
       Riduci
     </button>
   </div>
+
   <div v-else>
-    <p class="p-2 m-0 fs-4">Non ci sono noleggi attivi</p>
+    <p class="p-2 m-0 fs-4">
+      Non sono presenti prenotazioni attive per questo cliente
+    </p>
   </div>
 </template>
 
@@ -81,7 +84,8 @@ import Cookies from "universal-cookie";
 import dayjs from "dayjs";
 
 export default {
-  name: "BookedOrders",
+  name: "ClientBookedOrders",
+  props: ["id"],
   data() {
     return {
       loadingInventory: true,
@@ -140,10 +144,10 @@ export default {
         })
         .then((response) => {
           this.loadingRentals = false;
-          this.bookedRentals = response.data.rentals.filter(
-            (rent) => rent.start > new Date().getTime()
-          );
-          console.log("bookedRentals ", this.bookedRentals);
+          this.bookedRentals = response.data.rentals
+            .filter((rent) => rent.clientCode === this.$props.id)
+            .filter((rent) => rent.start > new Date().getTime());
+          console.log("clientbookedRentals ", this.bookedRentals);
         });
     },
     async deleteBooking(id) {

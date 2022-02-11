@@ -39,7 +39,7 @@ app.get('/categories', async (req, res) => {
 })
 app.get('/products', async (req, res) => {
   logger.info('Sending list of all products')
-  const products = await db.findAllAvailable()
+  const products = await db.findAll()
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })
 })

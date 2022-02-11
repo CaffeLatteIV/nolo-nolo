@@ -41,9 +41,8 @@ class Inventory {
     return this.Inventory.find({ category }).exec()
   }
 
-  async findAllAvailable(available = undefined) {
-    if (available !== undefined) return this.Inventory.find({ available }).exec()
-    return this.Inventory.find().exec()
+  async findAll() {
+    return this.Inventory.find({ available: true }).exec()
   }
 
   async findAllTitle(title, available = undefined) {
