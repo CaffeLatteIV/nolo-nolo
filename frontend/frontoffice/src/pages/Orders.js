@@ -25,9 +25,8 @@ function Orders() {
     const bookedOrdersList = []
     const activeOrdersList = []
     const olderOrdersList = []
-    if (data) {
-      console.log(data)
-      data.forEach((order) => {
+    if (data && data.rent) {
+      data.rent.forEach((order) => {
         const today = Date.now()
         const { end, start } = order
         if (today > end) {
