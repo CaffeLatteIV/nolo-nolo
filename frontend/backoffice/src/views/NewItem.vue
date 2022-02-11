@@ -171,7 +171,7 @@ export default {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const itemURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+        process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
       const productData = {
         id: this.$route.params.id,
         available: this.available,

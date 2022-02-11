@@ -16,6 +16,7 @@ import operation from './src/v1/operation-api.js'
 import offers from './src/v1/offer-api.js'
 import coupon from './src/v1/coupon-api.js'
 import maintenance from './src/v1/maintenance-api.js'
+// import populate from './src/database/addValues.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -58,7 +59,7 @@ mongoose.connect(URL, { useNewUrlParser: true })
 mongoose.connection.on('error', (err) => logger.error(err))
 mongoose.connection.once('open', () => {
   // mongoose.connection.useDb('nolo')
-  populate()
+  // populate()
   logger.info('connected to mongo')
 })
 // ------- API ------
@@ -75,10 +76,14 @@ app.use('/v1/coupons', coupon)
 app.use('v1/maintenance', maintenance)
 // ------- FINE API ------
 
+// ------- FORNTOFFICE ------
+app.use(Express.static(path.join(global.rootDir, 'backoffice')))
+app.get('/admin/*', (req, res) => res.sendFile(path.join(global.rootDir, 'backoffice', 'index.html')))
+
 // ------- DAHSBOARD ------
 app.use(Express.static(path.join(global.rootDir, 'dashboard')))
-app.get('/dashboard/index.html', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'index.html')))
-app.get('/dashboard/clientStats.html', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'clientStats.html')))
+app.get('/dashboard/index', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'index.html')))
+app.get('/dashboard/clientStats', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'clientStats.html')))
 
 // ------- FORNTOFFICE ------
 app.use(Express.static(path.join(global.rootDir, 'frontoffice')))

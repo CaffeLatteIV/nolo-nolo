@@ -106,7 +106,7 @@ export default {
       const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     const inventoryURL =
-      process.env.INVENTORY_URL || "http://localhost:8000/v1/inventories";
+      process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
     axios
       .get(inventoryURL + "/products", {
         headers: { Authorization: "Bearer " + accessToken },
@@ -121,7 +121,7 @@ export default {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+        process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
       axios.delete(inventoryURL + "/delete/" + id,
         {},
         {

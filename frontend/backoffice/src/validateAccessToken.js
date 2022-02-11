@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie'
 export default async function validateAccessToken() {
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
-    const URL = process.env.TOKEN_URL || 'http://localhost:5000/v1/token'
+    const URL = process.env.TOKEN_URL || 'https://site202156.tw.cs.unibo.it/v1/token'
     try {
     const { data } = await axios.post(`${URL}/validate`, { accessToken });
     if (data.code !== 200) {

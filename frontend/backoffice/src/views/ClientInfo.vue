@@ -152,7 +152,7 @@ export default {
     console.log(accessToken);
     console.log(cookies.get("client"));
     const clientURL =
-      process.env.CLIENT_URL || "http://localhost:8000/v1/clients";
+      process.env.CLIENT_URL || "https://site202156.tw.cs.unibo.it/v1/clients";
     axios
       .get(clientURL + "/lookup/" + this.$route.params.id, {
         headers: { Authorization: "Bearer " + accessToken },
@@ -179,7 +179,7 @@ export default {
       const accessToken = cookies.get("accessToken");
       const brthDateNumber = new Date(this.clientBirthday).getTime();
       const clientURL =
-        process.env.CLIENT_URL || "http://localhost:8000/v1/clients";
+        process.env.CLIENT_URL || "https://site202156.tw.cs.unibo.it/v1/clients";
       const clientData = {
         id: this.$route.params.id,
         name: this.clientName,
@@ -204,7 +204,7 @@ export default {
     async validateAccessToken() {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
+      const URL = process.env.TOKEN_URL || "https://site202156.tw.cs.unibo.it/v1/token";
       try {
         const { data } = await axios.post(`${URL}/validate`, { accessToken });
         if (data.code !== 200) {
