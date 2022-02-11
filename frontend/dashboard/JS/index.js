@@ -87,7 +87,7 @@ async function setBestsellers() {
   let res = "";
   bestSellerList.bestSellers.forEach((product) => {
     res += `<div class="col">
-    <a href="./itemStats.html?title=${encodeURIComponent(product.title)}&id=${encodeURIComponent(product.id)}" class="product-card-link p-2">
+    <a href="/dashboard/item?title=${encodeURIComponent(product.title)}&id=${encodeURIComponent(product.id)}" class="product-card-link p-2">
       <div class="card p-4 border-0 md-02dp rounded mx-2" style="height: 600px;">
         <img src="${product.media.img}" class=" w-100" alt="Item Pic" />
         <div class="p-2 card-body">
