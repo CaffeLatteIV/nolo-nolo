@@ -26,6 +26,7 @@ function Orders() {
     const activeOrdersList = []
     const olderOrdersList = []
     if (data) {
+      console.log(data)
       data.forEach((order) => {
         const today = Date.now()
         const { end, start } = order
