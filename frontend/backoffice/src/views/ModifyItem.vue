@@ -182,7 +182,6 @@ export default {
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
       console.log("image ", this.image);
-      console.log(this.available);
     },
     updateChanges: async function () {
       const cookies = new Cookies();

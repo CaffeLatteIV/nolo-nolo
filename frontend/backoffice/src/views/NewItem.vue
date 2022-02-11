@@ -134,6 +134,13 @@
         >
           Crea
         </button>
+        <p
+          class="text-center w-100 pb-4 added"
+          v-show="added"
+          :key="added"
+        >
+          Modifiche effettuate con successo!
+        </p>
       </div>
     </div>
   </div>
@@ -147,6 +154,7 @@ export default {
   name: "NewItem",
   data() {
     return {
+      added: false,
       title: "",
       description: "",
       prezzoFeriali: 0,
@@ -154,26 +162,25 @@ export default {
       costoFedeltà: 0,
       guadagnoFedeltà: 0,
       category: "",
-      available: false,
+      available: true,
       condition: "",
       numInStock: 0,
       image: null,
-      media: { img: "" },
+      media: { img: null },
     };
   },
-  mounted() {},
   methods: {
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
       console.log("image ", this.image);
     },
-    updateChanges: function () {
+    updateChanges: async function () {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const itemURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
       const productData = {
-        id: this.$route.params.id,
+
         available: this.available,
         price: {
           weekday: this.prezzoFeriali,
@@ -184,33 +191,31 @@ export default {
         category: this.category,
         title: this.title,
         description: this.description,
-        stock: this.numInStock,
         fidelityPoints: this.guadagnoFedeltà,
         media: this.media,
       };
       const formData = new FormData();
       formData.append("file", this.image);
-      axios
-        .post(`${itemURL}/image/upload`, formData, {
+      if (this.image) {
+        const { data } = await axios.post(`${itemURL}/image/upload`, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-type": "multipart/form-data",
           },
-        })
-        .then((response) => {
-          this.media.img = response.data.img;
-          console.log(this.media.img);
-          axios.post(
-            `${itemURL}/add`,
-            { item: productData },
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-type": "application/json",
-              },
-            }
-          );
         });
+        this.media.img = data.img;
+      }
+      axios.post(
+        `${itemURL}/add`,
+        { item: productData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+      this.added = true;
     },
   },
 };
@@ -229,5 +234,8 @@ textarea::-webkit-scrollbar {
 textarea::-webkit-scrollbar-thumb {
   background: grey;
   border-radius: 5em;
+}
+.added {
+  color: #92ff51;
 }
 </style>
