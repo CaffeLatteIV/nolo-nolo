@@ -26,10 +26,8 @@ class Inventory {
     }).save()
   }
 
-  async findOneAvailable(title, category = undefined, id = undefined) {
-    if (id) return this.Inventory.findById(id).exec()
-    if (category) return this.Inventory.findOne({ category, available: true }).exec()
-    return this.Inventory.findOne({ title, available: true }).exec()
+  async findOne(id = undefined) {
+    return this.Inventory.findById(id).exec()
   }
 
   async listAllCategoryNames(unique = undefined) {
