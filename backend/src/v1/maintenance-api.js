@@ -32,11 +32,20 @@ app.delete('/remove/:productCode', authenticateAccessToken, authenticateUserRole
 app.get('/get/:productCode', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { productCode } = req.params
   if (!productCode) {
-    logger.warn('Received a request to show mintenace for a product but it\'s code is missing')
+    logger.warn('Product code is missing')
     return res.status(404).send({ code: 404, msg: 'No coupon received' })
   }
   const maintenanceList = await db.getMaintenanceList(productCode)
   return res.status(200).send({ maintenanceList })
+})
+app.post('/verify/rent/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { rentID } = req.params
+  if (!rentID) {
+    logger.warn('Rent ID is missing')
+    return res.status(404).send({ code: 404, msg: 'No coupon received' })
+  }
+  const verifyRent = await db.verifyRent(rentID)
+  return res.status(200).send({ verifyRent })
 })
 
 export default app

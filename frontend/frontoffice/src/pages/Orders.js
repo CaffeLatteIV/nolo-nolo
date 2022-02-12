@@ -4,7 +4,7 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 
 import ActiveOrders from '../components/ActiveOrders.js'
-import BookedOrders from '../components/BookedOrders.js'
+import OlderOrders from '../components/OlderOrders.js'
 import validateAccessToken from '../components/Tokens.js'
 
 const RENTALS_URL = process.env.RENTALS_URL || 'https://site202156.tw.cs.unibo.it/v1/rentals'
@@ -26,22 +26,24 @@ function Orders() {
     const bookedOrdersList = []
     const activeOrdersList = []
     const olderOrdersList = []
-    data.forEach((order) => {
-      const today = Date.now()
-      const { end, start } = order
-      if (today > end) {
-        olderOrdersList.push(order)
-      } else if (today < start) {
-        bookedOrdersList.push(order)
-      } else {
-        activeOrdersList.push(order)
-      }
-    })
-    setProductList({
-      bookedOrders: bookedOrdersList,
-      activeOrders: activeOrdersList,
-      olderOrders: olderOrdersList,
-    })
+    if (data && data.rent) {
+      data.rent.forEach((order) => {
+        const today = Date.now()
+        const { end, start } = order
+        if (today > end) {
+          olderOrdersList.push(order)
+        } else if (today < start) {
+          bookedOrdersList.push(order)
+        } else {
+          activeOrdersList.push(order)
+        }
+      })
+      setProductList({
+        bookedOrders: bookedOrdersList,
+        activeOrders: activeOrdersList,
+        olderOrders: olderOrdersList,
+      })
+    }
   }, [])
   return (
     <div className="container p-2 mt-2">
@@ -53,7 +55,7 @@ function Orders() {
             {
               (!productList.activeOrders || productList.activeOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.activeOrders.map(
-                  ({ id, title, start, end, price, media, fidelityPoints, status, productCode }) => (
+                  ({ id, title, start, end, price, media, fidelityPoints, productCode }) => (
                     <ActiveOrders
                       key={id}
                       id={productCode}
@@ -63,7 +65,6 @@ function Orders() {
                       img={media.img}
                       end={end}
                       fidelityPoints={fidelityPoints}
-                      paid={status === 'Pagato'}
                     />
                   ),
                 )
@@ -76,8 +77,8 @@ function Orders() {
             {
               (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
                 : productList.bookedOrders.map(
-                  ({ id, title, start, end, price, media, status, fidelityPoints, productCode }) => (
-                    <BookedOrders
+                  ({ id, title, start, end, price, media, fidelityPoints, productCode }) => (
+                    <ActiveOrders
                       key={id}
                       id={productCode}
                       title={title}
@@ -86,7 +87,6 @@ function Orders() {
                       start={start}
                       end={end}
                       fidelityPoints={fidelityPoints}
-                      paid={status === 'Pagato'}
                     />
                   ),
                 )
@@ -99,9 +99,10 @@ function Orders() {
             {
               (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
                 ({ id, title, start, end, media, price, fidelityPoints, status, productCode }) => (
-                  <BookedOrders
+                  <OlderOrders
                     key={id}
-                    id={productCode}
+                    id={id}
+                    productCode={productCode}
                     img={media.img}
                     title={title}
                     price={price}

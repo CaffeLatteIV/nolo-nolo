@@ -51,13 +51,13 @@ class Operation {
     const data = []
     const msYear = 31556952000 // ms in a year
     const today = new Date().getTime()
-    data.push((await this.Clients.find({ birthDate: { $lte: (today - (17 * msYear)) } }).exec()).length || 0)
-    data.push((await this.Clients.find({ birthDate: { $gte: (today - (18 * msYear)), $lte: (today - (24 * msYear)) } }).exec()).length || 0)
-    data.push((await this.Clients.find({ birthDate: { $gte: (today - (24 * msYear)), $lte: (today - (34 * msYear)) } }).exec()).length || 0)
-    data.push((await this.Clients.find({ birthDate: { $gte: (today - (34 * msYear)), $lte: (today - (44 * msYear)) } }).exec()).length || 0)
-    data.push((await this.Clients.find({ birthDate: { $gte: (today - (44 * msYear)), $lte: (today - (54 * msYear)) } }).exec()).length || 0)
-    data.push((await this.Clients.find({ birthDate: { $gte: (today - (54 * msYear)), $lte: (today - (64 * msYear)) } }).exec()).length || 0)
-    data.push((await this.Clients.find({ birthDate: { $gte: (today - (65 * msYear)) } }).exec()).length || 0)
+    data.push((await this.Clients.find({ birthDate: { $gte: (today - (17 * msYear)) } }).exec()).length)
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (18 * msYear)), $gte: (today - (24 * msYear)) } }).exec()).length)
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (24 * msYear)), $gte: (today - (34 * msYear)) } }).exec()).length)
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (34 * msYear)), $gte: (today - (44 * msYear)) } }).exec()).length)
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (44 * msYear)), $gte: (today - (54 * msYear)) } }).exec()).length)
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (54 * msYear)), $gte: (today - (64 * msYear)) } }).exec()).length)
+    data.push((await this.Clients.find({ birthDate: { $lte: (today - (65 * msYear)) } }).exec()).length)
     const labels = ['0-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
     return { data, labels }
   }
@@ -98,12 +98,14 @@ class Operation {
 
   async countStatus(title = undefined) {
     const today = new Date().getTime()
-    const query = { end: { $gte: today } }
-    if (title) query.title = title
-    query.status = 'Noleggiato'
-    const noleggiati = (await this.Rentals.find(query).exec()).length || 0
-    query.status = 'Prenotato'
-    const prenotati = (await this.Rentals.find(query).exec()).length || 0
+    const queryActive = { status: 'Noleggiato', start: { $lte: today }, end: { $gte: today } }
+    const queryFuture = { status: 'Noleggiato', start: { $gt: today } }
+    if (title) {
+      queryActive.title = title
+      queryFuture.title = title
+    }
+    const noleggiati = (await this.Rentals.find(queryActive).exec()).length || 0
+    const prenotati = (await this.Rentals.find(queryFuture).exec()).length || 0
     return { data: [noleggiati, prenotati], labels: ['Noleggiati', 'Prenotati'] }
   }
 

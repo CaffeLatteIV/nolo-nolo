@@ -25,7 +25,7 @@ function Categories() {
           <ul className="navbar-nav">
             {categories ? categories.map((category) => (
               <li key={Math.random()} className="nav-item">
-                <Link className="nav-link active text-white" title={category} to={`/category?id=${category}`}>{category}</Link>
+                <a className="nav-link active text-white" title={category} href={`/category?id=${encodeURIComponent(category)}`}>{category}</a>
               </li>
             )) : ''}
           </ul>

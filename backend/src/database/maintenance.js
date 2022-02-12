@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
-import { maintenanceSchema } from './schema.js'
+import { maintenanceSchema, rentSchema } from './schema.js'
 
 class Maintenance {
   constructor() {
     this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
+    this.Rental = mongoose.model('rentals', rentSchema)
   }
 
   async addMaintenance({ productCode, start, end }) {
@@ -16,6 +17,10 @@ class Maintenance {
 
   async getMaintenanceList(productCode) {
     return this.Maintenance.find({ productCode }).exec()
+  }
+
+  async verifyRent(rentCode) {
+    return this.Rental.findByIdAndUpdate(rentCode, { verified: true }).exec()
   }
 }
 export default Maintenance

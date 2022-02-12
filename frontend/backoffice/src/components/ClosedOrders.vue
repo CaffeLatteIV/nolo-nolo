@@ -21,9 +21,17 @@
       >
         <div class="row">
           <div class="col-7 p-2">
-            <h4 class="m-0 text-wrap text-white">
-              {{ this.closedRentals[n - 1].title }}
-            </h4>
+            <div class="d-flex">
+              <h4 class="m-0 text-wrap text-white pe-2">
+                {{ this.closedRentals[n - 1].title }}
+              </h4>
+              <div
+                class="rounded bg-site-primary px-2 text-black"
+                v-show="this.closedRentals[n - 1].status === 'Pagato'"
+              >
+                Pagato
+              </div>
+            </div>
             <p class="text-white">
               Spesa: {{ this.closedRentals[n - 1].price }}€
             </p>

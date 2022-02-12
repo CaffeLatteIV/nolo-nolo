@@ -81,15 +81,31 @@ app.get('/find/date/end', authenticateAccessToken, async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
-app.get('/pay/:rentId', authenticateAccessToken, async (req, res) => {
+app.post('/paymentInfo/:rentId', authenticateAccessToken, async (req, res) => {
   try {
     const { rentId } = req.params
     if (!rentId) {
       logger.error('ProductCode is undefined')
       return res.status(404).send({ code: 404, msg: 'Not found' })
     }
-    const rent = await db.payRent(rentId)
-    return res.status(200).send({ paymentInfo: rent })
+    const rent = await db.summarizePayment(rentId)
+    return res.status(200).send({ ...rent })
+  } catch (err) {
+    logger.error('Error while paying rent')
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
+})
+app.post('/pay/:rentId', authenticateAccessToken, async (req, res) => {
+  try {
+    const { rentId } = req.params
+    if (!rentId) {
+      logger.error('ProductCode is undefined')
+      return res.status(404).send({ code: 404, msg: 'Not found' })
+    }
+    await db.payRent(rentId)
+    return res.status(200).send({ code: 200, msg: 'ok' })
   } catch (err) {
     logger.error('Error while paying rent')
     logger.error(err.message)

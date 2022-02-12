@@ -25,14 +25,14 @@
         <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
         <li
           class="list-group-item md-04dp border-dark"
-          v-for="n in this.inventory.length"
-          :key="n"
+          v-for="item in this.inventory"
+          :key="item"
         >
           <div class="row px-3 text-white text-decoration-none">
             <div class="col-4 fs-4 py-3">
               {{
-                this.inventory[n - 1]
-                  ? this.inventory[n - 1].title
+                item
+                  ? item.title
                   : "Nome oggetto mancante"
               }}
             </div>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-2 row">
               <router-link
-                :to="{ path: '/admin/item/' + this.inventory[n - 1].id }"
+                :to="{ path: '/admin/item/' + item.id }"
                 exact-path
                 class="col d-flex justify-content-end py-3 text-decoration-none"
                 role="button"
@@ -72,7 +72,7 @@
                   border-0
                   text-white
                 "
-                @click="deleteItem(this.inventory[n-1].id)"
+                @click="deleteItem(item.id)"
                 aria-label="Cancella Oggetto"
                 title="Cancella oggetto"
               >
