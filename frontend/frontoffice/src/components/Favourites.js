@@ -25,7 +25,7 @@ function Favourites({ id }) {
     client.favourites = favourites
     cookies.remove('client', { path: '/' })
     cookies.set('client', client, { path: '/', sameSite: 'lax' })
-    await axios.post(`${CLIENT_URL}/update/preferences`, { client }, {
+    axios.post(`${CLIENT_URL}/update/preferences`, { client }, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
