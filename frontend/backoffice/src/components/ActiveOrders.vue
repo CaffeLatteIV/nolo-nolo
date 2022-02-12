@@ -108,10 +108,11 @@ export default {
       })
       .then((response) => {
         console.log(response.data.rentals);
+        const today = new Date().getTime()
         console.log("date ",new Date().getTime())
         this.activeRentals = response.data.rentals.filter(
           (rent) =>
-            rent.start <= new Date().getTime() && rent.end >= new Date().getTime()
+            rent.start <= today && rent.end >= today && rent.status === "Noleggiato"
         );
         console.log("activeRentals ", this.activeRentals);
       });
