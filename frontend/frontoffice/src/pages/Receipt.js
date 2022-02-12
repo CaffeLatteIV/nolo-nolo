@@ -1,6 +1,4 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable dot-notation */
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 // import PropTypes from 'prop-types'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Cookie from 'universal-cookie'
@@ -8,75 +6,19 @@ import axios from 'axios'
 import validateAccessToken from '../components/Tokens.js'
 
 const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
-const URL_OFFERS = process.env.OFFERS_URL || 'http://localhost:5000/v1/offers'
 function Receipt() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const { newRent, start, end, coupon } = state
-  if (!newRent || !start || !end) navigate('*')
-  const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
-  const earnedFidelityPoints = daysBetweenDates * newRent.fidelityPoints
-
-  // count weekends tra le due date
-  const [price, setPrice] = useState(0)
-  const [spentFidelityPoints, setSpentFidelityPoints] = useState(0)
-  useEffect(async () => {
-    const { data } = await axios.get(`${URL_OFFERS}/`, {
-      headers: { 'Content-Type': 'application/json' },
-      params: { start, end },
-    })
-    const { offers } = data
-    let priceTmp = 0
-    let spentFidelityPointsTmp = 0
-    // 86400000 = ms in a day
-    for (let i = start; i < end; i += 86400000) {
-      let priceDay = 0
-      const day = new Date(i)
-      const isWeekend = day.getDay() === 0 || day.getDay() === 6
-      if (newRent.clientsFidelityPoints - newRent.price.points > 0) {
-        newRent.clientsFidelityPoints -= newRent.price.points
-        spentFidelityPointsTmp += newRent.price.points
-      } else if (isWeekend) {
-        priceDay = newRent.price.weekend
-      } else {
-        priceDay = newRent.price.weekday
-      }
-      if (offers) {
-        offers.forEach((offer) => {
-          if (i >= offer.start && i <= offer.end) {
-            priceDay = (priceDay * 100) / (100 - offer.discount)
-          }
-        })
-      }
-
-      priceTmp += priceDay
-    }
-    if (coupon) {
-      priceTmp = (priceTmp * 100) / (100 - coupon)
-    }
-    setSpentFidelityPoints(spentFidelityPointsTmp)
-    setPrice(priceTmp)
-  }, [])
+  const { receipt, product } = state
+  if (!receipt) navigate('*')
+  const daysBetweenDates = Math.max(Math.ceil((receipt.end - receipt.start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
   async function handleConfirm() {
     await validateAccessToken()
-
     const cookie = new Cookie()
-    const client = cookie.get('client')
-    const product = {
-      title: newRent.title,
-      start,
-      end,
-      earnedFidelityPoints,
-      productCode: newRent.id,
-      clientCode: client.id,
-      price,
-      status: 'Prenotato', // se l'utente conferma, lo status diventa prenotato
-      fidelityPoints: spentFidelityPoints,
-    }
     const accessToken = cookie.get('accessToken')
     await axios.post(
       `${RENTALS_URL}/add`,
-      { product },
+      { rentalInfo: receipt },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -94,20 +36,20 @@ function Receipt() {
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Codice prodotto:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{newRent.id}</div>
+          <div className="col-sm-6 col-md-9">{receipt.productCode}</div>
         </div>
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Titolo:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{newRent.title}</div>
+          <div className="col-sm-6 col-md-9">{receipt.title}</div>
         </div>
-        <div className="row border-bottom border-secondary p-2">
+        {/* <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Descrizione:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{newRent.description}</div>
-        </div>
+          <div className="col-sm-6 col-md-9">{receipt.description}</div>
+        </div> */}
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Durata noleggio:</span>
@@ -118,40 +60,40 @@ function Receipt() {
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Prezzo giorni feriali:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{newRent.price.weekday}€</div>
+          <div className="col-sm-6 col-md-9">{product.price.weekday}€</div>
         </div>
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Prezzo giorni festivi:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{newRent.price.weekend}</div>
+          <div className="col-sm-6 col-md-9">{product.price.weekend}€</div>
         </div>
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Punti fedeltà spesi:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{spentFidelityPoints}
+          <div className="col-sm-6 col-md-9">{receipt.fidelityPoints}
           </div>
         </div>
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Punti fedeltà guadagnati:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{earnedFidelityPoints}
+          <div className="col-sm-6 col-md-9">{receipt.earnedFidelityPoints}
           </div>
         </div>
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
-            <span className="fw-bold">Sconto applicato:</span>
+            <span className="fw-bold">Eventuale sconto applicato:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{coupon ? `${coupon}%` : '-'}
+          <div className="col-sm-6 col-md-9">{receipt.coupon ? `${receipt.coupon}%` : '-'}
           </div>
         </div>
         <div className="row border-bottom border-secondary p-2">
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold fs-3">TOTALE:</span>
           </div>
-          <div className="col-sm-6 col-md-9 fs-3">{price}€</div>
+          <div className="col-sm-6 col-md-9 fs-3">{receipt.price}€</div>
         </div>
         <button
           type="button"
