@@ -100,7 +100,8 @@ function Orders() {
                 ({ id, title, start, end, media, price, fidelityPoints, status, productCode }) => (
                   <OlderOrders
                     key={id}
-                    id={productCode}
+                    id={id}
+                    productCode={productCode}
                     img={media.img}
                     title={title}
                     price={price}
