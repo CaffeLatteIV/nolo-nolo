@@ -99,12 +99,17 @@ class Rental {
     return this.Rentals.findByIdAndDelete(id).exec()
   }
 
-  async payRent(rentId) {
-    const rent = await this.Rentals.findById(rentId).exec()
+  async summarizePayment(rentId) {
+    const rent = await this.Rentals.findById(rentId).populate('productCode').exec()
     const today = new Date().getTime()
-    const avgPrice = Math.ceil(rent.end - rent.start / 86400000) / rent.price
-    const fee = Math.max(Math.floor((today - rent.end) / 86400000), 0) * avgPrice
-    return { fee, avgPrice, rent }
+    const avgPrice = Math.ceil(rent.price / (rent.end - rent.start / 86400000))
+    const daysBetween = Math.max(Math.floor((today - rent.end) / 86400000), 0)
+    const fee = daysBetween > 3 ? daysBetween * avgPrice : 0
+    return { fee, avgPrice, rent, daysBetween }
+  }
+
+  async payRent(rentId) {
+    return this.Rentals.findByIdAndUpdate(rentId, { status: 'Pagato' })
   }
 }
 
