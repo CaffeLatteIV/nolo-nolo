@@ -1,11 +1,11 @@
 <template>
   <div class="container md-01dp mt-4 p-4 rounded">
-    <h1 class="mb-4">Creazione Nuovo Ordine</h1>
+    <h1 class="text-center mb-4">Creazione Nuovo Ordine</h1>
     <div id="newItemForm" class="w-50 m-auto">
       <div class="row">
         <div class="col">
-          <label for="inventorySelection"
-            >Prodotto:
+          <label for="inventorySelection" class="form-label p-2 w-100"
+            >
             <select
               name="inventory"
               id="inventorySelection"
@@ -21,17 +21,29 @@
                 {{ item.title }}
               </option>
             </select>
+            Prodotto
+          </label>
+        </div>
+        <div class="col">
+          <label class="form-label p-2 w-100" for="inventorySelection"
+            >
+            <Datepicker v-model="date" range class="w-100"></Datepicker>
+            Seleziona data
           </label>
         </div>
       </div>
-      <div class="col">
-        <label for="inventorySelection"
-          >Seleziona data:
-          <Datepicker v-model="date" range></Datepicker>
-        </label>
+      <div class="px-2">
+        <button
+          type="submit"
+          class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
+          @click="handleConfirm()"
+        >
+          Crea
+        </button>
       </div>
     </div>
-    {{ selectedProduct }}
+
+    {{ selectedProduct }} <br>{{date}}
   </div>
 </template>
 
@@ -53,6 +65,8 @@ export default {
       inventory: [],
       clientCode: this.$route.params.id,
       selectedProduct: undefined,
+      state: null,
+      end: null,
     };
   },
   async mounted() {
@@ -74,7 +88,38 @@ export default {
           console.log(this.inventory);
         });
     },
-    handleConfirm() {},
+    handleConfirm() {
+      this.start = new Date(this.date[0]).getTime()
+      this.end = new Date(this.date[1]).getTime()
+      // const rentalBody = {
+      //   title: this.selectedProduct.title,
+      //   start: this.start,
+      //   end: this.end
+      // }
+    },
   },
 };
 </script>
+
+<style scoped>
+.dp__theme_dark {
+    --dp-background-color: #212121 !important;
+    --dp-text-color: #ffffff !important;
+    --dp-hover-color: #484848 !important;
+    --dp-hover-text-color: #ffffff !important;
+    --dp-hover-icon-color: #959595 !important;
+    --dp-primary-color: #005cb2 !important;
+    --dp-primary-text-color: #ffffff !important;
+    --dp-secondary-color: #a9a9a9 !important;
+    --dp-border-color: #2d2d2d !important;
+    --dp-menu-border-color: #2d2d2d !important;
+    --dp-border-color-hover: #aaaeb7 !important;
+    --dp-disabled-color: #737373 !important;
+    --dp-scroll-bar-background: #212121 !important;
+    --dp-scroll-bar-color: #484848 !important;
+    --dp-success-color: #00701a !important;
+    --dp-success-color-disabled: #428f59 !important;
+    --dp-icon-color: #959595 !important;
+    --dp-danger-color: #e53935 !important;
+}
+</style>
