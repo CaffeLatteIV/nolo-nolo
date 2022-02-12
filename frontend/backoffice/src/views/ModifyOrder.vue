@@ -1,6 +1,6 @@
 <template>
   <div class="container md-01dp mt-4 p-4 rounded">
-    <h1 class="text-center mb-4">Creazione Nuovo Ordine</h1>
+    <h1 class="text-center mb-4">Modifica Ordine</h1>
     <div id="newItemForm" class="w-50 m-auto">
       <div class="row">
         <div class="col">
@@ -76,10 +76,10 @@
           class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
           @click="handleConfirm"
         >
-          Crea
+          Modifica
         </button>
         <p class="text-center w-100 pb-4 added" v-show="posted" :key="posted">
-          Ordine creato con successo!
+          Ordine modificato con successo!
         </p>
       </div>
     </div>
@@ -93,7 +93,7 @@ import Datepicker from "vue3-date-time-picker";
 import "@/assets/css/datepicker.css";
 
 export default {
-  name: "NewOrder",
+  name: "ModifyOrder",
   components: {
     Datepicker,
   },
@@ -105,7 +105,7 @@ export default {
       date: null,
       loading: true,
       inventory: [],
-      clientCode: this.$route.params.id,
+      clientCode: this.$route.params.client,
       selectedProduct: undefined,
       receipt: [],
       state: null,
@@ -114,6 +114,7 @@ export default {
     };
   },
   async mounted() {
+    console.log(this.$route.params.id);
     this.getInventory();
   },
   methods: {
@@ -145,6 +146,7 @@ export default {
         productCode: this.selectedProduct.code,
         clientCode: this.clientCode,
       };
+      console.log(rentalBody)
       const rentalURL =
         process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
       const { data } = await axios.post(rentalURL + "/receipt", rentalBody, {
@@ -163,6 +165,7 @@ export default {
       }
     },
     async handleConfirm() {
+      this.deleteBooking(this.$route.params.id);
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const rentalURL =
@@ -178,6 +181,31 @@ export default {
         }
       );
       this.posted = true;
+    },
+    async deleteBooking(id) {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      console.log(accessToken);
+      const rentalURL =
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+      console.log(id);
+      axios
+        .post(
+          rentalURL + "/delete/" + id,
+          {},
+          {
+            headers: { Authorization: "Bearer " + accessToken },
+          }
+        )
+        .then((response) => {
+          if (response.data.code === 500) {
+            console.log("Delete did not work");
+          } else if (response.data.code === 404) {
+            console.log("didn't work");
+          } else {
+            this.getBookedRentals();
+          }
+        });
     },
   },
 };
