@@ -32,7 +32,7 @@
           </label>
         </div>
         <div class="col">
-          <label for="inputCodiceSconto" class="orm-label p-2 w-100">
+          <label for="inputCodiceSconto" class="form-label p-2 w-100">
             <input
               type="text"
               id="inputCodiceSconto"
