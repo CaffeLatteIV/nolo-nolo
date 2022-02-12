@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import ProductCard from './ProductCard.js'
 
@@ -13,8 +14,9 @@ function AccountPreferences() {
     const products = []
     for (let i = 0; i < client.favourites.length; i += 1) {
       const element = client.favourites[i]
+      console.log(element)
       const { data } = await axios.get(`${PRODUCT_URL}/products/${element}`)
-      products.push(data.products)
+      if (data.products) products.push(data.products)
     }
     setPorductList(products)
   }, [])
@@ -26,7 +28,7 @@ function AccountPreferences() {
       </div>
       <div className="mb-4">
         <h4>Categorie Preferite:</h4>
-        <span>{ client.preferredCategories.length !== 0 ? client.preferredCategories : 'Non hai ancora aggiunto nessuna categoria ai preferiti' }</span>
+        <span>{ client.preferredCategories.length !== 0 ? client.preferredCategories.map((category) => <Link key={Math.random()} to={`/category?id=${encodeURIComponent(category)}`}>{category}</Link>) : 'Non hai ancora aggiunto nessuna categoria ai preferiti' }</span>
       </div>
       <div className="mb-4">
         <h4>Prodotti Preferiti:</h4>
