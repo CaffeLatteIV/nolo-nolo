@@ -55,7 +55,7 @@ function App() {
           <Route path="/orders" element={<RequireAuth><Orders /></RequireAuth>} />
           <Route path="/receipt" element={<RequireAuth><Receipt /></RequireAuth>} />
           <Route path="/account" element={<RequireAuth><Account /></RequireAuth>} />
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment" element={<RequireAuth><Payment /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
