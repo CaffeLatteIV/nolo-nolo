@@ -38,7 +38,7 @@ app.get('/get/:productCode', authenticateAccessToken, authenticateUserRole, asyn
   const maintenanceList = await db.getMaintenanceList(productCode)
   return res.status(200).send({ maintenanceList })
 })
-app.post('/verify/rent/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+app.post('/verify/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { rentID } = req.params
   if (!rentID) {
     logger.warn('Rent ID is missing')
