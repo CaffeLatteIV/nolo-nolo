@@ -1,14 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
-function OlderOrders({ id, title, price, start, end, img }) {
+function OlderOrders({ id, productCode, title, price, start, end, img, paid }) {
+  const navigate = useNavigate()
+  function handlePay() {
+    navigate('/payment', { state: { id, end } })
+  }
   return (
     <>
       <div className="row">
-        <div className="col-10">
-          <Link to={`/product?id=${id}`} className="product-card-link">
+        <div className={paid ? 'col-12' : 'col-10'}>
+          <Link to={`/product?id=${productCode}`} className="product-card-link">
             <div className="p-2 px-3">
               <div className="row">
                 <div className="col-2 p-2">
@@ -27,9 +31,11 @@ function OlderOrders({ id, title, price, start, end, img }) {
             </div>
           </Link>
         </div>
-        <div className="col-2 d-flex flex-column pt-3">
-          <button type="button" className="w-100 border-0 rounded bg-site-primary h-25">Restituisci</button>
-        </div>
+        {paid ? '' : (
+          <div className="col-2 d-flex flex-column pt-3">
+            <button type="button" className="w-100 border-0 rounded bg-site-primary h-25" onClick={handlePay}>Restituisci</button>
+          </div>
+        )}
       </div>
 
       <hr />
@@ -39,10 +45,12 @@ function OlderOrders({ id, title, price, start, end, img }) {
 OlderOrders.propTypes = {
   img: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  productCode: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   start: PropTypes.number.isRequired,
   end: PropTypes.number.isRequired,
+  paid: PropTypes.bool.isRequired,
 }
 
 export default OlderOrders
