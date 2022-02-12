@@ -107,12 +107,14 @@ class Operation {
   async countStatus(title = undefined) {
     await this.connect()
     const today = new Date().getTime()
-    const query = { end: { $gte: today } }
-    if (title) query.title = title
-    query.status = 'Noleggiato'
-    const noleggiati = (await this.Rentals.find(query).exec()).length || 0
-    query.status = 'Prenotato'
-    const prenotati = (await this.Rentals.find(query).exec()).length || 0
+    const queryActive = { status: 'Noleggiato', start: { $lte: today }, end: { $gte: today } }
+    const queryFuture = { status: 'Noleggiato', start: { $gte: today } }
+    if (title) {
+      queryActive.title = title
+      queryFuture.title = title
+    }
+    const noleggiati = (await this.Rentals.find(queryActive).exec()).length || 0
+    const prenotati = (await this.Rentals.find(queryFuture).exec()).length || 0
     return { data: [noleggiati, prenotati], labels: ['Noleggiati', 'Prenotati'] }
   }
 
