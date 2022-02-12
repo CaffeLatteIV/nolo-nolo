@@ -43,7 +43,34 @@
           </label>
         </div>
       </div>
-      <div class="px-2">
+      <div class="row p-2 mb-4">
+        <div class="col-9">
+          <div v-if="selectedProduct === undefined && !hasReceipt">
+            Prodotto non ancora selezionato
+          </div>
+          <div v-else-if="date === null && !hasReceipt">
+            Date ancora non selezionate
+          </div>
+          <div v-show="hasReceipt">Prezzo da pagare: {{ receipt.price }}€</div>
+        </div>
+      </div>
+      <div v-if="!hasReceipt">
+        <button
+          type="submit"
+          class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
+          @click="getReceipt"
+        >
+          Prendi ricevuta
+        </button>
+        <p
+          class="text-center w-100 pb-4 error"
+          v-show="datesUnavailable"
+          :key="datesUnavailable"
+        >
+          Date selezionate non disponibili
+        </p>
+      </div>
+      <div class="px-2" v-else>
         <button
           type="submit"
           class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
@@ -57,6 +84,7 @@
       </div>
     </div>
   </div>
+  {{ date }} {{ selectedProduct }}
 </template>
 
 <script>
@@ -73,14 +101,17 @@ export default {
   data() {
     return {
       posted: false,
-      coupon: "",
+      hasReceipt: false,
+      coupon: " ",
       date: null,
       loading: true,
       inventory: [],
       clientCode: this.$route.params.id,
       selectedProduct: undefined,
+      receipt: [],
       state: null,
       end: null,
+      datesUnavailable: false,
     };
   },
   async mounted() {
@@ -102,18 +133,51 @@ export default {
           console.log(this.inventory);
         });
     },
-    handleConfirm() {
+    async getReceipt() {
+      console.log("aopfhai");
+
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
       this.start = new Date(this.date[0]).getTime();
       this.end = new Date(this.date[1]).getTime();
       const rentalBody = {
-        title: this.selectedProduct.title,
         start: this.start,
         end: this.end,
         productCode: this.selectedProduct.code,
         clientCode: this.clientCode,
-        status: "Noleggiato",
       };
-      console.log(rentalBody);
+      const rentalURL =
+        process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
+      const { data } = await axios.post(rentalURL + "/receipt", rentalBody, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-type": "application/json",
+        },
+        validateStatus: false,
+      });
+      if (data.code === 402) {
+        this.datesUnavailable = true;
+      } else {
+        this.receipt = data.receipt;
+        this.hasReceipt = true;
+        console.log("receipt", this.receipt);
+      }
+    },
+    async handleConfirm() {
+      const cookies = new Cookies();
+      const accessToken = cookies.get("accessToken");
+      const rentalURL =
+        process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
+      await axios.post(
+        rentalURL + "/add",
+        { rentalInfo: this.receipt },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
       this.posted = true;
     },
   },
@@ -123,5 +187,8 @@ export default {
 <style scoped>
 .added {
   color: #92ff51;
+}
+.error {
+  color: red;
 }
 </style>
