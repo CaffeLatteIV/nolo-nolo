@@ -23,7 +23,6 @@
             Prodotto
           </label>
         </div>
-        
       </div>
       <div class="row">
         <div class="col">
@@ -48,14 +47,15 @@
         <button
           type="submit"
           class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
-          @click="handleConfirm()"
+          @click="handleConfirm"
         >
           Crea
         </button>
+        <p class="text-center w-100 pb-4 added" v-show="posted" :key="posted">
+          Ordine creato con successo!
+        </p>
       </div>
     </div>
-
-    {{ selectedProduct }} <br />{{ date }}
   </div>
 </template>
 
@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+      posted: false,
       coupon: "",
       date: null,
       loading: true,
@@ -110,10 +111,17 @@ export default {
         end: this.end,
         productCode: this.selectedProduct.code,
         clientCode: this.clientCode,
+        status: "Noleggiato",
       };
       console.log(rentalBody);
+      this.posted = true;
     },
   },
 };
 </script>
 
+<style scoped>
+.added {
+  color: #92ff51;
+}
+</style>
