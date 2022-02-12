@@ -15,13 +15,6 @@ const app = Express.Router()
 const upload = multer({
   dest: '../images/',
 })
-app.get('/findOne', async (req, res) => {
-  const { item } = req.body
-  logger.info(`Finding item ${item.title}`)
-  const products = await db.findOneAvailable(item.title, item.category, item.id)
-  if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
-  return res.status(200).send({ products })
-})
 app.get('/categories/:category', async (req, res) => {
   const { category } = req.params
   const { available } = req.query
@@ -44,9 +37,8 @@ app.get('/products', async (req, res) => {
 })
 app.get('/products/:productID', async (req, res) => {
   const { productID } = req.params
+  const products = await db.findOne(productID)
   logger.info(`Sending product ${productID}`)
-  const products = await db.findOneAvailable(undefined, undefined, productID)
-  if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
   return res.status(200).send({ products })
 })
 app.post('/products/update', async (req, res) => {
