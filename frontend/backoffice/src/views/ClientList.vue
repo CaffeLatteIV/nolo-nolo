@@ -21,7 +21,7 @@
                 client ? client.name + " " + client.surname : "Nome mancante"
               }}
             </div>
-            <div class="col-6 py-3 d-flex flex-row-reverse">
+            <div class="col-5 py-3 d-flex flex-row-reverse">
               <div v-show="client.hasBookings" class="px-2 pt-2">
                 <div class="tag-one rounded px-1 text-black">
                   Prenotazione attiva
@@ -33,7 +33,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-2 row">
+            <div class="col-3 row">
               <router-link
                 :to="{ path: '/admin/client/' + client.id }"
                 exact-path
@@ -44,6 +44,18 @@
               >
                 <span class="material-icons text-white rounded p-1"
                   >create</span
+                >
+              </router-link>
+              <router-link
+                :to="{ path: '/admin/client/orderFor/' + client.id }"
+                exact-path
+                class="col d-flex justify-content-end py-3 text-decoration-none"
+                role="button"
+                aria-label="Vedi ordini"
+                title="Vedi ordini"
+              >
+                <span class="material-icons text-white rounded p-1"
+                  >shopping_basket</span
                 >
               </router-link>
               <router-link
@@ -149,12 +161,15 @@ export default {
           (rent) => rent.clientCode === id && rent.start > new Date().getTime()
         ).length > 0
       );
-    },  
+    },
     checkForActive(id, rentalsAll) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
-          (rent) => rent.clientCode === id && rent.start <= new Date().getTime() && rent.end >= new Date().getTime()
+          (rent) =>
+            rent.clientCode === id &&
+            rent.start <= new Date().getTime() &&
+            rent.end >= new Date().getTime()
         ).length > 0
       );
     },
@@ -172,10 +187,10 @@ export default {
 .tag-three {
   background: purple;
 }
-button{
-  color:white;
+button {
+  color: white;
 }
 button:disabled {
-  color:grey;
+  color: grey;
 }
 </style>
