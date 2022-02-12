@@ -26,7 +26,11 @@ class Maintenance {
   }
 
   async verifyRent(rentCode) {
-    return this.Rental.findByIdAndUpdate(rentCode, { verified: true }).exec()
+    return this.Rental.findByIdAndUpdate(rentCode, { verifiedRent: true }).exec()
+  }
+
+  async verifyPayment(rentCode) {
+    return this.Rental.findByIdAndUpdate(rentCode, { verifiedPayment: true }).exec()
   }
 }
 export default Maintenance
