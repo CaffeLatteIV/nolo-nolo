@@ -4,8 +4,7 @@
     <div id="newItemForm" class="w-50 m-auto">
       <div class="row">
         <div class="col">
-          <label for="inventorySelection" class="form-label p-2 w-100"
-            >
+          <label for="inventorySelection" class="form-label p-2 w-100">
             <select
               name="inventory"
               id="inventorySelection"
@@ -24,11 +23,24 @@
             Prodotto
           </label>
         </div>
+        
+      </div>
+      <div class="row">
         <div class="col">
-          <label class="form-label p-2 w-100" for="inventorySelection"
-            >
+          <label class="form-label p-2 w-100" for="inventorySelection">
             <Datepicker v-model="date" range class="w-100"></Datepicker>
             Seleziona data
+          </label>
+        </div>
+        <div class="col">
+          <label for="inputCodiceSconto" class="orm-label p-2 w-100">
+            <input
+              type="text"
+              id="inputCodiceSconto"
+              class="form-control rounded text-white border-0 w-100 m-0"
+              v-model="coupon"
+            />
+            Inserire codice sconto
           </label>
         </div>
       </div>
@@ -43,7 +55,7 @@
       </div>
     </div>
 
-    {{ selectedProduct }} <br>{{date}}
+    {{ selectedProduct }} <br />{{ date }}
   </div>
 </template>
 
@@ -51,7 +63,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import Datepicker from "vue3-date-time-picker";
-import "vue3-date-time-picker/dist/main.css";
+import "@/assets/css/datepicker.css";
 
 export default {
   name: "NewOrder",
@@ -60,6 +72,7 @@ export default {
   },
   data() {
     return {
+      coupon: "",
       date: null,
       loading: true,
       inventory: [],
@@ -89,37 +102,18 @@ export default {
         });
     },
     handleConfirm() {
-      this.start = new Date(this.date[0]).getTime()
-      this.end = new Date(this.date[1]).getTime()
-      // const rentalBody = {
-      //   title: this.selectedProduct.title,
-      //   start: this.start,
-      //   end: this.end
-      // }
+      this.start = new Date(this.date[0]).getTime();
+      this.end = new Date(this.date[1]).getTime();
+      const rentalBody = {
+        title: this.selectedProduct.title,
+        start: this.start,
+        end: this.end,
+        productCode: this.selectedProduct.code,
+        clientCode: this.clientCode,
+      };
+      console.log(rentalBody);
     },
   },
 };
 </script>
 
-<style scoped>
-.dp__theme_dark {
-    --dp-background-color: #212121 !important;
-    --dp-text-color: #ffffff !important;
-    --dp-hover-color: #484848 !important;
-    --dp-hover-text-color: #ffffff !important;
-    --dp-hover-icon-color: #959595 !important;
-    --dp-primary-color: #005cb2 !important;
-    --dp-primary-text-color: #ffffff !important;
-    --dp-secondary-color: #a9a9a9 !important;
-    --dp-border-color: #2d2d2d !important;
-    --dp-menu-border-color: #2d2d2d !important;
-    --dp-border-color-hover: #aaaeb7 !important;
-    --dp-disabled-color: #737373 !important;
-    --dp-scroll-bar-background: #212121 !important;
-    --dp-scroll-bar-color: #484848 !important;
-    --dp-success-color: #00701a !important;
-    --dp-success-color-disabled: #428f59 !important;
-    --dp-icon-color: #959595 !important;
-    --dp-danger-color: #e53935 !important;
-}
-</style>
