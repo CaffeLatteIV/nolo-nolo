@@ -41,7 +41,7 @@ app.post('/add', authenticateAccessToken, async (req, res) => {
       logger.info('Selected dates are not available for this product')
       return res.status(402).send({ code: 402, msg: 'Selected dates are not available for this product' })
     }
-    await db.addRentals(rentalInfo)
+    await db.addRental(rentalInfo)
     logger.info(`A user rented a new product: ${rentalInfo.productCode}`)
     return res.status(200).send({ code: 200, msg: 'Rental added' })
   } catch (err) {

@@ -28,9 +28,9 @@ app.delete('/remove/:id', authenticateAccessToken, authenticateUserRole, async (
 })
 app.post('/use', authenticateAccessToken, async (req, res) => {
   try {
-    const { id, clientCode } = req.body
-    logger.info(`Requested coupon {${id}}`)
-    const discount = await db.useCoupon(id, clientCode)
+    const { title, clientCode } = req.body
+    logger.info(`Requested coupon {${title}}`)
+    const discount = await db.useCoupon(title, clientCode)
     return res.status(200).send({ discount })
   } catch (err) {
     logger.error(err.message)
