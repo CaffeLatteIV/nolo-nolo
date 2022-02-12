@@ -14,23 +14,23 @@ class Coupon {
     return this.Coupon.findByIdAndDelete(id).exec()
   }
 
-  async useCoupon(id, clientCode) {
-    const coupon = await this.Coupon.findById(id).exec()
+  async useCoupon(title, clientCode) {
+    const coupon = await this.Coupon.findOne({ title }).exec()
     if (!coupon) throw new Error('Invalid coupon')
     const { start, end, clients, discount } = coupon
     let { usage } = coupon
     const today = new Date().getTime()
-    if (clients.include(clientCode)) return undefined // il cliente ha già usato il coupon
+    if (clients && clients.includes(clientCode)) return undefined // il cliente ha già usato il coupon
     if (start !== 0 && end !== 0 && start <= today && end >= today) { // coupon a tempo
-      await this.Coupon.findByIdAndUpdate(id, { clients }).exec()
+      await this.Coupon.findByIdAndUpdate(coupon.id, { clients }).exec()
       return discount
     }
     if (usage > 0) { // coupon ad usi
       usage -= 1
-      await this.Coupon.findByIdAndUpdate(id, { clients, usage }).exec()
+      await this.Coupon.findByIdAndUpdate(coupon.id, { clients, usage }).exec()
       return discount
     }
-    throw new Error('Coupon malformed')
+    return undefined
   }
 
   async listAll() {
