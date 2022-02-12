@@ -1,4 +1,5 @@
 import Express from 'express'
+import dayjs from 'dayjs'
 import Rental from '../database/rental.js'
 import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
 import loggerWrapper from '../logger.js'
@@ -7,20 +8,41 @@ const logger = loggerWrapper('Rental API')
 const db = new Rental()
 const app = Express.Router()
 
-app.post('/add', authenticateAccessToken, async (req, res) => {
+app.post('/receipt', authenticateAccessToken, async (req, res) => {
   try {
-    const { product } = req.body
-    if (!product) {
-      logger.error('Missing product to add')
+    const { productCode, clientCode, start, end, useFidelityPoints, coupon } = req.body
+    if (!productCode || !clientCode || !start || !end) {
+      logger.error('Missing data to add')
       return res.status(404).send({ code: 404, msg: 'Missing product to add' })
     }
-    const available = await db.checkAvailability(product.start, product.end, product.productCode)
+    const available = await db.checkAvailability(start, end, productCode)
     if (!available) {
       logger.info('Selected dates are not available for this product')
       return res.status(402).send({ code: 402, msg: 'Selected dates are not available for this product' })
     }
-    await db.addRentals(product)
-    logger.info(`A user rented a new product: ${product.productCode}`)
+    const receipt = await db.calculateReceipt(productCode, clientCode, start, end, useFidelityPoints, coupon)
+    logger.info(`A user requested a receipt for a rent from ${dayjs(start).format('DD/MM/YYYY')} to ${dayjs(end).format('DD/MM/YYYY')}`)
+    return res.status(200).send({ receipt })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while uploading data, try again' })
+  }
+})
+app.post('/add', authenticateAccessToken, async (req, res) => {
+  try {
+    const { rentalInfo } = req.body
+    if (!rentalInfo) {
+      logger.error('Missing data to add')
+      return res.status(404).send({ code: 404, msg: 'Missing product to add' })
+    }
+    const available = await db.checkAvailability(rentalInfo.start, rentalInfo.end, rentalInfo.productCode)
+    if (!available) {
+      logger.info('Selected dates are not available for this product')
+      return res.status(402).send({ code: 402, msg: 'Selected dates are not available for this product' })
+    }
+    await db.addRentals(rentalInfo)
+    logger.info(`A user rented a new product: ${rentalInfo.productCode}`)
     return res.status(200).send({ code: 200, msg: 'Rental added' })
   } catch (err) {
     logger.error(err.message)
