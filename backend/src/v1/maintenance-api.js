@@ -38,7 +38,16 @@ app.get('/get/:productCode', authenticateAccessToken, authenticateUserRole, asyn
   const maintenanceList = await db.getMaintenanceList(productCode)
   return res.status(200).send({ maintenanceList })
 })
-app.post('/verify/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+app.post('/verify/payment/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  const { rentID } = req.params
+  if (!rentID) {
+    logger.warn('Rent ID is missing')
+    return res.status(404).send({ code: 404, msg: 'No coupon received' })
+  }
+  const verifyRent = await db.verifyPayment(rentID)
+  return res.status(200).send({ verifyRent })
+})
+app.post('/verify/rent/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   const { rentID } = req.params
   if (!rentID) {
     logger.warn('Rent ID is missing')
