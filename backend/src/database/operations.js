@@ -108,7 +108,7 @@ class Operation {
     await this.connect()
     const today = new Date().getTime()
     const queryActive = { status: 'Noleggiato', start: { $lte: today }, end: { $gte: today } }
-    const queryFuture = { status: 'Noleggiato', start: { $gte: today } }
+    const queryFuture = { status: 'Noleggiato', start: { $gt: today } }
     if (title) {
       queryActive.title = title
       queryFuture.title = title
