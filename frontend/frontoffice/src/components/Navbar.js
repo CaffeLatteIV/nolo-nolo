@@ -39,7 +39,7 @@ function Navbar({ updateLogged }) {
   return (
     <div>
       {/* Main navbar */}
-      <nav className="navbar navbar-expand md-04dp">
+      <nav className="navbar navbar-expand-lg md-04dp">
         <div className="container-fluid">
           <Link
             to="/"
@@ -49,7 +49,7 @@ function Navbar({ updateLogged }) {
             <h2>NOLONOLO</h2>
           </Link>
           <button
-            className="navbar-toggler"
+            className="navbar-toggler bg-site-primary"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarText"
@@ -57,7 +57,7 @@ function Navbar({ updateLogged }) {
             aria-expanded="false"
             aria-label="Apri pannello di navigazione"
           >
-            <span className="navbar-toggler-icon" />
+            <span className="material-icons">menu</span>
           </button>
           {logged && admin ? (
             <div className="collapse navbar-collapse" id="navbarText">
