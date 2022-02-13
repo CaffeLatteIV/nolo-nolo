@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { inventorySchema } from './schema.js'
+import { inventorySchema, rentSchema } from './schema.js'
 
 class Inventory {
   constructor() {
@@ -10,6 +10,7 @@ class Inventory {
   async connect() {
     this.mongoose = await mongoose.connect(this.URL)
     this.Inventory = mongoose.model('inventories', inventorySchema)
+    this.Rentals = mongoose.model('rentals', rentSchema)
   }
 
   async addInventory({ available, price, condition, category, title, description, media, stock, fidelityPoints }) {
@@ -58,6 +59,8 @@ class Inventory {
   }
 
   async delete(id) {
+    const today = new Date().getTime()
+    await this.Rentals.deleteMany({ productCode: id, start: { $gt: today } }).exec()
     return this.Inventory.findByIdAndDelete(id).exec()
   }
 }
