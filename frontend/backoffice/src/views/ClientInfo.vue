@@ -5,59 +5,63 @@
       <div class="row mb-4">
         <div class="col">
           <div>
-            <input
-              type="text"
-              id="nomeInput"
-              class="form-control"
-              v-model="clientName"
-            />
-            <label class="form-label ps-2" for="nomeInput">Nome</label>
+            <label class="form-label w-100" for="nomeInput"
+              ><input
+                type="text"
+                id="nomeInput"
+                class="form-control"
+                v-model="clientName"
+              />Nome</label
+            >
           </div>
         </div>
         <div class="col">
           <div>
-            <input
-              type="text"
-              id="cognomeInput"
-              class="form-control"
-              v-model="clientSurname"
-            />
-            <label class="form-label ps-2" for="cognomeInput">Cognome</label>
+            <label class="form-label w-100" for="cognomeInput"
+              ><input
+                type="text"
+                id="cognomeInput"
+                class="form-control"
+                v-model="clientSurname"
+              />Cognome</label
+            >
           </div>
         </div>
       </div>
 
       <!-- address input -->
       <div class="mb-4">
-        <input
-          type="text"
-          id="addressInput"
-          class="form-control"
-          v-model="clientAddress"
-        />
-        <label class="form-label ps-2" for="addressInput">Indirizzo</label>
+        <label class="form-label w-100" for="addressInput"
+          ><input
+            type="text"
+            id="addressInput"
+            class="form-control"
+            v-model="clientAddress"
+          />Indirizzo</label
+        >
       </div>
 
       <!-- Email input -->
       <div class="mb-4">
-        <input
-          type="email"
-          id="emailInput"
-          class="form-control"
-          v-model="clientEmail"
-        />
-        <label class="form-label ps-2" for="emailInput">Email</label>
+        <label class="form-label w-100" for="emailInput"
+          ><input
+            type="email"
+            id="emailInput"
+            class="form-control"
+            v-model="clientEmail"
+          />Email</label
+        >
       </div>
 
       <div class="row">
         <div class="col">
           <div class="mb-4">
-            <Datepicker
-              v-model="clientBirthday"
-              class="w-100 bg-transparent"
-              id="dateInput"
-            ></Datepicker>
-            <label for="dateInput" class="form-label ps-2"
+            <label for="dateInput" class="form-label w-100">
+              <Datepicker
+                v-model="clientBirthday"
+                class="w-100 bg-transparent"
+                id="dateInput"
+              ></Datepicker
               >Data di nascita</label
             >
           </div>
@@ -65,13 +69,14 @@
 
         <div class="col">
           <div class="mb-4">
-            <input
-              type="tel"
-              id="phoneNumber"
-              class="form-control"
-              v-model="clientTelephone"
-            />
-            <label class="form-label ps-2" for="phoneNumber">Telefono</label>
+            <label class="form-label w-100" for="phoneNumber"
+              ><input
+                type="tel"
+                id="phoneNumber"
+                class="form-control"
+                v-model="clientTelephone"
+              />Telefono</label
+            >
           </div>
         </div>
       </div>
@@ -227,8 +232,5 @@ button.btn {
   width: 100%;
   background: #4bb5f6;
   border: none;
-}
-#dateInput {
-  background: #383838
 }
 </style>
