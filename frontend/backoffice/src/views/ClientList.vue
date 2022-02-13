@@ -83,7 +83,7 @@
                 title="Rimuovi Cliente"
                 type="button"
                 :disabled="client.hasBookings || client.hasActiveOrders"
-                @click="deleteCustomer(client.id)"
+                @click="deleteCustomer(client)"
               >
                 <span class="material-icons p-1">delete</span>
               </button>
@@ -115,7 +115,6 @@ export default {
     };
   },
   async mounted() {
-    await validateAccessToken();
     this.loadClientList();
   },
   methods: {
@@ -137,6 +136,7 @@ export default {
       );
     },
     async loadClientList() {
+      await validateAccessToken();
       const { data } = await axios.get(clientURL + "/lookup", {
         headers: { Authorization: "Bearer " + accessToken },
       });
@@ -156,15 +156,16 @@ export default {
       });
       this.dataLoaded = true;
     },
-    async deleteCustomer(clientID) {
-      const response = await axios.delete(clientURL + "/" + clientID, {
+    async deleteCustomer(client) {
+      const response = await axios.delete(clientURL + "/" + client.id, {
         headers: { Authorization: "Bearer " + accessToken },
+        validateStatus:false,
       });
-      if (response.data.code === 200){
+      if (response.status === 200){
         this.dataLoaded = false
         console.log("Deletion successfull")
-        this.loadClientList()
-      } else if (response.data.code === 500) {
+        this.clientList.splice(this.clientList.indexOf(client),1)
+      } else if (response.status === 500) {
         console.log("Deletion NOT successfull")
       }
     },
