@@ -1,6 +1,6 @@
 <template>
   <div class="container md-01dp mt-4 p-4 rounded">
-    <h1 class="text-center mb-4">Creazione Nuovo Ordine</h1>
+    <h1 class="text-center mb-4">Modifica Ordine</h1>
     <div id="newItemForm" class="w-50 m-auto">
       <div class="row">
         <div class="col">
@@ -76,10 +76,10 @@
           class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
           @click="handleConfirm"
         >
-          Crea
+          Modifica
         </button>
         <p class="text-center w-100 pb-4 added" v-show="posted" :key="posted">
-          Ordine creato con successo!
+          Ordine modificato con successo!
         </p>
       </div>
     </div>
@@ -94,9 +94,10 @@ import "@/assets/css/datepicker.css";
 import validateAccessToken from '../validateAccessToken.js'
 
 const cookies = new Cookies();
-
+const rentalURL = process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
+const inventoryURL = process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
 export default {
-  name: "NewOrder",
+  name: "ModifyOrder",
   components: {
     Datepicker,
   },
@@ -108,7 +109,7 @@ export default {
       date: null,
       loading: true,
       inventory: [],
-      clientCode: this.$route.params.id,
+      clientCode: this.$route.params.client,
       selectedProduct: undefined,
       receipt: [],
       state: null,
@@ -117,14 +118,13 @@ export default {
     };
   },
   async mounted() {
+    this.getRent();
     this.getInventory();
   },
   methods: {
     async getInventory() {
       await validateAccessToken()
       const accessToken = cookies.get("accessToken");
-      const inventoryURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
       axios
         .get(inventoryURL + "/products", {
           headers: { Authorization: "Bearer " + accessToken },
@@ -132,12 +132,10 @@ export default {
         .then((response) => {
           this.loading = false;
           this.inventory = response.data.products;
-          console.log(this.inventory);
         });
     },
     async getReceipt() {
-      console.log("aopfhai");
-
+      await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       this.start = new Date(this.date[0]).getTime();
       this.end = new Date(this.date[1]).getTime();
@@ -147,8 +145,6 @@ export default {
         productCode: this.selectedProduct.code,
         clientCode: this.clientCode,
       };
-      const rentalURL =
-        process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
       const { data } = await axios.post(rentalURL + "/receipt", rentalBody, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -161,14 +157,19 @@ export default {
       } else {
         this.receipt = data.receipt;
         this.hasReceipt = true;
-        console.log("receipt", this.receipt);
       }
     },
-    async handleConfirm() {
+    async getRent(){
+      const id = this.$route.params.id
       await validateAccessToken()
       const accessToken = cookies.get("accessToken");
-      const rentalURL =
-        process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
+      const {data} = await axios.get(rentalURL+'/rental/'+id,{ headers: {Authorization: `Bearer ${accessToken}`}})
+      this.selectedProduct = data.rent.productCode.title
+    },
+    async handleConfirm() {
+      this.deleteBooking(this.$route.params.id);
+      const accessToken = cookies.get("accessToken");
+
       await axios.post(
         rentalURL + "/add",
         { rentalInfo: this.receipt },
@@ -180,6 +181,31 @@ export default {
         }
       );
       this.posted = true;
+    },
+    async deleteBooking(id) {
+      await validateAccessToken()
+      const accessToken = cookies.get("accessToken");
+      console.log(accessToken);
+      const rentalURL =
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+      console.log(id);
+      axios
+        .post(
+          rentalURL + "/delete/" + id,
+          {},
+          {
+            headers: { Authorization: "Bearer " + accessToken },
+          }
+        )
+        .then((response) => {
+          if (response.data.code === 500) {
+            console.log('error')
+          } else if (response.data.code === 404) {
+            console.log('error')
+          } else {
+            this.getBookedRentals();
+          }
+        });
     },
   },
 };

@@ -11,8 +11,10 @@ function Favourites({ id }) {
   const accessToken = cookie.get('accessToken')
   const cookies = new Cookies()
   const client = cookies.get('client')
-  const [isFavourite, setIsFavourite] = useState(client.favourites.includes(id))
+  const isAdmin = client?.role
+  const [isFavourite, setIsFavourite] = !isAdmin ? useState(client.favourites.includes(id)) : useState(false)
   async function handleClick() {
+    if (isAdmin) return
     await validateAccessToken()
     const { favourites } = client
     if (isFavourite) {

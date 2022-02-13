@@ -25,7 +25,7 @@ class Inventory {
   }
 
   async listAllCategoryNames(unique = undefined) {
-    const categoryList = await this.Inventory.find({}, 'category id').exec()
+    const categoryList = await this.Inventory.find({ available: true }, 'category id').exec()
     if (unique === undefined) return categoryList
     const list = []
     categoryList.forEach((item) => {
@@ -34,9 +34,8 @@ class Inventory {
     return list.filter((value, index, self) => self.indexOf(value) === index)
   }
 
-  async findAllCategory(category, available = undefined) {
-    if (available !== undefined) return this.Inventory.find({ category, available }).exec()
-    return this.Inventory.find({ category }).exec()
+  async findAllCategory(category) {
+    return this.Inventory.find({ category, available: true }).exec()
   }
 
   async findAll() {

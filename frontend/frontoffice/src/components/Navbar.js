@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -9,11 +10,18 @@ const URL = process.env.TOKEN_URL || 'https://site202156.tw.cs.unibo.it/v1/token
 function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)
+  const [admin, setAdmin] = useState(true)
+  const [manager, setManager] = useState(true)
   useEffect(() => {
     const client = cookies.get('client')
     setLogged(client !== undefined || updateLogged)
-    if (client?.role === ''){
-
+    if (client?.role === 'funzionario') {
+      setAdmin(true)
+    } else if (client?.role === 'manager') {
+      setAdmin(true)
+      setManager(true)
+    } else {
+      setAdmin(false)
     }
   }, [updateLogged])
   async function logout() {
@@ -26,11 +34,12 @@ function Navbar({ updateLogged }) {
     cookies.remove('refreshToken')
     cookies.remove('accessToken')
     setLogged(false)
+    setAdmin(false)
   }
   return (
     <div>
       {/* Main navbar */}
-      <nav className="navbar navbar-expand md-04dp">
+      <nav className="navbar navbar-expand-lg md-04dp">
         <div className="container-fluid">
           <Link
             to="/"
@@ -40,7 +49,7 @@ function Navbar({ updateLogged }) {
             <h2>NOLONOLO</h2>
           </Link>
           <button
-            className="navbar-toggler"
+            className="navbar-toggler bg-site-primary"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarText"
@@ -48,12 +57,64 @@ function Navbar({ updateLogged }) {
             aria-expanded="false"
             aria-label="Apri pannello di navigazione"
           >
-            <span className="navbar-toggler-icon" />
+            <span className="material-icons">menu</span>
           </button>
+          {logged && admin ? (
+            <div className="collapse navbar-collapse" id="navbarText">
+              <ul className="navbar-nav me-auto">
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:3000/">Store</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:8080/admin/clientList">Clienti</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:8080/admin/inventory">Inventario</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:8080/admin/noleggi">Noleggi</a>
+                </li>
+                { logged && manager ? (
+                  <li className="nav-item dropdown">
+                    <a
+                      href="#"
+                      className="nav-link dropdown-toggle text-white"
+                      id="navbarDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Statistiche
+                    </a>
+                    <ul
+                      className="dropdown-menu rounded m-0 border-0 md-base p-0"
+                      aria-labelledby="navbarDropdown"
+                    >
+                      <li className="p-2 nav-item md-12dp rounded-top">
+                        <a
+                          className="nav-link text-white"
+                          href="http://localhost:5500/frontend/dashboard/HTML/clientStats.html"
+                        >Clienti
+                        </a>
+                      </li>
+                      <li className="p-2 nav-item md-12dp rounded-bottom">
+                        <a
+                          className="nav-link text-white"
+                          href="http://localhost:5500/frontend/dashboard/HTML/index.html"
+                        >Oggetti
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                ) : '' }
+              </ul>
+            </div>
+          ) : '' }
+
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item dropstart">
-                {logged ? (
+                {(logged && !admin) ? (
                   <>
                     <a
                       href="#"
@@ -93,7 +154,6 @@ function Navbar({ updateLogged }) {
                           className="dropdown-item md-error rounded text-white"
                           id="logout"
                           to="/"
-                          // eslint-disable-next-line react/jsx-no-bind
                           onClick={logout}
                         >
                           Esci
@@ -101,7 +161,8 @@ function Navbar({ updateLogged }) {
                       </li>
                     </ul>
                   </>
-                ) : (
+                ) : ''}
+                { (!logged && !admin) ? (
                   <>
                     <a
                       className="nav-link dropstart-toggle"
@@ -140,8 +201,32 @@ function Navbar({ updateLogged }) {
                       </li>
                     </ul>
                   </>
-                )}
+                ) : ''}
               </li>
+              {(admin && logged) ? (
+                <div className="collapse navbar-collapse" id="navbarText">
+                  <ul className="navbar-nav ms-auto">
+                    <li className="nav-item dropstart">
+                      <a
+                        href="#"
+                        className="nav-link dropstart-toggle"
+                        id="navbarDropdown"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        title="Account"
+                      >
+                        <span className="material-icons text-white">person</span>
+                      </a>
+                      <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                        <li className="p-2 rounded md-24dp">
+                          <Link className="dropdown-item md-error rounded text-white" id="logout" to="/" onClick={logout}>Esci</Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              ) : ''}
               {/* <li className="nav-item">
                 <Link to="/cart" className="nav-link" title="Carrello">
                   <span className="material-icons text-white">shopping_cart</span>

@@ -130,6 +130,9 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
+import validateAccessToken from '../validateAccessToken.js'
+
+const cookies = new Cookies();
 
 export default {
   name: "Client Info",
@@ -145,9 +148,8 @@ export default {
       loading: true,
     };
   },
-  mounted() {
-    this.validateAccessToken()
-    const cookies = new Cookies();
+  async mounted() {
+    await validateAccessToken()
     const accessToken = cookies.get("accessToken");
     console.log(accessToken);
     console.log(cookies.get("client"));
@@ -175,7 +177,6 @@ export default {
   },
   methods: {
     updateChanges: function () {
-      const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const brthDateNumber = new Date(this.clientBirthday).getTime();
       const clientURL =
@@ -200,25 +201,6 @@ export default {
           },
         }
       );
-    },
-    async validateAccessToken() {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "https://site202156.tw.cs.unibo.it/v1/token";
-      try {
-        const { data } = await axios.post(`${URL}/validate`, { accessToken });
-        if (data.code !== 200) {
-          const refreshToken = cookies.get("refreshToken");
-          const res = await axios.post(`${URL}/refresh`, { refreshToken });
-          cookies.remove("accessToken", { path: "/" });
-          cookies.set("accessToken", res.data.accessToken, {
-            path: "/",
-            sameSite: "Lax",
-          });
-        }
-      } catch (err) {
-        console.log("Refresh Token Error");
-      }
     },
   },
 };

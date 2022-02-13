@@ -39,15 +39,16 @@
             {{ formatDate(this.bookedRentals[n - 1].end) }}
           </div>
           <div class="col-2 row pt-2">
-            <div class="col">
-              <button
-                class="col-1 material-icons bg-transparent border-0 text-white"
-                aria-label="Modifica prenotazione"
-                title="Modifica prenotazione"
-              >
-                <span class="material-icons">create</span>
-              </button>
-            </div>
+            <router-link
+              :to="{ path: '/admin/client/modifyBooking/' + this.bookedRentals[n-1].clientCode + '/' + this.bookedRentals[n-1].id }"
+              exact-path
+              class="col text-decoration-none"
+              role="button"
+              aria-label="Modifica ordine"
+              title="Modifica ordine"
+            >
+              <span class="material-icons text-white">create</span>
+            </router-link>
             <div class="col">
               <button
                 class="col-1 material-icons bg-transparent border-0 text-white"
@@ -79,6 +80,9 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
+import validateAccessToken from '../validateAccessToken.js'
+
+const cookies = new Cookies();
 
 export default {
   name: "BookedOrders",
@@ -91,36 +95,15 @@ export default {
       showAll: false,
     };
   },
-  async mounted() {
-    await this.validateAccessToken();
+  mounted() {
     this.getBookedRentals();
   },
   methods: {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
     },
-    async validateAccessToken() {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "https://site202156.tw.cs.unibo.it/v1/token";
-      try {
-        const { data } = await axios.post(`${URL}/validate`, { accessToken });
-        if (data.code !== 200) {
-          const refreshToken = cookies.get("refreshToken");
-          const res = await axios.post(`${URL}/refresh`, { refreshToken });
-          cookies.remove("accessToken", { path: "/" });
-          cookies.set("accessToken", res.data.accessToken, {
-            path: "/",
-            sameSite: "Lax",
-          });
-        }
-      } catch (err) {
-        console.log("Refresh Token Error");
-      }
-    },
     async getBookedRentals() {
-      await this.validateAccessToken();
-      const cookies = new Cookies();
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const rentalsURL =
         process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
@@ -143,17 +126,13 @@ export default {
           this.bookedRentals = response.data.rentals.filter(
             (rent) => rent.start > new Date().getTime()
           );
-          console.log("bookedRentals ", this.bookedRentals);
         });
     },
     async deleteBooking(id) {
-      await this.validateAccessToken();
-      const cookies = new Cookies();
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
-      console.log(accessToken);
       const rentalURL =
-        process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
-      console.log(id);
+        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
       axios
         .post(
           rentalURL + "/delete/" + id,

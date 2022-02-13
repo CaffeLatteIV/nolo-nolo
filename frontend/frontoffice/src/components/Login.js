@@ -46,33 +46,37 @@ function Login({ setLogged }) {
     }
   }
   return (
-    <div className="w-50 m-auto" id="accountInfo">
-      <div className="mb-4">
-        <label className="form-label mb-4" htmlFor="emailInput">
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            id="emailInput"
-            className="form-control text-white"
-            value={email}
-          />Email
-        </label>
-        <br />
-        <label className="form-label mb-4" htmlFor="passwordInput">
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            id="passwordInput"
-            className="form-control text-white"
-            value={password}
-            onKeyDown={handleKeyDown}
-          />Password
-        </label>
+    <div className="row w-100">
+      <div className="col-sm-1 col-lg-4" />
+      <div className="col-sm-10 col-lg-4" id="accountInfo">
+        <div className="mb-4">
+          <label className="form-label mb-4" htmlFor="emailInput">
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              id="emailInput"
+              className="form-control text-white"
+              value={email}
+            />Email
+          </label>
+          <br />
+          <label className="form-label mb-4" htmlFor="passwordInput">
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              id="passwordInput"
+              className="form-control text-white"
+              value={password}
+              onKeyDown={handleKeyDown}
+            />Password
+          </label>
+        </div>
+        <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
+          Accedi
+        </button>
+        <p className="text-danger text-center fs-4">{logError}</p>
       </div>
-      <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
-        Accedi
-      </button>
-      <p className="text-danger text-center fs-4">{logError}</p>
+      <div className="col-sm-1 col-lg-4" />
     </div>
   )
 }

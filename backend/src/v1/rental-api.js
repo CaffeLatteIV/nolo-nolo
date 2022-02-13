@@ -210,5 +210,17 @@ app.get('/find', async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
+app.get('/rental/:rentalID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { rentalID } = req.params
+    const rent = await db.findRental(rentalID)
+    if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' })// può essere cambiato e restituire solo l'array vuoto
+    return res.status(200).send({ rent })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
+})
 
 export default app

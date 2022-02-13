@@ -20,7 +20,15 @@ class Maintenance {
   }
 
   async verifyRent(rentCode) {
-    return this.Rental.findByIdAndUpdate(rentCode, { verified: true }).exec()
+    // findByIdAndUpdate ritorna il documento PRECEDENTE
+    await this.Rental.findByIdAndUpdate(rentCode, { verifiedRent: true })
+    return this.Rental.findById(rentCode).exec()
+  }
+
+  async verifyReturn(rentCode) {
+    // findByIdAndUpdate ritorna il documento PRECEDENTE
+    await this.Rental.findByIdAndUpdate(rentCode, { verifiedReturn: true })
+    return this.Rental.findById(rentCode).exec()
   }
 }
 export default Maintenance

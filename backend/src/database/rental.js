@@ -142,7 +142,7 @@ class Rental {
   }
 
   async deleteRental(id) {
-    return this.Rentals.findByIdAndDelete(id).exec()
+    return this.Rentals.findByIdAndDelete(id)
   }
 
   async summarizePayment(rentId) {
@@ -156,6 +156,10 @@ class Rental {
 
   async payRent(rentId) {
     return this.Rentals.findByIdAndUpdate(rentId, { status: 'Pagato' })
+  }
+
+  async findRental(rentalID) {
+    return this.Rentals.findById(rentalID).populate('productCode').exec()
   }
 }
 
