@@ -130,10 +130,26 @@ function ProductPage() {
         <div className="col-sm-4 p-2">
           <div className="md-02dp rounded p-4">
             <div className="d-flex flex-column justify-content-between h-100">
-              <h5 className="text-center">Prezzo totale:</h5>
-              <p className="fs-3 mb-4 text-center price">
-                € {product ? product.price.weekday : 'Caricamento'}{' '}
-              </p>
+              <div className="row">
+                <div className="col">
+                  <p className="text-center">Prezzo giorni feriali:</p>
+                  <p className="fs-5 mb-4 text-center price">
+                    € {product ? product.price.weekday : 'Caricamento'}{' '}
+                  </p>
+                </div>
+                <div className="col">
+                  <p className="text-center">Prezzo giorni festivi:</p>
+                  <p className="fs-5 mb-4 text-center price">
+                    € {product ? product.price.weekend : 'Caricamento'}{' '}
+                  </p>
+                </div>
+                <div className="col">
+                  <p className="text-center">Prezzo in punti fedeltà:</p>
+                  <p className="fs-5 mb-4 text-center price">
+                    {product ? `${product.price.points} punt${product.price.points === 1 ? 'o' : 'i'}` : 'Caricamento'}{' '}
+                  </p>
+                </div>
+              </div>
               <label htmlFor="inputCodiceSconto" className="text-white">
                 Inserire codice sconto:
                 <input type="text" id="inputCodiceSconto" className="form-control rounded text-white border-0 w-100 m-0" onChange={(e) => setCouponCode(e.target.value)} value={couponCode} />
