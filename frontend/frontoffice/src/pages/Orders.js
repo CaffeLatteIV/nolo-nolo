@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable dot-notation */
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
@@ -8,7 +9,9 @@ import validateAccessToken from '../components/Tokens.js'
 
 const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
 function Orders() {
-  const [productList, setProductList] = useState({ bookedOrders: [], activeOrders: [], olderOrders: [] })
+  const [activeOrders, setActiveOrders] = useState([])
+  const [bookedOrders, setBookedOrders] = useState([])
+  const [olderOrders, setOlderOrders] = useState([])
   useEffect(async () => {
     await validateAccessToken()
     const cookie = new Cookies()
@@ -37,13 +40,19 @@ function Orders() {
           activeOrdersList.push(order)
         }
       })
-      setProductList({
-        bookedOrders: bookedOrdersList,
-        activeOrders: activeOrdersList,
-        olderOrders: olderOrdersList,
-      })
+      setBookedOrders(bookedOrdersList)
+      setActiveOrders(activeOrdersList)
+      setOlderOrders(olderOrdersList)
     }
   }, [])
+  async function handleDelete(id) {
+    await validateAccessToken()
+    const cookie = new Cookies()
+    const accessToken = cookie.get('accessToken')
+    await axios.post(`${RENTALS_URL}/delete/${id}`, {}, { headers: { Authorization: `Bearer ${accessToken}` } })
+    const bookedOrdersList = bookedOrders.filter((order) => order.id !== id)
+    setBookedOrders(bookedOrdersList)
+  }
   return (
     <div className="container p-2 mt-2">
       <div className="">
@@ -52,12 +61,13 @@ function Orders() {
           <div className="p-3 px-4 md-04dp rounded">
             <h2>In uso ora</h2>
             {
-              (!productList.activeOrders || productList.activeOrders.length === 0) ? <p>Nessun prodotto</p>
-                : productList.activeOrders.map(
+              (!activeOrders || activeOrders.length === 0) ? <p>Nessun prodotto</p>
+                : activeOrders.map(
                   ({ id, title, start, end, price, media, fidelityPoints, productCode }) => (
                     <ActiveOrders
                       key={id}
-                      id={productCode}
+                      productCode={productCode}
+                      id={id}
                       title={title}
                       price={price}
                       start={start}
@@ -74,18 +84,20 @@ function Orders() {
           <div className="p-3 px-4 md-04dp rounded">
             <h2>Prenotati</h2>
             {
-              (!productList.bookedOrders || productList.bookedOrders.length === 0) ? <p>Nessun prodotto</p>
-                : productList.bookedOrders.map(
+              (!bookedOrders || bookedOrders.length === 0) ? <p>Nessun prodotto</p>
+                : bookedOrders.map(
                   ({ id, title, start, end, price, media, fidelityPoints, productCode }) => (
                     <ActiveOrders
                       key={id}
-                      id={productCode}
+                      productCode={productCode}
+                      id={id}
                       title={title}
                       price={price}
                       img={media.img}
                       start={start}
                       end={end}
                       fidelityPoints={fidelityPoints}
+                      handleDelete={handleDelete}
                     />
                   ),
                 )
@@ -96,7 +108,7 @@ function Orders() {
           <div className="p-3 px-4 md-04dp rounded">
             <h2>Vecchi ordini</h2>
             {
-              (!productList.olderOrders || productList.olderOrders.length === 0) ? <p>Nessun prodotto</p> : productList.olderOrders.map(
+              (!olderOrders || olderOrders.length === 0) ? <p>Nessun prodotto</p> : olderOrders.map(
                 ({ id, title, start, end, media, price, fidelityPoints, status, productCode }) => (
                   <OlderOrders
                     key={id}
