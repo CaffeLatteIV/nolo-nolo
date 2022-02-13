@@ -1,7 +1,7 @@
 <template>
   <div class="container md-01dp mt-4 rounded p-4">
     <h1 class="mb-4 text-center">Informazioni Account</h1>
-    <div class="w-50 m-auto">
+    <div id="newItemForm" class="w-50 m-auto">
       <div class="row mb-4">
         <div class="col">
           <div>
@@ -52,12 +52,11 @@
       <div class="row">
         <div class="col">
           <div class="mb-4">
-            <input
-              type="date"
-              class="form-control"
-              id="dateInput"
+            <Datepicker
               v-model="clientBirthday"
-            />
+              class="w-100 bg-transparent"
+              id="dateInput"
+            ></Datepicker>
             <label for="dateInput" class="form-label ps-2"
               >Data di nascita</label
             >
@@ -119,7 +118,11 @@
       </div>
 
       <!-- Submit button -->
-      <button type="submit" class="btn btn-primary mb-4 text-black" @click="updateChanges">
+      <button
+        type="submit"
+        class="btn btn-primary mb-4 text-black"
+        @click="updateChanges"
+      >
         Conferma modifiche
       </button>
     </div>
@@ -130,12 +133,17 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
-import validateAccessToken from '../validateAccessToken.js'
+import Datepicker from "vue3-date-time-picker";
+import "@/assets/css/datepicker.css";
+import validateAccessToken from "../validateAccessToken.js";
 
 const cookies = new Cookies();
 
 export default {
   name: "Client Info",
+  components: {
+    Datepicker,
+  },
   data() {
     return {
       clientName: "",
@@ -149,7 +157,7 @@ export default {
     };
   },
   async mounted() {
-    await validateAccessToken()
+    await validateAccessToken();
     const accessToken = cookies.get("accessToken");
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
@@ -183,7 +191,7 @@ export default {
         birthDate: brthDateNumber,
         email: this.clientEmail,
         gender: this.clientGender,
-        address:this.clientAddress,
+        address: this.clientAddress,
       };
       axios.post(
         `${clientURL}/update/personalInfo`,
@@ -220,7 +228,7 @@ button.btn {
   background: #4bb5f6;
   border: none;
 }
-::-webkit-calendar-picker-indicator {
-  filter: invert(1); /* Rende il simbolo del calendario bianco su sfondo nero */
+#dateInput {
+  background: #383838
 }
 </style>

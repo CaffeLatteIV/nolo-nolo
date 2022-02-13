@@ -27,7 +27,11 @@
       <div class="row">
         <div class="col">
           <label class="form-label p-2 w-100" for="inventorySelection">
-            <Datepicker v-model="date" range class="w-100"></Datepicker>
+            <Datepicker
+              v-model="date"
+              range
+              class="w-100"
+            ></Datepicker>
             Seleziona data
           </label>
         </div>
