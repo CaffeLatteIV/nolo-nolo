@@ -14,8 +14,8 @@ const COUPON_URL = process.env.COUPON_URL || 'http://localhost:5000/v1/coupons'
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const [available, setAvailable] = useState(false)
-  const [couponCode, setCouponCode] = useState(undefined)
+  const [available, setAvailable] = useState(true)
+  const [couponCode, setCouponCode] = useState('')
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
   const [couponValid, setCouponValid] = useState(true)
@@ -59,21 +59,29 @@ function ProductPage() {
 
   async function rent() {
     if (isAdmin) return
+    await validateAccessToken()
+    const accessToken = cookies.get('accessToken')
+    let discount
     if (couponCode) {
-      await validateAccessToken()
-      const accessToken = cookies.get('accessToken')
-      const { data } = await axios.post(`${COUPON_URL}/use`, { clientCode: client.id, id: couponCode }, { headers: { Authorization: `Bearer ${accessToken}` } })
+      const { data } = await axios.post(`${COUPON_URL}/use`, { clientCode: client.id, title: couponCode }, { headers: { Authorization: `Bearer ${accessToken}` } })
       if (data.coupon) {
         setCouponValid(true)
-        setCouponCode(data.coupon)
+        discount = data.coupon?.discount
       } else {
         setCouponValid(false)
       }
     }
-    if (useFidelityPoints) product.clientsFidelityPoints = client.fidelityPoints
+    const { data } = await axios.post(`${RENTALS_URL}/receipt`, {
+      productCode: product.id,
+      clientCode: client.id,
+      start: new Date(startDate).getTime(),
+      end: new Date(endDate).getTime(),
+      useFidelityPoints,
+      coupon: discount,
+    }, { headers: { Authorization: `Bearer ${accessToken}` } })
     navigate('/receipt', {
-      state: { newRent: product, start: new Date(startDate).getTime(), end: new Date(endDate).getTime(), couponCode },
-    }) // ms in a day
+      state: { receipt: data.receipt, product },
+    })
   }
   return (
     <div className="container mt-2 md-0dp rounded">
@@ -128,7 +136,7 @@ function ProductPage() {
               </p>
               <label htmlFor="inputCodiceSconto" className="text-white">
                 Inserire codice sconto:
-                <input type="text" id="inputCodiceSconto" className="form-control rounded text-white border-0 w-100 m-0" onChange={(e) => { setCouponCode(e.target.value) }} value={couponCode} />
+                <input type="text" id="inputCodiceSconto" className="form-control rounded text-white border-0 w-100 m-0" onChange={(e) => setCouponCode(e.target.value)} value={couponCode} />
                 {!couponValid ? <span> Il coupon è scaduto o già stato usato</span> : ''}
               </label>
               <label className="mt-4" htmlFor="fidelityCheckbox">

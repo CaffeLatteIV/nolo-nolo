@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
-import { rentSchema, inventorySchema, maintenanceSchema } from './schema.js'
+import { rentSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
 
 class Rental {
   constructor() {
@@ -14,12 +14,67 @@ class Rental {
     // const USERNAME = 'site202151'
     this.mongoose = mongoose.connect(this.URL, { useNewUrlParser: true, useUnifiedTopology: true })
     this.Inventory = mongoose.model('inventories', inventorySchema)
+    this.Clients = mongoose.model('clients', clientSchema)
     this.Rentals = mongoose.model('rentals', rentSchema)
     this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
+    this.Offer = mongoose.model('offers', offerSchema)
   }
 
-  async addRentals({ earnedFidelityPoints, status, title, start, end, productCode, clientCode, price, fidelityPoints }) {
-    await new this.Rentals({
+  async calculateReceipt(productCode, clientCode, start, end, useFidelityPoints, coupon) {
+    const product = await this.Inventory.findById(productCode).exec()
+    const client = await this.Clients.findById(clientCode).exec()
+    if (!product || !client) return undefined
+    const offers = new Set(await this.Offer.find({
+      $or: [
+        { start: { $gte: start, $lte: end } },
+        { end: { $gte: start, $lte: end } }],
+    }).exec())
+    let priceTmp = 0
+    let spentFidelityPoints = 0
+    for (let i = start; i < end; i += 86400000) { // 86400000 = ms in a day
+      let priceDay = 0
+      const day = new Date(i)
+      const isWeekend = day.getDay() === 0 || day.getDay() === 6
+      if (client.fidelityPoints - product.price.points > 0 && useFidelityPoints) {
+        client.fidelityPoints -= product.price.points
+        spentFidelityPoints += product.price.points
+      } else if (isWeekend) {
+        priceDay = product.price.weekend
+      } else {
+        priceDay = product.price.weekday
+      }
+      if (offers) {
+        offers.forEach((offer) => {
+          if (i >= offer.start && i <= offer.end) {
+            priceDay = (priceDay * 100) / (100 - offer.discount)
+          }
+        })
+      }
+
+      priceTmp += priceDay
+    }
+    if (coupon) {
+      priceTmp = (priceTmp * 100) / (100 - coupon)
+    }
+    const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
+    const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
+
+    return {
+      title: product.title,
+      start,
+      status: 'Noleggiato',
+      end,
+      clientCode,
+      productCode,
+      price: priceTmp,
+      earnedFidelityPoints,
+      fidelityPoints: spentFidelityPoints,
+      discount: coupon,
+    }
+  }
+
+  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }) {
+    return new this.Rentals({
       title,
       start,
       status,

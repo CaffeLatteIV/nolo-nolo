@@ -40,24 +40,12 @@
           </div>
           <div class="col-3 row pt-2 m-0">
             <div class="row">
-              <span class="col-10 m-0 pt-1 text-end">Certifica noleggio:</span>
+              <span class="col-10 m-0 pt-3 text-end">Certifica noleggio:</span>
               <button
-                @click="noleggiatoCertificato = !noleggiatoCertificato"
-                class="col-1 material-icons bg-transparent border-0 text-white"
+                @click="verifyNoleggio"
+                class="col-1 material-icons pb-3 bg-transparent border-0 text-white"
               >
-                <span v-if="noleggiatoCertificato">check_box_outline</span>
-                <span v-else>check_box_outline_blank</span>
-              </button>
-            </div>
-            <div class="row">
-              <span class="col-10 m-0 pt-2 text-end"
-                >Certifica restituzione:</span
-              >
-              <button
-                @click="restituitoCertificato = !restituitoCertificato"
-                class="col-1 material-icons bg-transparent border-0 text-white"
-              >
-                <span v-if="restituitoCertificato">check_box_outline</span>
+                <span v-if="isVerified">check_box_outline</span>
                 <span v-else>check_box_outline_blank</span>
               </button>
             </div>
@@ -120,6 +108,12 @@ export default {
   methods: {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
+    },
+    verifyNoleggio(){
+      
+    },
+    isVerified(){
+
     },
     async validateAccessToken() {
       const cookies = new Cookies();

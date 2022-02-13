@@ -39,15 +39,16 @@
             {{ formatDate(this.bookedRentals[n - 1].end) }}
           </div>
           <div class="col-2 row pt-2">
-            <div class="col">
-              <button
-                class="col-1 material-icons bg-transparent border-0 text-white"
-                aria-label="Modifica prenotazione"
-                title="Modifica prenotazione"
-              >
-                <span class="material-icons">create</span>
-              </button>
-            </div>
+            <router-link
+              :to="{ path: '/admin/client/modifyBooking/' + this.bookedRentals[n-1].clientCode + '/' + this.bookedRentals[n-1].id }"
+              exact-path
+              class="col text-decoration-none"
+              role="button"
+              aria-label="Modifica ordine"
+              title="Modifica ordine"
+            >
+              <span class="material-icons text-white">create</span>
+            </router-link>
             <div class="col">
               <button
                 class="col-1 material-icons bg-transparent border-0 text-white"
