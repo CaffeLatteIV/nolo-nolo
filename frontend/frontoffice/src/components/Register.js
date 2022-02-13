@@ -125,11 +125,10 @@ function Register({ setLogged }) {
                 className="form-label  w-100"
               >
                 <DatePicker
-                  onChange={(e) => setBirtDate(e.target.value)}
+                  onChange={(date) => setBirtDate(date)}
                   dateFormat="dd/MM/yyyy"
                   scrollableMonthYearDropdown
                   withPortal
-                  placeholderText="Inserisci periodo"
                   className="rounded border-0 form-control w-100"
                   calendarClassName="text-white border-0"
                   id="dateInput"
