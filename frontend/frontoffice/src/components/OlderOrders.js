@@ -15,14 +15,14 @@ function OlderOrders({ id, productCode, title, price, start, end, img, paid }) {
           <Link to={`/product?id=${productCode}`} className="product-card-link">
             <div className="p-2 px-3">
               <div className="row">
-                <div className="col-2 p-2">
+                <div className="col-lg-2 col-sm-12 p-2">
                   <img src={img} className="card-img" alt="Item Pic" />
                 </div>
-                <div className="col-7 p-2">
+                <div className="col-lg-7 col-sm-12 p-2">
                   <h4 className="m-0 text-wrap text-white">{title}</h4>
                   <p className="text-white">{price}€</p>
                 </div>
-                <div className="col-3 p-2 m-0 text-white text-center">
+                <div className="col-lg-6 col-sm-9 p-2 m-0 text-white text-center">
                   Da: {dayjs(start).format('DD/MM/YYYY')}&nbsp;
                   A: {dayjs(end).format('DD/MM/YYYY')}
                 </div>
