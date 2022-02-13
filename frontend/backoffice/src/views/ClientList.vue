@@ -97,7 +97,13 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
+
+const cookies = new Cookies();
+const accessToken = cookies.get("accessToken");
+const rentalsURL =
+  process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+const clientURL = process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
 
 export default {
   name: "ClientList",
@@ -108,37 +114,11 @@ export default {
     };
   },
   async mounted() {
-    await validateAccessToken()
-    const cookies = new Cookies();
-    const accessToken = cookies.get("accessToken");
-    console.log(accessToken);
-    console.log(cookies.get("client"));
-    const rentalsURL =
-      process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-    const clientURL =
-      process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
-    const { data } = await axios.get(clientURL + "/lookup", {
-      headers: { Authorization: "Bearer " + accessToken },
-    });
-    const response = await axios.get(rentalsURL + "/all", {
-      headers: { Authorization: "Bearer " + accessToken },
-    });
-    data.clients.forEach((client) => {
-      client.hasActiveOrders = this.checkForActive(
-        client.id,
-        response.data.rentals
-      );
-      client.hasBookings = this.checkForBookings(
-        client.id,
-        response.data.rentals
-      );
-      this.clientList.push(client);
-    });
-    this.dataLoaded = true;
+    await validateAccessToken();
+    this.loadClientList();
   },
   methods: {
     checkForBookings(id, rentalsAll) {
-      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
           (rent) => rent.clientCode === id && rent.start > new Date().getTime()
@@ -146,7 +126,6 @@ export default {
       );
     },
     checkForActive(id, rentalsAll) {
-      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
           (rent) =>
@@ -155,6 +134,29 @@ export default {
             rent.end >= new Date().getTime()
         ).length > 0
       );
+    },
+    async loadClientList() {
+      const { data } = await axios.get(clientURL + "/lookup", {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+      const response = await axios.get(rentalsURL + "/all", {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+      data.clients.forEach((client) => {
+        client.hasActiveOrders = this.checkForActive(
+          client.id,
+          response.data.rentals
+        );
+        client.hasBookings = this.checkForBookings(
+          client.id,
+          response.data.rentals
+        );
+        this.clientList.push(client);
+      });
+      this.dataLoaded = true;
+    },
+    deleteCustomer() {
+      
     },
   },
 };
