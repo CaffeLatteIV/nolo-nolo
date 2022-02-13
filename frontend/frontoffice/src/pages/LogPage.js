@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import Register from '../components/Register.js'
 import Login from '../components/Login.js'
 
-import '../css/Login.css'
-
 function LogPage({ isLogging, setLogged }) {
   if (isLogging) {
     document.title = 'NOLONOLO Accedi'
