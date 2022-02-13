@@ -56,6 +56,7 @@
               v-model="clientBirthday"
               class="w-100 bg-transparent"
               id="dateInput"
+              :format="format"
             ></Datepicker>
             <label for="dateInput" class="form-label ps-2"
               >Data di nascita</label
@@ -178,6 +179,11 @@ export default {
       });
   },
   methods: {
+    format(dates){
+      const start = dates[0]
+      const end = dates[1]
+      return `${start.getDate()}/${start.getMonth()+1}/${start.getFullYear()} - ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()} `;
+    },
     updateChanges: function () {
       const accessToken = cookies.get("accessToken");
       const brthDateNumber = new Date(this.clientBirthday).getTime();
