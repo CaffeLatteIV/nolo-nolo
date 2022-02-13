@@ -42,7 +42,7 @@
               Spesa in punti: {{ this.closedRentals[n - 1].fidelityPoints }}€
             </p>
           </div>
-          <div class="col-3 p-2 m-0 text-white text-center">
+          <div class="col-2 p-2 m-0 text-white text-center">
             Da: {{ formatDate(this.closedRentals[n - 1].start) }}&nbsp; A:
             {{ formatDate(this.closedRentals[n - 1].end) }}
           </div>
