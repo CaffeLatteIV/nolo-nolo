@@ -222,5 +222,17 @@ app.get('/rental/:rentalID', authenticateAccessToken, authenticateUserRole, asyn
     return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
   }
 })
+app.post('/update', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { rental } = req.body
+    const rent = await db.updateRental(rental)
+    if (!rent) return res.status(404).send({ code: 404, msg: 'Not found' })// può essere cambiato e restituire solo l'array vuoto
+    return res.status(200).send({ rent })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
+})
 
 export default app
