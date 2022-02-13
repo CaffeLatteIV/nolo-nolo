@@ -66,7 +66,7 @@ function Navbar({ updateLogged }) {
                   <a className="nav-link text-white" href="http://localhost:3000/">Store</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://localhost:80800/admin/clientList">Clienti</a>
+                  <a className="nav-link text-white" href="http://localhost:8080/admin/clientList">Clienti</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link text-white" href="http://localhost:8080/admin/inventory">Inventario</a>
