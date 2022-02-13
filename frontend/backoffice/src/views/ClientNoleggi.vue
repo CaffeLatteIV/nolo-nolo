@@ -53,7 +53,7 @@ export default {
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const clientURL =
-        process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
+        process.env.CLIENT_URL || "https://site202156.tw.cs.unibo.it/v1/clients";
       const { data } = await axios.get(
         clientURL + "/lookup/" + this.$route.params.id,
         { headers: { Authorization: "Bearer " + accessToken } }

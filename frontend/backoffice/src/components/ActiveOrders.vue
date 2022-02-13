@@ -73,8 +73,8 @@ import dayjs from "dayjs";
 import validateAccessToken from '../validateAccessToken.js'
 
 const cookies = new Cookies();
-const rentalsURL = process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-const maintenanceURL = process.env.MAINTENACE_URL || "http://localhost:5000/v1/maintenance";
+const rentalsURL = process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
+const maintenanceURL = process.env.MAINTENACE_URL || "https://site202156.tw.cs.unibo.it/v1/maintenance";
 export default {
   name: "ActiveOrders",
   data() {

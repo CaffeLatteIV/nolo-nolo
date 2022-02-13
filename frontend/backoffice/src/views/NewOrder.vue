@@ -124,7 +124,7 @@ export default {
       await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
-        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+        process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
       axios
         .get(inventoryURL + "/products", {
           headers: { Authorization: "Bearer " + accessToken },
@@ -148,7 +148,7 @@ export default {
         clientCode: this.clientCode,
       };
       const rentalURL =
-        process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
+        process.env.RENTAL_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
       const { data } = await axios.post(rentalURL + "/receipt", rentalBody, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -168,7 +168,7 @@ export default {
       await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       const rentalURL =
-        process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
+        process.env.RENTAL_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
       await axios.post(
         rentalURL + "/add",
         { rentalInfo: this.receipt },

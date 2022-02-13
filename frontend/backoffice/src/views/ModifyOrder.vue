@@ -94,8 +94,8 @@ import "@/assets/css/datepicker.css";
 import validateAccessToken from '../validateAccessToken.js'
 
 const cookies = new Cookies();
-const rentalURL = process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
-const inventoryURL = process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+const rentalURL = process.env.RENTAL_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
+const inventoryURL = process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
 export default {
   name: "ModifyOrder",
   components: {
@@ -187,7 +187,7 @@ export default {
       const accessToken = cookies.get("accessToken");
       console.log(accessToken);
       const rentalURL =
-        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+        process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
       console.log(id);
       axios
         .post(

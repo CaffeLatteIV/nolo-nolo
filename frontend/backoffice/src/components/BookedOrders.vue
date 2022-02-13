@@ -132,7 +132,7 @@ export default {
       await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const rentalURL =
-        process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+        process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
       axios
         .post(
           rentalURL + "/delete/" + id,
