@@ -66,6 +66,10 @@ class Client {
     return this.Clients.findOne({ email, password }, 'name').exec()
   }
 
+  async findEmail(email) {
+    return this.Clients.findOne({ email }, 'name').exec()
+  }
+
   async removeClient(id) {
     return this.Clients.findByIdAndDelete(id).exec()
   }

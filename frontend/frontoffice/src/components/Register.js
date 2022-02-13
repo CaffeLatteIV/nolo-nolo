@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
+import 'react-datepicker/dist/react-datepicker.css'
 import PropTypes from 'prop-types'
 import DatePicker from 'react-datepicker'
 
@@ -10,7 +11,7 @@ function Register({ setLogged }) {
   const [address, setAddress] = useState('')
   const [password, setPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [birthDate, setBirtDate] = useState('')
+  const [birthDate, setBirthDate] = useState(new Date())
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
   const [email, setEmail] = useState('')
@@ -125,10 +126,12 @@ function Register({ setLogged }) {
                 className="form-label  w-100"
               >
                 <DatePicker
-                  onChange={(date) => setBirtDate(date)}
+                  selected={birthDate}
+                  onChange={(date) => setBirthDate(date)}
                   dateFormat="dd/MM/yyyy"
                   scrollableMonthYearDropdown
                   withPortal
+                  mDate={new Date()}
                   className="rounded border-0 form-control w-100"
                   calendarClassName="text-white border-0"
                   id="dateInput"

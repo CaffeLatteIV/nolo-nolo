@@ -20,7 +20,7 @@ app.post('/register', async (req, res) => {
     }
     logger.info(`Adding: ${client.email}`)
     client.password = await generateHash(client.password) // encrypt password
-    let clientFound = await db.findClient(client.email) // controllo già nella funzione se esiste un utente
+    let clientFound = await db.findEmail(client.email) // controllo già nella funzione se esiste un utente
     if (clientFound !== null) {
       logger.warn('User already registered')
       return res.status(400).send({ code: 400, msg: 'Client already registered' })
