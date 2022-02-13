@@ -184,10 +184,9 @@ export default {
       });
   },
   methods: {
-    format(dates){
-      const start = dates[0]
-      const end = dates[1]
-      return `${start.getDate()}/${start.getMonth()+1}/${start.getFullYear()} - ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()} `;
+    format(date){
+      return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+      
     },
     updateChanges: function () {
       const accessToken = cookies.get("accessToken");
