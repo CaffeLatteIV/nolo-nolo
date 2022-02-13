@@ -83,6 +83,7 @@
                 title="Rimuovi Cliente"
                 type="button"
                 :disabled="client.hasBookings || client.hasActiveOrders"
+                @click="deleteCustomer(client.id)"
               >
                 <span class="material-icons p-1">delete</span>
               </button>
@@ -155,8 +156,17 @@ export default {
       });
       this.dataLoaded = true;
     },
-    deleteCustomer() {
-      
+    async deleteCustomer(clientID) {
+      const response = await axios.delete(clientURL + "/" + clientID, {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+      if (response.data.code === 200){
+        this.dataLoaded = false
+        console.log("Deletion successfull")
+        this.loadClientList()
+      } else if (response.data.code === 500) {
+        console.log("Deletion NOT successfull")
+      }
     },
   },
 };
