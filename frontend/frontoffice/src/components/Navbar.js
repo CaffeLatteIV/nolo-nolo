@@ -10,7 +10,11 @@ function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)
   useEffect(() => {
-    setLogged(cookies.get('client') !== undefined || updateLogged)
+    const client = cookies.get('client')
+    setLogged(client !== undefined || updateLogged)
+    if (client?.role === ''){
+
+    }
   }, [updateLogged])
   async function logout() {
     // const cookies = new Cookies()

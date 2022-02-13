@@ -2,7 +2,6 @@ import express from 'express'
 import path from 'path'
 
 const router = express.Router()
-// router.use('/', express.static(path.join(global.frontendDir, '/frontoffice')));
 router.use(express.static(path.join(global.frontendDir, 'dashboard')))
 router.use(express.static(path.join(global.frontendDir, 'frontoffice')))
 router.use(express.static(path.join(global.frontendDir, 'backoffice')))

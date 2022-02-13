@@ -15,7 +15,7 @@ const COUPON_URL = process.env.COUPON_URL || 'https://site202156.tw.cs.unibo.it/
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const [available, setAvailable] = useState(true)
+  const [available, setAvailable] = useState(false)
   const [couponCode, setCouponCode] = useState('')
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
@@ -172,7 +172,7 @@ function ProductPage() {
                 </div>
               </div>
               {/* controllo se la data sia disponibile */}
-              {!available ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
+              {(!available && startDate !== null) ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
             </div>
           </div>
         </div>

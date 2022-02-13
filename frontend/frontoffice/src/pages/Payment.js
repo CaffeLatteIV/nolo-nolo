@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import validateAccessToken from '../components/Tokens.js'
 
-const RENTALS_URL = process.env.RENTALS_URL || 'http://localhost:5000/v1/rentals'
+const RENTALS_URL = process.env.RENTALS_URL || 'https://site202156.tw.cs.unibo.it/v1/rentals'
 function Payment() {
   const { state } = useLocation()
   const { productCode, id } = state

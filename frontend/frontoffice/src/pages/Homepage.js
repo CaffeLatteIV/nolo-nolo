@@ -9,18 +9,14 @@ function Homepage() {
   const [products, setProducts] = useState(undefined)
   // viene eseguito una volta sola (alla prima visita della pagina)
   useEffect(async () => {
-    try {
-      const { data } = await axios({
-        method: 'GET',
-        url: `${URL}/products`,
-      })
-      if (!data) {
-        setProducts(undefined)
-      } else {
-        setProducts(data.products)
-      }
-    } catch (err) {
-      console.log(err)
+    const { data } = await axios({
+      method: 'GET',
+      url: `${URL}/products`,
+    })
+    if (!data) {
+      setProducts(undefined)
+    } else {
+      setProducts(data.products)
     }
   }, [])
 
