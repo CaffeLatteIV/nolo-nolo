@@ -5,14 +5,15 @@ import axios from 'axios'
 const URL = process.env.OPERATIONS_URL || 'http://localhost:5000/v1/operations'
 
 function Carousel() {
-  const [carouselItems, setCarouselItems] = useState(undefined)
+  const [carouselItems, setCarouselItems] = useState([])
   useEffect(async () => {
     const { data } = await axios.get(`${URL}/bestSellers?n=3`)
     const { bestSellers } = data
     if (!bestSellers) {
-      setCarouselItems(undefined)
+      setCarouselItems([])
     } else {
-      setCarouselItems(data.bestSellers)
+      console.log(bestSellers)
+      setCarouselItems(bestSellers)
     }
   }, [])
   return (carouselItems
