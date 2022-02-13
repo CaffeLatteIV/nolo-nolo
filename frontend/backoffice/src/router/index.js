@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Cookies from 'universal-cookie'
+const cookies = new Cookies()
 
 
 const routes = [
@@ -97,7 +98,6 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to, from, next)=>{
-  const cookies = new Cookies()
   const client = cookies.get('client')
   const role = client?.role
   if(to.name === 'Not Found'){

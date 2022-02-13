@@ -170,6 +170,11 @@ class Rental {
   async findRental(rentalID) {
     return this.Rentals.findById(rentalID).populate('productCode').exec()
   }
+
+  async updateRental(rental) {
+    await this.Rentals.findByIdAndUpdate(rental.id, rental)
+    return this.Rentals.findById(rental.id).exec()
+  }
 }
 
 export default Rental

@@ -106,7 +106,7 @@ async function validateAccessToken() {
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify({ accessToken: accessToken || '' }),
     success: (data) => {
-      if (data.code === 401) {
+      if (data.code && data.code !== 200) {
         // aggiorno il refresh token
         const refreshToken = cookie.get('refreshToken')
         if (refreshToken) {
