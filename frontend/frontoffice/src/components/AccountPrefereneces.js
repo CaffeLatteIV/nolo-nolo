@@ -24,7 +24,11 @@ function AccountPreferences() {
       <div className="col-lg-4 col-sm-1" />
       <div className="col-lg-4 col-sm-10">
         <div className="mb-4">
-          <h4>Punti Fedeltà:<span> {client.fidelityPoints}</span></h4>
+          <h4>Punti Fedeltà:
+            <span>
+              {client.fidelityPoints === null || client.fidelityPoints === undefined || client.fidelityPoints === 0 ? ' nessun punto' : client.fidelityPoints }
+            </span>
+          </h4>
         </div>
         <div className="mb-4">
           <h4>Prodotti Preferiti:</h4>

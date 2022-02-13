@@ -15,6 +15,7 @@ function PersonalInfo() {
   const [name, setName] = useState(client.name)
   const [surname, setSurname] = useState(client.surname)
   const [email, setEmail] = useState(client.email)
+  const [updated, setUpdated] = useState(false)
   async function updateChanges() {
     await validateAcessToken()
     const accessToken = cookies.get('accessToken')
@@ -28,6 +29,7 @@ function PersonalInfo() {
         'Content-type': 'application/json',
       },
     })
+    setUpdated(true)
   }
   return (
     <div className="row">
@@ -168,6 +170,7 @@ function PersonalInfo() {
         <button type="submit" className="btn mb-4 text-black" onClick={updateChanges}>
           Conferma modifiche
         </button>
+        {updated ? (<p className="text-center price">Modifiche effettuate correttamente!</p>) : ''}
       </div>
       <div className="col-sm-1 col-lg-4" />
     </div>
