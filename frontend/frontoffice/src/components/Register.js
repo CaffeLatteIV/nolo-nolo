@@ -3,6 +3,7 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import DatePicker from 'react-datepicker'
 
 function Register({ setLogged }) {
   const [gender, setGender] = useState('')
@@ -49,11 +50,11 @@ function Register({ setLogged }) {
   }
   return (
     <div className="row w-100">
-      <div className="col-sm-1 col-lg-4" />
-      <div className="col-sm-10 col-lg-4" id="accountInfo">
+      <div className="col-sm-1 col-lg-3" />
+      <div className="col-sm-10 col-lg-6" id="accountInfo">
         <div className="row">
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="nomeInput">
+            <label className="form-label  w-100 mb-4" htmlFor="nomeInput">
               <input
                 type="text"
                 id="nomeInput"
@@ -64,7 +65,7 @@ function Register({ setLogged }) {
             </label>
           </div>
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="cognomeInput">
+            <label className="form-label  w-100 mb-4" htmlFor="cognomeInput">
               <input
                 onChange={(e) => setSurname(e.target.value)}
                 value={surname}
@@ -78,7 +79,7 @@ function Register({ setLogged }) {
 
         {/* address input */}
         <div className="">
-          <label className="form-label ps-2 w-100 mb-4" htmlFor="addressInput">
+          <label className="form-label  w-100 mb-4" htmlFor="addressInput">
             <input
               type="text"
               id="addressInput"
@@ -92,7 +93,7 @@ function Register({ setLogged }) {
         {/* Email and password input */}
         <div className="row ">
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="emailInput">
+            <label className="form-label  w-100 mb-4" htmlFor="emailInput">
               <input
                 type="email"
                 id="emailInput"
@@ -103,7 +104,7 @@ function Register({ setLogged }) {
             </label>
           </div>
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="passwordInput">
+            <label className="form-label  w-100 mb-4" htmlFor="passwordInput">
               <input
                 type="password"
                 id="passwordInput"
@@ -118,23 +119,28 @@ function Register({ setLogged }) {
         <div className="row">
           <div className="col-sm-12 col-lg-6">
             <div className="mb-4">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label
                 htmlFor="dateInput"
-                className="form-label ps-2 w-100"
+                className="form-label  w-100"
               >
-                <input
-                  type="date"
-                  className="form-control"
-                  id="dateInput"
+                <DatePicker
                   onChange={(e) => setBirtDate(e.target.value)}
-                  value={birthDate}
-                />Data di nascita
+                  dateFormat="dd/MM/yyyy"
+                  scrollableMonthYearDropdown
+                  withPortal
+                  placeholderText="Inserisci periodo"
+                  className="rounded border-0 form-control w-100"
+                  calendarClassName="text-white border-0"
+                  id="dateInput"
+                />
+                Data di nascita
               </label>
             </div>
           </div>
           <div className="col-sm-12 col-lg-6">
             <div className="mb-4">
-              <label className="form-label ps-2 w-100" htmlFor="phoneNumber">
+              <label className="form-label  w-100" htmlFor="phoneNumber">
                 <input
                   type="tel"
                   id="phoneNumber"
@@ -195,11 +201,11 @@ function Register({ setLogged }) {
         </div>
 
         {/* Submit button */}
-        <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
+        <button type="submit" onClick={handleClick} className="btn btn-primary p mb-4 text-black">
           Registrati
         </button>
       </div>
-      <div className="col-sm-1 col-lg-4" />
+      <div className="col-sm-1 col-lg-3" />
       {error ? <p className="text-center text-danger">Dati mancanti o utente già registrato</p> : ''}
     </div>
   )
