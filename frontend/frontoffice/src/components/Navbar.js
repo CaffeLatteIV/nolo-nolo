@@ -11,11 +11,15 @@ function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)
   const [admin, setAdmin] = useState(true)
+  const [manager, setManager] = useState(true)
   useEffect(() => {
     const client = cookies.get('client')
     setLogged(client !== undefined || updateLogged)
-    if (client?.role === 'funzionario' || client?.role === 'manager') {
+    if (client?.role === 'funzionario') {
       setAdmin(true)
+    } else if (client?.role === 'manager') {
+      setAdmin(true)
+      setManager(true)
     } else {
       setAdmin(false)
     }
@@ -55,10 +59,62 @@ function Navbar({ updateLogged }) {
           >
             <span className="navbar-toggler-icon" />
           </button>
+          {logged && admin ? (
+            <div className="collapse navbar-collapse" id="navbarText">
+              <ul className="navbar-nav me-auto">
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:3000/">Store</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:80800/admin/clientList">Clienti</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:8080/admin/inventory">Inventario</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-white" href="http://localhost:8080/admin/noleggi">Noleggi</a>
+                </li>
+                { logged && manager ? (
+                  <li className="nav-item dropdown">
+                    <a
+                      href="#"
+                      className="nav-link dropdown-toggle text-white"
+                      id="navbarDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Statistiche
+                    </a>
+                    <ul
+                      className="dropdown-menu rounded m-0 border-0 md-base p-0"
+                      aria-labelledby="navbarDropdown"
+                    >
+                      <li className="p-2 nav-item md-12dp rounded-top">
+                        <a
+                          className="nav-link text-white"
+                          href="http://localhost/clientStats"
+                        >Clienti
+                        </a>
+                      </li>
+                      <li className="p-2 nav-item md-12dp rounded-bottom">
+                        <a
+                          className="nav-link text-white"
+                          href="http://localhost/index"
+                        >Oggetti
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                ) : '' }
+              </ul>
+            </div>
+          ) : '' }
+
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item dropstart">
-                {logged && !admin ? (
+                {(logged && !admin) ? (
                   <>
                     <a
                       href="#"
@@ -105,7 +161,8 @@ function Navbar({ updateLogged }) {
                       </li>
                     </ul>
                   </>
-                ) : ''}{ (!logged && !admin) ? (
+                ) : ''}
+                { (!logged && !admin) ? (
                   <>
                     <a
                       className="nav-link dropstart-toggle"
@@ -147,66 +204,28 @@ function Navbar({ updateLogged }) {
                 ) : ''}
               </li>
               {(admin && logged) ? (
-                <>
-                  <div className="collapse navbar-collapse" id="navbarText">
-                    <ul className="navbar-nav me-auto">
-                      <li className="nav-item">
-                        <a className="nav-link text-white" href="http://localhost:3000/">Store</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link text-white" href="http://localhost:8080/admin/clientList">Clienti</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link text-white" href="http://localhost:8080/admin/inventory">Inventario</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link text-white" href="http://localhost:8080/admin/noleggi">Noleggi</a>
-                      </li>
-                      <li className="nav-item dropdown">
-                        <a
-                          href="#"
-                          className="nav-link dropdown-toggle text-white"
-                          id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Statistiche
-                        </a>
-                        <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
-                          <li className="p-2 nav-item md-12dp rounded-top">
-                            <a className="nav-link text-white" href="http://localhost/clientStats">Clienti</a>
-                          </li>
-                          <li className="p-2 nav-item md-12dp rounded-bottom">
-                            <a className="nav-link text-white" href="http://localhost/index">Oggetti</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="collapse navbar-collapse" id="navbarText">
-                    <ul className="navbar-nav ms-auto">
-                      <li className="nav-item dropstart">
-                        <a
-                          href="#"
-                          className="nav-link dropstart-toggle"
-                          id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                          title="Account"
-                        >
-                          <span className="material-icons text-white">person</span>
-                        </a>
-                        <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
-                          <li className="p-2 rounded md-24dp">
-                            <Link className="dropdown-item md-error rounded text-white" id="logout" to="/" onClick={logout}>Esci</Link>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </>
+                <div className="collapse navbar-collapse" id="navbarText">
+                  <ul className="navbar-nav ms-auto">
+                    <li className="nav-item dropstart">
+                      <a
+                        href="#"
+                        className="nav-link dropstart-toggle"
+                        id="navbarDropdown"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        title="Account"
+                      >
+                        <span className="material-icons text-white">person</span>
+                      </a>
+                      <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                        <li className="p-2 rounded md-24dp">
+                          <Link className="dropdown-item md-error rounded text-white" id="logout" to="/" onClick={logout}>Esci</Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
               ) : ''}
               {/* <li className="nav-item">
                 <Link to="/cart" className="nav-link" title="Carrello">
