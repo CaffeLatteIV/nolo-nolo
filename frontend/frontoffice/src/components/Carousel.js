@@ -12,7 +12,6 @@ function Carousel() {
     if (!bestSellers) {
       setCarouselItems([])
     } else {
-      console.log(bestSellers)
       setCarouselItems(bestSellers)
     }
   }, [])
