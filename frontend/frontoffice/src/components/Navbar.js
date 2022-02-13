@@ -93,14 +93,14 @@ function Navbar({ updateLogged }) {
                       <li className="p-2 nav-item md-12dp rounded-top">
                         <a
                           className="nav-link text-white"
-                          href="http://localhost/clientStats"
+                          href="http://localhost:5500/frontend/dashboard/HTML/clientStats.html"
                         >Clienti
                         </a>
                       </li>
                       <li className="p-2 nav-item md-12dp rounded-bottom">
                         <a
                           className="nav-link text-white"
-                          href="http://localhost/index"
+                          href="http://localhost:5500/frontend/dashboard/HTML/index.html"
                         >Oggetti
                         </a>
                       </li>
