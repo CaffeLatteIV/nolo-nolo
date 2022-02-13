@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -9,8 +10,15 @@ const URL = process.env.TOKEN_URL || 'http://localhost:5000/v1/token'
 function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)
+  const [admin, setAdmin] = useState(true)
   useEffect(() => {
-    setLogged(cookies.get('client') !== undefined || updateLogged)
+    const client = cookies.get('client')
+    setLogged(client !== undefined || updateLogged)
+    if (client?.role === 'funzionario' || client?.role === 'manager') {
+      setAdmin(true)
+    } else {
+      setAdmin(false)
+    }
   }, [updateLogged])
   async function logout() {
     // const cookies = new Cookies()
@@ -22,6 +30,7 @@ function Navbar({ updateLogged }) {
     cookies.remove('refreshToken')
     cookies.remove('accessToken')
     setLogged(false)
+    setAdmin(false)
   }
   return (
     <div>
@@ -49,7 +58,7 @@ function Navbar({ updateLogged }) {
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item dropstart">
-                {logged ? (
+                {logged && !admin ? (
                   <>
                     <a
                       href="#"
@@ -89,7 +98,6 @@ function Navbar({ updateLogged }) {
                           className="dropdown-item md-error rounded text-white"
                           id="logout"
                           to="/"
-                          // eslint-disable-next-line react/jsx-no-bind
                           onClick={logout}
                         >
                           Esci
@@ -97,7 +105,7 @@ function Navbar({ updateLogged }) {
                       </li>
                     </ul>
                   </>
-                ) : (
+                ) : ''}{ (!logged && !admin) ? (
                   <>
                     <a
                       className="nav-link dropstart-toggle"
@@ -136,8 +144,70 @@ function Navbar({ updateLogged }) {
                       </li>
                     </ul>
                   </>
-                )}
+                ) : ''}
               </li>
+              {(admin && logged) ? (
+                <>
+                  <div className="collapse navbar-collapse" id="navbarText">
+                    <ul className="navbar-nav me-auto">
+                      <li className="nav-item">
+                        <a className="nav-link text-white" href="http://localhost:3000/">Store</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link text-white" href="http://localhost:8080/admin/clientList">Clienti</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link text-white" href="http://localhost:8080/admin/inventory">Inventario</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link text-white" href="http://localhost:8080/admin/noleggi">Noleggi</a>
+                      </li>
+                      <li className="nav-item dropdown">
+                        <a
+                          href="#"
+                          className="nav-link dropdown-toggle text-white"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Statistiche
+                        </a>
+                        <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                          <li className="p-2 nav-item md-12dp rounded-top">
+                            <a className="nav-link text-white" href="http://localhost/clientStats">Clienti</a>
+                          </li>
+                          <li className="p-2 nav-item md-12dp rounded-bottom">
+                            <a className="nav-link text-white" href="http://localhost/index">Oggetti</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="collapse navbar-collapse" id="navbarText">
+                    <ul className="navbar-nav ms-auto">
+                      <li className="nav-item dropstart">
+                        <a
+                          href="#"
+                          className="nav-link dropstart-toggle"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          title="Account"
+                        >
+                          <span className="material-icons text-white">person</span>
+                        </a>
+                        <ul className="dropdown-menu rounded m-0 border-0 md-base p-0" aria-labelledby="navbarDropdown">
+                          <li className="p-2 rounded md-24dp">
+                            <Link className="dropdown-item md-error rounded text-white" id="logout" to="/" onClick={logout}>Esci</Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </>
+              ) : ''}
               {/* <li className="nav-item">
                 <Link to="/cart" className="nav-link" title="Carrello">
                   <span className="material-icons text-white">shopping_cart</span>
