@@ -30,11 +30,7 @@
         >
           <div class="row px-3 text-white text-decoration-none">
             <div class="col-4 fs-4 py-3">
-              {{
-                item
-                  ? item.title
-                  : "Nome oggetto mancante"
-              }}
+              {{ item ? item.title : "Nome oggetto mancante" }}
             </div>
             <div class="col-6 py-3 d-flex flex-row-reverse">
               <div v-show="1 === 1" class="px-2 pt-2">
@@ -89,7 +85,7 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
 
 const cookies = new Cookies();
 
@@ -102,14 +98,14 @@ export default {
     };
   },
   mounted() {
-    this.getInventory()
+    this.getInventory();
   },
   methods: {
-    async getInventory (){
-      await validateAccessToken()
+    async getInventory() {
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
-      process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+        process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
       axios
         .get(inventoryURL + "/products", {
           headers: { Authorization: "Bearer " + accessToken },
@@ -121,19 +117,18 @@ export default {
         });
     },
     async deleteItem(id) {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-      axios.delete(inventoryURL + "/delete/" + id,
+      await axios.delete(
+        inventoryURL + "/delete/" + id,
         {},
         {
           headers: { Authorization: "Bearer " + accessToken },
-        })
-        .then((response) => {
-          console.log(response.data)
-          this.getInventory()
-        });
+        }
+      );
+      this.getInventory();
     },
   },
 };
