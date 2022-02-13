@@ -67,7 +67,7 @@ class Client {
   }
 
   async removeClient(id) {
-    return this.Clients.findByIdAndDelete(id)
+    return this.Clients.findByIdAndDelete(id).exec()
   }
 }
 export default Client
