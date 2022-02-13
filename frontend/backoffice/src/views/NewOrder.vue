@@ -91,6 +91,9 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import Datepicker from "vue3-date-time-picker";
 import "@/assets/css/datepicker.css";
+import validateAccessToken from '../validateAccessToken.js'
+
+const cookies = new Cookies();
 
 export default {
   name: "NewOrder",
@@ -117,8 +120,8 @@ export default {
     this.getInventory();
   },
   methods: {
-    getInventory() {
-      const cookies = new Cookies();
+    async getInventory() {
+      await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
@@ -135,7 +138,6 @@ export default {
     async getReceipt() {
       console.log("aopfhai");
 
-      const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       this.start = new Date(this.date[0]).getTime();
       this.end = new Date(this.date[1]).getTime();
@@ -163,7 +165,7 @@ export default {
       }
     },
     async handleConfirm() {
-      const cookies = new Cookies();
+      await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       const rentalURL =
         process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";

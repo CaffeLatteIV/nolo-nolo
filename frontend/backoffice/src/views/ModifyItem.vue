@@ -132,6 +132,8 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
+const cookies = new Cookies();
+import validateAccessToken from '../validateAccessToken.js'
 
 export default {
   name: "ModifyItem",
@@ -153,7 +155,7 @@ export default {
     };
   },
   async mounted() {
-    const cookies = new Cookies();
+    await validateAccessToken()
     const accessToken = cookies.get("accessToken");
     const itemURL =
       process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
@@ -184,7 +186,7 @@ export default {
       console.log("image ", this.image);
     },
     updateChanges: async function () {
-      const cookies = new Cookies();
+      await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       const itemURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";

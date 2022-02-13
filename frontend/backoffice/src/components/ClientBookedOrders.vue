@@ -83,6 +83,8 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
+import validateAccessToken from '../validateAccessToken.js'
+const cookies = new Cookies();
 
 export default {
   name: "ClientBookedOrders",
@@ -96,36 +98,15 @@ export default {
       showAll: false,
     };
   },
-  async mounted() {
-    await this.validateAccessToken();
+  mounted() {
     this.getBookedRentals();
   },
   methods: {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
     },
-    async validateAccessToken() {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
-      try {
-        const { data } = await axios.post(`${URL}/validate`, { accessToken });
-        if (data.code !== 200) {
-          const refreshToken = cookies.get("refreshToken");
-          const res = await axios.post(`${URL}/refresh`, { refreshToken });
-          cookies.remove("accessToken", { path: "/" });
-          cookies.set("accessToken", res.data.accessToken, {
-            path: "/",
-            sameSite: "Lax",
-          });
-        }
-      } catch (err) {
-        console.log("Refresh Token Error");
-      }
-    },
     async getBookedRentals() {
-      await this.validateAccessToken();
-      const cookies = new Cookies();
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const rentalsURL =
         process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
@@ -151,8 +132,7 @@ export default {
         });
     },
     async deleteBooking(id) {
-      await this.validateAccessToken();
-      const cookies = new Cookies();
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const rentalURL =
         process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";

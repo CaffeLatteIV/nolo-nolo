@@ -25,12 +25,16 @@ class Maintenance {
     return this.Maintenance.find({ productCode }).exec()
   }
 
-  async verifyReturn(rentCode) {
-    return this.Rental.findByIdAndUpdate(rentCode, { verifiedReturn: true }).exec()
+  async verifyRent(rentCode) {
+    // findByIdAndUpdate ritorna il documento PRECEDENTE
+    await this.Rental.findByIdAndUpdate(rentCode, { verifiedRent: true })
+    return this.Rental.findById(rentCode).exec()
   }
 
-  async verifyPayment(rentCode) {
-    return this.Rental.findByIdAndUpdate(rentCode, { verifiedPayment: true }).exec()
+  async verifyReturn(rentCode) {
+    // findByIdAndUpdate ritorna il documento PRECEDENTE
+    await this.Rental.findByIdAndUpdate(rentCode, { verifiedReturn: true })
+    return this.Rental.findById(rentCode).exec()
   }
 }
 export default Maintenance

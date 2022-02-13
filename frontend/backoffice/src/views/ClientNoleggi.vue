@@ -30,6 +30,7 @@ import ClientClosedOrders from "@/components/ClientClosedOrders";
 
 import axios from "axios";
 import Cookies from "universal-cookie";
+import validateAccessToken from '../validateAccessToken.js'
 
 export default {
   name: "Noleggi",
@@ -48,6 +49,7 @@ export default {
   },
   methods: {
     getClientName: async function () {
+      await validateAccessToken()
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const clientURL =

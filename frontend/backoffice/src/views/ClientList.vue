@@ -97,6 +97,7 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
+import validateAccessToken from '../validateAccessToken.js'
 
 export default {
   name: "ClientList",
@@ -107,6 +108,7 @@ export default {
     };
   },
   async mounted() {
+    await validateAccessToken()
     const cookies = new Cookies();
     const accessToken = cookies.get("accessToken");
     console.log(accessToken);
@@ -135,25 +137,6 @@ export default {
     this.dataLoaded = true;
   },
   methods: {
-    async validateAccessToken() {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
-      try {
-        const { data } = await axios.post(`${URL}/validate`, { accessToken });
-        if (data.code !== 200) {
-          const refreshToken = cookies.get("refreshToken");
-          const res = await axios.post(`${URL}/refresh`, { refreshToken });
-          cookies.remove("accessToken", { path: "/" });
-          cookies.set("accessToken", res.data.accessToken, {
-            path: "/",
-            sameSite: "Lax",
-          });
-        }
-      } catch (err) {
-        console.log("Refresh Token Error");
-      }
-    },
     checkForBookings(id, rentalsAll) {
       // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
