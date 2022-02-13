@@ -55,7 +55,7 @@
                 @click="verifyRestituzione(this.closedRentals[n - 1])"
                 class="col-1 material-icons pb-3 bg-transparent border-0 text-white"
               >
-                <span v-if="this.closedRentals[n - 1].verifiedReturn">check_box_outline</span>
+                <span v-if="this.closedRentals[n - 1].verifiedReturn" >check_box_outline</span>
                 <span v-else>check_box_outline_blank</span>
               </button>
             </div>
@@ -80,7 +80,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
-
+import validateAccessToken from '../validateAccessToken.js'
 const cookies = new Cookies();
 const rentalsURL = process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
 const maintenanceURL = process.env.MAINTENACE_URL || "http://localhost:5000/v1/maintenance";
@@ -94,12 +94,10 @@ export default {
       inventory: [],
       closedRentals: [],
       showAll: false,
-      noleggiatoCertificato: false, //da modificare con database changes
-      restituitoCertificato: false, //da modificare con database changes
     };
   },
   async mounted() {
-    await this.validateAccessToken();
+    await validateAccessToken();
     const accessToken = cookies.get("accessToken");
     axios
       .get(rentalsURL + "/all", {
@@ -113,37 +111,14 @@ export default {
       });
   },
   methods: {
-    async verifyRestituzione(rent){
-      await this.validateAccessToken();
+    async verifyRestituzione(rental){
+      await validateAccessToken();
       const accessToken = cookies.get('accessToken')
-      console.log(accessToken)
-      const {data} = await axios.post(maintenanceURL+'/verify/return/'+rent.id,{}, {headers:{Authorization:'Bearer '+accessToken}})
-      console.log(data.verifiedReturn)
-      if (data.verifiedReturn){
-        rent.verifiedReturn = true
-      }
+      rental.verifiedReturn = true
+      axios.post(maintenanceURL+'/verify/return/'+rental.id,{}, {headers:{Authorization:'Bearer '+accessToken}})
     },
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
-    },
-    async validateAccessToken() {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
-      try {
-        const { data } = await axios.post(`${URL}/validate`, { accessToken });
-        if (data.code !== 200) {
-          const refreshToken = cookies.get("refreshToken");
-          const res = await axios.post(`${URL}/refresh`, { refreshToken });
-          cookies.remove("accessToken", { path: "/" });
-          cookies.set("accessToken", res.data.accessToken, {
-            path: "/",
-            sameSite: "Lax",
-          });
-        }
-      } catch (err) {
-        console.log("Refresh Token Error");
-      }
     },
   },
 };

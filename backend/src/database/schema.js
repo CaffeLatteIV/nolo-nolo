@@ -155,7 +155,7 @@ const rentSchema = new Schema({
     type: String,
     enum: ['Noleggiato', 'Pagato'],
   },
-  verifiedPayment: {
+  verifiedRent: {
     type: Boolean,
     default: false,
   },

@@ -89,6 +89,9 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
+import validateAccessToken from '../validateAccessToken.js'
+
+const cookies = new Cookies();
 
 export default {
   name: "Inventory",
@@ -102,23 +105,23 @@ export default {
     this.getInventory()
   },
   methods: {
-    getInventory (){
-      const cookies = new Cookies();
-    const accessToken = cookies.get("accessToken");
-    const inventoryURL =
+    async getInventory (){
+      await validateAccessToken()
+      const accessToken = cookies.get("accessToken");
+      const inventoryURL =
       process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-    axios
-      .get(inventoryURL + "/products", {
-        headers: { Authorization: "Bearer " + accessToken },
-      })
-      .then((response) => {
-        this.loading = false;
-        this.inventory = response.data.products;
-        console.log(this.inventory);
-      });
+      axios
+        .get(inventoryURL + "/products", {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        .then((response) => {
+          this.loading = false;
+          this.inventory = response.data.products;
+          console.log(this.inventory);
+        });
     },
-    deleteItem(id) {
-      const cookies = new Cookies();
+    async deleteItem(id) {
+      await validateAccessToken()
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";

@@ -17,9 +17,8 @@ const upload = multer({
 })
 app.get('/categories/:category', async (req, res) => {
   const { category } = req.params
-  const { available } = req.query
   logger.info(`Finding items of ${category} category`)
-  const products = await db.findAllCategory(category, available)
+  const products = await db.findAllCategory(category)
   if (products === null) return res.status(404).send({ code: 404, msg: 'Item not available' })
   return res.status(200).send({ products })
 })

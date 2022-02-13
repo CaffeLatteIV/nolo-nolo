@@ -42,10 +42,10 @@
             <div class="row">
               <span class="col-10 m-0 pt-3 text-end">Certifica noleggio:</span>
               <button
-                @click="verifyNoleggio"
+                @click="verifyNoleggio(this.activeRentals[n - 1])"
                 class="col-1 material-icons pb-3 bg-transparent border-0 text-white"
               >
-                <span v-if="isVerified">check_box_outline</span>
+                <span v-if="this.activeRentals[n - 1].verifiedRent">check_box_outline</span>
                 <span v-else>check_box_outline_blank</span>
               </button>
             </div>
@@ -70,7 +70,11 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
+import validateAccessToken from '../validateAccessToken.js'
 
+const cookies = new Cookies();
+const rentalsURL = process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+const maintenanceURL = process.env.MAINTENACE_URL || "http://localhost:5000/v1/maintenance";
 export default {
   name: "ActiveOrders",
   data() {
@@ -78,18 +82,11 @@ export default {
       inventory: [],
       activeRentals: [],
       showAll: false,
-      noleggiatoCertificato: false, //da modificare con database changes
-      restituitoCertificato: false, //da modificare con database changes
     };
   },
-  mounted() {
-    this.validateAccessToken();
-    const cookies = new Cookies();
+  async mounted() {
+    await validateAccessToken();
     const accessToken = cookies.get("accessToken");
-
-    const rentalsURL =
-      process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-
     axios
       .get(rentalsURL + "/all", {
         headers: { Authorization: "Bearer " + accessToken },
@@ -106,30 +103,11 @@ export default {
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");
     },
-    verifyNoleggio(){
-      
-    },
-    isVerified(){
-
-    },
-    async validateAccessToken() {
-      const cookies = new Cookies();
-      const accessToken = cookies.get("accessToken");
-      const URL = process.env.TOKEN_URL || "http://localhost:5000/v1/token";
-      try {
-        const { data } = await axios.post(`${URL}/validate`, { accessToken });
-        if (data.code !== 200) {
-          const refreshToken = cookies.get("refreshToken");
-          const res = await axios.post(`${URL}/refresh`, { refreshToken });
-          cookies.remove("accessToken", { path: "/" });
-          cookies.set("accessToken", res.data.accessToken, {
-            path: "/",
-            sameSite: "Lax",
-          });
-        }
-      } catch (err) {
-        console.log("Refresh Token Error");
-      }
+    async verifyNoleggio(rental){
+      await validateAccessToken();
+      const accessToken = cookies.get('accessToken')
+      rental.verifiedRent= true
+      axios.post(maintenanceURL+'/verify/rent/'+rental.id,{}, {headers:{Authorization:'Bearer '+accessToken}})
     },
   },
 };
