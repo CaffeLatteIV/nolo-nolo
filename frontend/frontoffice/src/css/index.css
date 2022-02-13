@@ -212,6 +212,10 @@ Source: https://material.io/design/color/dark-theme.html*/
   background-color: #1e1e1e;
   color: white;
 }
+.react-datepicker__day:hover {
+  background-color: rgba(33, 107, 165, 0.5);
+  color: white;
+}
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next{
   margin: 1em;

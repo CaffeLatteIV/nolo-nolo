@@ -134,7 +134,7 @@ function Register({ setLogged }) {
                   maxDate={new Date()}
                   className="rounded border-0 form-control w-100"
                   calendarClassName="text-white border-0"
-                  id="dateInput"
+                  id="datepicker"
                 />
                 Data di nascita
               </label>
