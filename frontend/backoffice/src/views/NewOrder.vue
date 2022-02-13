@@ -1,7 +1,7 @@
 <template>
   <div class="container md-01dp mt-4 p-4 rounded">
     <h1 class="text-center mb-4">Creazione Nuovo Ordine</h1>
-    <div id="newItemForm" class="w-50 m-auto">
+    <div id="newItemForm" class="w-50 m-auto" :key="posted">
       <div class="row">
         <div class="col">
           <label for="inventorySelection" class="form-label p-2 w-100">
@@ -91,7 +91,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import Datepicker from "vue3-date-time-picker";
 import "@/assets/css/datepicker.css";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
 
 const cookies = new Cookies();
 
@@ -120,8 +120,14 @@ export default {
     this.getInventory();
   },
   methods: {
+    setDefaultValues() {
+      this.selectedProduct = undefined;
+      this.date = null;
+      this.coupon = "";
+      this.hasReceipt = false;
+    },
     async getInventory() {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
@@ -163,7 +169,7 @@ export default {
       }
     },
     async handleConfirm() {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const rentalURL =
         process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
@@ -177,8 +183,8 @@ export default {
           },
         }
       );
+      this.setDefaultValues();
       this.posted = true;
-      
     },
   },
 };
