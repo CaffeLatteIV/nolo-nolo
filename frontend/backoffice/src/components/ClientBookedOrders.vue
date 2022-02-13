@@ -145,11 +145,7 @@ export default {
           }
         )
         .then((response) => {
-          if (response.data.code === 500) {
-            console.log("Delete did not work");
-          } else if (response.data.code === 404) {
-            console.log("didn't work");
-          } else {
+          if (response.data.code !== 500 && response.data.code !== 404) {
             this.getBookedRentals();
           }
         });

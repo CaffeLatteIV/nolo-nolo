@@ -1,12 +1,12 @@
 <template>
-  <a class="skip-link" href="#main">Passa al contenuto principale</a>
-  <Navbar />
-  <main id="main">
-    <router-view
-      
-    />
-  </main>
-  <Footer />
+  <div v-cloak>
+    <a class="skip-link" href="#main">Passa al contenuto principale</a>
+    <Navbar />
+    <main id="main">
+      <router-view />
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script>

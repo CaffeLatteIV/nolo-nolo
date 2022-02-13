@@ -40,7 +40,13 @@
           </div>
           <div class="col-2 row pt-2">
             <router-link
-              :to="{ path: '/admin/client/modifyBooking/' + this.bookedRentals[n-1].clientCode + '/' + this.bookedRentals[n-1].id }"
+              :to="{
+                path:
+                  '/admin/client/modifyBooking/' +
+                  this.bookedRentals[n - 1].clientCode +
+                  '/' +
+                  this.bookedRentals[n - 1].id,
+              }"
               exact-path
               class="col text-decoration-none"
               role="button"
@@ -80,7 +86,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
 
 const cookies = new Cookies();
 
@@ -123,9 +129,9 @@ export default {
         })
         .then((response) => {
           this.loadingRentals = false;
-          this.bookedRentals = response.data.rentals.filter(
-            (rent) => rent.start > new Date().getTime()
-          ).sort((a,b)=> a.start - b.start);
+          this.bookedRentals = response.data.rentals
+            .filter((rent) => rent.start > new Date().getTime())
+            .sort((a, b) => a.start - b.start);
         });
     },
     async deleteBooking(id) {
@@ -142,11 +148,7 @@ export default {
           }
         )
         .then((response) => {
-          if (response.data.code === 500) {
-            console.log("Delete did not work");
-          } else if (response.data.code === 404) {
-            console.log("didn't work");
-          } else {
+          if (response.data.code !== 500 && response.data.code !== 404) {
             this.getBookedRentals();
           }
         });

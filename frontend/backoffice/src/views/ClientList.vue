@@ -163,11 +163,8 @@ export default {
       });
       if (response.status === 200){
         this.dataLoaded = false
-        console.log("Deletion successfull")
         this.clientList.splice(this.clientList.indexOf(client),1)
         this.loadClientList()
-      } else if (response.status === 500) {
-        console.log("Deletion NOT successfull")
       }
     },
   },

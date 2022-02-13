@@ -1,4 +1,7 @@
 /*Entire site CSS*/
+[v-cloak] {
+  display:none;
+}
 html,
 body {
   height: 100%;

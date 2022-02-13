@@ -91,11 +91,12 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import Datepicker from "vue3-date-time-picker";
 import "@/assets/css/datepicker.css";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
 
 const cookies = new Cookies();
 const rentalURL = process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
-const inventoryURL = process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
+const inventoryURL =
+  process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
 export default {
   name: "ModifyOrder",
   components: {
@@ -123,7 +124,7 @@ export default {
   },
   methods: {
     async getInventory() {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       axios
         .get(inventoryURL + "/products", {
@@ -135,7 +136,7 @@ export default {
         });
     },
     async getReceipt() {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       this.start = new Date(this.date[0]).getTime();
       this.end = new Date(this.date[1]).getTime();
@@ -159,12 +160,14 @@ export default {
         this.hasReceipt = true;
       }
     },
-    async getRent(){
-      const id = this.$route.params.id
-      await validateAccessToken()
+    async getRent() {
+      const id = this.$route.params.id;
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
-      const {data} = await axios.get(rentalURL+'/rental/'+id,{ headers: {Authorization: `Bearer ${accessToken}`}})
-      this.selectedProduct = data.rent.productCode.title
+      const { data } = await axios.get(rentalURL + "/rental/" + id, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      this.selectedProduct = data.rent.productCode.title;
     },
     async handleConfirm() {
       this.deleteBooking(this.$route.params.id);
@@ -183,12 +186,10 @@ export default {
       this.posted = true;
     },
     async deleteBooking(id) {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
-      console.log(accessToken);
       const rentalURL =
         process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-      console.log(id);
       axios
         .post(
           rentalURL + "/delete/" + id,
@@ -198,11 +199,7 @@ export default {
           }
         )
         .then((response) => {
-          if (response.data.code === 500) {
-            console.log('error')
-          } else if (response.data.code === 404) {
-            console.log('error')
-          } else {
+          if (response.data.code !== 500 && response.data.code !== 404) {
             this.getBookedRentals();
           }
         });

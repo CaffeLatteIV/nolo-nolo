@@ -138,7 +138,6 @@ export default {
         .then((response) => {
           this.loading = false;
           this.inventory = response.data.products;
-          console.log(this.inventory);
         });
     },
     async getReceipt() {
@@ -165,7 +164,6 @@ export default {
       } else {
         this.receipt = data.receipt;
         this.hasReceipt = true;
-        console.log("receipt", this.receipt);
       }
     },
     async handleConfirm() {

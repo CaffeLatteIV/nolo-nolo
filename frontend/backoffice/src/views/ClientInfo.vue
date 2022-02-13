@@ -151,8 +151,6 @@ export default {
   async mounted() {
     await validateAccessToken()
     const accessToken = cookies.get("accessToken");
-    console.log(accessToken);
-    console.log(cookies.get("client"));
     const clientURL =
       process.env.CLIENT_URL || "http://localhost:5000/v1/clients";
     axios
@@ -161,7 +159,6 @@ export default {
       })
       .then((response) => {
         const user = response.data.user;
-        console.log(user);
         this.loading = false;
         this.clientName = user.name;
         this.clientSurname = user.surname;
@@ -170,10 +167,7 @@ export default {
         this.clientBirthday = dayjs(user.birthDate).format("YYYY-MM-DD");
         this.clientTelephone = user.phoneNumber;
         this.clientGender = user.gender;
-        console.log("bday" + this.clientBirthday);
-        console.log("gender" + this.clientGender);
       });
-    console.log("id: " + this.$route.params.id);
   },
   methods: {
     updateChanges: function () {

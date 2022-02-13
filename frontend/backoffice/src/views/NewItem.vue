@@ -181,7 +181,6 @@ export default {
     },
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
-      console.log("image ", this.image);
     },
     async create() {
       await validateAccessToken();

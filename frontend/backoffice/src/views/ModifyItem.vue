@@ -166,7 +166,6 @@ export default {
       }
     );
     const product = data.products;
-    console.log(product)
     this.loading = false;
     this.available = product.available;
     this.title = product.title;
@@ -183,7 +182,6 @@ export default {
   methods: {
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
-      console.log("image ", this.image);
     },
     updateChanges: async function () {
       await validateAccessToken()

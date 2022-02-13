@@ -104,7 +104,6 @@ export default {
               rent.start < new Date().getTime() &&
               rent.end > new Date().getTime()
           );
-        console.log("activeRentals ", this.activeRentals);
       });
   },
   methods: {

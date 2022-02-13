@@ -113,7 +113,6 @@ export default {
         .then((response) => {
           this.loading = false;
           this.inventory = response.data.products;
-          console.log(this.inventory);
         });
     },
     async deleteItem(id) {

@@ -138,7 +138,6 @@ export default {
   },
   methods: {
     logout(){
-      console.log('wow')
       cookies.remove('client')
       cookies.remove('refreshToken')
       cookies.remove('accessToken')
