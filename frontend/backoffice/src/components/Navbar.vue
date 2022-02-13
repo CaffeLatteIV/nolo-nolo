@@ -22,16 +22,51 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link text-white" href="http://127.0.0.1:3000/">Store</a>
+            <a class="nav-link text-white" href="http://localhost:3000/"
+              >Store</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" href="/admin/clientList">Clienti</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/admin/inventory">Inventario</a>
+            <a class="nav-link text-white" href="/admin/inventory"
+              >Inventario</a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" href="/admin/noleggi">Noleggi</a>
+          </li>
+          <li v-show="isManager" className="nav-item dropdown">
+            <a
+              href="#"
+              className="nav-link dropdown-toggle text-white"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Statistiche
+            </a>
+            <ul
+              className="dropdown-menu rounded m-0 border-0 md-base p-0"
+              aria-labelledby="navbarDropdown"
+            >
+              <li className="p-2 nav-item md-12dp rounded-top">
+                <a
+                  className="nav-link text-white"
+                  href="http://localhost:5500/frontend/dashboard/HTML/clientStats.html"
+                  >Clienti
+                </a>
+              </li>
+              <li className="p-2 nav-item md-12dp rounded-bottom">
+                <a
+                  className="nav-link text-white"
+                  href="http://localhost:5500/frontend/dashboard/HTML/index.html"
+                  >Oggetti
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -57,7 +92,7 @@
                 <a
                   class="dropdown-item md-error rounded text-white"
                   id="logout"
-                  href="http://127.0.0.1:3000/"
+                  href="http://localhost:3000/"
                   >Esci</a
                 >
               </li>
@@ -70,12 +105,25 @@
 </template>
 
 <script>
+import Cookies from "universal-cookie";
+
 export default {
   name: "Navbar",
+  data() {
+    return {
+      isManager: false,
+    };
+  },
+  mounted() {
+    const cookies = new Cookies();
+    const client = cookies.get("client");
+    if (client?.role === "manager") {
+      this.isManager = true;
+    }
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
