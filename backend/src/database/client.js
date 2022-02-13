@@ -65,5 +65,9 @@ class Client {
   async findClient(email, password) {
     return this.Clients.findOne({ email, password }, 'name').exec()
   }
+
+  async removeClient(id) {
+    return this.Clients.findByIdAndDelete(id)
+  }
 }
 export default Client

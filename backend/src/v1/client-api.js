@@ -105,4 +105,15 @@ app.post('/update/preferences', authenticateAccessToken, async (req, res) => {
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
 })
+app.delete('/:clientID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { clientID } = req.params
+    await db.removeClient(clientID)
+    return res.send({ code: 200, msg: 'ok' })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
+  }
+})
 export default app
