@@ -47,16 +47,15 @@
             {{ formatDate(this.closedRentals[n - 1].end) }}
           </div>
           <div class="col-3 row pt-2 m-0">
-            
             <div class="row">
               <span class="col-10 m-0 pt-3 text-end"
                 >Certifica restituzione:</span
               >
               <button
-                @click="verifyRestituzione"
+                @click="verifyRestituzione(this.closedRentals[n - 1])"
                 class="col-1 material-icons pb-3 bg-transparent border-0 text-white"
               >
-                <span v-if="isVerified">check_box_outline</span>
+                <span v-if="this.closedRentals[n - 1].verifiedReturn">check_box_outline</span>
                 <span v-else>check_box_outline_blank</span>
               </button>
             </div>
@@ -82,6 +81,10 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import dayjs from "dayjs";
 
+const cookies = new Cookies();
+const rentalsURL = process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
+const maintenanceURL = process.env.MAINTENACE_URL || "http://localhost:5000/v1/maintenance";
+
 export default {
   name: "ClosedOrders",
   data() {
@@ -95,33 +98,30 @@ export default {
       restituitoCertificato: false, //da modificare con database changes
     };
   },
-  mounted() {
-    this.validateAccessToken();
-    const cookies = new Cookies();
+  async mounted() {
+    await this.validateAccessToken();
     const accessToken = cookies.get("accessToken");
-
-    const rentalsURL =
-      process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-
     axios
       .get(rentalsURL + "/all", {
         headers: { Authorization: "Bearer " + accessToken },
       })
       .then((response) => {
         this.loadingRentals = false;
-        console.log(response.data.rentals);
         this.closedRentals = response.data.rentals.filter(
           (rent) => rent.end < new Date().getTime()
         );
-        console.log("closedRentals ", this.closedRentals);
       });
   },
   methods: {
-    isVerified(){
-
-    },
-    verifyRestituzione(){
-      
+    async verifyRestituzione(rent){
+      await this.validateAccessToken();
+      const accessToken = cookies.get('accessToken')
+      console.log(accessToken)
+      const {data} = await axios.post(maintenanceURL+'/verify/return/'+rent.id,{}, {headers:{Authorization:'Bearer '+accessToken}})
+      console.log(data.verifiedReturn)
+      if (data.verifiedReturn){
+        rent.verifiedReturn = true
+      }
     },
     formatDate(dateInMilli) {
       return dayjs(dateInMilli).format("DD/MM/YYYY");

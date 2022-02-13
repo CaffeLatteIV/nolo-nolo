@@ -38,7 +38,7 @@ app.use('/v1/operations', operation)
 app.use('/v1/token', token)
 app.use('/v1/offers', offers)
 app.use('/v1/coupons', coupon)
-app.use('v1/maintenance', maintenance)
+app.use('/v1/maintenance', maintenance)
 // ------- FINE API ------
 
 // ------- FRONTOFFICE ------

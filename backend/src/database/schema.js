@@ -159,7 +159,7 @@ const rentSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  verifiedRent: {
+  verifiedReturn: {
     type: Boolean,
     default: false,
   },

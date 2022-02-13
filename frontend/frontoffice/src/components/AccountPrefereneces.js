@@ -14,7 +14,6 @@ function AccountPreferences() {
     const products = []
     for (let i = 0; i < client.favourites.length; i += 1) {
       const element = client.favourites[i]
-      console.log(element)
       const { data } = await axios.get(`${PRODUCT_URL}/products/${element}`)
       if (data.products) products.push(data.products)
     }

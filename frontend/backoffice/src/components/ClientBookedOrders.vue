@@ -148,17 +148,14 @@ export default {
           this.bookedRentals = response.data.rentals
             .filter((rent) => rent.clientCode === this.$props.id)
             .filter((rent) => rent.start > new Date().getTime());
-          console.log("clientbookedRentals ", this.bookedRentals);
         });
     },
     async deleteBooking(id) {
       await this.validateAccessToken();
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
-      console.log(accessToken);
       const rentalURL =
         process.env.RENTALS_URL || "http://localhost:5000/v1/rentals";
-      console.log(id);
       axios
         .post(
           rentalURL + "/delete/" + id,

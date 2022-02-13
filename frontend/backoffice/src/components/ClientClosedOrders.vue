@@ -109,11 +109,9 @@ export default {
       })
       .then((response) => {
         this.loadingRentals = false;
-        console.log(response.data.rentals);
         this.closedRentals = response.data.rentals
           .filter((rent) => rent.clientCode === this.$props.id)
           .filter((rent) => rent.end < new Date().getTime());
-        console.log("clientclosedRentals ", this.closedRentals);
       });
   },
   methods: {

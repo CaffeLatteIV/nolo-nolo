@@ -146,7 +146,6 @@ export default {
         productCode: this.selectedProduct.code,
         clientCode: this.clientCode,
       };
-      console.log(rentalBody)
       const rentalURL =
         process.env.RENTAL_URL || "http://localhost:5000/v1/rentals";
       const { data } = await axios.post(rentalURL + "/receipt", rentalBody, {
@@ -199,9 +198,7 @@ export default {
         )
         .then((response) => {
           if (response.data.code === 500) {
-            console.log("Delete did not work");
           } else if (response.data.code === 404) {
-            console.log("didn't work");
           } else {
             this.getBookedRentals();
           }

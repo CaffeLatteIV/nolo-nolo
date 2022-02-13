@@ -44,17 +44,23 @@ app.post('/verify/payment/:rentID', authenticateAccessToken, authenticateUserRol
     logger.warn('Rent ID is missing')
     return res.status(404).send({ code: 404, msg: 'No coupon received' })
   }
-  const verifyRent = await db.verifyPayment(rentID)
-  return res.status(200).send({ verifyRent })
+  const { verifiedPayment } = await db.verifyPayment(rentID)
+  return res.status(200).send({ verifiedPayment })
 })
-app.post('/verify/rent/:rentID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
-  const { rentID } = req.params
-  if (!rentID) {
-    logger.warn('Rent ID is missing')
-    return res.status(404).send({ code: 404, msg: 'No coupon received' })
+app.post('/verify/return/:rentID', async (req, res) => {
+  try {
+    const { rentID } = req.params
+    if (!rentID) {
+      logger.warn('Rent ID is missing')
+      return res.status(404).send({ code: 404, msg: 'No coupon received' })
+    }
+    const { verifiedReturn } = await db.verifyReturn(rentID)
+    return res.status(200).send({ verifiedReturn })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
-  const verifyRent = await db.verifyRent(rentID)
-  return res.status(200).send({ verifyRent })
 })
 
 export default app

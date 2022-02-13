@@ -99,7 +99,6 @@ export default {
       })
       .then((response) => {
         this.loadingRentals = false;
-        console.log(response.data.rentals);
         this.activeRentals = response.data.rentals
           .filter((rent) => rent.clientCode === this.$props.id)
           .filter(

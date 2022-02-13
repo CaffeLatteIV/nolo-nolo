@@ -25,8 +25,8 @@ class Maintenance {
     return this.Maintenance.find({ productCode }).exec()
   }
 
-  async verifyRent(rentCode) {
-    return this.Rental.findByIdAndUpdate(rentCode, { verifiedRent: true }).exec()
+  async verifyReturn(rentCode) {
+    return this.Rental.findByIdAndUpdate(rentCode, { verifiedReturn: true }).exec()
   }
 
   async verifyPayment(rentCode) {
