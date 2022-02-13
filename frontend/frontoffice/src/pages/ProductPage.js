@@ -25,6 +25,7 @@ function ProductPage() {
   const navigate = useNavigate()
   const cookies = new Cookies()
   const client = cookies.get('client')
+  const isAdmin = client?.role
   // se il parametro id non è presente restituisce la pagina 404
   if (id === null) {
     navigate('*') // \* = route per pagina 404
@@ -57,6 +58,7 @@ function ProductPage() {
   }, [])
 
   async function rent() {
+    if (isAdmin) return
     if (couponCode) {
       await validateAccessToken()
       const accessToken = cookies.get('accessToken')
@@ -163,7 +165,7 @@ function ProductPage() {
                 </div>
               </div>
               {/* controllo se la data sia disponibile */}
-              {!available ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
+              {!available && startDate ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
             </div>
           </div>
         </div>
