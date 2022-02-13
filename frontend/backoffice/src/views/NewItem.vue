@@ -130,7 +130,7 @@
         <button
           type="submit"
           class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
-          @click="updateChanges()"
+          @click="create()"
         >
           Crea
         </button>
@@ -174,7 +174,7 @@ export default {
       this.image = event.target.files[0];
       console.log("image ", this.image);
     },
-    updateChanges: async function () {
+    async create() {
       await validateAccessToken()
 
       const cookies = new Cookies();

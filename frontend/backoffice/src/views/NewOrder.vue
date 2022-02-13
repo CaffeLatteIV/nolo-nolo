@@ -136,8 +136,6 @@ export default {
         });
     },
     async getReceipt() {
-      console.log("aopfhai");
-
       const accessToken = cookies.get("accessToken");
       this.start = new Date(this.date[0]).getTime();
       this.end = new Date(this.date[1]).getTime();
@@ -180,6 +178,7 @@ export default {
         }
       );
       this.posted = true;
+      
     },
   },
 };
