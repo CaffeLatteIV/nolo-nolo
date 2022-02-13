@@ -231,3 +231,7 @@ Source: https://material.io/design/color/dark-theme.html*/
   margin: auto;
   overflow: hidden;
 }
+button.navbar-toggler.bg-site-primary:active,
+button.navbar-toggler.bg-site-primary:focus{
+  box-shadow: none;
+}
