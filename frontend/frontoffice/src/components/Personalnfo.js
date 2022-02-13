@@ -30,42 +30,42 @@ function PersonalInfo() {
     })
   }
   return (
-
-    <div id="accountInfo" className="w-50 m-auto">
-      <div className="row mb-4">
-        <div className="col">
-          <div>
-            <label className="form-label" htmlFor="nomeInput">
-              <input
-                type="text"
-                id="nomeInput"
-                className="form-control"
-                onChange={(e) => setName(e.target.value)}
-                value={name || 'Inserisci il nome'}
-              />
-              Nome
-            </label>
+    <div className="row">
+      <div className="col-sm-1 col-lg-4" />
+      <div id="accountInfo" className="col-lg-4 col-sm-10">
+        <div className="row">
+          <div className="col-lg-6 col-sm-12">
+            <div>
+              <label className=" form-label mb-4" htmlFor="nomeInput">
+                <input
+                  type="text"
+                  id="nomeInput"
+                  className="form-control"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name || 'Inserisci il nome'}
+                />
+                Nome
+              </label>
+            </div>
+          </div>
+          <div className="col-lg-6 col-sm-12">
+            <div>
+              <label className=" form-label mb-4" htmlFor="cognomeInput">
+                <input
+                  type="text"
+                  id="cognomeInput"
+                  className="form-control"
+                  onChange={(e) => setSurname(e.target.value)}
+                  value={surname || 'Inserisci il cognome'}
+                />
+                Cognome
+              </label>
+            </div>
           </div>
         </div>
-        <div className="col">
-          <div>
-            <label className="form-label" htmlFor="cognomeInput">
-              <input
-                type="text"
-                id="cognomeInput"
-                className="form-control"
-                onChange={(e) => setSurname(e.target.value)}
-                value={surname || 'Inserisci il cognome'}
-              />
-              Cognome
-            </label>
-          </div>
-        </div>
-      </div>
 
-      {/* address input */}
-      <div className="mb-4">
-        <label className="form-label" htmlFor="addressInput">
+        {/* address input */}
+        <label className=" form-label mb-4" htmlFor="addressInput">
           <input
             type="text"
             id="addressInput"
@@ -75,11 +75,9 @@ function PersonalInfo() {
           />
           Indirizzo
         </label>
-      </div>
 
-      {/* Email input */}
-      <div className="mb-4">
-        <label className="form-label" htmlFor="emailInput">
+        {/* Email input */}
+        <label className=" form-label mb-4" htmlFor="emailInput">
           <input
             type="email"
             id="emailInput"
@@ -89,12 +87,10 @@ function PersonalInfo() {
           />
           Email
         </label>
-      </div>
 
-      <div className="row">
-        <div className="col">
-          <div className="mb-4">
-            <label htmlFor="dateInput" className="form-label">
+        <div className="row">
+          <div className="col-lg-6 col-sm-12">
+            <label htmlFor="dateInput" className="form-label mb-4">
               <input
                 type="date"
                 className="form-control"
@@ -105,11 +101,10 @@ function PersonalInfo() {
               Data di nascita
             </label>
           </div>
-        </div>
 
-        <div className="col">
-          <div className="mb-4">
-            <label className="form-label" htmlFor="phoneNumber">
+          <div className="col-lg-6 col-sm-12">
+
+            <label className=" form-label mb-4" htmlFor="phoneNumber">
               <input
                 type="tel"
                 id="phoneNumber"
@@ -121,59 +116,60 @@ function PersonalInfo() {
             </label>
           </div>
         </div>
-      </div>
 
-      <div className="d-md-flex justify-content-start align-items-center mb-4 pb-2">
-        <fieldset>
-          <legend className="mb-0 me-4 fs-5">Genere:</legend>
-          <div className="form-check form-check-inline mb-0 me-4">
-            <label className="form-check-label" htmlFor="femaleGender">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="femaleGender"
-                value="Femmina"
-                onChange={(e) => setGender(e.target.value)}
-                checked={gender === 'Femmina'}
-              />
-              Femmina
-            </label>
-          </div>
-          <div className="form-check form-check-inline mb-0 me-4">
-            <label className="form-check-label" htmlFor="maleGender">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="maleGender"
-                value="Maschio"
-                onChange={(e) => setGender(e.target.value)}
-                checked={gender === 'Maschio'}
-              />
-              Maschio
-            </label>
-          </div>
-          <div className="form-check form-check-inline mb-0">
-            <label className="form-check-label" htmlFor="otherGender">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="otherGender"
-                value="Non specificato"
-                onChange={(e) => setGender(e.target.value)}
-                checked={gender === 'Non specificato'}
-              />
-              Non specificato
-            </label>
-          </div>
-        </fieldset>
+        <div className="d-md-flex justify-content-start align-items-center mb-4 pb-2">
+          <fieldset>
+            <legend className="mb-0 me-4 fs-5">Genere:</legend>
+            <div className="form-check form-check-inline mb-0 me-4">
+              <label className="form-check-label" htmlFor="femaleGender">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="femaleGender"
+                  value="Femmina"
+                  onChange={(e) => setGender(e.target.value)}
+                  checked={gender === 'Femmina'}
+                />
+                Femmina
+              </label>
+            </div>
+            <div className="form-check form-check-inline mb-0 me-4">
+              <label className="form-check-label" htmlFor="maleGender">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="maleGender"
+                  value="Maschio"
+                  onChange={(e) => setGender(e.target.value)}
+                  checked={gender === 'Maschio'}
+                />
+                Maschio
+              </label>
+            </div>
+            <div className="form-check form-check-inline mb-0">
+              <label className="form-check-label" htmlFor="otherGender">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="otherGender"
+                  value="Non specificato"
+                  onChange={(e) => setGender(e.target.value)}
+                  checked={gender === 'Non specificato'}
+                />
+                Non specificato
+              </label>
+            </div>
+          </fieldset>
+        </div>
+        {/* Submit button */}
+        <button type="submit" className="btn mb-4 text-black" onClick={updateChanges}>
+          Conferma modifiche
+        </button>
       </div>
-      {/* Submit button */}
-      <button type="submit" className="btn mb-4 text-black" onClick={updateChanges}>
-        Conferma modifiche
-      </button>
+      <div className="col-sm-1 col-lg-4" />
     </div>
   )
 }

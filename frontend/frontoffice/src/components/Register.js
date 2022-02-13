@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-function Register(setLogged) {
+function Register({ setLogged }) {
   const [gender, setGender] = useState('')
   const [address, setAddress] = useState('')
   const [password, setPassword] = useState('')
@@ -12,25 +13,23 @@ function Register(setLogged) {
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
   const [email, setEmail] = useState('')
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
   async function registerUser() {
-    const { data } = await axios({
-      method: 'post',
-      url: `${URL}v1/clients/login`,
-      data: {
-        client: {
-          email,
-          password,
-          gender,
-          address,
-          phoneNumber,
-          birthDate,
-          name,
-          surname,
-        },
-      },
-    })
-    if (data && data.accessToken && data.refreshToken && data.client) {
+    const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
+    const client = {
+      email,
+      password,
+      gender,
+      address,
+      phoneNumber,
+      birthDate: new Date(birthDate).getTime(),
+      name,
+      surname,
+    }
+    const { data } = await axios.post(`${CLIENT_URL}/register`, { client }, { validateStatus: false })
+    const status = data?.code
+    if (data && data.accessToken && data.refreshToken && data.client && !status) {
       const cookies = new Cookies()
       cookies.set('accessToken', data.accessToken, { path: '/', sameSite: 'Lax' })
       cookies.set('refreshToken', data.refreshToken, { path: '/', sameSite: 'Lax' })
@@ -44,10 +43,12 @@ function Register(setLogged) {
     setLogged(logged)
     if (logged) {
       navigate('/', { replace: true })
+    } else {
+      setError(true)
     }
   }
   return (
-    <div className="row">
+    <div className="row w-100">
       <div className="col-sm-1 col-lg-4" />
       <div className="col-sm-10 col-lg-4" id="accountInfo">
         <div className="row">
@@ -115,7 +116,7 @@ function Register(setLogged) {
         </div>
 
         <div className="row">
-          <div className="col-sm-12">
+          <div className="col-sm-12 col-lg-6">
             <div className="mb-4">
               <label
                 htmlFor="dateInput"
@@ -125,7 +126,7 @@ function Register(setLogged) {
                   type="date"
                   className="form-control"
                   id="dateInput"
-                  onChange={(e) => setBirtDate(new Date(e).getTime())}
+                  onChange={(e) => setBirtDate(e.target.value)}
                   value={birthDate}
                 />Data di nascita
               </label>
@@ -199,8 +200,9 @@ function Register(setLogged) {
         </button>
       </div>
       <div className="col-sm-1 col-lg-4" />
+      {error ? <p className="text-center text-danger">Dati mancanti o utente già registrato</p> : ''}
     </div>
   )
 }
-
+Register.propTypes = { setLogged: PropTypes.func.isRequired }
 export default Register

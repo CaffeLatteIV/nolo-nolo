@@ -39,7 +39,7 @@
               class="text-white"
               v-show="this.closedRentals[n - 1].fidelityPoints > 0"
             >
-              Spesa in punti: {{ this.closedRentals[n - 1].fidelityPoints }}€
+              Spesa in punti: {{ this.closedRentals[n - 1].fidelityPoints }}
             </p>
           </div>
           <div class="col-2 p-2 m-0 text-white text-center">
@@ -108,7 +108,7 @@ export default {
         this.closedRentals = response.data.rentals.filter(
           (rent) => rent.end < new Date().getTime()
         );
-      });
+      }).sort((a,b)=> a.start - b.start);
   },
   methods: {
     async verifyRestituzione(rental){

@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import ProductCard from './ProductCard.js'
 
@@ -21,23 +20,23 @@ function AccountPreferences() {
   }, [])
 
   return (
-    <div className="w-50 m-auto">
-      <div className="mb-4">
-        <h4>Punti Fedeltà:<span> {client.fidelityPoints}</span></h4>
+    <div className="row w-100">
+      <div className="col-lg-4 col-sm-1" />
+      <div className="col-lg-4 col-sm-10">
+        <div className="mb-4">
+          <h4>Punti Fedeltà:<span> {client.fidelityPoints}</span></h4>
+        </div>
+        <div className="mb-4">
+          <h4>Prodotti Preferiti:</h4>
+          <span>{ productList ? productList.map(({ id, title, price, condition, media }) => (
+            <div key={id} className="col p-1">
+              <ProductCard id={id} title={title} condition={condition} price={price.weekday} img={media.img} />
+            </div>
+          )) : 'Non hai ancora aggiunto nessun prodotto ai preferiti' }
+          </span>
+        </div>
       </div>
-      <div className="mb-4">
-        <h4>Categorie Preferite:</h4>
-        <span>{ client.preferredCategories.length !== 0 ? client.preferredCategories.map((category) => <Link key={Math.random()} to={`/category?id=${encodeURIComponent(category)}`}>{category}</Link>) : 'Non hai ancora aggiunto nessuna categoria ai preferiti' }</span>
-      </div>
-      <div className="mb-4">
-        <h4>Prodotti Preferiti:</h4>
-        <span>{ productList ? productList.map(({ id, title, price, condition, media }) => (
-          <div key={id} className="col p-1">
-            <ProductCard id={id} title={title} condition={condition} price={price.weekday} img={media.img} />
-          </div>
-        )) : 'Non hai ancora aggiunto nessun prodotto ai preferiti' }
-        </span>
-      </div>
+      <div className="col-lg-4 col-sm-1" />
     </div>
   )
 }

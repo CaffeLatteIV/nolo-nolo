@@ -31,7 +31,7 @@
               class="text-white"
               v-show="this.bookedRentals[n - 1].fidelityPoints > 0"
             >
-              Spesa in punti: {{ this.bookedRentals[n - 1].fidelityPoints }}€
+              Spesa in punti: {{ this.bookedRentals[n - 1].fidelityPoints }}
             </p>
           </div>
           <div class="col-3 p-2 m-0 text-white text-center">
@@ -125,7 +125,7 @@ export default {
           this.loadingRentals = false;
           this.bookedRentals = response.data.rentals.filter(
             (rent) => rent.start > new Date().getTime()
-          );
+          ).sort((a,b)=> a.start - b.start);
         });
     },
     async deleteBooking(id) {

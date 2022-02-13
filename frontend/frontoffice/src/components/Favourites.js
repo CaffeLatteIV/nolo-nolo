@@ -11,12 +11,13 @@ function Favourites({ id }) {
   const cookies = new Cookies()
   const client = cookies.get('client')
   const isAdmin = client?.role
-  const [isFavourite, setIsFavourite] = !isAdmin ? useState(client.favourites.includes(id)) : useState(false)
+  const alreadyFavourite = client.favourites && client.favourites.length > 0 ? client.favourites.includes(id) : false
+  const [isFavourite, setIsFavourite] = !isAdmin ? useState(alreadyFavourite) : useState(false)
   async function handleClick() {
     if (isAdmin) return
-    await validateAccessToken()
-    const { favourites } = client
-    if (isFavourite) {
+    const favourites = (client.favourites && client.favourites.length > 0) ? client.favourites : []
+
+    if (favourites.length > 0 && client.favourites.includes(id)) {
       favourites.splice(favourites.indexOf(id), 1)
       setIsFavourite(false)
     } else {
@@ -27,6 +28,7 @@ function Favourites({ id }) {
     client.favourites = favourites
     cookies.remove('client', { path: '/' })
     cookies.set('client', client, { path: '/', sameSite: 'lax' })
+    await validateAccessToken()
     axios.post(`${CLIENT_URL}/update/preferences`, { client }, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -100,7 +100,6 @@ async function getProduct(id) {
 async function validateAccessToken() {
   const cookie = new UniversalCookie()
   const accessToken = cookie.get('accessToken')
-  console.log(accessToken)
   $.ajax({
     url: `${TOKEN_URL}/validate`,
     type: 'POST',
@@ -108,9 +107,8 @@ async function validateAccessToken() {
     data: JSON.stringify({ accessToken: accessToken || '' }),
     success: (data) => {
       if (data.code === 401) {
-        console.log('Asking for new access token')
         // aggiorno il refresh token
-        const refreshToken = cookies.get('refreshToken')
+        const refreshToken = cookie.get('refreshToken')
         if (refreshToken) {
           $.ajax({
             url: `${TOKEN_URL}/refresh`,
@@ -118,8 +116,8 @@ async function validateAccessToken() {
             data: JSON.stringify({ refreshToken }),
             contentType: "application/json; charset=utf-8",
             success: (response) => {
-              cookies.remove('accessToken')
-              cookies.set('accessToken', response.accessToken, { path: '/', sameSite: 'Lax' })
+              cookie.remove('accessToken')
+              cookie.set('accessToken', response.accessToken, { path: '/', sameSite: 'Lax' })
             }
           })
         }

@@ -31,7 +31,7 @@
               class="text-white"
               v-show="this.activeRentals[n - 1].fidelityPoints > 0"
             >
-              Spesa in punti: {{ this.activeRentals[n - 1].fidelityPoints }}€
+              Spesa in punti: {{ this.activeRentals[n - 1].fidelityPoints }}
             </p>
           </div>
           <div class="col-2 p-2 m-0 text-white text-center">

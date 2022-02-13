@@ -51,8 +51,8 @@
                 exact-path
                 class="col d-flex justify-content-end py-3 text-decoration-none"
                 role="button"
-                aria-label="Vedi ordini"
-                title="Vedi ordini"
+                aria-label="Crea nuovo ordine"
+                title="Crea nuovo ordine"
               >
                 <span class="material-icons text-white rounded p-1"
                   >shopping_basket</span
