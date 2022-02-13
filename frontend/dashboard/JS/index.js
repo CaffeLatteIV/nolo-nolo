@@ -6,6 +6,7 @@ import {
   bestSellers,
   avgRentLength,
 } from "./requests.js";
+
 const revenue = await getMonthlyRevenue();
 const lineData = {
   labels: revenue.result.labels,

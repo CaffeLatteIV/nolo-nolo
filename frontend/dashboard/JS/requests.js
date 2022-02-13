@@ -126,4 +126,11 @@ async function validateAccessToken() {
     }
   })
 }
+const cookie = new UniversalCookie()
+const client = cookie.get('client')
+const role = client?.role
+if(!role || role !== 'manager'){
+window.location.href = "http://localhost:3000/";
+
+}
 export { getMonthlyRevenue, getStatus, getProduct, groupClientAge, countClientGender, getConditions, avgRentMonth, avgRentLength, bestSellers }

@@ -1,11 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Cookies from 'universal-cookie'
+
 
 const routes = [
   {
-    path: '/admin',
+    path: '/admin/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/admin/NotFound',
+    name: 'Not Found',
+    component: ()=> import(/* webpackChunkName: "" */'../views/NotFound.vue')
   },
   {
     path: '/admin/clientList',
@@ -89,5 +96,16 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
+router.beforeEach((to, from, next)=>{
+  const cookies = new Cookies()
+  const client = cookies.get('client')
+  const role = client?.role
+  if(to.name === 'Not Found'){
+    next()
+  }else if( role === 'funzionario' || role === 'manager'){
+    next()
+  }else{
+    next({name:'Not Found'})
+  }
+})
 export default router
