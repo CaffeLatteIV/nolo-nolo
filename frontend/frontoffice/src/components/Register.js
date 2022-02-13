@@ -131,7 +131,7 @@ function Register({ setLogged }) {
                   dateFormat="dd/MM/yyyy"
                   scrollableMonthYearDropdown
                   withPortal
-                  mDate={new Date()}
+                  maxDate={new Date()}
                   className="rounded border-0 form-control w-100"
                   calendarClassName="text-white border-0"
                   id="dateInput"
