@@ -46,7 +46,7 @@ class Rental {
       if (offers) {
         offers.forEach((offer) => {
           if (i >= offer.start && i <= offer.end) {
-            priceDay = (priceDay * 100) / (100 - offer.discount)
+            priceDay *= Math.max(((100 - offer.discount) / 100), 1)
           }
         })
       }
@@ -54,7 +54,7 @@ class Rental {
       priceTmp += priceDay
     }
     if (coupon) {
-      priceTmp = (priceTmp * 100) / (100 - coupon)
+      priceTmp *= Math.max(((100 - coupon) / 100), 1)
     }
     priceTmp = Math.round(priceTmp)
     const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
