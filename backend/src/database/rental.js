@@ -25,7 +25,7 @@ class Rental {
     for (let i = start; i <= end; i += 86400000) { // 86400000 = ms in a day
       let priceDay = 0
       const day = new Date(i)
-      const isWeekend = day.getDay() === 0 || day.getDay() === 6
+      const isWeekend = day.getDay() === 5 || day.getDay() === 6
       if (client.fidelityPoints - product.price.points > 0 && useFidelityPoints) {
         client.fidelityPoints -= product.price.points
         spentFidelityPoints += product.price.points
