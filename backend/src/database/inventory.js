@@ -22,7 +22,7 @@ class Inventory {
   }
 
   async findOne(id) {
-    return this.Inventory.findById(id)
+    return this.Inventory.findById(id).exec()
   }
 
   async listAllCategoryNames(unique = undefined) {
