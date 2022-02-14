@@ -14,7 +14,7 @@ app.post('/add', authenticateAccessToken, authenticateUserRole, async (req, res)
     logger.warn('Missing maintenance data')
     return res.status(404).send({ code: 404, msg: 'Missing maintenance data' })
   }
-  const newMaintenance = await db.addMaintenace(maintenance)
+  const newMaintenance = await db.addMaintenance(maintenance)
   return res.status(200).send({ maintenance: newMaintenance }) // per comodità
 })
 app.delete('/remove/:productCode', authenticateAccessToken, authenticateUserRole, async (req, res) => {
