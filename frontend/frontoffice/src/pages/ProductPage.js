@@ -15,7 +15,7 @@ const COUPON_URL = process.env.COUPON_URL || 'https://site202156.tw.cs.unibo.it/
 function ProductPage() {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
-  const [available, setAvailable] = useState(false)
+  const [available, setAvailable] = useState(true)
   const [couponCode, setCouponCode] = useState('')
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
@@ -54,7 +54,11 @@ function ProductPage() {
         },
         validateStatus: false,
       })
-      setAvailable(data.available || false)
+      if (data?.available !== undefined) {
+        setAvailable(data.available)
+      } else {
+        setAvailable(false)
+      }
     }
   }
   async function handleConditionSelected(e) {

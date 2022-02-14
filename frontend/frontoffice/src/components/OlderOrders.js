@@ -22,7 +22,7 @@ function OlderOrders({ id, productCode, title, price, start, end, img, paid }) {
                   <h4 className="m-0 text-wrap text-white">{title}</h4>
                   <p className="text-white">{price}€</p>
                 </div>
-                <div className="col-lg-6 col-sm-9 p-2 m-0 text-white text-center">
+                <div className="col-lg-3 col-sm-9 p-2 m-0 text-white text-center">
                   Da: {dayjs(start).format('DD/MM/YYYY')}&nbsp;
                   A: {dayjs(end).format('DD/MM/YYYY')}
                 </div>
