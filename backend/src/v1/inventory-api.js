@@ -28,7 +28,13 @@ app.get('/categories', async (req, res) => {
   if (categories === null) return res.status(404).send({ code: 404, msg: 'No category available' })
   return res.status(200).send({ categories })
 })
-app.get('/products', async (req, res) => {
+app.get('/products/unique', async (req, res) => {
+  logger.info('Sending list of all products')
+  const products = await db.findAllUnique()
+  if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
+  return res.status(200).send({ products })
+})
+app.get('/products/all', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   logger.info('Sending list of all products')
   const products = await db.findAll()
   if (products === null) return res.status(404).send({ code: 404, msg: 'No product available' })
@@ -38,6 +44,12 @@ app.get('/products/:productID', async (req, res) => {
   const { productID } = req.params
   const products = await db.findOne(productID)
   logger.info(`Sending product ${productID}`)
+  return res.status(200).send({ products })
+})
+app.get('/similar/:title', async (req, res) => {
+  const { title } = req.params
+  const products = await db.findSameTitle(title)
+  logger.info(`Sending different conditions for ${title}`)
   return res.status(200).send({ products })
 })
 app.post('/products/update', async (req, res) => {

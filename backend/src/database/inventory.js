@@ -38,15 +38,35 @@ class Inventory {
     categoryList.forEach((item) => {
       list.push(item.category)
     })
-    return list.filter((value, index, self) => self.indexOf(value) === index)
+    return [...new Set(list)]
   }
 
   async findAllCategory(category) {
     return this.Inventory.find({ category, available: true }).exec()
   }
 
+  async findAllUnique() {
+    const products = await this.Inventory.find({ available: true }).exec()
+    const conditions = ['Ottima', 'Buona', 'Parzialmente danneggiato']
+    const res = []
+    products.forEach((product) => {
+      let add = true
+      res.forEach((elem, index) => {
+        const eCondition = conditions.indexOf(elem.condition)
+        const pCondition = conditions.indexOf(product.condition)
+        if (elem.title === product.title && pCondition < eCondition) {
+          res.splice(index, 1)
+        } else if (elem.title === product.title && pCondition >= eCondition) {
+          add = false
+        }
+      })
+      if (add) res.push(product)
+    })
+    return res
+  }
+
   async findAll() {
-    return this.Inventory.find({ available: true }).exec()
+    return (await this.Inventory.find().exec()).sort((a, b) => a.title.localeCompare(b.title))
   }
 
   async findAllTitle(title, available = undefined) {
@@ -62,6 +82,10 @@ class Inventory {
     const today = new Date().getTime()
     await this.Rentals.deleteMany({ productCode: id, start: { $gt: today } }).exec()
     return this.Inventory.findByIdAndDelete(id).exec()
+  }
+
+  async findSameTitle(title) {
+    return this.Inventory.find({ title }).exec()
   }
 }
 export default Inventory
