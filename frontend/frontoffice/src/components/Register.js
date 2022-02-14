@@ -18,7 +18,7 @@ function Register({ setLogged }) {
   const [error, setError] = useState(false)
   const navigate = useNavigate()
   async function registerUser() {
-    const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
+    const CLIENT_URL = process.env.CLIENT_URL || 'https://site202156.tw.cs.unibo.it/v1/clients'
     const client = {
       email,
       password,
