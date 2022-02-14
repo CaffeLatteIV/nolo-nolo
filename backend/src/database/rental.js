@@ -48,7 +48,7 @@ class Rental {
       priceTmp *= Math.max(((100 - coupon) / 100), 1)
     }
     priceTmp = Math.round(priceTmp)
-    const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
+    const daysBetweenDates = Math.max(Math.ceil((end - start) / 86400000) + 1, 1) // almeno un giorno
     const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
 
     return {
