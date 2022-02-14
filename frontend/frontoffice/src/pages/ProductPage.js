@@ -80,12 +80,19 @@ function ProductPage() {
     const accessToken = cookies.get('accessToken')
     let discount
     if (couponCode) {
-      const { data } = await axios.post(`${COUPON_URL}/use`, { clientCode: client.id, title: couponCode }, { headers: { Authorization: `Bearer ${accessToken}` } })
+      const { data } = await axios.post(
+        `${COUPON_URL}/use`,
+        {
+          clientCode: client.id, title: couponCode,
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` }, validateStatus: false },
+      )
       if (data.coupon) {
         setCouponValid(true)
         discount = data.coupon?.discount
       } else {
         setCouponValid(false)
+        return
       }
     }
     const { data } = await axios.post(`${RENTALS_URL}/receipt`, {
@@ -180,7 +187,6 @@ function ProductPage() {
               <label htmlFor="inputCodiceSconto" className="text-white">
                 Inserire codice sconto:
                 <input type="text" id="inputCodiceSconto" className="form-control rounded text-white border-0 w-100 m-0" onChange={(e) => setCouponCode(e.target.value)} value={couponCode} />
-                {!couponValid ? <span> Il coupon è scaduto o già stato usato</span> : ''}
               </label>
               <label className="mt-4" htmlFor="fidelityCheckbox">
                 <input
@@ -219,6 +225,7 @@ function ProductPage() {
               {!available && startDate ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
               {!dateSelected ? <span className="text-danger"> Nessuna data selezionata</span> : ''}
               {isAdmin ? <span className="text-danger"> Gli account aziendali non possono effettuare ordini, passare ad un account personale</span> : ''}
+              {!couponValid ? <span className="text-danger"> Il coupon è scaduto o è già stato usato</span> : ''}
             </div>
           </div>
         </div>
