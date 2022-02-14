@@ -87,9 +87,9 @@ function ProductPage() {
         },
         { headers: { Authorization: `Bearer ${accessToken}` }, validateStatus: false },
       )
-      if (data.coupon) {
+      if (data.discount) {
         setCouponValid(true)
-        discount = data.coupon?.discount
+        discount = data.discount
       } else {
         setCouponValid(false)
         return

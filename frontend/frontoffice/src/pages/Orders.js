@@ -73,7 +73,7 @@ function Orders() {
                       start={start}
                       img={media.img}
                       end={end}
-                      fidelityPoints={fidelityPoints}
+                      points={fidelityPoints}
                     />
                   ),
                 )
