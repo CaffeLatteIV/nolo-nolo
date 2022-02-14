@@ -16,7 +16,7 @@ import offers from './src/v1/offer-api.js'
 import coupon from './src/v1/coupon-api.js'
 import maintenance from './src/v1/maintenance-api.js'
 import pageRouter from './src/pageRouter.js'
-import populate from './src/database/addValues.js'
+// import populate from './src/database/addValues.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
