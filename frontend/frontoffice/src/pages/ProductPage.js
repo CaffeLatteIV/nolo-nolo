@@ -70,7 +70,7 @@ function ProductPage() {
     setProductConditionList(response.data.products)
   }, [])
   async function rent() {
-    if (startDate === null || endDate === null) {
+    if (!startDate || !endDate) {
       setDateSelected(false)
       return
     }
@@ -222,7 +222,7 @@ function ProductPage() {
                 </div>
               </div>
               {/* controllo se la data sia disponibile */}
-              {!available && startDate ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
+              {!available && startDate && endDate ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
               {!dateSelected ? <span className="text-danger"> Nessuna data selezionata</span> : ''}
               {isAdmin ? <span className="text-danger"> Gli account aziendali non possono effettuare ordini, passare ad un account personale</span> : ''}
               {!couponValid ? <span className="text-danger"> Il coupon è scaduto o è già stato usato</span> : ''}
