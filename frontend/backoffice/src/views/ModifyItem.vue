@@ -215,6 +215,10 @@ export default {
         }/${dates[0].getFullYear()} - ${dates[1].getDate()}/${
           dates[1].getMonth() + 1
         }/${dates[1].getFullYear()}`;
+      } else {
+        return `${dates.getDate()}/${
+          dates.getMonth() + 1
+        }/${dates.getFullYear()}`;
       }
     },
     onChangeFileUpload(event) {
@@ -252,6 +256,7 @@ export default {
         });
         this.media.img = data.img;
       }
+
       axios.post(
         `${itemURL}/products/update`,
         { product: productData },
