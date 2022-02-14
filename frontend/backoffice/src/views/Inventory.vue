@@ -33,12 +33,12 @@
               {{ item ? item.title : "Nome oggetto mancante" }}
             </div>
             <div class="col-6 py-3 d-flex flex-row-reverse">
-              <div v-show="1 === 1" class="px-2 pt-2">
+              <div v-show="item.hasActiveOrders" class="px-2 pt-2">
                 <div class="tag-one rounded px-1 text-black">
                   Prenotazione attiva
                 </div>
               </div>
-              <div v-show="2 === 2" class="p-2">
+              <div v-show="item.hasBookedOrders" class="p-2">
                 <div class="tag-two rounded px-1 text-black">
                   Noleggio in corso
                 </div>
@@ -110,16 +110,17 @@ export default {
         .get(inventoryURL + "/products/all", {
           headers: { Authorization: "Bearer " + accessToken },
         })
-        .then((response) => {
+        .then(async(response) => {
           this.loading = false;
-          response.data.products.forEach(product => {
+          response.data.products.forEach(async(product) => {
           const {data}= await axios.get(inventoryURL + "/status/"+product.id, {
           headers: { Authorization: "Bearer " + accessToken },
         })
         const {status} = data
+        console.log(status)
         product.hasBookedOrders = status?.hasBookedOrders || false
         product.hasActiveOrders = status?.hasActiveOrders || false
-        this.products.push(product)
+        this.inventory.push(product)
           });
         });
     },
@@ -130,12 +131,11 @@ export default {
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
       await axios.delete(
         inventoryURL + "/delete/" + id,
-        {},
         {
           headers: { Authorization: "Bearer " + accessToken },
         }
       );
-      this.getInventory();
+      this.inventory = this.inventory.filter((item)=> item.id !== id)
     },
   },
 };
