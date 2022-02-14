@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link text-white" href="http://localhost:3000/"
+            <a class="nav-link text-white" href="http://site202156.tw.cs.unibo.it/"
               >Store</a
             >
           </li>
@@ -55,14 +55,14 @@
               <li className="p-2 nav-item md-12dp rounded-top">
                 <a
                   className="nav-link text-white"
-                  href="http://localhost:5500/frontend/dashboard/HTML/clientStats.html"
+                  href="https://site202156.tw.cs.unibo.it/frontend/dashboard/HTML/clientStats.html"
                   >Clienti
                 </a>
               </li>
               <li className="p-2 nav-item md-12dp rounded-bottom">
                 <a
                   className="nav-link text-white"
-                  href="http://localhost:5500/frontend/dashboard/HTML/index.html"
+                  href="https://site202156.tw.cs.unibo.it/frontend/dashboard/HTML/index.html"
                   >Oggetti
                 </a>
               </li>
@@ -92,7 +92,7 @@
                 <a
                   class="dropdown-item md-error rounded text-white"
                   id="logout"
-                  href="http://localhost:3000/"
+                  href="http://site202156.tw.cs.unibo.it/"
                   >Esci</a
                 >
               </li>

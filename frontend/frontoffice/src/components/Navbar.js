@@ -63,16 +63,16 @@ function Navbar({ updateLogged }) {
             <div className="collapse navbar-collapse" id="navbarText">
               <ul className="navbar-nav me-auto">
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://localhost:3000/">Store</a>
+                  <a className="nav-link text-white" href="http://site202156.tw.cs.unibo.it/">Store</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://localhost:8080/admin/clientList">Clienti</a>
+                  <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/admin/clientList">Clienti</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://localhost:8080/admin/inventory">Inventario</a>
+                  <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/admin/inventory">Inventario</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://localhost:8080/admin/noleggi">Noleggi</a>
+                  <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/admin/noleggi">Noleggi</a>
                 </li>
                 { logged && manager ? (
                   <li className="nav-item dropdown">
@@ -93,14 +93,14 @@ function Navbar({ updateLogged }) {
                       <li className="p-2 nav-item md-12dp rounded-top">
                         <a
                           className="nav-link text-white"
-                          href="http://localhost:5500/frontend/dashboard/HTML/clientStats.html"
+                          href="https://site202156.tw.cs.unibo.it/frontend/dashboard/HTML/clientStats.html"
                         >Clienti
                         </a>
                       </li>
                       <li className="p-2 nav-item md-12dp rounded-bottom">
                         <a
                           className="nav-link text-white"
-                          href="http://localhost:5500/frontend/dashboard/HTML/index.html"
+                          href="https://site202156.tw.cs.unibo.it/frontend/dashboard/HTML/index.html"
                         >Oggetti
                         </a>
                       </li>
