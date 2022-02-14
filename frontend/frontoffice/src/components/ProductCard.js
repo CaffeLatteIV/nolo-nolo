@@ -10,7 +10,7 @@ function ProductCard({ id, title, price, condition, img }) {
         <div className="card-body p-2 h-100">
           <h5 className="card-title text-white">{ title }</h5>
           <p className="card-text text-white">Condizione: {condition}</p>
-          <p className="card-text text-white">Prezzo: <span className="tw-bold m-0 p-0">{ price }€</span>/mese</p>
+          <p className="card-text text-white">Prezzo: <span className="tw-bold m-0 p-0">{ price }€</span>/giorno</p>
         </div>
       </div>
     </Link>
