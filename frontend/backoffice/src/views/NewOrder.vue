@@ -31,6 +31,7 @@
               v-model="date"
               range
               class="w-100"
+              :format="format"
             ></Datepicker>
             Seleziona data
           </label>
@@ -124,6 +125,11 @@ export default {
     this.getInventory();
   },
   methods: {
+    format(dates){
+      if(dates[0] && dates[1]){
+        return `${dates[0].getDate()}/${dates[0].getMonth()+1}/${dates[0].getFullYear()} - ${dates[1].getDate()}/${dates[1].getMonth()+1}/${dates[1].getFullYear()}` ;
+      }
+    },
     setDefaultValues() {
       this.selectedProduct = undefined;
       this.date = null;

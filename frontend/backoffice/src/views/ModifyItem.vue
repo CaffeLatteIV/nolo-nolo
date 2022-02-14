@@ -104,16 +104,32 @@
           </label>
         </div>
       </div>
-      <div class="mb-4 ms-2 form-switch">
-        <input
-          type="checkbox"
-          id="flexSwitchCheckChecked"
-          class="form-check-input mt-3"
-          v-model="available"
-        />
-        <label for="flexSwitchCheckChecked" class="form-check-label p-2 mt-1">
-          Disponibile
-        </label>
+      <div class="row">
+        <div class="col-1" />
+        <div class="col-5 mb-4 ps-2 form-switch">
+          <input
+            type="checkbox"
+            id="flexSwitchCheckChecked"
+            class="form-check-input mt-3"
+            v-model="available"
+          />
+          <label for="flexSwitchCheckChecked" class="form-check-label p-2 mt-1">
+            Disponibile
+          </label>
+        </div>
+        <div class="col-6 mb-4">
+          <label for="manutenzione" class="form-label p-2 w-100">
+            <Datepicker
+              v-model="manutenzione"
+              class="w-100 bg-transparent"
+              range
+              id="manutenzione"
+              :format="format"
+            >
+            </Datepicker>
+            Manutenzione
+          </label>
+        </div>
       </div>
       <div class="px-2">
         <button
@@ -123,7 +139,13 @@
         >
           Modifica
         </button>
-        <p class="text-center w-100 pb-4 updated" v-show="updated" :key="updated">Modifiche effettuate con successo!</p>
+        <p
+          class="text-center w-100 pb-4 updated"
+          v-show="updated"
+          :key="updated"
+        >
+          Modifiche effettuate con successo!
+        </p>
       </div>
     </div>
   </div>
@@ -133,12 +155,18 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-import validateAccessToken from '../validateAccessToken.js'
-
+import Datepicker from "vue3-date-time-picker";
+import "@/assets/css/datepicker.css";
+import validateAccessToken from "../validateAccessToken.js";
+const MANUTENZIONE_URL = process.env.MAINTENANCE_URL || "http://localhost:5000/v1/maintenance";
 export default {
   name: "ModifyItem",
+  components: {
+    Datepicker,
+  },
   data() {
     return {
+      manutenzione: null,
       updated: false,
       title: "",
       description: "",
@@ -155,7 +183,7 @@ export default {
     };
   },
   async mounted() {
-    await validateAccessToken()
+    await validateAccessToken();
     const accessToken = cookies.get("accessToken");
     const itemURL =
       process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
@@ -177,14 +205,27 @@ export default {
     this.category = product.category;
     this.condition = product.condition;
     this.numInStock = product.stock;
-    this.media = product.media
+    this.media = product.media;
   },
   methods: {
+    format(dates) {
+      if (dates[0] && dates[1]) {
+        return `${dates[0].getDate()}/${
+          dates[0].getMonth() + 1
+        }/${dates[0].getFullYear()} - ${dates[1].getDate()}/${
+          dates[1].getMonth() + 1
+        }/${dates[1].getFullYear()}`;
+      } else {
+        return `${dates[0].getDate()}/${
+          dates[0].getMonth() + 1
+        }/${dates[0].getFullYear()}`;
+      }
+    },
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
     },
     updateChanges: async function () {
-      await validateAccessToken()
+      await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const itemURL =
         process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
@@ -204,6 +245,21 @@ export default {
         fidelityPoints: this.guadagnoFedeltà,
         media: this.media,
       };
+      if(this.manutenzione && this.manutenzione[0]){
+        const start = new Date(this.manutenzione[0]).getTime()
+        let end = 0
+        if(this.manutenzione[1]) end = new Date(this.manutenzione[1]).getTime()
+        const maintenance = {
+          start,
+          end,
+          productCode: this.$route.params.id,
+        }
+        axios.post(MANUTENZIONE_URL+'/add',{maintenance},{
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        } )
+      }
       const formData = new FormData();
       formData.append("file", this.image);
       if (this.image) {
@@ -215,6 +271,7 @@ export default {
         });
         this.media.img = data.img;
       }
+
       axios.post(
         `${itemURL}/products/update`,
         { product: productData },
@@ -225,7 +282,7 @@ export default {
           },
         }
       );
-      this.updated = true
+      this.updated = true;
     },
   },
 };
