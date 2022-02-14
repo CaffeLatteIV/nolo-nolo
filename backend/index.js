@@ -16,7 +16,7 @@ import offers from './src/v1/offer-api.js'
 import coupon from './src/v1/coupon-api.js'
 import maintenance from './src/v1/maintenance-api.js'
 import pageRouter from './src/pageRouter.js'
-// import populate from './src/database/addValues.js'
+import populate from './src/database/addValues.js'
 
 const logger = loggerWrapper('API')
 const app = Express()
@@ -25,27 +25,6 @@ const corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-// app.use(
-//   history({
-//     rewrites: [
-//       {
-//         from: /management-dashboard(\W|\w)*/,
-//         to: '/management-dashboard',
-//       },
-//       {
-//         from: /^\/v1\/.*$/,
-//         to(context) {
-//           return context.parsedUrl.path
-//         },
-//       },
-//       {
-//         from: /\/(\W|\w)*/,
-//         to: '/',
-//       },
-//     ],
-//     disableDotRule: false,
-//   }),
-// )
 app.use(cors(corsOptions))
 app.use(Express.json())
 
@@ -58,7 +37,6 @@ const URL = `mongodb://${mongoCredentials.user}:${mongoCredentials.pwd}@${mongoC
 mongoose.connect(URL, { useNewUrlParser: true })
 mongoose.connection.on('error', (err) => logger.error(err))
 mongoose.connection.once('open', () => {
-  // mongoose.connection.useDb('nolo')
   // populate()
   logger.info('connected to mongo')
 })
@@ -74,30 +52,6 @@ app.use('/v1/token', token)
 app.use('/v1/offers', offers)
 app.use('/v1/coupons', coupon)
 app.use('/v1/maintenance', maintenance)
-// ------- FINE API ------
 
-// // ------- FORNTOFFICE ------
-// app.use('/admin/*', Express.static(path.join(global.rootDir, 'backoffice')))
-// app.get('/admin/*', (req, res) => res.sendFile(path.join(global.rootDir, 'backoffice', 'index.html')))
-
-// // ------- DAHSBOARD ------
-// app.use(Express.static(path.join(global.rootDir, 'dashboard')))
-// app.get('/dashboard/index', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'index.html')))
-// app.get('/dashboard/clientStats', (req, res) => res.sendFile(path.join(global.rootDir, 'dashboard', 'HTML', 'clientStats.html')))
-
-// // ------- FORNTOFFICE ------
-// app.use(Express.static(path.join(global.rootDir, 'frontoffice')))
-// app.get('/*', (req, res) => res.sendFile(path.join(global.rootDir, 'frontoffice', 'index.html')))
 app.use('/', pageRouter)
-// const nextDirectory = `${global.frontendDir}/frontoffice/`
-// const nextApp = next({ dir: nextDirectory })
-// const nextHandler = nextApp.getRequestHandler()
-
-// app.get('*', (req, res) => {
-//   try {
-//     return nextHandler(req, res)
-//   } catch (err) {
-//     return res.status(404).send('Not found')
-//   }
-// })
 app.listen(PORT, () => { logger.info(`Listening on port ${PORT}`) })
