@@ -31,7 +31,9 @@ class Rental {
     }).exec())
     let priceTmp = 0
     let spentFidelityPoints = 0
+    let daysBetweenDates = 0
     for (let i = start; i <= end; i += 86400000) { // 86400000 = ms in a day
+      daysBetweenDates += 1
       let priceDay = 0
       const day = new Date(i)
       const isWeekend = day.getDay() === 5 || day.getDay() === 6
@@ -57,7 +59,6 @@ class Rental {
       priceTmp *= Math.max(((100 - coupon) / 100), 1)
     }
     priceTmp = Math.round(priceTmp)
-    const daysBetweenDates = Math.max(Math.ceil((end - start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
     const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
 
     return {
