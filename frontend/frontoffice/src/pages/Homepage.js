@@ -11,7 +11,7 @@ function Homepage() {
     try {
       const { data } = await axios({
         method: 'GET',
-        url: `${URL}/products`,
+        url: `${URL}/products/unique`,
       })
       if (!data) {
         setProducts(undefined)

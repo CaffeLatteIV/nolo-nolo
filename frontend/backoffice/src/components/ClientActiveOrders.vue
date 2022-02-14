@@ -122,7 +122,7 @@ export default {
       const inventoryURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
       axios
-        .get(inventoryURL + "/products", {
+        .get(inventoryURL + "/products/all", {
           headers: { Authorization: "Bearer " + accessToken },
         })
         .then((response) => {

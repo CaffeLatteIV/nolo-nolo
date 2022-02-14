@@ -27,6 +27,7 @@ class Coupon {
     let { usage } = coupon
     const today = new Date().getTime()
     if (clients && clients.includes(clientCode)) return undefined // il cliente ha già usato il coupon
+    clients.push(clientCode)
     if (start !== 0 && end !== 0 && start <= today && end >= today) { // coupon a tempo
       await this.Coupon.findByIdAndUpdate(coupon.id, { clients }).exec()
       return discount

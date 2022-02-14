@@ -107,8 +107,8 @@ export default {
         this.loadingRentals = false;
         this.closedRentals = response.data.rentals.filter(
           (rent) => rent.end < new Date().getTime()
-        );
-      }).sort((a,b)=> a.start - b.start);
+        ).sort((a,b)=> a.start - b.start);
+      })
   },
   methods: {
     async verifyRestituzione(rental){
