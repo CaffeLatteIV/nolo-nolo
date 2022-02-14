@@ -184,9 +184,8 @@ export default {
       });
   },
   methods: {
-    format(date){
-      return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-      
+    format(date) {
+      return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     },
     updateChanges: function () {
       const accessToken = cookies.get("accessToken");
