@@ -117,7 +117,6 @@ export default {
           headers: { Authorization: "Bearer " + accessToken },
         })
         const {status} = data
-        console.log(status)
         product.hasBookedOrders = status?.hasBookedOrders || false
         product.hasActiveOrders = status?.hasActiveOrders || false
         this.inventory.push(product)
