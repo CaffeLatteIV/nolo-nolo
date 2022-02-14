@@ -38,8 +38,8 @@ function ProductPage() {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
-    setDateSelected(true)
     if (start && end) {
+      setDateSelected(true)
       await validateAccessToken()
       const accessToken = cookies.get('accessToken')
       const { data } = await axios.post(`${RENTALS_URL}/available`, {
