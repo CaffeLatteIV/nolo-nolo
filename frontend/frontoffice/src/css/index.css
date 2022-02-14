@@ -1,0 +1,241 @@
+/*Entire site CSS*/
+html,
+body {
+  height: 100%;
+  background: #121212;
+  color: white;
+  scrollbar-color: grey transparent;
+}
+
+#catNav {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#catNav::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#catNav {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/*End of Entire site CSS*/
+
+/*Carousel CSS*/
+.carousel-caption h5,
+.carousel-caption p {
+  color: white;
+  font-weight: bold;
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
+}
+.carousel {
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+/*End of Carousel CSS*/
+
+/*GoTop CSS*/
+#backToTopBtn {
+  /*General style*/
+  height: 2.5em;
+  width: 2.5em;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0;
+  display: hidden;
+  box-shadow: 1px 1px 5px #121212;
+  /*Keeps button in bottom right corner*/
+  position: fixed;
+  bottom: 0.7em;
+  right: 0.7em;
+
+  /*Keeps button on top of everything*/
+  z-index: 99;
+}
+.goTop {
+  transform: translateY(0);
+}
+.goTopHidden {
+  transform: translateY(4em);
+  transition: all 0.4s;
+}
+#backToTopBtn span {
+  margin: auto;
+  display: inline-flex;
+  vertical-align: bottom;
+  align-items: center;
+}
+/*End of GoTop CSS*/
+
+/*ProductPage CSS*/
+.price {
+  color: #92ff51;
+}
+/*End of ProductPage CSS*/
+
+/*General Purpose Backgrounds*/
+/*Material Design Backgrounds for Dark Theme
+Source: https://material.io/design/color/dark-theme.html*/
+.md-error {
+  background-color: #cf6679;
+}
+#logout:hover {
+  background-color: #cf6679;
+}
+.md-base {
+  background-color: #121212;
+}
+.md-01dp {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.md-02dp {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+.md-03dp {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.md-04dp {
+  background-color: rgba(255, 255, 255, 0.09);
+}
+.md-06dp {
+  background-color: rgba(255, 255, 255, 0.11);
+}
+.md-08dp {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.md-12dp {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+.md-16dp {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.md-24dp {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+/*End of Material Design Backgrounds*/
+/*Proprietary Backgrounds*/
+.bg-site-primary {
+  background-color: #4bb5f6;
+}
+.bg-self-red {
+  background-color: #cf6679;
+}
+/*End of Proprietary BackGrounds*/
+/*End of General Purpose Backgrounds*/
+
+#canBeDisabled[aria-disabled="true"] {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.product-card-link {
+  text-decoration: none;
+}
+
+.skip-link {
+  background: #121212;
+  color: white;
+  left: 50%;
+  position: absolute;
+  transform: translateY(-100%);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0%);
+}
+
+.lowerPartClients {
+  height: 180px;
+}
+#list::-webkit-scrollbar {
+  background: transparent;
+  width: 0.5em;
+}
+#list::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 5em;
+}
+#list {
+  overflow-y: auto;
+  scrollbar-color: grey transparent;
+}
+
+#accountInfo label input {
+  background: #383838;
+  color: white;
+  border: none;
+}
+#accountInfo label input:focus {
+  background: #383838;
+  border: none;
+  color: white;
+}
+#accountInfo button.btn {
+  width: 100%;
+  color: black;
+  background: #4bb5f6;
+  border: none;
+}
+#accountInfo ::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Rende il simbolo del calendario bianco su sfondo nero */
+}
+#accountInfo label {
+  width:100%;
+}
+.tab-container div button {
+  background-color: #1e1e1e;
+  border: none;
+}
+#accountInfo .form-check-input  {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+}
+#accountInfo .form-check-input:checked{
+  border: 3px solid #4bb5f6;
+}#datepicker {
+  background-color: #383838;
+}
+.react-datepicker,
+.react-datepicker__header,
+.react-datepicker__day-name,
+.react-datepicker__current-month,
+.react-datepicker__day {
+  background-color: #1e1e1e;
+  color: white;
+}
+.react-datepicker__day:hover {
+  background-color: rgba(33, 107, 165, 0.5);
+  color: white;
+}
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next{
+  margin: 1em;
+}
+.react-datepicker__day--disabled {
+  background-color: #1e1e1e;
+  color: gray;
+}
+#inputCodiceSconto {
+  background-color: #383838;
+}
+#searchbar {
+  background-color: #1e1e1e;
+}
+#carousel {
+  max-height: 25vh;
+  margin: auto;
+  overflow: hidden;
+}
+button.navbar-toggler.bg-site-primary:active,
+button.navbar-toggler.bg-site-primary:focus{
+  box-shadow: none;
+}

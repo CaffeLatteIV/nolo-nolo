@@ -1,0 +1,66 @@
+POST http://localhost:8000/v1/rentals/add HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI1MDAxNTEsImV4cCI6MTY0MjUwMTA1MX0._Tt2ac6WjKSoEvjVt0hNRjQWFjHKWngJtDubfwTHKww
+content-type: application/json
+
+{
+  "product":{
+    "title":"Bellissima bici",
+      "start":948590625678,
+      "end":948990625999,
+      "productCode":"61e68e0bdd170b22357611cf",
+      "clientCode":"61bb177a9f716e2ae378b3f4",
+      "price":400,
+      "fidelityPoints":200,
+      "status":"Prenotato"
+  }
+}
+
+###
+
+GET http://localhost:8000/v1/rentals/find HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "productCode":"61b1bfed920b3b3b7167f9ab",
+      "clientCode":"61b1bfed920b3b3b7167f9ab"
+  }
+}
+###
+
+GET http://localhost:8000/v1/rentals/find/product HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "productCode":"61b1bfed920b3b3b7167f9ab"
+  }
+}
+###
+
+GET http://localhost:8000/v1/rentals/find/client HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "clientCode":"61b1bfed920b3b3b7167f9ab"
+  }
+}
+###
+GET http://localhost:8000/v1/rentals/find/date/end HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "date":998590625678
+  }
+}
+###
+GET http://localhost:8000/v1/rentals/find/date/start HTTP/1.1
+content-type: application/json
+
+{
+  "item":{
+      "date":998590625678
+  }
+}
