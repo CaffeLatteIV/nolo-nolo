@@ -316,11 +316,11 @@ async function populate() {
   // logger.info('Uploading rentals')
   // const rentList = await createRentList(clients, inventory, offer)
   // logger.info(rentList.length)
-  // await rentals.insertMany(rentList)
-  logger.info('adding coupons')
-  const couponList = createCouponList()
-  await coupons.insertMany(couponList)
-  logger.info('done')
+  // // await rentals.insertMany(rentList)
+  // logger.info('adding coupons')
+  // const couponList = createCouponList()
+  // await coupons.insertMany(couponList)
+  // logger.info('done')
 }
 
 export default populate

@@ -21,8 +21,8 @@ class Inventory {
     }).save()
   }
 
-  async findOne(id = undefined) {
-    return this.Inventory.findById(id).exec()
+  async findOne(id) {
+    return this.Inventory.findById(id)
   }
 
   async listAllCategoryNames(unique = undefined) {
