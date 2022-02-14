@@ -14,6 +14,9 @@ class Maintenance {
   }
 
   async addMaintenance({ productCode, start, end }) {
+    const query = { productCode, start: { $gte: start } }
+    if (end > 0) query.end = { $lte: end }
+    this.Rental.deleteMany(query)
     return new this.Maintenance({ productCode, start, end }).save()
   }
 
