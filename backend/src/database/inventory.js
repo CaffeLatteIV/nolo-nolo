@@ -74,12 +74,19 @@ class Inventory {
 
   async delete(id) {
     const today = new Date().getTime()
-    await this.Rentals.deleteMany({ productCode: id, start: { $gt: today } }).exec()
+    await this.Rentals.deleteMany({ productCode: id, start: { $gt: today } })
     return this.Inventory.findByIdAndDelete(id).exec()
   }
 
   async findSameTitle(title) {
     return this.Inventory.find({ title }).exec()
+  }
+
+  async getStatus(productCode) {
+    const today = new Date().getTime()
+    const hasBookedOrders = (await this.Rentals.find({ productCode, start: { $gte: today } }).exec()).length > 0
+    const hasActiveOrders = (await this.Rentals.find({ productCode, start: { $lte: today }, end: { $gte: today } }).exec()).length > 0
+    return { hasActiveOrders, hasBookedOrders }
   }
 }
 export default Inventory

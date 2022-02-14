@@ -180,7 +180,11 @@ export default {
       const { data } = await axios.get(rentalURL + "/rental/" + id, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      this.selectedProduct = data.rent.productCode.title;
+      this.selectedProduct = {
+        code: data.rent.productCode.id,
+        title: data.rent.productCode.title,
+      }
+      this.date = [new Date(data.rent.start), new Date(data.rent.end)];
     },
     async handleConfirm() {
       this.deleteBooking(this.$route.params.id);

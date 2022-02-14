@@ -99,7 +99,21 @@ app.post('/image/upload', upload.single('file'), (req, res) => {
     return res.status(500).send({ code: 500, msg: 'Error while uploading image' })
   }
 })
-app.delete('/delete/:id', async (req, res) => {
+app.get('/status/:productCode', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { productCode } = req.params
+    if (!productCode) {
+      return res.status(404).send({ msg: 'ProductCode is invalid', code: 404 })
+    }
+    const status = await db.getStatus(productCode)
+    return res.status(200).send({ status })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Error while checkong status' })
+  }
+})
+app.delete('/delete/:id', authenticateAccessToken, authenticateUserRole, async (req, res) => {
   try {
     const { id } = req.params
     if (!id) {
@@ -108,7 +122,7 @@ app.delete('/delete/:id', async (req, res) => {
     }
     logger.info(`Received a request to delete ${id}`)
     await db.delete(id)
-    return res.status(200).send()
+    return res.status(200).send({ code: 200, msg: 'ok' })
   } catch (err) {
     logger.error(err.message)
     logger.error(err.stack)
