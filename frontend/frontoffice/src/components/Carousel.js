@@ -5,14 +5,14 @@ import axios from 'axios'
 const URL = process.env.OPERATIONS_URL || 'https://site202156.tw.cs.unibo.it/v1/operations'
 
 function Carousel() {
-  const [carouselItems, setCarouselItems] = useState(undefined)
+  const [carouselItems, setCarouselItems] = useState([])
   useEffect(async () => {
     const { data } = await axios.get(`${URL}/bestSellers?n=3`)
     const { bestSellers } = data
-    if (!bestSellers || bestSellers.length === 0) {
-      setCarouselItems(undefined)
+    if (!bestSellers) {
+      setCarouselItems([])
     } else {
-      setCarouselItems(data.bestSellers)
+      setCarouselItems(bestSellers)
     }
   }, [])
   return (carouselItems

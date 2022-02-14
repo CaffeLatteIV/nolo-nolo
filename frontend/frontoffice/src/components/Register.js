@@ -2,35 +2,36 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useNavigate } from 'react-router-dom'
+import 'react-datepicker/dist/react-datepicker.css'
+import PropTypes from 'prop-types'
+import DatePicker from 'react-datepicker'
 
-function Register(setLogged) {
+function Register({ setLogged }) {
   const [gender, setGender] = useState('')
   const [address, setAddress] = useState('')
   const [password, setPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [birthDate, setBirtDate] = useState('')
+  const [birthDate, setBirthDate] = useState(new Date())
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
   const [email, setEmail] = useState('')
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
   async function registerUser() {
-    const { data } = await axios({
-      method: 'post',
-      url: `${URL}v1/clients/login`,
-      data: {
-        client: {
-          email,
-          password,
-          gender,
-          address,
-          phoneNumber,
-          birthDate,
-          name,
-          surname,
-        },
-      },
-    })
-    if (data && data.accessToken && data.refreshToken && data.client) {
+    const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5000/v1/clients'
+    const client = {
+      email,
+      password,
+      gender,
+      address,
+      phoneNumber,
+      birthDate: new Date(birthDate).getTime(),
+      name,
+      surname,
+    }
+    const { data } = await axios.post(`${CLIENT_URL}/register`, { client }, { validateStatus: false })
+    const status = data?.code
+    if (data && data.accessToken && data.refreshToken && data.client && !status) {
       const cookies = new Cookies()
       cookies.set('accessToken', data.accessToken, { path: '/', sameSite: 'Lax' })
       cookies.set('refreshToken', data.refreshToken, { path: '/', sameSite: 'Lax' })
@@ -44,15 +45,17 @@ function Register(setLogged) {
     setLogged(logged)
     if (logged) {
       navigate('/', { replace: true })
+    } else {
+      setError(true)
     }
   }
   return (
-    <div className="row">
-      <div className="col-sm-1 col-lg-4" />
-      <div className="col-sm-10 col-lg-4" id="accountInfo">
+    <div className="row w-100">
+      <div className="col-sm-1 col-lg-3" />
+      <div className="col-sm-10 col-lg-6" id="accountInfo">
         <div className="row">
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="nomeInput">
+            <label className="form-label  w-100 mb-4" htmlFor="nomeInput">
               <input
                 type="text"
                 id="nomeInput"
@@ -63,7 +66,7 @@ function Register(setLogged) {
             </label>
           </div>
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="cognomeInput">
+            <label className="form-label  w-100 mb-4" htmlFor="cognomeInput">
               <input
                 onChange={(e) => setSurname(e.target.value)}
                 value={surname}
@@ -77,7 +80,7 @@ function Register(setLogged) {
 
         {/* address input */}
         <div className="">
-          <label className="form-label ps-2 w-100 mb-4" htmlFor="addressInput">
+          <label className="form-label  w-100 mb-4" htmlFor="addressInput">
             <input
               type="text"
               id="addressInput"
@@ -91,7 +94,7 @@ function Register(setLogged) {
         {/* Email and password input */}
         <div className="row ">
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="emailInput">
+            <label className="form-label  w-100 mb-4" htmlFor="emailInput">
               <input
                 type="email"
                 id="emailInput"
@@ -102,7 +105,7 @@ function Register(setLogged) {
             </label>
           </div>
           <div className="col-sm-12 col-lg-6">
-            <label className="form-label ps-2 w-100 mb-4" htmlFor="passwordInput">
+            <label className="form-label  w-100 mb-4" htmlFor="passwordInput">
               <input
                 type="password"
                 id="passwordInput"
@@ -115,25 +118,31 @@ function Register(setLogged) {
         </div>
 
         <div className="row">
-          <div className="col-sm-12">
+          <div className="col-sm-12 col-lg-6">
             <div className="mb-4">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label
                 htmlFor="dateInput"
-                className="form-label ps-2 w-100"
+                className="form-label  w-100"
               >
-                <input
-                  type="date"
-                  className="form-control"
-                  id="dateInput"
-                  onChange={(e) => setBirtDate(new Date(e).getTime())}
-                  value={birthDate}
-                />Data di nascita
+                <DatePicker
+                  selected={birthDate}
+                  onChange={(date) => setBirthDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  scrollableMonthYearDropdown
+                  withPortal
+                  maxDate={new Date()}
+                  className="rounded border-0 form-control w-100"
+                  calendarClassName="text-white border-0"
+                  id="datepicker"
+                />
+                Data di nascita
               </label>
             </div>
           </div>
           <div className="col-sm-12 col-lg-6">
             <div className="mb-4">
-              <label className="form-label ps-2 w-100" htmlFor="phoneNumber">
+              <label className="form-label  w-100" htmlFor="phoneNumber">
                 <input
                   type="tel"
                   id="phoneNumber"
@@ -194,13 +203,14 @@ function Register(setLogged) {
         </div>
 
         {/* Submit button */}
-        <button type="submit" onClick={handleClick} className="btn btn-primary mb-4 text-black">
+        <button type="submit" onClick={handleClick} className="btn btn-primary p mb-4 text-black">
           Registrati
         </button>
       </div>
-      <div className="col-sm-1 col-lg-4" />
+      <div className="col-sm-1 col-lg-3" />
+      {error ? <p className="text-center text-danger">Dati mancanti o utente già registrato</p> : ''}
     </div>
   )
 }
-
+Register.propTypes = { setLogged: PropTypes.func.isRequired }
 export default Register

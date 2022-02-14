@@ -49,7 +49,7 @@ function Navbar({ updateLogged }) {
             <h2>NOLONOLO</h2>
           </Link>
           <button
-            className="navbar-toggler bg-site-primary"
+            className="navbar-toggler bg-transparent"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarText"
@@ -57,7 +57,7 @@ function Navbar({ updateLogged }) {
             aria-expanded="false"
             aria-label="Apri pannello di navigazione"
           >
-            <span className="material-icons">menu</span>
+            <span className="material-icons text-white">menu</span>
           </button>
           {logged && admin ? (
             <div className="collapse navbar-collapse" id="navbarText">

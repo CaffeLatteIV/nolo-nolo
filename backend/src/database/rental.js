@@ -22,7 +22,7 @@ class Rental {
     }).exec())
     let priceTmp = 0
     let spentFidelityPoints = 0
-    for (let i = start; i < end; i += 86400000) { // 86400000 = ms in a day
+    for (let i = start; i <= end; i += 86400000) { // 86400000 = ms in a day
       let priceDay = 0
       const day = new Date(i)
       const isWeekend = day.getDay() === 0 || day.getDay() === 6
@@ -57,7 +57,7 @@ class Rental {
       end,
       clientCode,
       productCode,
-      price: priceTmp,
+      price: Math.max(priceTmp, product.price.weekday),
       earnedFidelityPoints,
       fidelityPoints: spentFidelityPoints,
       discount: coupon,
@@ -160,6 +160,11 @@ class Rental {
 
   async findRental(rentalID) {
     return this.Rentals.findById(rentalID).populate('productCode').exec()
+  }
+
+  async updateRental(rental) {
+    await this.Rentals.findByIdAndUpdate(rental.id, rental)
+    return this.Rentals.findById(rental.id).exec()
   }
 }
 

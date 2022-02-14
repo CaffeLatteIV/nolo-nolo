@@ -20,8 +20,8 @@ app.post('/register', async (req, res) => {
     }
     logger.info(`Adding: ${client.email}`)
     client.password = await generateHash(client.password) // encrypt password
-    let clientFound = await db.findClient(client.email) // controllo già nella funzione se esiste un utente
-    if (client !== null) {
+    let clientFound = await db.findEmail(client.email) // controllo già nella funzione se esiste un utente
+    if (clientFound !== null) {
       logger.warn('User already registered')
       return res.status(400).send({ code: 400, msg: 'Client already registered' })
     }
@@ -97,6 +97,17 @@ app.post('/update/preferences', authenticateAccessToken, async (req, res) => {
   try {
     const { client } = req.body
     await db.updatePreferences(client)
+    return res.send({ code: 200, msg: 'ok' })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'Internal server error' })
+  }
+})
+app.delete('/:clientID', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { clientID } = req.params
+    await db.removeClient(clientID)
     return res.send({ code: 200, msg: 'ok' })
   } catch (err) {
     logger.error(err.message)

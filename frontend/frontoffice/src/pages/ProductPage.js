@@ -20,28 +20,32 @@ function ProductPage() {
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
   const [couponValid, setCouponValid] = useState(true)
+  const [conditionSelected, setConditionSelected] = useState('')
+  const [dateSelected, setDateSelected] = useState(true)
+  const [productConditionList, setProductConditionList] = useState([])
   const { search } = useLocation()
   const query = new URLSearchParams(search)
-  const id = query.get('id')
+  const productCode = query.get('id')
   const navigate = useNavigate()
   const cookies = new Cookies()
   const client = cookies.get('client')
   const isAdmin = client?.role
   // se il parametro id non è presente restituisce la pagina 404
-  if (id === null) {
+  if (productCode === null) {
     navigate('*') // \* = route per pagina 404
   }
   const handleDateChange = async (dates) => {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
+    setDateSelected(true)
     if (start && end) {
       await validateAccessToken()
       const accessToken = cookies.get('accessToken')
       const { data } = await axios.post(`${RENTALS_URL}/available`, {
         start: new Date(start).getTime(),
         end: new Date(end).getTime(),
-        productCode: id,
+        productCode: product.id,
 
       }, {
         headers: {
@@ -53,12 +57,25 @@ function ProductPage() {
       setAvailable(data.available || false)
     }
   }
+  async function handleConditionSelected(e) {
+    const code = e.target.value
+    setConditionSelected(code)
+    setProduct(productConditionList.filter((a) => a.id === code)[0])
+    setStartDate(null)
+    setEndDate(null)
+  }
   useEffect(async () => {
-    const { data } = await axios.get(`${PRODUCT_URL}/products/${id}`)
+    const { data } = await axios.get(`${PRODUCT_URL}/products/${productCode}`)
     setProduct(data.products)
+    const response = await axios.get(`${PRODUCT_URL}/similar/${data.products.title}`)
+    setProductConditionList(response.data.products)
   }, [])
-
   async function rent() {
+    if (startDate === null || endDate === null) {
+      setDateSelected(false)
+      return
+    }
+
     if (isAdmin) return
     await validateAccessToken()
     const accessToken = cookies.get('accessToken')
@@ -121,6 +138,16 @@ function ProductPage() {
               calendarClassName="text-white border-0"
               id="datepicker"
             />
+            {productConditionList && productConditionList.length > 1 ? (
+              <select
+                value={conditionSelected}
+                onChange={(e) => handleConditionSelected(e)}
+              >
+                {productConditionList.map(({ condition, id }) => (
+                  <option key={id} value={id}>{condition}</option>
+                ))}
+              </select>
+            ) : ''}
             <p className="fw-bold m-0">Descrizione: </p>
             <p className="text-wrap">
               {product ? product.description : 'Caricamento'}
@@ -131,10 +158,26 @@ function ProductPage() {
         <div className="col-sm-4 p-2">
           <div className="md-02dp rounded p-4">
             <div className="d-flex flex-column justify-content-between h-100">
-              <h5 className="text-center">Prezzo totale:</h5>
-              <p className="fs-3 mb-4 text-center price">
-                € {product ? product.price.weekday : 'Caricamento'}{' '}
-              </p>
+              <div className="row">
+                <div className="col">
+                  <p className="text-center">Prezzo giorni feriali:</p>
+                  <p className="fs-5 mb-4 text-center price">
+                    € {product ? product.price.weekday : 'Caricamento'}{' '}
+                  </p>
+                </div>
+                <div className="col">
+                  <p className="text-center">Prezzo giorni festivi:</p>
+                  <p className="fs-5 mb-4 text-center price">
+                    € {product ? product.price.weekend : 'Caricamento'}{' '}
+                  </p>
+                </div>
+                <div className="col">
+                  <p className="text-center">Prezzo in punti fedeltà:</p>
+                  <p className="fs-5 mb-4 text-center price">
+                    {product ? `${product.price.points} punt${product.price.points === 1 ? 'o' : 'i'}` : 'Caricamento'}{' '}
+                  </p>
+                </div>
+              </div>
               <label htmlFor="inputCodiceSconto" className="text-white">
                 Inserire codice sconto:
                 <input type="text" id="inputCodiceSconto" className="form-control rounded text-white border-0 w-100 m-0" onChange={(e) => setCouponCode(e.target.value)} value={couponCode} />
@@ -153,7 +196,7 @@ function ProductPage() {
                 Voglio usare i punti fedeltà
               </label>
               <div className="p-2 row">
-                <Favourites id={id} clientCode={client.id} />
+                <Favourites id={productCode} clientCode={client.id} />
                 <div className="col-10  px-0">
                   {available ? (
                     <button
@@ -175,6 +218,8 @@ function ProductPage() {
               </div>
               {/* controllo se la data sia disponibile */}
               {!available && startDate ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
+              {!dateSelected ? <span className="text-danger"> Nessuna data selezionata</span> : ''}
+              {isAdmin ? <span className="text-danger"> Gli account aziendali non possono effettuare ordini, passare ad un account personale</span> : ''}
             </div>
           </div>
         </div>

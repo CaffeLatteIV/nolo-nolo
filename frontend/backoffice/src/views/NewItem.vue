@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4 rounded md-01dp">
     <h1 class="p-4 text-center">Crea un nuovo oggetto</h1>
-    <div class="w-50 m-auto" id="newItemForm">
+    <div class="w-50 m-auto" id="newItemForm" :key="added">
       <div class="row">
         <div class="col">
           <label for="image" class="form-label p-2 w-100">
@@ -130,15 +130,11 @@
         <button
           type="submit"
           class="bg-site-primary border-0 mb-4 rounded px-4 py-1 w-100"
-          @click="updateChanges()"
+          @click="create()"
         >
           Crea
         </button>
-        <p
-          class="text-center w-100 pb-4 added"
-          v-show="added"
-          :key="added"
-        >
+        <p class="text-center w-100 pb-4 added" v-show="added" :key="added">
           Modifiche effettuate con successo!
         </p>
       </div>
@@ -149,7 +145,7 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
 
 export default {
   name: "NewItem",
@@ -170,19 +166,30 @@ export default {
     };
   },
   methods: {
+    setDefaultValues() {
+      this.available = true;
+      this.prezzoFeriali = 0;
+      this.prezzoFestivi = 0;
+      this.costoFedeltà = 0;
+      this.condition = "";
+      this.title = "";
+      this.category = "";
+      this.description = "";
+      this.guadagnoFedeltà = 0;
+      this.numInStock = 0;
+      this.image = null;
+    },
     onChangeFileUpload(event) {
       this.image = event.target.files[0];
-      console.log("image ", this.image);
     },
-    updateChanges: async function () {
-      await validateAccessToken()
+    async create() {
+      await validateAccessToken();
 
       const cookies = new Cookies();
       const accessToken = cookies.get("accessToken");
       const itemURL =
         process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
       const productData = {
-
         available: this.available,
         price: {
           weekday: this.prezzoFeriali,
@@ -204,7 +211,7 @@ export default {
             "Content-type": "multipart/form-data",
           },
         });
-        productData["media"] = {img: data.img};
+        productData["media"] = { img: data.img };
       }
       axios.post(
         `${itemURL}/add`,
@@ -217,6 +224,7 @@ export default {
         }
       );
       this.added = true;
+      this.setDefaultValues();
     },
   },
 };

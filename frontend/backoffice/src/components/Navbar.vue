@@ -2,12 +2,21 @@
   <nav class="navbar navbar-expand md-04dp">
     <div class="container-fluid">
       <router-link
+        v-if="authorized"
         to="/admin/"
         class="navbar-brand text-white"
         title="Menù principale"
       >
         <h2>NOLONOLO</h2>
       </router-link>
+      <a
+        v-else
+        href="http://localhost:3000/"
+        class="navbar-brand text-white"
+        title="Menù principale"
+        >
+        <h2>NOLONOLO</h2>
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,7 +28,7 @@
       >
         <span class="navbar-toggler-icon" />
       </button>
-      <div class="collapse navbar-collapse" id="navbarText">
+      <div class="collapse navbar-collapse" id="navbarText" v-if="authorized">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <a class="nav-link text-white" href="http://site202156.tw.cs.unibo.it/"
@@ -89,12 +98,12 @@
               aria-labelledby="navbarDropdown"
             >
               <li class="p-2 rounded md-24dp">
-                <a
+                <button
                   class="dropdown-item md-error rounded text-white"
                   id="logout"
+                  @click="logout"
                   href="http://site202156.tw.cs.unibo.it/"
-                  >Esci</a
-                >
+                  >Esci</button>
               </li>
             </ul>
           </li>
@@ -106,21 +115,34 @@
 
 <script>
 import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export default {
   name: "Navbar",
   data() {
     return {
       isManager: false,
+      authorized:true,
     };
   },
   mounted() {
-    const cookies = new Cookies();
     const client = cookies.get("client");
-    if (client?.role === "manager") {
+    const role = client?.role
+    if(!role){
+      this.authorized=false;
+
+    }else if (role && role === "manager") {
+      this.authorized=true;
       this.isManager = true;
     }
   },
+  methods: {
+    logout(){
+      cookies.remove('client')
+      cookies.remove('refreshToken')
+      cookies.remove('accessToken')
+    }
+  }
 };
 </script>
 

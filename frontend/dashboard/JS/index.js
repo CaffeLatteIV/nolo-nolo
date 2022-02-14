@@ -6,6 +6,7 @@ import {
   bestSellers,
   avgRentLength,
 } from "./requests.js";
+
 const revenue = await getMonthlyRevenue();
 const lineData = {
   labels: revenue.result.labels,
@@ -27,9 +28,7 @@ var lineChart = new Chart(document.getElementById("lineChart"), lineConfig);
 
 //Setup for Doughnut Chart --> Contiene dati su disponibilità
 const statusData = await getStatus();
-const cookies = new UniversalCookie();
 
-console.log(cookies.get("client"));
 const distrData = {
   labels: statusData.result.labels,
   datasets: [

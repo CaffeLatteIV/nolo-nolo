@@ -51,8 +51,8 @@
                 exact-path
                 class="col d-flex justify-content-end py-3 text-decoration-none"
                 role="button"
-                aria-label="Vedi ordini"
-                title="Vedi ordini"
+                aria-label="Crea nuovo ordine"
+                title="Crea nuovo ordine"
               >
                 <span class="material-icons text-white rounded p-1"
                   >shopping_basket</span
@@ -83,6 +83,7 @@
                 title="Rimuovi Cliente"
                 type="button"
                 :disabled="client.hasBookings || client.hasActiveOrders"
+                @click="deleteCustomer(client)"
               >
                 <span class="material-icons p-1">delete</span>
               </button>
@@ -97,7 +98,13 @@
 <script>
 import axios from "axios";
 import Cookies from "universal-cookie";
-import validateAccessToken from '../validateAccessToken.js'
+import validateAccessToken from "../validateAccessToken.js";
+
+const cookies = new Cookies();
+const accessToken = cookies.get("accessToken");
+const rentalsURL =
+  process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
+const clientURL = process.env.CLIENT_URL || "https://site202156.tw.cs.unibo.it/v1/clients";
 
 export default {
   name: "ClientList",
@@ -108,37 +115,10 @@ export default {
     };
   },
   async mounted() {
-    await validateAccessToken()
-    const cookies = new Cookies();
-    const accessToken = cookies.get("accessToken");
-    console.log(accessToken);
-    console.log(cookies.get("client"));
-    const rentalsURL =
-      process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
-    const clientURL =
-      process.env.CLIENT_URL || "https://site202156.tw.cs.unibo.it/v1/clients";
-    const { data } = await axios.get(clientURL + "/lookup", {
-      headers: { Authorization: "Bearer " + accessToken },
-    });
-    const response = await axios.get(rentalsURL + "/all", {
-      headers: { Authorization: "Bearer " + accessToken },
-    });
-    data.clients.forEach((client) => {
-      client.hasActiveOrders = this.checkForActive(
-        client.id,
-        response.data.rentals
-      );
-      client.hasBookings = this.checkForBookings(
-        client.id,
-        response.data.rentals
-      );
-      this.clientList.push(client);
-    });
-    this.dataLoaded = true;
+    this.loadClientList();
   },
   methods: {
     checkForBookings(id, rentalsAll) {
-      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
           (rent) => rent.clientCode === id && rent.start > new Date().getTime()
@@ -146,7 +126,6 @@ export default {
       );
     },
     checkForActive(id, rentalsAll) {
-      // Behaviour: ciclare per tutti i rentals, controllare se c'è un clientCode che corrisponde all'id
       return (
         rentalsAll.filter(
           (rent) =>
@@ -155,6 +134,38 @@ export default {
             rent.end >= new Date().getTime()
         ).length > 0
       );
+    },
+    async loadClientList() {
+      await validateAccessToken();
+      const { data } = await axios.get(clientURL + "/lookup", {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+      const response = await axios.get(rentalsURL + "/all", {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+      data.clients.forEach((client) => {
+        client.hasActiveOrders = this.checkForActive(
+          client.id,
+          response.data.rentals
+        );
+        client.hasBookings = this.checkForBookings(
+          client.id,
+          response.data.rentals
+        );
+        this.clientList.push(client);
+      });
+      this.dataLoaded = true;
+    },
+    async deleteCustomer(client) {
+      const response = await axios.delete(clientURL + "/" + client.id, {
+        headers: { Authorization: "Bearer " + accessToken },
+        validateStatus:false,
+      });
+      if (response.status === 200){
+        this.dataLoaded = false
+        this.clientList.splice(this.clientList.indexOf(client),1)
+        this.loadClientList()
+      }
     },
   },
 };

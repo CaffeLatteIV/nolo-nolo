@@ -31,7 +31,7 @@
               class="text-white"
               v-show="this.bookedRentals[n - 1].fidelityPoints > 0"
             >
-              Spesa in punti: {{ this.bookedRentals[n - 1].fidelityPoints }}€
+              Spesa in punti: {{ this.bookedRentals[n - 1].fidelityPoints }}
             </p>
           </div>
           <div class="col-3 p-2 m-0 text-white text-center">
@@ -113,7 +113,7 @@ export default {
       const inventoryURL =
         process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
       axios
-        .get(inventoryURL + "/products", {
+        .get(inventoryURL + "/products/all", {
           headers: { Authorization: "Bearer " + accessToken },
         })
         .then((response) => {
@@ -146,11 +146,7 @@ export default {
           }
         )
         .then((response) => {
-          if (response.data.code === 500) {
-            console.log("Delete did not work");
-          } else if (response.data.code === 404) {
-            console.log("didn't work");
-          } else {
+          if (response.data.code !== 500 && response.data.code !== 404) {
             this.getBookedRentals();
           }
         });

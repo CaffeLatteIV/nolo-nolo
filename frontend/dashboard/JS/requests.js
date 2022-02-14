@@ -109,10 +109,9 @@ async function validateAccessToken() {
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify({ accessToken: accessToken || '' }),
     success: (data) => {
-      if (data.code === 401) {
+      if (data.code && data.code !== 200) {
         // aggiorno il refresh token
         const refreshToken = cookie.get('refreshToken')
-        console.log('refreshToken', refreshToken)
         if (refreshToken) {
           $.ajax({
             url: `${TOKEN_URL}/refresh`,
@@ -121,7 +120,7 @@ async function validateAccessToken() {
             dataType:'json',
             contentType: "application/json; charset=utf-8",
             success: (response) => {
-              cookie.remove('accessToken', {path:'/'})
+              cookie.remove('accessToken')
               cookie.set('accessToken', response.accessToken, { path: '/', sameSite: 'Lax' })
             }
           })
@@ -130,5 +129,12 @@ async function validateAccessToken() {
 
     }
   })
+}
+const cookie = new UniversalCookie()
+const client = cookie.get('client')
+const role = client?.role
+if(!role || role !== 'manager'){
+window.location.href = "http://localhost:3000/";
+
 }
 export { getMonthlyRevenue, getStatus, getProduct, groupClientAge, countClientGender, getConditions, avgRentMonth, avgRentLength, bestSellers }

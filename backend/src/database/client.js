@@ -6,7 +6,7 @@ class Client {
     this.Clients = mongoose.model('clients', clientSchema)
   }
 
-  async addClient(email, password, name, surname, phoneNumber, birthDate, gender, address, favourites, preferredCategories, fidelityPoints) {
+  async addClient({ email, password, name, surname, phoneNumber, birthDate, gender, address, favourites, preferredCategories, fidelityPoints }) {
     const client = await new this.Clients({
       email,
       password,
@@ -25,7 +25,7 @@ class Client {
   }
 
   async updatePersonalInfo({ id, name, surname, phoneNumber, birthDate, email, gender, address }) {
-    return this.Clients.findOneAndUpdate({ _id: id }, {
+    return this.Clients.findByIdAndUpdate(id, {
       name,
       surname,
       email,
@@ -37,7 +37,7 @@ class Client {
   }
 
   async updatePreferences({ id, favourites, preferredCategories, fidelityPoints }) {
-    return this.Clients.findOneAndUpdate({ id }, {
+    return this.Clients.findByIdAndUpdate(id, {
       preferredCategories,
       favourites,
       fidelityPoints,
@@ -54,6 +54,18 @@ class Client {
 
   async getClientList() {
     return this.Clients.find({}, 'email name surname phoneNumber birthDate email gender address preferredCategories payment fidelityPoints favourites').exec()
+  }
+
+  async findClient(email, password) {
+    return this.Clients.findOne({ email, password }, 'name').exec()
+  }
+
+  async findEmail(email) {
+    return this.Clients.findOne({ email }, 'name').exec()
+  }
+
+  async removeClient(id) {
+    return this.Clients.findByIdAndDelete(id).exec()
   }
 }
 export default Client

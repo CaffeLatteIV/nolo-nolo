@@ -72,38 +72,42 @@
           </li>
         </ul>
       </div>
-    </div>
-  </nav>
-  <!--Searchbar-->
-  <div class="container-fluid w-100 pb-3 md-04dp">
-    <form class="d-flex">
-      <input class="form-control me-1 p-1 ps-3 text-white" id="searchbar" type="search" placeholder="Cerca.."
-        aria-label="Cerca" />
-      <button class="btn text-black bg-site-primary p-0" type="submit">
-        <span class="material-icons pt-1 px-2">search</span>
-      </button>
-    </form>
-  </div>
-
-  <!--Main content-->
-  <main id="main">
-    <div class="container p-2">
-      <h1>Statistiche Clienti</h1>
-      <div class="row">
-        <div class="col-7 p-2 ps-0">
-          <div class="p-3 md-01dp rounded h-100">
-            <h4 class="fw-bold">Età</h4>
-            <div>
-              <canvas id="ageChart" height="300" class="w-100">
-                <p>
-                  Grafico a barre che mostra la distribuzione di età dei
-                  clienti. Fascia 13-17: <span id="f1"></span>. Fascia 18-24:
-                  <span id="f2"></span>. Fascia 25-34: <span id="f3"></span>.
-                  Fascia 35-44: <span id="f4"></span>. Fascia 45-54:
-                  <span id="f5"></span>. Fascia 55-64: <span id="f6"></span>.
-                  Fascia 65+: <span id="f7"></span>.
-                </p>
-              </canvas>
+    </nav>
+    <!--Main content-->
+    <main id="main">
+      <div class="container p-2">
+        <h1>Statistiche Clienti</h1>
+        <div class="row">
+          <div class="col-7 p-2 ps-0">
+            <div class="p-3 md-01dp rounded h-100">
+              <h4 class="fw-bold">Età</h4>
+              <div>
+                <canvas id="ageChart" height="300" class="w-100">
+                  <p>
+                    Grafico a barre che mostra la distribuzione di età dei
+                    clienti. Fascia 13-17: <span id="f1"></span>. Fascia 18-24:
+                    <span id="f2"></span>. Fascia 25-34: <span id="f3"></span>.
+                    Fascia 35-44: <span id="f4"></span>. Fascia 45-54:
+                    <span id="f5"></span>. Fascia 55-64: <span id="f6"></span>.
+                    Fascia 65+: <span id="f7"></span>.
+                  </p>
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-5 p-2 pe-0">
+            <div class="p-3 md-01dp rounded h-100">
+              <h4 class="fw-bold">Genere</h4>
+              <div>
+                <canvas id="genderChart" height="300" class="w-100">
+                  <p>
+                    Grafico a torta che mostra distribuzione percentuale del
+                    genere dei clienti. Maschi: <span id="maschi"></span>%.
+                    Femmine: <span id="femmine"></span>%. Non specificati:
+                    <span id="nonSpec"></span>%.
+                  </p>
+                </canvas>
+              </div>
             </div>
           </div>
         </div>

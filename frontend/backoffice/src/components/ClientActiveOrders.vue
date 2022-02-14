@@ -31,7 +31,7 @@
               class="text-white"
               v-show="this.activeRentals[n - 1].fidelityPoints > 0"
             >
-              Spesa in punti: {{ this.activeRentals[n - 1].fidelityPoints }}€
+              Spesa in punti: {{ this.activeRentals[n - 1].fidelityPoints }}
             </p>
           </div>
           <div class="col-2 p-2 m-0 text-white text-center">
@@ -104,7 +104,6 @@ export default {
               rent.start < new Date().getTime() &&
               rent.end > new Date().getTime()
           );
-        console.log("activeRentals ", this.activeRentals);
       });
   },
   methods: {
@@ -123,7 +122,7 @@ export default {
       const inventoryURL =
         process.env.INVENTORY_URL || "https://site202156.tw.cs.unibo.it/v1/inventories";
       axios
-        .get(inventoryURL + "/products", {
+        .get(inventoryURL + "/products/all", {
           headers: { Authorization: "Bearer " + accessToken },
         })
         .then((response) => {

@@ -58,7 +58,6 @@ export default {
         clientURL + "/lookup/" + this.$route.params.id,
         { headers: { Authorization: "Bearer " + accessToken } }
       );
-      console.log("data", data.user.name)
       this.client = data.user
     },
   },

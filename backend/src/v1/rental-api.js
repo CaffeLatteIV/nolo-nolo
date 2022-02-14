@@ -189,7 +189,7 @@ app.get('/all', authenticateAccessToken, authenticateUserRole, async (req, res) 
     return res.status(500).send({ code: 500, msg: 'Internal server error' })
   }
 })
-app.post('/delete/:rentalId', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+app.post('/delete/:rentalId', authenticateAccessToken, async (req, res) => {
   try {
     const { rentalId } = req.params
     const rentals = await db.deleteRental(rentalId)
@@ -215,6 +215,18 @@ app.get('/rental/:rentalID', authenticateAccessToken, authenticateUserRole, asyn
     const { rentalID } = req.params
     const rent = await db.findRental(rentalID)
     if (rent.length === 0) return res.status(404).send({ code: 404, msg: 'Not found' })// può essere cambiato e restituire solo l'array vuoto
+    return res.status(200).send({ rent })
+  } catch (err) {
+    logger.error(err.message)
+    logger.error(err.stack)
+    return res.status(500).send({ code: 500, msg: 'There was an error while performing the request, try again' })
+  }
+})
+app.post('/update', authenticateAccessToken, authenticateUserRole, async (req, res) => {
+  try {
+    const { rental } = req.body
+    const rent = await db.updateRental(rental)
+    if (!rent) return res.status(404).send({ code: 404, msg: 'Not found' })// può essere cambiato e restituire solo l'array vuoto
     return res.status(200).send({ rent })
   } catch (err) {
     logger.error(err.message)

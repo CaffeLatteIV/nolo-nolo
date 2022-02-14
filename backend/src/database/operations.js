@@ -24,13 +24,16 @@ class Operation {
         uniqueItems[productCode] += 1
       }
     })
-    const itemsArr = Object.keys(uniqueItems).sort((a, b) => uniqueItems[a] - uniqueItems[b]).slice(0, n) // prendo i n-titoli più venduti
+    const itemsArr = Object.keys(uniqueItems).sort((a, b) => uniqueItems[a] - uniqueItems[b]) // oridno i titoli per più venduti
     const res = []
-    for (let i = 0; i < itemsArr.length; i += 1) {
-      // restituisco gli oggetti corrispondenti ai titoli
+    for (let i = 0; i < itemsArr.length && n > 0; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      const prod = await this.Inventory.findById(itemsArr[i]).exec()
-      if (prod) res.push(prod)
+      const product = await this.Inventory.findById(itemsArr[i]).exec()
+      if (product) {
+        res.push(product) // restituisco gli oggetti corrispondenti ai titoli
+        // eslint-disable-next-line no-param-reassign
+        n -= 1
+      }
     }
     return res
   }
