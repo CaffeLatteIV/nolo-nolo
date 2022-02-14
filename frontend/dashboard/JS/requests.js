@@ -17,15 +17,12 @@ async function getMonthlyRevenue(title = '') {
   await validateAccessToken()
   const cookie = new UniversalCookie()
   const accessToken = cookie.get('accessToken')
-  console.log(accessToken)
-  const res = await $.ajax({
+  return $.ajax({
     url: `${OPERATION_URL}/rentals/revenue/month/${title}`,
     type: 'GET',
     dataType: "json",
     headers: { "Authorization": "Bearer " + accessToken },
   })
-  console.log('res', res)
-  return res
 }
 async function getStatus(title = '') {
   await validateAccessToken()

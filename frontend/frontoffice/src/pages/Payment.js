@@ -97,7 +97,7 @@ function Payment() {
             <div className="col-sm-6 col-md-3">
               <span className="fw-bold">Tassa di ritardo:</span>
             </div>
-            <div className="col-sm-6 col-md-9">{lateFee}
+            <div className="col-sm-6 col-md-9">{lateFee}€
             </div>
           </div>
         ) : ''}
