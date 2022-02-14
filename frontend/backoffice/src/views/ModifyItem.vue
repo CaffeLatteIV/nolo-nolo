@@ -123,6 +123,7 @@
               v-model="manutenzione"
               class="w-100 bg-transparent"
               range
+              :minDate="new Date()"
               id="manutenzione"
               :format="format"
             >
