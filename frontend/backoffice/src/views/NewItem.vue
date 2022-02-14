@@ -135,7 +135,10 @@
           Crea
         </button>
         <p class="text-center w-100 pb-4 added" v-show="added" :key="added">
-          Modifiche effettuate con successo!
+          Aggiunto nuovo prodotto!
+        </p>
+        <p class="text-center w-100 pb-4 added text-danger" v-show="datiMancanti" :key="datiMancanti">
+          Dati mancanti!
         </p>
       </div>
     </div>
@@ -163,6 +166,7 @@ export default {
       condition: "",
       numInStock: 0,
       image: null,
+      datiMancanti:false
     };
   },
   methods: {
@@ -213,7 +217,7 @@ export default {
         });
         productData["media"] = { img: data.img };
       }
-      axios.post(
+      const response = await axios.post(
         `${itemURL}/add`,
         { item: productData },
         {
@@ -221,11 +225,21 @@ export default {
             Authorization: `Bearer ${accessToken}`,
             "Content-type": "application/json",
           },
+          validateStatus:false
         }
       );
+
+      if(response?.data?.code !== 200){
+        this.added = false;
+        this.datiMancanti = true;
+
+    }else{
       this.added = true;
+      this.datiMancanti = false;
       this.setDefaultValues();
+    }
     },
+
   },
 };
 </script>
