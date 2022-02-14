@@ -54,7 +54,7 @@ class Rental {
     }
     priceTmp = Math.round(priceTmp)
     const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
-
+    await this.Clients.findByIdAndUpdate(client.id, { fidelityPoints: client.fidelityPoints + earnedFidelityPoints })
     return {
       title: product.title,
       start,

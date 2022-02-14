@@ -64,14 +64,14 @@
               <li className="p-2 nav-item md-12dp rounded-top">
                 <a
                   className="nav-link text-white"
-                  href="https://site202156.tw.cs.unibo.it/frontend/dashboard/HTML/clientStats.html"
+                  href="https://site202156.tw.cs.unibo.it/dashboard/clienti"
                   >Clienti
                 </a>
               </li>
               <li className="p-2 nav-item md-12dp rounded-bottom">
                 <a
                   className="nav-link text-white"
-                  href="https://site202156.tw.cs.unibo.it/frontend/dashboard/HTML/index.html"
+                  href="https://site202156.tw.cs.unibo.it/dashboard/oggetti"
                   >Oggetti
                 </a>
               </li>

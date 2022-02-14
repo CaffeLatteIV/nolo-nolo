@@ -27,6 +27,10 @@ function Receipt() {
         },
       },
     )
+    const client = cookie.get('client')
+    client.fidelityPoints = client.fidelityPoints - receipt.fidelityPoints + receipt.earnedFidelityPoints
+    cookie.set('client', client, { path: '/', sameSite: 'lax' })
+
     navigate('/orders')
   }
   return (

@@ -126,7 +126,7 @@ export default {
       await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       axios
-        .get(inventoryURL + "/products", {
+        .get(inventoryURL + "/products/unique", {
           headers: { Authorization: "Bearer " + accessToken },
         })
         .then((response) => {
@@ -189,7 +189,6 @@ export default {
       const accessToken = cookies.get("accessToken");
       const rentalURL =
         process.env.RENTALS_URL || "https://site202156.tw.cs.unibo.it/v1/rentals";
-      console.log(id);
       axios
         .post(
           rentalURL + "/delete/" + id,
