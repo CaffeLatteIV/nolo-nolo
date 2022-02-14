@@ -30,7 +30,15 @@ app.post('/use', authenticateAccessToken, async (req, res) => {
   try {
     const { title, clientCode } = req.body
     logger.info(`Requested coupon {${title}}`)
+    if (!title || !clientCode) {
+      logger.warn('Missing coupon data')
+      return res.status(404).send({ code: 404, msg: 'Missing coupon data' })
+    }
     const discount = await db.useCoupon(title, clientCode)
+    if (!discount) {
+      logger.warn('Coupon already used')
+      return res.status(405).send({ code: 405, msg: 'Coupon already used' })
+    }
     return res.status(200).send({ discount })
   } catch (err) {
     logger.error(err.message)

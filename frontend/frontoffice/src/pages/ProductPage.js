@@ -81,13 +81,16 @@ function ProductPage() {
     const accessToken = cookies.get('accessToken')
     let discount
     if (couponCode) {
-      const { data } = await axios.post(`${COUPON_URL}/use`, {
-        clientCode: client.id, title: couponCode,
-      }, { headers: { Authorization: `Bearer ${accessToken}` }, validateStatus: false })
-      console.log(data)
-      if (data.coupon) {
+      const { data } = await axios.post(
+        `${COUPON_URL}/use`,
+        {
+          clientCode: client.id, title: couponCode,
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` }, validateStatus: false },
+      )
+      if (data.discount) {
         setCouponValid(true)
-        discount = data.coupon?.discount
+        discount = data.discount
       } else {
         setCouponValid(false)
         return
@@ -223,8 +226,7 @@ function ProductPage() {
               {!available && startDate ? <span className="text-danger"> Le date selezionate non sono disponibili</span> : ''}
               {!dateSelected ? <span className="text-danger"> Nessuna data selezionata</span> : ''}
               {isAdmin ? <span className="text-danger"> Gli account aziendali non possono effettuare ordini, passare ad un account personale</span> : ''}
-              {!couponValid ? <span className="text-danger"> Il coupon è scaduto o già stato usato</span> : ''}
-
+              {!couponValid ? <span className="text-danger"> Il coupon è scaduto o è già stato usato</span> : ''}
             </div>
           </div>
         </div>

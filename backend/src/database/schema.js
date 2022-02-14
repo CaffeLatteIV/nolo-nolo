@@ -167,6 +167,10 @@ const rentSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  coupon: {
+    type: Number,
+    default: 0,
+  },
 }, {
   toObject: {
     virtuals: true,

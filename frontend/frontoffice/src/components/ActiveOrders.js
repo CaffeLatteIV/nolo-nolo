@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
-function ActiveOrders({ productCode, id, title, price, start, end, img, handleDelete }) {
+function ActiveOrders({ productCode, id, title, price, points, start, end, img, handleDelete }) {
   return (
     <>
       <div className="p-2 px-3">
@@ -15,19 +15,22 @@ function ActiveOrders({ productCode, id, title, price, start, end, img, handleDe
           </div>
           <div className="col-lg-7 col-sm-12 p-2">
             <h4 className="text-wrap text-white">{ title }</h4>
-            <p className=" ps-4text-white">{price}€</p>
+            <p className=" text-white">{price}€</p>
+            {points ? <p className=" text-white">{points} punti</p> : ''}
           </div>
           <div className="col-lg-3 col-sm-12 p-2 m-0 text-white text-center">
             <div className="row">
-              <div className="col-lg-6 col-sm-9">
+              <div className={handleDelete ? 'col-lg-6 col-sm-9' : 'col-lg-12 col-sm-12'}>
                 Da: { dayjs(start).format('DD/MM/YYYY') }&nbsp;
                 A: { dayjs(end).format('DD/MM/YYYY') }
               </div>
-              <div className="col-lg-6 col-sm-3">
-                <button type="button" className="bg-transparent rounded border-0" onClick={() => handleDelete(id)}>
-                  <span className="material-icons text-white pt-2">delete</span>
-                </button>
-              </div>
+              {handleDelete ? (
+                <div className="col-lg-6 col-sm-3">
+                  <button type="button" className="bg-transparent rounded border-0" onClick={() => handleDelete(id)}>
+                    <span className="material-icons text-white pt-2">delete</span>
+                  </button>
+                </div>
+              ) : ''}
             </div>
           </div>
 
@@ -43,9 +46,11 @@ ActiveOrders.propTypes = {
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  points: PropTypes.number.isRequired,
   start: PropTypes.number.isRequired,
   end: PropTypes.number.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  handleDelete: PropTypes.func,
 }
 
 export default ActiveOrders
