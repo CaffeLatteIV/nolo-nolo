@@ -112,7 +112,15 @@ export default {
         })
         .then((response) => {
           this.loading = false;
-          this.inventory = response.data.products;
+          response.data.products.forEach(product => {
+          const {data}= await axios.get(inventoryURL + "/status/"+product.id, {
+          headers: { Authorization: "Bearer " + accessToken },
+        })
+        const {status} = data
+        product.hasBookedOrders = status?.hasBookedOrders || false
+        product.hasActiveOrders = status?.hasActiveOrders || false
+        this.products.push(product)
+          });
         });
     },
     async deleteItem(id) {
