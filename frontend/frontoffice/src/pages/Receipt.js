@@ -12,7 +12,7 @@ function Receipt() {
   const { state } = useLocation()
   const { receipt, product } = state
   if (!receipt) navigate('*')
-  const daysBetweenDates = Math.max(Math.ceil((receipt.end - receipt.start) / (1000 * 60 * 60 * 24)), 1) // almeno un giorno
+  const daysBetweenDates = Math.ceil(((receipt.end - receipt.start) / 86400000) + 1)
   async function handleConfirm() {
     await validateAccessToken()
     const cookie = new Cookie()
