@@ -151,7 +151,7 @@ function ProductPage() {
                 onChange={(e) => handleConditionSelected(e)}
               >
                 {productConditionList.map(({ condition, id }) => (
-                  <option key={id} value={id} className="bg-black ">{condition}</option>
+                  <option key={id} value={id} style={{ background: '#383838' }} className="bg-black ">{condition}</option>
                 ))}
               </select>
             ) : ''}
