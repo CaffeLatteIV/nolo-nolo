@@ -187,7 +187,7 @@ export default {
       this.date = [new Date(data.rent.start), new Date(data.rent.end)];
     },
     async handleConfirm() {
-      this.deleteBooking(this.$route.params.id);
+      await this.deleteBooking(this.$route.params.id);
       const accessToken = cookies.get("accessToken");
 
       await axios.post(
@@ -215,11 +215,7 @@ export default {
             headers: { Authorization: "Bearer " + accessToken },
           }
         )
-        .then((response) => {
-          if (response.data.code !== 500 && response.data.code !== 404) {
-            this.getBookedRentals();
-          }
-        });
+        
     },
   },
 };
