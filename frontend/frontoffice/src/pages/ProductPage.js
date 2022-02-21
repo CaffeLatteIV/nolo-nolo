@@ -101,7 +101,6 @@ function ProductPage() {
         return
       }
     }
-    console.log(product.id)
     const { data } = await axios.post(`${RENTALS_URL}/receipt`, {
       productCode: product.id,
       clientCode: client.id,
