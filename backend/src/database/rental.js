@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
-import { rentSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
+import { rentSchema, couponSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
 
 class Rental {
   constructor() {
@@ -18,6 +18,7 @@ class Rental {
     this.Rentals = mongoose.model('rentals', rentSchema)
     this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
     this.Offer = mongoose.model('offers', offerSchema)
+    this.Coupon = mongoose.model('coupons', couponSchema)
   }
 
   async calculateReceipt(productCode, clientCode, start, end, useFidelityPoints, coupon) {
@@ -55,10 +56,11 @@ class Rental {
 
       priceTmp += priceDay
     }
-    if (coupon) {
-      priceTmp *= Math.max(((100 - coupon) / 100), 1)
+
+    if (coupon?.discount) {
+      priceTmp *= Math.max(((100 - coupon.discount) / 100), 0)
     }
-    priceTmp = Math.round(priceTmp)
+    priceTmp = Math.round(priceTmp * 100) / 100
     const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
 
     return {
@@ -75,7 +77,17 @@ class Rental {
     }
   }
 
-  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }) {
+  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }, coupon) {
+    // update coupon usage
+    if (coupon) {
+      const { clients } = await this.Coupon.findById(coupon.id).exec()
+      if (coupon.start !== 0 && coupon.end !== 0) { // coupon a tempo
+        await this.Coupon.findByIdAndUpdate(coupon.id, { clients }).exec()
+      } else if (coupon.usage > 0) { // coupon ad usi
+        const usage = coupon.usage - 1
+        await this.Coupon.findByIdAndUpdate(coupon.id, { clients, usage }).exec()
+      }
+    }
     return new this.Rentals({
       title,
       start,
@@ -128,9 +140,9 @@ class Rental {
     overlappingProduct.push(...await this.Rentals.find({ end: { $gte: start, $lte: end }, productCode })) // finisce nel periodo
     overlappingProduct.push(...await this.Rentals.find({ start: { $lte: start }, end: { $gte: end }, productCode })) // inizia prima e finisce dopo
     // maintenance
-    overlappingProduct.push(await this.Maintenance.find({ start: { $gte: start, $lte: end }, productCode })) // inizia nel periodo
-    overlappingProduct.push(...await this.Maintenance.find({ $or: [{ end: { $gte: start, $lte: end }, productCode }, { end: 0 }] })) // finisce nel periodo
-    overlappingProduct.push(...await this.Maintenance.find({ $or: [{ start: { $lte: start }, end: { $gte: end }, productCode }, { start: { $lte: start }, end: 0 }] })) // inizia prima e finisce dopo
+    overlappingProduct.push(...await this.Maintenance.find({ start: { $gte: start, $lte: end }, productCode })) // inizia nel periodo
+    overlappingProduct.push(...await this.Maintenance.find({ $or: [{ end: { $gte: start, $lte: end }, productCode }, { end: 0, productCode }] })) // finisce nel periodo
+    overlappingProduct.push(...await this.Maintenance.find({ $or: [{ start: { $lte: start }, end: { $gte: end }, productCode }, { start: { $lte: start }, end: 0, productCode }] })) // inizia prima e finisce dopo
     const product = await this.Inventory.findById(productCode).exec()
     return (new Set(overlappingProduct)).size < product.stock
   }
