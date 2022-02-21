@@ -36,17 +36,6 @@
             Seleziona data
           </label>
         </div>
-        <div class="col">
-          <label for="inputCodiceSconto" class="form-label p-2 w-100">
-            <input
-              type="text"
-              id="inputCodiceSconto"
-              class="form-control rounded text-white border-0 w-100 m-0"
-              v-model="coupon"
-            />
-            Inserire codice sconto
-          </label>
-        </div>
       </div>
       <div class="row p-2 mb-4">
         <div class="col-9">
@@ -215,7 +204,6 @@ export default {
             headers: { Authorization: "Bearer " + accessToken },
           }
         )
-        
     },
   },
 };

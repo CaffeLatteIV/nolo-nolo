@@ -114,7 +114,6 @@
               id="newCategory"
               v-model="category"
               class="form-control md-12dp border-0"
-              @change="log"
             />
             Inserisci categoria custom
           </label>

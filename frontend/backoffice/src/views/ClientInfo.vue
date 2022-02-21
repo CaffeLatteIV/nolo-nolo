@@ -131,6 +131,9 @@
       >
         Conferma modifiche
       </button>
+      <p class="text-center price w-100 pb-4 added" v-show="posted" :key="posted">
+        Ordine modificato con successo!
+      </p>
     </div>
   </div>
 </template>
@@ -160,6 +163,7 @@ export default {
       clientTelephone: "",
       clientGender: "",
       loading: true,
+      posted: false,
     };
   },
   async mounted() {
@@ -211,6 +215,8 @@ export default {
             "Content-type": "application/json",
           },
         }
+      ).then(
+        this.posted = true
       );
     },
   },
