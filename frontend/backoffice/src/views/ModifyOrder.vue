@@ -216,11 +216,6 @@ export default {
             headers: { Authorization: "Bearer " + accessToken },
           }
         )
-        .then((response) => {
-          if (response.data.code !== 500 && response.data.code !== 404) {
-            this.getBookedRentals();
-          }
-        });
     },
   },
 };
