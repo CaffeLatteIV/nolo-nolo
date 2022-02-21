@@ -47,7 +47,7 @@ class Rental {
       priceTmp += priceDay
     }
     if (coupon) {
-      priceTmp *= Math.max(((100 - coupon) / 100), 1)
+      priceTmp *= Math.max(((100 - coupon) / 100), 0)
     }
     if (start !== end) {
       daysBetweenDates += 1
