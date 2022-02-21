@@ -5,11 +5,12 @@
       <div class="col-11">
         <h1 class="py-3 m-0">Inventario</h1>
       </div>
-      <div class="col-1">
+      <div class="col-1 row">
+        
         <router-link
           to="/admin/NewItem"
           exact-path
-          class="d-flex justify-content-end py-3 text-decoration-none"
+          class="col d-flex justify-content-end py-3 text-decoration-none"
           role="button"
           aria-label="Aggiungi nuovo oggetto"
           title="Aggiungi nuovo oggetto"
@@ -22,7 +23,6 @@
     </div>
     <div class="p-4">
       <ul class="list-group list-group-flush rounded" id="list">
-        <!--Cancellare questa lista fatta esclusivamente per demo, sia lista che nomi vanno inseriti con injection-->
         <li
           class="list-group-item md-04dp border-dark"
           v-for="item in this.inventory"
@@ -95,12 +95,20 @@ export default {
     return {
       loading: true,
       inventory: [],
+      toggleCategory: false,
+      addHasSucceded: false,
     };
   },
   mounted() {
     this.getInventory();
   },
   methods: {
+    async addCategory(){
+      this.addHasSucceded = false
+      
+      // API request
+      this.addHasSucceded = true
+    },
     async getInventory() {
       await validateAccessToken();
       const accessToken = cookies.get("accessToken");
@@ -110,16 +118,19 @@ export default {
         .get(inventoryURL + "/products/all", {
           headers: { Authorization: "Bearer " + accessToken },
         })
-        .then(async(response) => {
+        .then(async (response) => {
           this.loading = false;
-          response.data.products.forEach(async(product) => {
-          const {data}= await axios.get(inventoryURL + "/status/"+product.id, {
-          headers: { Authorization: "Bearer " + accessToken },
-        })
-        const {status} = data
-        product.hasBookedOrders = status?.hasBookedOrders || false
-        product.hasActiveOrders = status?.hasActiveOrders || false
-        this.inventory.push(product)
+          response.data.products.forEach(async (product) => {
+            const { data } = await axios.get(
+              inventoryURL + "/status/" + product.id,
+              {
+                headers: { Authorization: "Bearer " + accessToken },
+              }
+            );
+            const { status } = data;
+            product.hasBookedOrders = status?.hasBookedOrders || false;
+            product.hasActiveOrders = status?.hasActiveOrders || false;
+            this.inventory.push(product);
           });
         });
     },
@@ -128,13 +139,10 @@ export default {
       const accessToken = cookies.get("accessToken");
       const inventoryURL =
         process.env.INVENTORY_URL || "http://localhost:5000/v1/inventories";
-      await axios.delete(
-        inventoryURL + "/delete/" + id,
-        {
-          headers: { Authorization: "Bearer " + accessToken },
-        }
-      );
-      this.inventory = this.inventory.filter((item)=> item.id !== id)
+      await axios.delete(inventoryURL + "/delete/" + id, {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+      this.inventory = this.inventory.filter((item) => item.id !== id);
     },
   },
 };
