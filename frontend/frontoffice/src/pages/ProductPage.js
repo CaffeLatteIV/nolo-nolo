@@ -147,14 +147,15 @@ function ProductPage() {
             {productConditionList && productConditionList.length > 1 ? (
               <select
                 value={conditionSelected}
+                className="form-select w-25 md-04dp text-white border-0 py-1"
                 onChange={(e) => handleConditionSelected(e)}
               >
                 {productConditionList.map(({ condition, id }) => (
-                  <option key={id} value={id}>{condition}</option>
+                  <option key={id} value={id} className="bg-black ">{condition}</option>
                 ))}
               </select>
             ) : ''}
-            <p className="fw-bold m-0">Descrizione: </p>
+            <p className="fw-bold m-0 mt-2">Descrizione: </p>
             <p className="text-wrap">
               {product ? product.description : 'Caricamento'}
             </p>
