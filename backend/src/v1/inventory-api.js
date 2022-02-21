@@ -3,7 +3,6 @@ import Express from 'express'
 import multer from 'multer'
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import loggerWrapper from '../logger.js'
 import Database from '../database/inventory.js'
 import { authenticateAccessToken, authenticateUserRole } from '../utils/authenticate.js'
@@ -13,7 +12,7 @@ const db = new Database()
 const logger = loggerWrapper('Inventory API')
 const app = Express.Router()
 const upload = multer({
-  dest: global.rootDir+'/images/',
+  dest: `${global.rootDir}/images/`,
 })
 app.get('/categories/:category', async (req, res) => {
   const { category } = req.params
@@ -83,7 +82,7 @@ app.post('/image/upload', upload.single('file'), (req, res) => {
     const extName = path.extname(req.file.originalname).toLowerCase()
     const tempPath = req.file.path
     const filename = path.basename(tempPath)
-    const targetPath = path.join(global.rootDir+`/images/${filename}${extName}`)
+    const targetPath = path.join(`${global.rootDir}/images/${filename}${extName}`)
     if (extName === '.png' || extName === '.jpg') {
       fs.renameSync(tempPath, targetPath)
       return res.status(200).send({ img: `https://site202156.tw.cs.unibo.it/v1/image/${filename}${extName}` })

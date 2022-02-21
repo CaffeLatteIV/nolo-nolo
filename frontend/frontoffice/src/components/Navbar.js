@@ -63,7 +63,7 @@ function Navbar({ updateLogged }) {
             <div className="collapse navbar-collapse" id="navbarText">
               <ul className="navbar-nav me-auto">
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://site202156.tw.cs.unibo.it/">Store</a>
+                  <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/">Store</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/admin/clientList">Clienti</a>

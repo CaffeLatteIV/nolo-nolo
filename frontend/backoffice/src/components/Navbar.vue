@@ -102,7 +102,6 @@
                   class="dropdown-item md-error rounded text-white"
                   id="logout"
                   @click="logout"
-                  href="http://site202156.tw.cs.unibo.it/"
                   >Esci</button>
               </li>
             </ul>
@@ -138,9 +137,10 @@ export default {
   },
   methods: {
     logout(){
-      cookies.remove('client')
-      cookies.remove('refreshToken')
-      cookies.remove('accessToken')
+      cookies.remove('client',{path:'/'})
+      cookies.remove('refreshToken',{path:'/'})
+      cookies.remove('accessToken',{path:'/'})
+      window.location.href="https://site202156.tw.cs.unibo.it/"
     }
   }
 };
