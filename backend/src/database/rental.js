@@ -155,7 +155,7 @@ class Rental {
   }
 
   async deleteRental(id) {
-    return this.Rentals.findByIdAndDelete(id)
+    return this.Rentals.findByIdAndDelete(id).exec()
   }
 
   async summarizePayment(rentId) {
