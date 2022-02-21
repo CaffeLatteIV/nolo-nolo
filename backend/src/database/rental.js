@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
-import { rentSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
+import { rentSchema, couponSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
 
 class Rental {
   constructor() {
@@ -9,6 +9,7 @@ class Rental {
     this.Rentals = mongoose.model('rentals', rentSchema)
     this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
     this.Offer = mongoose.model('offers', offerSchema)
+    this.Coupon = mongoose.model('coupons', couponSchema)
   }
 
   async calculateReceipt(productCode, clientCode, start, end, useFidelityPoints, coupon) {
@@ -46,13 +47,11 @@ class Rental {
 
       priceTmp += priceDay
     }
-    if (coupon) {
-      priceTmp *= Math.max(((100 - coupon) / 100), 0)
+
+    if (coupon?.discount) {
+      priceTmp *= Math.max(((100 - coupon.discount) / 100), 0)
     }
-    if (start !== end) {
-      daysBetweenDates += 1
-    }
-    priceTmp = Math.round(priceTmp)
+    priceTmp = Math.round(priceTmp * 100) / 100
     const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
     await this.Clients.findByIdAndUpdate(client.id, { fidelityPoints: client.fidelityPoints + earnedFidelityPoints })
     return {
@@ -69,7 +68,17 @@ class Rental {
     }
   }
 
-  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }) {
+  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }, coupon) {
+    // update coupon usage
+    if (coupon) {
+      const { clients } = await this.Coupon.findById(coupon.id).exec()
+      if (coupon.start !== 0 && coupon.end !== 0) { // coupon a tempo
+        await this.Coupon.findByIdAndUpdate(coupon.id, { clients }).exec()
+      } else if (coupon.usage > 0) { // coupon ad usi
+        const usage = coupon.usage - 1
+        await this.Coupon.findByIdAndUpdate(coupon.id, { clients, usage }).exec()
+      }
+    }
     return new this.Rentals({
       title,
       start,

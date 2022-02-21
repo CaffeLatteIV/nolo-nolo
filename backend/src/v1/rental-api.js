@@ -31,7 +31,7 @@ app.post('/receipt', authenticateAccessToken, async (req, res) => {
 })
 app.post('/add', authenticateAccessToken, async (req, res) => {
   try {
-    const { rentalInfo } = req.body
+    const { rentalInfo, coupon } = req.body
     if (!rentalInfo) {
       logger.error('Missing data to add')
       return res.status(404).send({ code: 404, msg: 'Missing product to add' })
@@ -41,7 +41,7 @@ app.post('/add', authenticateAccessToken, async (req, res) => {
       logger.info('Selected dates are not available for this product')
       return res.status(402).send({ code: 402, msg: 'Selected dates are not available for this product' })
     }
-    await db.addRental(rentalInfo)
+    await db.addRental(rentalInfo, coupon)
     logger.info(`A user rented a new product: ${rentalInfo.productCode}`)
     return res.status(200).send({ code: 200, msg: 'Rental added' })
   } catch (err) {
@@ -144,6 +144,7 @@ app.post('/available', authenticateAccessToken, async (req, res) => {
     }
     logger.info('Verifying availability for the requested dates')
     const available = await db.checkAvailability(start, end, productCode)
+    logger.info(available)
     if (available) {
       logger.info('Product is available')
       return res.status(200).send({ available })

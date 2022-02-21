@@ -83,7 +83,7 @@ function ProductPage() {
     if (isAdmin) return
     await validateAccessToken()
     const accessToken = cookies.get('accessToken')
-    let discount
+    let couponObj
     if (couponCode) {
       const { data } = await axios.post(
         `${COUPON_URL}/use`,
@@ -92,9 +92,9 @@ function ProductPage() {
         },
         { headers: { Authorization: `Bearer ${accessToken}` }, validateStatus: false },
       )
-      if (data.discount) {
+      if (data.coupon) {
         setCouponValid(true)
-        discount = data.discount
+        couponObj = data.coupon
       } else {
         setCouponValid(false)
         return
@@ -106,7 +106,7 @@ function ProductPage() {
       start: new Date(startDate).getTime(),
       end: new Date(endDate).getTime(),
       useFidelityPoints,
-      coupon: discount,
+      coupon: couponObj,
     }, { headers: { Authorization: `Bearer ${accessToken}` } })
     navigate('/receipt', {
       state: { receipt: data.receipt, product },
