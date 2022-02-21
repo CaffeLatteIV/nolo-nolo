@@ -63,7 +63,6 @@ function ProductPage() {
   }
   async function handleConditionSelected(e) {
     const code = e.target.value
-    console.log('from conditons', code)
     setConditionSelected(code)
     setProduct(productConditionList.filter((a) => a.id === code)[0])
     setStartDate(null)
