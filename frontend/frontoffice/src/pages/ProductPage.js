@@ -63,6 +63,7 @@ function ProductPage() {
   }
   async function handleConditionSelected(e) {
     const code = e.target.value
+    console.log('from conditons', code)
     setConditionSelected(code)
     setProduct(productConditionList.filter((a) => a.id === code)[0])
     setStartDate(null)
@@ -100,6 +101,7 @@ function ProductPage() {
         return
       }
     }
+    console.log(product.id)
     const { data } = await axios.post(`${RENTALS_URL}/receipt`, {
       productCode: product.id,
       clientCode: client.id,
