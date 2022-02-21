@@ -10,8 +10,8 @@ const URL = process.env.TOKEN_URL || 'https://site202156.tw.cs.unibo.it/v1/token
 function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)
-  const [admin, setAdmin] = useState(true)
-  const [manager, setManager] = useState(true)
+  const [admin, setAdmin] = useState(false)
+  const [manager, setManager] = useState(false)
   useEffect(() => {
     const client = cookies.get('client')
     setLogged(client !== undefined || updateLogged)
