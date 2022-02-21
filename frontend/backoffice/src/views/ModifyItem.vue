@@ -81,7 +81,7 @@
               id="category"
               class="form-select"
               v-model="category"
-              @change="checkForAdd "
+              @change="checkForAdd"
             >
               <option value="Bici">Bici</option>
               <option value="Bici corsa">Bici Corsa</option>
@@ -114,7 +114,6 @@
               id="newCategory"
               v-model="category"
               class="form-control md-12dp border-0"
-              @change="log"
             />
             Inserisci categoria custom
           </label>
@@ -175,7 +174,8 @@ const cookies = new Cookies();
 import Datepicker from "vue3-date-time-picker";
 import "@/assets/css/datepicker.css";
 import validateAccessToken from "../validateAccessToken.js";
-const MANUTENZIONE_URL = process.env.MAINTENANCE_URL || "http://localhost:5000/v1/maintenance";
+const MANUTENZIONE_URL =
+  process.env.MAINTENANCE_URL || "http://localhost:5000/v1/maintenance";
 export default {
   name: "ModifyItem",
   components: {
@@ -271,20 +271,25 @@ export default {
         fidelityPoints: this.guadagnoFedeltà,
         media: this.media,
       };
-      if(this.manutenzione && this.manutenzione[0]){
-        const start = new Date(this.manutenzione[0]).getTime()
-        let end = 0
-        if(this.manutenzione[1]) end = new Date(this.manutenzione[1]).getTime()
+      if (this.manutenzione && this.manutenzione[0]) {
+        const start = new Date(this.manutenzione[0]).getTime();
+        let end = 0;
+        if (this.manutenzione[1])
+          end = new Date(this.manutenzione[1]).getTime();
         const maintenance = {
           start,
           end,
           productCode: this.$route.params.id,
-        }
-        axios.post(MANUTENZIONE_URL+'/add',{maintenance},{
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        } )
+        };
+        axios.post(
+          MANUTENZIONE_URL + "/add",
+          { maintenance },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
       }
       const formData = new FormData();
       formData.append("file", this.image);
@@ -295,7 +300,7 @@ export default {
             "Content-type": "multipart/form-data",
           },
         });
-        this.media.img = data.img;
+        productData["media"] = { img: data.img };
       }
 
       axios.post(
