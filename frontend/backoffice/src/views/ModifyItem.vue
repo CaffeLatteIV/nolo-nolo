@@ -176,7 +176,7 @@ import Datepicker from "vue3-date-time-picker";
 import "@/assets/css/datepicker.css";
 import validateAccessToken from "../validateAccessToken.js";
 const MANUTENZIONE_URL =
-  process.env.MAINTENANCE_URL || "http://localhost:5000/v1/maintenance";
+  process.env.MAINTENANCE_URL || "https://site202156.tw.cs.unibo.it/v1/maintenance";
 export default {
   name: "ModifyItem",
   components: {
