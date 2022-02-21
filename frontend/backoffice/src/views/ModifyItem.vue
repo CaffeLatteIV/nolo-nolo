@@ -81,12 +81,14 @@
               id="category"
               class="form-select"
               v-model="category"
+              @change="checkForAdd "
             >
               <option value="Bici">Bici</option>
               <option value="Bici corsa">Bici Corsa</option>
               <option value="Monopattino">Monopattino</option>
               <option value="e-Bike">e-Bike</option>
               <option value="Bici Ibrida">Bici Ibrida</option>
+              <option value="Inserisci una nuova categoria">Altro</option>
             </select>
             Categoria
           </label>
@@ -101,6 +103,20 @@
               v-model="guadagnoFedeltà"
             />
             Punti fedeltà guadagnati
+          </label>
+        </div>
+      </div>
+      <div class="row" v-show="toggleCategory">
+        <div class="col">
+          <label for="newCategory" class="col-4 form-label p-2 w-100">
+            <input
+              type="text"
+              id="newCategory"
+              v-model="category"
+              class="form-control md-12dp border-0"
+              @change="log"
+            />
+            Inserisci categoria custom
           </label>
         </div>
       </div>
@@ -181,6 +197,7 @@ export default {
       numInStock: 0,
       image: null,
       media: { img: null },
+      toggleCategory: false,
     };
   },
   async mounted() {
@@ -209,6 +226,13 @@ export default {
     this.media = product.media;
   },
   methods: {
+    checkForAdd() {
+      if (this.category === "Inserisci una nuova categoria") {
+        this.toggleCategory = true;
+      } else {
+        this.toggleCategory = false;
+      }
+    },
     format(dates) {
       if (dates[0] && dates[1]) {
         return `${dates[0].getDate()}/${
