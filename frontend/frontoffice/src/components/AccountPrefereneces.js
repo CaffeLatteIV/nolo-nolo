@@ -33,7 +33,7 @@ function AccountPreferences() {
         </div>
         <div className="mb-4">
           <h4>Prodotti Preferiti:</h4>
-          <span>{ productList ? productList.map(({ id, title, price, condition, media }) => (
+          <span>{ (productList && productList.length > 0) ? productList.map(({ id, title, price, condition, media }) => (
             <div key={id} className="col p-1">
               <ProductCard id={id} title={title} condition={condition} price={price.weekday} img={media.img} />
             </div>
