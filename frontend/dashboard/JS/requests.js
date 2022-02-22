@@ -7,7 +7,7 @@ async function bestSellers() {
   const cookie = new UniversalCookie()
   const accessToken = cookie.get('accessToken')
   return $.ajax({
-    url: `${OPERATION_URL}/bestSellers?n=3`,
+    url: `${OPERATION_URL}/products/unique`,
     type: 'GET',
     dataType: "json",
     headers: { "Authorization": "Bearer " + accessToken },

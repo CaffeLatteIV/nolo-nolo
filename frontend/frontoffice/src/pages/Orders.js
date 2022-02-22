@@ -53,7 +53,6 @@ function Orders() {
     await axios.post(`${RENTALS_URL}/delete/${id}`, {}, { headers: { Authorization: `Bearer ${accessToken}` } })
     const bookedOrdersList = bookedOrders.filter((order) => order.id !== id)
     const rentalToDelete = bookedOrders.filter((order) => order.id === id)[0]
-    console.log(rentalToDelete)
     const client = cookie.get('client')
     client.fidelityPoints -= rentalToDelete.earnedFidelityPoints
     client.fidelityPoints += rentalToDelete.fidelityPoints || 0
