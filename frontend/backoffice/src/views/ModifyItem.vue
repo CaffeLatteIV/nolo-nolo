@@ -162,6 +162,13 @@
         >
           Modifiche effettuate con successo!
         </p>
+        <p
+          class="text-center w-100 pb-4 added text-danger"
+          v-show="datiMancanti"
+          :key="datiMancanti"
+        >
+          Dati mancanti!
+        </p>
       </div>
     </div>
   </div>
@@ -198,6 +205,8 @@ export default {
       image: null,
       media: { img: null },
       toggleCategory: false,
+
+      datiMancanti: false,
     };
   },
   async mounted() {
@@ -250,6 +259,12 @@ export default {
       this.image = event.target.files[0];
     },
     updateChanges: async function () {
+      if (this.title && this.description && this.prezzoFeriali && this.prezzoFestivi && this.costoFedeltà && this.guadagnoFedeltà ){
+        this.datiMancanti = false
+      } else {
+        this.datiMancanti = true
+        return 0
+      }
       await validateAccessToken();
       const accessToken = cookies.get("accessToken");
       const itemURL =
