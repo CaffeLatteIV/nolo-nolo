@@ -81,6 +81,7 @@ class Rental {
     // update coupon usage
     if (coupon) {
       const { clients } = await this.Coupon.findById(coupon.id).exec()
+      clients.push(client.id)
       if (coupon.start !== 0 && coupon.end !== 0) { // coupon a tempo
         await this.Coupon.findByIdAndUpdate(coupon.id, { clients }).exec()
       } else if (coupon.usage > 0) { // coupon ad usi
@@ -115,7 +116,7 @@ class Rental {
       tmp.clientCode = element.clientCode
       tmp.price = element.price
       tmp.fidelityPoints = element.fidelityPoints
-      tmp.earnedFidelityPoints = element.fidelityPoints
+      tmp.earnedFidelityPoints = element.earnedFidelityPoints
       tmp.status = element.status
       tmp.id = element.id
       arr[index] = tmp
@@ -167,6 +168,7 @@ class Rental {
     const rental = await this.Rentals.findById(id).exec()
     const client = await this.Clients.findById(rental.clientCode).exec()
     client.fidelityPoints -= rental.earnedFidelityPoints
+    client.fidelityPoints += rental.fidelityPoints || 0
     this.Clients.findByIdAndUpdate(client.id, { fidelityPoints: client.fidelityPoints }).exec()
     return this.Rentals.findByIdAndDelete(id).exec()
   }

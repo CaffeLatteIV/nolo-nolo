@@ -19,7 +19,7 @@ function Receipt() {
     const accessToken = cookie.get('accessToken')
     await axios.post(
       `${RENTALS_URL}/add`,
-      { rentalInfo: receipt },
+      { rentalInfo: receipt, coupon: receipt.coupon },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
