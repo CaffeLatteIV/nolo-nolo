@@ -26,7 +26,7 @@ function AccountPreferences() {
         <div className="mb-4">
           <h4>Punti Fedeltà:&nbsp;
             <span>
-              {client.fidelityPoints === null || client.fidelityPoints === undefined || client.fidelityPoints === 0 ? ' nessun punto' : client.fidelityPoints }
+              {client.fidelityPoints === null || client.fidelityPoints === undefined || client.fidelityPoints === 0 ? 'nessun punto' : client.fidelityPoints }
             </span>
           </h4>
         </div>
