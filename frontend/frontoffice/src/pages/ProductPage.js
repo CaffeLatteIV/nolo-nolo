@@ -19,12 +19,13 @@ function ProductPage() {
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
   const [couponValid, setCouponValid] = useState(true)
-  const [conditionSelected, setConditionSelected] = useState('')
   const [dateSelected, setDateSelected] = useState(true)
   const [productConditionList, setProductConditionList] = useState([])
   const { search } = useLocation()
   const query = new URLSearchParams(search)
   const productCode = query.get('id')
+  const [conditionSelected, setConditionSelected] = useState(productCode)
+  console.log('from url', productCode)
   const navigate = useNavigate()
   const cookies = new Cookies()
   const client = cookies.get('client')
@@ -58,6 +59,7 @@ function ProductPage() {
   }
   async function handleConditionSelected(e) {
     const code = e.target.value
+    console.log('from conditons', code)
     setConditionSelected(code)
     setProduct(productConditionList.filter((a) => a.id === code)[0])
     setStartDate(null)
@@ -95,6 +97,7 @@ function ProductPage() {
         return
       }
     }
+    console.log(product.id)
     const { data } = await axios.post(`${RENTALS_URL}/receipt`, {
       productCode: product.id,
       clientCode: client.id,
