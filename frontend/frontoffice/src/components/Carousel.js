@@ -29,8 +29,8 @@ function Carousel() {
                   <img src={item?.media?.img} id="carousel" className="d-block" alt="Item" />
                   <Link to={`/product?id=${item?.id}`}>
                     <div className="carousel-caption">
-                      <h5>{item?.title}</h5>
-                      <p>Prezzo: ${item?.price.weekday}/day</p>
+                      <h5>{item.title}</h5>
+                      <p>Prezzo: ${item.price.weekday}/giorno</p>
                     </div>
                   </Link>
 

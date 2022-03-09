@@ -19,7 +19,7 @@ function Receipt() {
     const accessToken = cookie.get('accessToken')
     await axios.post(
       `${RENTALS_URL}/add`,
-      { rentalInfo: receipt },
+      { rentalInfo: receipt, coupon: receipt.coupon },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -91,7 +91,7 @@ function Receipt() {
           <div className="col-sm-6 col-md-3">
             <span className="fw-bold">Eventuale sconto applicato:</span>
           </div>
-          <div className="col-sm-6 col-md-9">{receipt.coupon ? `${receipt.coupon}%` : '-'}
+          <div className="col-sm-6 col-md-9">{receipt.coupon?.discount ? `${receipt.coupon.discount}%` : '-'}
           </div>
         </div>
         <div className="row border-bottom border-secondary p-2">

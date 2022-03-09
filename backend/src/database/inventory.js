@@ -79,7 +79,11 @@ class Inventory {
   }
 
   async findSameTitle(title) {
-    return this.Inventory.find({ title }).exec()
+    const products = await this.Inventory.find({ title }).exec()
+    const ottimaCond = products.filter((elem) => elem.condition === 'Ottima')[0]
+    const buonaCond = products.filter((elem) => elem.condition === 'Buona')[0]
+    const pdCond = products.filter((elem) => elem.condition === 'Parzialmente danneggiato')[0]
+    return [ottimaCond, buonaCond, pdCond].filter(Boolean)
   }
 
   async getStatus(productCode) {

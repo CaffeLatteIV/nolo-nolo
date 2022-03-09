@@ -20,12 +20,12 @@ function ProductPage() {
   const [product, setProduct] = useState(undefined)
   const [useFidelityPoints, setUseFidelityPoints] = useState(false)
   const [couponValid, setCouponValid] = useState(true)
-  const [conditionSelected, setConditionSelected] = useState('')
   const [dateSelected, setDateSelected] = useState(true)
   const [productConditionList, setProductConditionList] = useState([])
   const { search } = useLocation()
   const query = new URLSearchParams(search)
   const productCode = query.get('id')
+  const [conditionSelected, setConditionSelected] = useState(productCode)
   const navigate = useNavigate()
   const cookies = new Cookies()
   const client = cookies.get('client')
@@ -83,7 +83,7 @@ function ProductPage() {
     if (isAdmin) return
     await validateAccessToken()
     const accessToken = cookies.get('accessToken')
-    let discount
+    let couponObj
     if (couponCode) {
       const { data } = await axios.post(
         `${COUPON_URL}/use`,
@@ -92,9 +92,9 @@ function ProductPage() {
         },
         { headers: { Authorization: `Bearer ${accessToken}` }, validateStatus: false },
       )
-      if (data.discount) {
+      if (data.coupon) {
         setCouponValid(true)
-        discount = data.discount
+        couponObj = data.coupon
       } else {
         setCouponValid(false)
         return
@@ -106,7 +106,7 @@ function ProductPage() {
       start: new Date(startDate).getTime(),
       end: new Date(endDate).getTime(),
       useFidelityPoints,
-      coupon: discount,
+      coupon: couponObj,
     }, { headers: { Authorization: `Bearer ${accessToken}` } })
     navigate('/receipt', {
       state: { receipt: data.receipt, product },
@@ -152,14 +152,15 @@ function ProductPage() {
             {productConditionList && productConditionList.length > 1 ? (
               <select
                 value={conditionSelected}
+                className="form-select w-25 md-04dp text-white border-0 py-1"
                 onChange={(e) => handleConditionSelected(e)}
               >
                 {productConditionList.map(({ condition, id }) => (
-                  <option key={id} value={id}>{condition}</option>
+                  <option key={id} value={id} style={{ background: '#383838' }} className="bg-black ">{condition}</option>
                 ))}
               </select>
             ) : ''}
-            <p className="fw-bold m-0">Descrizione: </p>
+            <p className="fw-bold m-0 mt-2">Descrizione: </p>
             <p className="text-wrap">
               {product ? product.description : 'Caricamento'}
             </p>

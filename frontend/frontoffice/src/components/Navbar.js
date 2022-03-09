@@ -10,8 +10,8 @@ const URL = process.env.TOKEN_URL || 'https://site202156.tw.cs.unibo.it/v1/token
 function Navbar({ updateLogged }) {
   const cookies = new Cookies()
   const [logged, setLogged] = useState(cookies.get('client') !== undefined)
-  const [admin, setAdmin] = useState(true)
-  const [manager, setManager] = useState(true)
+  const [admin, setAdmin] = useState(false)
+  const [manager, setManager] = useState(false)
   useEffect(() => {
     const client = cookies.get('client')
     setLogged(client !== undefined || updateLogged)
@@ -63,7 +63,7 @@ function Navbar({ updateLogged }) {
             <div className="collapse navbar-collapse" id="navbarText">
               <ul className="navbar-nav me-auto">
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="http://site202156.tw.cs.unibo.it/">Store</a>
+                  <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/">Store</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link text-white" href="https://site202156.tw.cs.unibo.it/admin/clientList">Clienti</a>

@@ -36,17 +36,6 @@
             Seleziona data
           </label>
         </div>
-        <div class="col">
-          <label for="inputCodiceSconto" class="form-label p-2 w-100">
-            <input
-              type="text"
-              id="inputCodiceSconto"
-              class="form-control rounded text-white border-0 w-100 m-0"
-              v-model="coupon"
-            />
-            Inserire codice sconto
-          </label>
-        </div>
       </div>
       <div class="row p-2 mb-4">
         <div class="col-9">
@@ -187,7 +176,7 @@ export default {
       this.date = [new Date(data.rent.start), new Date(data.rent.end)];
     },
     async handleConfirm() {
-      this.deleteBooking(this.$route.params.id);
+      await this.deleteBooking(this.$route.params.id);
       const accessToken = cookies.get("accessToken");
 
       await axios.post(
@@ -215,11 +204,6 @@ export default {
             headers: { Authorization: "Bearer " + accessToken },
           }
         )
-        .then((response) => {
-          if (response.data.code !== 500 && response.data.code !== 404) {
-            this.getBookedRentals();
-          }
-        });
     },
   },
 };

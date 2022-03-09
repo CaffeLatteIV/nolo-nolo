@@ -34,12 +34,12 @@ app.post('/use', authenticateAccessToken, async (req, res) => {
       logger.warn('Missing coupon data')
       return res.status(404).send({ code: 404, msg: 'Missing coupon data' })
     }
-    const discount = await db.useCoupon(title, clientCode)
-    if (!discount) {
+    const coupon = await db.useCoupon(title, clientCode)
+    if (!coupon) {
       logger.warn('Coupon already used')
       return res.status(405).send({ code: 405, msg: 'Coupon already used' })
     }
-    return res.status(200).send({ discount })
+    return res.status(200).send({ coupon })
   } catch (err) {
     logger.error(err.message)
     return res.status(500).send({ code: 500, msg: 'Internal server error' })

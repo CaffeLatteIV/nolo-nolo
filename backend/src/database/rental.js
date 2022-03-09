@@ -1,7 +1,9 @@
 /* eslint-disable no-param-reassign */
 import mongoose from 'mongoose'
-import { rentSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
+// import loggerWrapper from '../logger.js'
+import { rentSchema, couponSchema, inventorySchema, offerSchema, maintenanceSchema, clientSchema } from './schema.js'
 
+// const logger = loggerWrapper('RENTAL')
 class Rental {
   constructor() {
     this.Inventory = mongoose.model('inventories', inventorySchema)
@@ -9,11 +11,13 @@ class Rental {
     this.Rentals = mongoose.model('rentals', rentSchema)
     this.Maintenance = mongoose.model('maintenance', maintenanceSchema)
     this.Offer = mongoose.model('offers', offerSchema)
+    this.Coupon = mongoose.model('coupons', couponSchema)
   }
 
   async calculateReceipt(productCode, clientCode, start, end, useFidelityPoints, coupon) {
     const product = await this.Inventory.findById(productCode).exec()
     const client = await this.Clients.findById(clientCode).exec()
+    // logger.info(`starting points ${client.fidelityPoints}`)
     if (!product || !client) return undefined
     const offers = new Set(await this.Offer.find({
       $or: [
@@ -28,7 +32,8 @@ class Rental {
       let priceDay = 0
       const day = new Date(i)
       const isWeekend = day.getDay() === 5 || day.getDay() === 6
-      if (client.fidelityPoints - product.price.points > 0 && useFidelityPoints) {
+      // logger.info(`client.fidelityPoints before spending: ${client.fidelityPoints}`)
+      if ((client.fidelityPoints - product.price.points >= 0) && useFidelityPoints) {
         client.fidelityPoints -= product.price.points
         spentFidelityPoints += product.price.points
       } else if (isWeekend) {
@@ -45,16 +50,15 @@ class Rental {
       }
 
       priceTmp += priceDay
+      // logger.info(`spentFidelityPoints: ${spentFidelityPoints}`)
+      // logger.info(`client.fidelityPoints after: ${client.fidelityPoints}`)
     }
-    if (coupon) {
-      priceTmp *= Math.max(((100 - coupon) / 100), 1)
+
+    if (coupon?.discount) {
+      priceTmp *= Math.max(((100 - coupon.discount) / 100), 0)
     }
-    if (start !== end) {
-      daysBetweenDates += 1
-    }
-    priceTmp = Math.round(priceTmp)
+    priceTmp = Math.round(priceTmp * 100) / 100
     const earnedFidelityPoints = daysBetweenDates * (product.fidelityPoints)
-    await this.Clients.findByIdAndUpdate(client.id, { fidelityPoints: client.fidelityPoints + earnedFidelityPoints })
     return {
       title: product.title,
       start,
@@ -69,7 +73,22 @@ class Rental {
     }
   }
 
-  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }) {
+  async addRental({ title, start, status, end, clientCode, productCode, price, earnedFidelityPoints, fidelityPoints }, coupon) {
+    const client = await this.Clients.findById(clientCode).exec()
+    const fidelityPointsTmp = fidelityPoints || 0
+    await this.Clients.findByIdAndUpdate(clientCode, { fidelityPoints: client.fidelityPoints - fidelityPointsTmp + earnedFidelityPoints })
+
+    // update coupon usage
+    if (coupon) {
+      const { clients } = await this.Coupon.findById(coupon.id).exec()
+      clients.push(client.id)
+      if (coupon.start !== 0 && coupon.end !== 0) { // coupon a tempo
+        await this.Coupon.findByIdAndUpdate(coupon.id, { clients }).exec()
+      } else if (coupon.usage > 0) { // coupon ad usi
+        const usage = coupon.usage - 1
+        await this.Coupon.findByIdAndUpdate(coupon.id, { clients, usage }).exec()
+      }
+    }
     return new this.Rentals({
       title,
       start,
@@ -97,7 +116,7 @@ class Rental {
       tmp.clientCode = element.clientCode
       tmp.price = element.price
       tmp.fidelityPoints = element.fidelityPoints
-      tmp.earnedFidelityPoints = element.fidelityPoints
+      tmp.earnedFidelityPoints = element.earnedFidelityPoints
       tmp.status = element.status
       tmp.id = element.id
       arr[index] = tmp
@@ -146,7 +165,12 @@ class Rental {
   }
 
   async deleteRental(id) {
-    return this.Rentals.findByIdAndDelete(id)
+    const rental = await this.Rentals.findById(id).exec()
+    const client = await this.Clients.findById(rental.clientCode).exec()
+    client.fidelityPoints -= rental.earnedFidelityPoints
+    client.fidelityPoints += rental.fidelityPoints || 0
+    this.Clients.findByIdAndUpdate(client.id, { fidelityPoints: client.fidelityPoints }).exec()
+    return this.Rentals.findByIdAndDelete(id).exec()
   }
 
   async summarizePayment(rentId) {

@@ -7,7 +7,7 @@ async function bestSellers() {
   const cookie = new UniversalCookie()
   const accessToken = cookie.get('accessToken')
   return $.ajax({
-    url: `${OPERATION_URL}/bestSellers?n=3`,
+    url: `${OPERATION_URL}/products/unique`,
     type: 'GET',
     dataType: "json",
     headers: { "Authorization": "Bearer " + accessToken },
@@ -131,7 +131,7 @@ const cookie = new UniversalCookie()
 const client = cookie.get('client')
 const role = client?.role
 if(!role || role !== 'manager'){
-window.location.href = "http://localhost:3000/";
+window.location.href = "https://site202156.tw.cs.unibo.it/";
 
 }
 export { getMonthlyRevenue, getStatus, getProduct, groupClientAge, countClientGender, getConditions, avgRentMonth, avgRentLength, bestSellers }

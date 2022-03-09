@@ -11,7 +11,7 @@
       </router-link>
       <a
         v-else
-        href="http://localhost:3000/"
+        href="https://site202156.tw.cs.unibo.it/"
         class="navbar-brand text-white"
         title="Menù principale"
         >
@@ -31,7 +31,7 @@
       <div class="collapse navbar-collapse" id="navbarText" v-if="authorized">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link text-white" href="http://site202156.tw.cs.unibo.it/"
+            <a class="nav-link text-white" href="https://site202156.tw.cs.unibo.it/"
               >Store</a
             >
           </li>
@@ -102,7 +102,6 @@
                   class="dropdown-item md-error rounded text-white"
                   id="logout"
                   @click="logout"
-                  href="http://site202156.tw.cs.unibo.it/"
                   >Esci</button>
               </li>
             </ul>
@@ -138,9 +137,10 @@ export default {
   },
   methods: {
     logout(){
-      cookies.remove('client')
-      cookies.remove('refreshToken')
-      cookies.remove('accessToken')
+      cookies.remove('client',{path:'/'})
+      cookies.remove('refreshToken',{path:'/'})
+      cookies.remove('accessToken',{path:'/'})
+      window.location.href="https://site202156.tw.cs.unibo.it/"
     }
   }
 };
